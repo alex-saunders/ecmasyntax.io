@@ -44,7 +44,7 @@ export const fetchPage = (page) => {
 			.then((response) => {
 				dispatch(pageFetchSuccess(response));
 				dispatch(setActiveRoute(page));
-				document.title = page;
+				document.title = response.attributes.title;
 			})
 			.catch(() => {
 				dispatch(pageFetchError(true));

@@ -9,11 +9,12 @@
     "compileClient": "webpack --config webpack.config.client.js",
     "clientDev": "concurrently --kill-others \"webpack --watch --config webpack.config.client.js\" \"npm run runServer\"",
     "serverDev": "webpack --watch --config webpack.config.server.js",
+    "dev": "concurrently --kill-others  \"npm run clientDev\" \"npm run serverDev\"",
     "runServer": "babel-node public/server.js",
     "build": "node src/build.js && webpack --config webpack.config.server.js && webpack --config webpack.config.client.js && npm run runServer"
   },
   "author": "Alex Saunders",
-  "license": "ISC",
+  "license": "MIT",
   "dependencies": {
     "babel-polyfill": "^6.23.0",
     "babel-preset-react": "^6.23.0",

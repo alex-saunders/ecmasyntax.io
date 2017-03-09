@@ -44,7 +44,7 @@ class Drawer extends React.Component {
 	render() {
 		return (
       <aside className="drawer">
-        <a className="drawer-logo" href="#">
+        <a className="drawer-logo" href="/">
           <img src="/static/img/ecmasyntax-logo.png" alt="logo" />
         </a>
         <hr className="drawer-divider"/>

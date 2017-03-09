@@ -11041,7 +11041,7 @@ var fetchPage = exports.fetchPage = function fetchPage(page) {
 			}).then(function (response) {
 				dispatch(pageFetchSuccess(response));
 				dispatch(setActiveRoute(page));
-				document.title = page;
+				document.title = response.attributes.title;
 			}).catch(function () {
 				dispatch(pageFetchError(true));
 				document.title = 'nope fail';
@@ -16381,7 +16381,7 @@ var Drawer = function (_React$Component) {
         { className: 'drawer' },
         _react2.default.createElement(
           'a',
-          { className: 'drawer-logo', href: '#' },
+          { className: 'drawer-logo', href: '/' },
           _react2.default.createElement('img', { src: '/static/img/ecmasyntax-logo.png', alt: 'logo' })
         ),
         _react2.default.createElement('hr', { className: 'drawer-divider' }),

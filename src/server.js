@@ -71,12 +71,12 @@ function handleRender(req, res, preloadedState) {
     );
 
     const finalState = store.getState();
-
+    const title = preloadedState.activePage ? preloadedState.activePage.article.attributes.title : 'ECMASyntax.io'
     const response = `
       <!doctype html>
       <html>
         <head>
-          <title>Redux Universal Example</title>
+          <title>${title}</title>
           <style>
             ${[...css].join('')}
           </style>

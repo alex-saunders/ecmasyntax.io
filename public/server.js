@@ -350,7 +350,7 @@ var fetchPage = exports.fetchPage = function fetchPage(page) {
 			}).then(function (response) {
 				dispatch(pageFetchSuccess(response));
 				dispatch(setActiveRoute(page));
-				document.title = page;
+				document.title = response.attributes.title;
 			}).catch(function () {
 				dispatch(pageFetchError(true));
 				document.title = 'nope fail';
@@ -485,8 +485,8 @@ function handleRender(req, res, preloadedState) {
   ));
 
   var finalState = store.getState();
-
-  var response = '\n      <!doctype html>\n      <html>\n        <head>\n          <title>Redux Universal Example</title>\n          <style>\n            ' + [].concat(_toConsumableArray(css)).join('') + '\n          </style>\n        </head>\n        <body>\n          <div id="root">' + html + '</div>\n          <script>\n            window.__PRELOADED_STATE__ = ' + JSON.stringify(preloadedState).replace(/</g, '\\u003c') + '\n          </script>\n          <script src="/static/app.js" async></script>\n        </body>\n      </html>\n      ';
+  var title = preloadedState.activePage ? preloadedState.activePage.article.attributes.title : 'ECMASyntax.io';
+  var response = '\n      <!doctype html>\n      <html>\n        <head>\n          <title>' + title + '</title>\n          <style>\n            ' + [].concat(_toConsumableArray(css)).join('') + '\n          </style>\n        </head>\n        <body>\n          <div id="root">' + html + '</div>\n          <script>\n            window.__PRELOADED_STATE__ = ' + JSON.stringify(preloadedState).replace(/</g, '\\u003c') + '\n          </script>\n          <script src="/static/app.js" async></script>\n        </body>\n      </html>\n      ';
 
   res.send(response);
 }
@@ -747,7 +747,7 @@ var Drawer = function (_React$Component) {
         { className: 'drawer' },
         _react2.default.createElement(
           'a',
-          { className: 'drawer-logo', href: '#' },
+          { className: 'drawer-logo', href: '/' },
           _react2.default.createElement('img', { src: '/static/img/ecmasyntax-logo.png', alt: 'logo' })
         ),
         _react2.default.createElement('hr', { className: 'drawer-divider' }),
