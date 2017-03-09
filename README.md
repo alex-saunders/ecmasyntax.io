@@ -26,3 +26,8 @@ Or you can run a more specific script (for them sweet sweet faster compile times
 1. Add markdown files to the src/articles folder using front matter style seen in other files in this folder
 2. `npm run build`
 3. navigate to [localhost:8080](http://localhost:8080/)
+
+
+### License
+
+The MIT License © 2017 Alex Saunders. All rights reserved.
