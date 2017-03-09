@@ -1,0 +1,127 @@
+@import 'theme';
+
+.drawer {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  z-index: 99;
+  height: 100vh;
+  width: 90%;
+  max-width: 280px;
+  box-shadow: 0 0 0.5rem rgba(0,0,0,0.1);
+  overflow: hidden;
+}
+.drawer-logo {
+  display: block;
+  padding: 18px;
+}
+.drawer-logo img {
+  width: 100%;
+}
+.drawer-divider {
+  border: 1px solid #e6e6e6;
+  border-bottom: none;
+  margin: 0;
+}
+.search-container {
+  padding: 18px;
+}
+.search-label {
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  height: 24px;
+}
+.search-icon {
+  height: 24px;
+  width: 24px;
+  color: $accent-1;
+  opacity: 0.8;
+  transition: all .2s cubic-bezier(.4,0,.2,1);
+}
+.search-closeIcon {
+  position: absolute;
+  right: 0;
+  bottom: 2px;
+
+  visibility: hidden;
+  opacity: 0;
+  transform: scale(0);
+  transition: all .2s cubic-bezier(.4,0,.2,1);
+}
+.search-closeIcon i {
+  width: 18px;
+  height: 22px;
+  font-size: 18px;
+  line-height: 22px;
+}
+.search-input {
+  position: relative;
+  bottom: 6px;
+  height: 30px;
+  outline: 0;
+  border: none;
+  flex: 1;
+  padding: 4px 22px 4px 4px;
+  border-bottom: 1px solid $accent-1;
+  overflow: hidden;
+  font-size: 14px;
+}
+.search-label:after {
+  display: block;
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 24px;
+  height: 2px;
+  background-color: $accent-1;
+  width: 10px;
+  visibility: hidden;
+
+  transition: all .2s cubic-bezier(.4,0,.2,1);
+}
+.search-label.focused .search-icon, .search-label.non-empty .search-icon {
+  opacity: 1;
+}
+.search-label.focused::after {
+  visibility: visible;
+  width: calc(100% - 24px);
+}
+.search-label.non-empty .search-closeIcon {
+  visibility: visible;
+  opacity: 1;
+  transform: scale(1);
+}
+.icon-container {
+  background: none;
+  border: none;
+  padding: 0;
+  margin: 0;
+  cursor: pointer;
+}
+.pageList-wrapper {
+  flex: 1;
+  padding: 0px 0px 18px;
+  overflow: auto;
+}
+.pageList {
+  min-height: 900px;
+}
+.pageList-item {
+  display: block;
+  position: relative;
+  text-decoration: none;
+  color: #333;
+  padding: 5px 16px;
+  cursor: pointer;
+
+  transition: all .1s linear;
+}
+.pageList-item:hover, .pageList-item.active {
+  background-color: $primary-1;
+}
+.drawer-footer {
+  height: 200px;
+  background-color: #fcfcfc;
+}
