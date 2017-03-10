@@ -1,6 +1,5 @@
 import React from 'react';
 import {connect} from 'react-redux';
-import Markdown from 'markdown-to-jsx';
 
 class ArticleView extends React.Component {
   constructor(props) {
@@ -22,8 +21,7 @@ class ArticleView extends React.Component {
     }
     else if (this.props.activePage) {
       content = (
-        <div className="markdown-wrapper">
-          <Markdown>{ this.props.activePage.body }</Markdown>
+        <div className="markdown-wrapper" dangerouslySetInnerHTML={{ __html: this.props.activePage.jsx }}>
         </div>
       );
     } else {

@@ -2,7 +2,6 @@ import path from 'path';
 import walk from 'walk';
 import express from 'express';
 import fs from 'fs';
-import fm from 'front-matter';
 import bodyParser from 'body-parser';
 import React from 'react';
 import { createStore } from 'redux';
@@ -16,44 +15,14 @@ var __dirname = 'public';
 
 var app = express();
 
-var StaticRouter = express.Router();
-
-// middleware used for all public requests
-StaticRouter.use(function(req, res, next) {
-  // console.log('request made.');
-  next();
-});
-
-// no page deep linked (homepage)
-StaticRouter.get('/', function(req, res) {
-  handleRender(req, res, {})
-});
-
-// page deep linked
-StaticRouter.route('/articles/:dirId?/:pageId').get(function(req, res) {
-  fetchPage(req, res, (err, data) => {
-    if (err) {
-      res.status(404).send(data);
-      return;
-    }
-    else {
-      let fmData = fm(data);
-      let preloadedState = {
-        activePage: {
-          article: fmData,
-          route: req.url
-        }
-      }
-      handleRender(req, res, preloadedState);
-    }
-  });
-});
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
 
 function fetchPage(req, res, callback) {
   var filePath = req.params.dirId ? path.join(__dirname, __api, req.params.dirId, req.params.pageId) : path.join(__dirname, __api, req.params.pageId);
   fs.readFile(filePath, 'utf8', (err, data) => {
     setTimeout(_ => {
-      return callback(err, data);
+      return callback(err, data ? JSON.parse(data) : data);
     }, 0);
   })
 }
@@ -94,8 +63,37 @@ function handleRender(req, res, preloadedState) {
     res.send(response);
 }
 
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(bodyParser.json());
+var StaticRouter = express.Router();
+
+// middleware used for all public requests
+StaticRouter.use(function(req, res, next) {
+  // console.log('request made.');
+  next();
+});
+
+// page deep linked
+StaticRouter.route('/articles/:dirId?/:pageId').get(function(req, res) {
+  fetchPage(req, res, (err, data) => {
+    if (err) {
+      res.status(404).send(data);
+      // handleRender(req, res, {});
+    }
+    else {
+      let preloadedState = {
+        activePage: {
+          article: data,
+          route: req.url
+        }
+      }
+      handleRender(req, res, preloadedState);
+    }
+  });
+});
+
+// no page deep linked (homepage)
+StaticRouter.get('*', function(req, res) {
+  handleRender(req, res, {})
+});
 
 var APIRouter = express.Router();
 
@@ -114,9 +112,14 @@ APIRouter.get('/', function(req, res) {
 APIRouter.route('/articles').get(function(req, res) {
   var files = [];
   var walker = walk.walk(path.join(__dirname, __api));
-  walker.on("file", function (root, fileStats, next) {
-    if (fileStats.type === 'file') {
-      files.push(path.join(root, fileStats.name).substr(6));
+  walker.on("file", function (root, file, next) {
+    if (file.type === 'file') {
+      let fileObj = {
+        category: root.replace(__dirname, '').replace(__api, '').replace(/\//g, ''),
+        name: file.name,
+        route: path.join(root, file.name).replace(__dirname, '')
+      }
+      files.push(fileObj);
     }
     next();
   });
@@ -131,7 +134,7 @@ APIRouter.route('/articles/:dirId?/:pageId').get(function(req, res) {
       res.status(404).send(data);
     }
     else {
-      res.status(200).json(fm(data))
+      res.status(200).json(data)
     }
   });
 })

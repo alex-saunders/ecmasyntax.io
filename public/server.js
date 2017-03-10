@@ -63,7 +63,7 @@
 /******/ 	__webpack_require__.p = "";
 
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 36);
+/******/ 	return __webpack_require__(__webpack_require__.s = 34);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -372,11 +372,11 @@ module.exports = require("redux");
 "use strict";
 
 
-var _path = __webpack_require__(33);
+var _path = __webpack_require__(31);
 
 var _path2 = _interopRequireDefault(_path);
 
-var _walk = __webpack_require__(35);
+var _walk = __webpack_require__(33);
 
 var _walk2 = _interopRequireDefault(_walk);
 
@@ -384,13 +384,9 @@ var _express = __webpack_require__(29);
 
 var _express2 = _interopRequireDefault(_express);
 
-var _fs = __webpack_require__(31);
+var _fs = __webpack_require__(30);
 
 var _fs2 = _interopRequireDefault(_fs);
-
-var _frontMatter = __webpack_require__(30);
-
-var _frontMatter2 = _interopRequireDefault(_frontMatter);
 
 var _bodyParser = __webpack_require__(28);
 
@@ -402,7 +398,7 @@ var _react2 = _interopRequireDefault(_react);
 
 var _redux = __webpack_require__(6);
 
-var _server = __webpack_require__(34);
+var _server = __webpack_require__(32);
 
 var _reducers = __webpack_require__(17);
 
@@ -423,43 +419,14 @@ var __dirname = 'public';
 
 var app = (0, _express2.default)();
 
-var StaticRouter = _express2.default.Router();
-
-// middleware used for all public requests
-StaticRouter.use(function (req, res, next) {
-  // console.log('request made.');
-  next();
-});
-
-// no page deep linked (homepage)
-StaticRouter.get('/', function (req, res) {
-  handleRender(req, res, {});
-});
-
-// page deep linked
-StaticRouter.route('/articles/:dirId?/:pageId').get(function (req, res) {
-  fetchPage(req, res, function (err, data) {
-    if (err) {
-      res.status(404).send(data);
-      return;
-    } else {
-      var fmData = (0, _frontMatter2.default)(data);
-      var preloadedState = {
-        activePage: {
-          article: fmData,
-          route: req.url
-        }
-      };
-      handleRender(req, res, preloadedState);
-    }
-  });
-});
+app.use(_bodyParser2.default.urlencoded({ extended: true }));
+app.use(_bodyParser2.default.json());
 
 function fetchPage(req, res, callback) {
   var filePath = req.params.dirId ? _path2.default.join(__dirname, __api, req.params.dirId, req.params.pageId) : _path2.default.join(__dirname, __api, req.params.pageId);
   _fs2.default.readFile(filePath, 'utf8', function (err, data) {
     setTimeout(function (_) {
-      return callback(err, data);
+      return callback(err, data ? JSON.parse(data) : data);
     }, 0);
   });
 }
@@ -491,8 +458,36 @@ function handleRender(req, res, preloadedState) {
   res.send(response);
 }
 
-app.use(_bodyParser2.default.urlencoded({ extended: true }));
-app.use(_bodyParser2.default.json());
+var StaticRouter = _express2.default.Router();
+
+// middleware used for all public requests
+StaticRouter.use(function (req, res, next) {
+  // console.log('request made.');
+  next();
+});
+
+// page deep linked
+StaticRouter.route('/articles/:dirId?/:pageId').get(function (req, res) {
+  fetchPage(req, res, function (err, data) {
+    if (err) {
+      res.status(404).send(data);
+      // handleRender(req, res, {});
+    } else {
+      var preloadedState = {
+        activePage: {
+          article: data,
+          route: req.url
+        }
+      };
+      handleRender(req, res, preloadedState);
+    }
+  });
+});
+
+// no page deep linked (homepage)
+StaticRouter.get('*', function (req, res) {
+  handleRender(req, res, {});
+});
 
 var APIRouter = _express2.default.Router();
 
@@ -511,9 +506,14 @@ APIRouter.get('/', function (req, res) {
 APIRouter.route('/articles').get(function (req, res) {
   var files = [];
   var walker = _walk2.default.walk(_path2.default.join(__dirname, __api));
-  walker.on("file", function (root, fileStats, next) {
-    if (fileStats.type === 'file') {
-      files.push(_path2.default.join(root, fileStats.name).substr(6));
+  walker.on("file", function (root, file, next) {
+    if (file.type === 'file') {
+      var fileObj = {
+        category: root.replace(__dirname, '').replace(__api, '').replace(/\//g, ''),
+        name: file.name,
+        route: _path2.default.join(root, file.name).replace(__dirname, '')
+      };
+      files.push(fileObj);
     }
     next();
   });
@@ -527,7 +527,7 @@ APIRouter.route('/articles/:dirId?/:pageId').get(function (req, res) {
     if (err) {
       res.status(404).send(data);
     } else {
-      res.status(200).json((0, _frontMatter2.default)(data));
+      res.status(200).json(data);
     }
   });
 });
@@ -996,9 +996,6 @@ var AppRouter = function (_React$Component) {
 
     _this.onPopstate = function () {
       var path = window.location.pathname;
-      _this.setState({
-        activeRoute: path
-      });
       _this.props.fetchPage(path);
     };
 
@@ -1016,10 +1013,11 @@ var AppRouter = function (_React$Component) {
     key: 'componentDidMount',
     value: function componentDidMount() {
       window.addEventListener('popstate', this.onPopstate);
-      // if (window.location.pathname !== '/') {
-      //   console.log('WINDOW PATHNAME', window.location.pathname);
-      //   this.props.fetchPage(window.location.pathname);
-      // }
+    }
+  }, {
+    key: 'componentWillUnmount',
+    value: function componentWillUnmount() {
+      window.removeEventListener('popstate', this.onPopstate);
     }
 
     // route change function
@@ -1124,7 +1122,7 @@ var ArticleList = function (_React$Component) {
       var pages = void 0;
       if (this.props.query.length > 0) {
         pages = this.props.pages.filter(function (page) {
-          return page.toLowerCase().match(_this2.props.query);
+          return page.name.toLowerCase().match(_this2.props.query);
         });
       } else {
         pages = this.props.pages;
@@ -1135,9 +1133,9 @@ var ArticleList = function (_React$Component) {
           {
             key: index,
             active: (_this2.props.activeRoute ? _this2.props.activeRoute : null) === page,
-            route: page,
+            route: page.route,
             selectRoute: _this2.selectRoute },
-          page
+          page.name
         );
       });
       return items;
@@ -1210,10 +1208,6 @@ var _react2 = _interopRequireDefault(_react);
 
 var _reactRedux = __webpack_require__(1);
 
-var _markdownToJsx = __webpack_require__(32);
-
-var _markdownToJsx2 = _interopRequireDefault(_markdownToJsx);
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -1252,15 +1246,7 @@ var ArticleView = function (_React$Component) {
           'Loading\u2026'
         );
       } else if (this.props.activePage) {
-        content = _react2.default.createElement(
-          'div',
-          { className: 'markdown-wrapper' },
-          _react2.default.createElement(
-            _markdownToJsx2.default,
-            null,
-            this.props.activePage.body
-          )
-        );
+        content = _react2.default.createElement('div', { className: 'markdown-wrapper', dangerouslySetInnerHTML: { __html: this.props.activePage.jsx } });
       } else {
         content = _react2.default.createElement(
           'div',
@@ -1601,40 +1587,28 @@ module.exports = require("express");
 /* 30 */
 /***/ (function(module, exports) {
 
-module.exports = require("front-matter");
+module.exports = require("fs");
 
 /***/ }),
 /* 31 */
 /***/ (function(module, exports) {
 
-module.exports = require("fs");
+module.exports = require("path");
 
 /***/ }),
 /* 32 */
 /***/ (function(module, exports) {
 
-module.exports = require("markdown-to-jsx");
+module.exports = require("react-dom/server");
 
 /***/ }),
 /* 33 */
 /***/ (function(module, exports) {
 
-module.exports = require("path");
-
-/***/ }),
-/* 34 */
-/***/ (function(module, exports) {
-
-module.exports = require("react-dom/server");
-
-/***/ }),
-/* 35 */
-/***/ (function(module, exports) {
-
 module.exports = require("walk");
 
 /***/ }),
-/* 36 */
+/* 34 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports = __webpack_require__(7);

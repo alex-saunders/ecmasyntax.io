@@ -14,18 +14,15 @@ class AppRouter extends React.Component {
 
   componentDidMount() {
     window.addEventListener('popstate', this.onPopstate);
-    // if (window.location.pathname !== '/') {
-    //   console.log('WINDOW PATHNAME', window.location.pathname);
-    //   this.props.fetchPage(window.location.pathname);
-    // }
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('popstate', this.onPopstate);
   }
 
   // route change function
   onPopstate = () => {
     const path = window.location.pathname;
-    this.setState({
-      activeRoute: path
-    });
     this.props.fetchPage(path);
   }
 

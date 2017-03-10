@@ -23,7 +23,7 @@ class ArticleList extends React.Component {
     let pages;
     if (this.props.query.length > 0) {
       pages = this.props.pages.filter((page) => {
-          return page.toLowerCase().match( this.props.query );
+          return page.name.toLowerCase().match( this.props.query );
       });
     } else {
       pages = this.props.pages;
@@ -33,9 +33,9 @@ class ArticleList extends React.Component {
         <RouteLink
           key={index}
           active={(this.props.activeRoute ? this.props.activeRoute : null) === page}
-          route={page}
+          route={page.route}
           selectRoute={ this.selectRoute }>
-          {page}
+          {page.name}
         </RouteLink>
       );
     })
