@@ -7,6 +7,7 @@ class RouteLink extends React.Component {
 
   clickHandler = (e) => {
     e.preventDefault();
+    e.stopPropagation();
     this.props.selectRoute(this.props.route);
   }
 

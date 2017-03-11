@@ -46,11 +46,12 @@ export const fetchPage = (page) => {
 				dispatch(setActiveRoute(page));
 				document.title = response.attributes.title;
 			})
-			.catch(() => {
+			.catch((err) => {
+				console.log('ERROR', err);
 				dispatch(pageFetchError(true));
 				document.title = 'nope fail';
 			});
 
-		}, 0);
+		}, 100);
 	};
 }

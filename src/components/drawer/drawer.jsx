@@ -1,7 +1,7 @@
 import React from 'react';
 import ArticleList from '../../containers/article-list';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
-import s from '../../scss/drawer.scss';
+import s from './drawer.scss';
 
 class Drawer extends React.Component {
   constructor(props) {
@@ -10,6 +10,10 @@ class Drawer extends React.Component {
     this.state = {
       searchQuery: ''
     };
+  }
+
+  searchIconClick = () => {
+    this.searchInput.focus();
   }
 
   searchFocused = () => {
@@ -53,7 +57,7 @@ class Drawer extends React.Component {
             className="search-label"
             onFocus={this.searchFocused}
             ref={(label) => { this.searchContainer = label; }}>
-            <button className="icon-container">
+            <button className="icon-container" onClick={this.searchIconClick}>
               <i className="material-icons search-icon">search</i>
             </button>
 

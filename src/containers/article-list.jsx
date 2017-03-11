@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { fetchPageList } from '../actions/article-list';
 import { fetchPage } from '../actions/active-page';
 
-import RouteLink from '../components/drawer/route-link';
+import CategorySection from '../components/drawer/category-section';
 
 class ArticleList extends React.Component {
   constructor(props) {
@@ -19,27 +19,39 @@ class ArticleList extends React.Component {
     }
   }
 
-  mapPages() {
+  organisePages = () => {
     let pages;
     if (this.props.query.length > 0) {
       pages = this.props.pages.filter((page) => {
-          return page.name.toLowerCase().match( this.props.query );
+          return (
+            page.name.toLowerCase().match( this.props.query ) ||
+            page.category.toLowerCase().match( this.props.query )
+          );
       });
     } else {
       pages = this.props.pages;
     }
-    var items = pages.map((page, index) => {
-      return (
-        <RouteLink
-          key={index}
-          active={(this.props.activeRoute ? this.props.activeRoute : null) === page}
-          route={page.route}
-          selectRoute={ this.selectRoute }>
-          {page.name}
-        </RouteLink>
-      );
+
+    var sortedPages = {};
+    pages.forEach((page) => {
+      if (!sortedPages[page.category]) {
+        sortedPages[page.category] = {
+          pages: []
+        }
+      }
+      sortedPages[page.category].pages.push(page);
     })
-    return items;
+    return this.mapPages(sortedPages);
+  }
+
+  mapPages = (pages) => {
+    let output = Object.keys(pages).map((category, index) => {
+      let links = pages[category].pages;
+      return (
+        <CategorySection key={index} category={category} links={links} activeRoute={this.props.activeRoute} selectRoute={this.selectRoute}/>
+      )
+    });
+    return output;
   }
 
   selectRoute = (page) => {
@@ -52,12 +64,12 @@ class ArticleList extends React.Component {
     }
 
     if (this.props.isLoading) {
-        return (<p>Loading…</p>);
+        return (<p></p>);
     }
 
 		return (
       <div className="pageList">
-        { this.mapPages() }
+        { this.organisePages() }
       </div>
     )
 	}

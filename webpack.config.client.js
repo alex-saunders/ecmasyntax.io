@@ -1,6 +1,5 @@
 var webpack = require('webpack');
 var path = require('path');
-var UglifyJSPlugin = require('uglifyjs-webpack-plugin');
 
 var config = {
   entry: './src/client.jsx',
@@ -42,6 +41,27 @@ var config = {
             }
           },
           { loader: 'sass-loader' }
+        ]
+      },
+      {
+        test: /\.sass$/,
+        loaders: ['style-loader','css-loader', 'sass-loader']
+      },
+      {
+        test: /\.css$/,
+        use: [
+          { loader: 'isomorphic-style-loader' },
+          { loader: 'css-loader' },
+          {
+            loader: 'postcss-loader',
+            options: {
+              plugins: function () {
+                return [
+                  require('autoprefixer')
+                ];
+              }
+            }
+          }
         ]
       }
     ]

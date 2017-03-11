@@ -1,6 +1,5 @@
 var webpack = require('webpack');
 var path = require('path');
-var UglifyJSPlugin = require('uglifyjs-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const nodeExternals = require('webpack-node-externals');
 
@@ -46,6 +45,27 @@ var serverConfig = {
             }
           },
           { loader: 'sass-loader' }
+        ]
+      },
+      {
+        test: /\.sass$/,
+        loaders: ['style-loader','css-loader', 'sass-loader']
+      },
+      {
+        test: /\.css$/,
+        use: [
+          { loader: 'isomorphic-style-loader' },
+          { loader: 'css-loader' },
+          {
+            loader: 'postcss-loader',
+            options: {
+              plugins: function () {
+                return [
+                  require('autoprefixer')
+                ];
+              }
+            }
+          }
         ]
       }
     ]

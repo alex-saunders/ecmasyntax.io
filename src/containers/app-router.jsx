@@ -27,6 +27,9 @@ class AppRouter extends React.Component {
   }
 
   selectRoute = (page) => {
+    if (this.props.route === page)
+      return;
+
     console.log('manual select', page);
 
     window.history.pushState(null, null, (page));
@@ -45,6 +48,7 @@ class AppRouter extends React.Component {
 
 function mapStateToProps(state) {
 	return {
+    route: state.activePage.route,
     hasErrored: state.activePage.pageListError,
     isLoading: state.activePage.pageListLoading,
 	};

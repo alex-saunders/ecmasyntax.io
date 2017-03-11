@@ -1,2 +1,7 @@
 $primary-1: #fbce13;
 $accent-1: #454444;
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
