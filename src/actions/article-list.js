@@ -20,6 +20,7 @@ export const pageListFetchSuccess = (pageList) => {
 }
 
 export const fetchPageList = () => {
+
 	return (dispatch) => {
 		dispatch(pageListLoading(true));
 		setTimeout(() => {
@@ -30,7 +31,10 @@ export const fetchPageList = () => {
 				return response;
 			})
 			.then((response) => response.json())
-			.then((pageList) => { dispatch(pageListFetchSuccess(pageList)); Promise.resolve(true) })
+			.then((pageList) => {
+				dispatch(pageListFetchSuccess(pageList));
+				return Promise.resolve(true)
+			})
 			.catch(() => dispatch(pageListFetchError(true)));
 
 		}, 0);

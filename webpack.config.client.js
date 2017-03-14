@@ -1,8 +1,10 @@
-var webpack = require('webpack');
-var path = require('path');
+const webpack = require('webpack');
+const path = require('path');
+const CompressionPlugin = require('compression-webpack-plugin');
 
 var config = {
   entry: './src/client.jsx',
+  devtool: 'cheap-module-source-map',
   output: {
     path:  path.join(__dirname, 'public', 'static'),
     filename: 'app.js'
@@ -67,7 +69,18 @@ var config = {
     ]
   },
   plugins: [
-    // new UglifyJSPlugin()
+    new webpack.DefinePlugin({
+      'process.env': {
+        'NODE_ENV': JSON.stringify('production')
+      }
+    }),
+    new CompressionPlugin({
+      asset: "[path].gz[query]",
+      algorithm: "gzip",
+      test: /\.js$|\.css$|\.html$/,
+      threshold: 10240,
+      minRatio: 0.8
+    })
   ]
 };
 

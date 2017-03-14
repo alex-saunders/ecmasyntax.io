@@ -9,9 +9,9 @@
     "compileClient": "webpack --config webpack.config.client.js",
     "clientDev": "concurrently --kill-others \"webpack --watch --config webpack.config.client.js\" \"npm run runServer\"",
     "serverDev": "webpack --watch --config webpack.config.server.js",
-    "dev": "concurrently --kill-others  \"npm run clientDev\" \"npm run serverDev\"",
+    "dev": "NODE_ENV=development concurrently --kill-others  \"npm run clientDev\" \"npm run serverDev\"",
     "runServer": "babel-node public/server.js",
-    "build": "webpack --config webpack.config.server.js && webpack --config webpack.config.client.js && npm run runServer"
+    "build": "NODE_ENV=production webpack --config webpack.config.server.js --progress -p && webpack --config webpack.config.client.js --progress -p && npm run runServer"
   },
   "author": "Alex Saunders",
   "license": "MIT",
@@ -39,6 +39,7 @@
     "babel-core": "^6.23.1",
     "babel-loader": "^6.3.2",
     "babel-preset-es2015": "^6.22.0",
+    "compression-webpack-plugin": "^0.3.2",
     "concurrently": "^3.4.0",
     "css-loader": "^0.26.2",
     "extract-text-webpack-plugin": "^2.1.0",

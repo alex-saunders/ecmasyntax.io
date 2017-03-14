@@ -444,134 +444,146 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 var __api = 'articles';
 var __dirname = 'public';
 
-(0, _build.buildArticles)().then(function (_) {
+var app = (0, _express2.default)();
 
-  var app = (0, _express2.default)();
+app.use(_bodyParser2.default.urlencoded({ extended: true }));
+app.use(_bodyParser2.default.json());
 
-  app.use(_bodyParser2.default.urlencoded({ extended: true }));
-  app.use(_bodyParser2.default.json());
+function fetchPage(req, res, callback) {
+  var filePath = req.params.dirId ? _path2.default.join(__dirname, __api, req.params.dirId, req.params.pageId) : _path2.default.join(__dirname, __api, req.params.pageId);
+  _fs2.default.readFile(filePath, 'utf8', function (err, data) {
+    setTimeout(function (_) {
+      return callback(err, data ? JSON.parse(data) : data);
+    }, 0);
+  });
+}
 
-  function fetchPage(req, res, callback) {
-    var filePath = req.params.dirId ? _path2.default.join(__dirname, __api, req.params.dirId, req.params.pageId) : _path2.default.join(__dirname, __api, req.params.pageId);
-    _fs2.default.readFile(filePath, 'utf8', function (err, data) {
-      setTimeout(function (_) {
-        return callback(err, data ? JSON.parse(data) : data);
-      }, 0);
-    });
-  }
+function handleRender(req, res, preloadedState) {
 
-  function handleRender(req, res, preloadedState) {
+  var store = (0, _redux.createStore)(_reducers2.default, preloadedState);
 
-    var store = (0, _redux.createStore)(_reducers2.default, preloadedState);
+  var css = new Set(); // CSS for all rendered React components
+  var context = { insertCss: function insertCss() {
+      for (var _len = arguments.length, styles = Array(_len), _key = 0; _key < _len; _key++) {
+        styles[_key] = arguments[_key];
+      }
 
-    var css = new Set(); // CSS for all rendered React components
-    var context = { insertCss: function insertCss() {
-        for (var _len = arguments.length, styles = Array(_len), _key = 0; _key < _len; _key++) {
-          styles[_key] = arguments[_key];
+      return styles.forEach(function (style) {
+        return css.add(style._getCss());
+      });
+    } };
+  var html = (0, _server.renderToString)(_react2.default.createElement(
+    _reactRedux.Provider,
+    { store: store },
+    _react2.default.createElement(_App2.default, { context: context })
+  ));
+
+  var finalState = store.getState();
+  var title = preloadedState.activePage ? preloadedState.activePage.article.attributes.title : 'ECMASyntax.io';
+  var response = '\n      <!doctype html>\n      <html>\n        <head>\n          <meta charset="utf-8">\n          <meta http-equiv="x-ua-compatible" content="ie=edge">\n          <meta name="viewport" content="width=device-width, initial-scale=1">\n          <title>' + title + '</title>\n          <style>\n            ' + [].concat(_toConsumableArray(css)).join('') + '\n          </style>\n        </head>\n        <body>\n          <div id="root">' + html + '</div>\n          <script>\n            window.__PRELOADED_STATE__ = ' + JSON.stringify(preloadedState).replace(/</g, '\\u003c') + '\n          </script>\n          <script src="/static/app.js" async></script>\n        </body>\n      </html>\n      ';
+  res.send(response);
+}
+
+function handle404(req, res) {
+  res.status(404).send('handling 404');
+}
+
+var router = _express2.default.Router();
+
+// middleware used for all public requests
+router.use(function (req, res, next) {
+  // console.log('request made.');
+  next();
+});
+
+// page deep linked
+router.route('/articles/:dirId?/:pageId').get(function (req, res) {
+  fetchPage(req, res, function (err, data) {
+    if (err) {
+      handle404(req, res);
+    } else {
+      var preloadedState = {
+        activePage: {
+          article: data,
+          route: req.url
         }
+      };
+      handleRender(req, res, preloadedState);
+    }
+  });
+});
 
-        return styles.forEach(function (style) {
-          return css.add(style._getCss());
-        });
-      } };
-    var html = (0, _server.renderToString)(_react2.default.createElement(
-      _reactRedux.Provider,
-      { store: store },
-      _react2.default.createElement(_App2.default, { context: context })
-    ));
+// no page deep linked (homepage)
+router.get('', function (req, res) {
+  handleRender(req, res, {});
+});
 
-    var finalState = store.getState();
-    var title = preloadedState.activePage ? preloadedState.activePage.article.attributes.title : 'ECMASyntax.io';
-    var response = '\n        <!doctype html>\n        <html>\n          <head>\n            <meta charset="utf-8">\n            <meta http-equiv="x-ua-compatible" content="ie=edge">\n            <meta name="viewport" content="width=device-width, initial-scale=1">\n            <title>' + title + '</title>\n            <style>\n              ' + [].concat(_toConsumableArray(css)).join('') + '\n            </style>\n          </head>\n          <body>\n            <div id="root">' + html + '</div>\n            <script>\n              window.__PRELOADED_STATE__ = ' + JSON.stringify(preloadedState).replace(/</g, '\\u003c') + '\n            </script>\n            <script src="/static/app.js" async></script>\n          </body>\n        </html>\n        ';
+router.get('*', function (req, res) {
+  return handle404(req, res);
+});
 
-    res.send(response);
-  }
+var APIRouter = _express2.default.Router();
 
-  var router = _express2.default.Router();
+// middleware used for all API requests
+APIRouter.use(function (req, res, next) {
+  // console.log('api request made.');
+  next();
+});
 
-  // middleware used for all public requests
-  router.use(function (req, res, next) {
-    // console.log('request made.');
+APIRouter.get('/', function (req, res) {
+  res.json({
+    message: 'Welcome to my api'
+  });
+});
+
+APIRouter.route('/articles').get(function (req, res) {
+  var files = [];
+  var walker = _walk2.default.walk(_path2.default.join(__dirname, __api));
+  walker.on("file", function (root, file, next) {
+    if (file.type === 'file') {
+      var fileObj = {
+        category: root.replace(__dirname, '').replace(__api, '').replace(/\//g, ''),
+        name: file.name,
+        route: _path2.default.join(root, file.name).replace(__dirname, '')
+      };
+      files.push(fileObj);
+    }
     next();
   });
-
-  // page deep linked
-  router.route('/articles/:dirId?/:pageId').get(function (req, res) {
-    fetchPage(req, res, function (err, data) {
-      if (err) {
-        res.status(404).send(data);
-        // handleRender(req, res, {});
-      } else {
-        var preloadedState = {
-          activePage: {
-            article: data,
-            route: req.url
-          }
-        };
-        handleRender(req, res, preloadedState);
-      }
-    });
+  walker.on("end", function () {
+    res.json(files);
   });
+});
 
-  // no page deep linked (homepage)
-  router.get('*', function (req, res) {
-    handleRender(req, res, {});
+APIRouter.route('/articles/:dirId?/:pageId').get(function (req, res) {
+  var data = fetchPage(req, res, function (err, data) {
+    if (err) {
+      handle404(req, res);
+    } else {
+      res.status(200).json(data);
+    }
   });
+});
 
-  var APIRouter = _express2.default.Router();
+app.get('*.js', function (req, res, next) {
+  req.url = req.url + '.gz';
+  res.set('Content-Encoding', 'gzip');
+  next();
+});
 
-  // middleware used for all API requests
-  APIRouter.use(function (req, res, next) {
-    // console.log('api request made.');
-    next();
-  });
+app.use('/static', _express2.default.static(_path2.default.join(__dirname, 'static')));
 
-  APIRouter.get('/', function (req, res) {
-    res.json({
-      message: 'Welcome to my api'
-    });
-  });
+app.use('/api', APIRouter);
 
-  APIRouter.route('/articles').get(function (req, res) {
-    var files = [];
-    var walker = _walk2.default.walk(_path2.default.join(__dirname, __api));
-    walker.on("file", function (root, file, next) {
-      if (file.type === 'file') {
-        var fileObj = {
-          category: root.replace(__dirname, '').replace(__api, '').replace(/\//g, ''),
-          name: file.name,
-          route: _path2.default.join(root, file.name).replace(__dirname, '')
-        };
-        files.push(fileObj);
-      }
-      next();
-    });
-    walker.on("end", function () {
-      res.json(files);
-    });
-  });
+app.use('/', router);
 
-  APIRouter.route('/articles/:dirId?/:pageId').get(function (req, res) {
-    var data = fetchPage(req, res, function (err, data) {
-      if (err) {
-        res.status(404).send(data);
-      } else {
-        res.status(200).json(data);
-      }
-    });
-  });
+app.use('*', function (req, res) {
+  return handle404(req, res);
+});
 
-  app.use('/static', _express2.default.static(_path2.default.join(__dirname, 'static')));
+var port = process.env.PORT || 8080;
 
-  app.use('/api', APIRouter);
-
-  app.use('/', router);
-
-  app.use('*', function (req, res) {
-    res.status(404);
-  });
-
-  var port = process.env.PORT || 8080;
+(0, _build.buildArticles)().then(function (_) {
 
   app.listen(port);
   console.log('server listening on port ' + port + '...');
@@ -609,6 +621,7 @@ var pageListFetchSuccess = exports.pageListFetchSuccess = function pageListFetch
 };
 
 var fetchPageList = exports.fetchPageList = function fetchPageList() {
+
 	return function (dispatch) {
 		dispatch(pageListLoading(true));
 		setTimeout(function () {
@@ -619,7 +632,8 @@ var fetchPageList = exports.fetchPageList = function fetchPageList() {
 			}).then(function (response) {
 				return response.json();
 			}).then(function (pageList) {
-				dispatch(pageListFetchSuccess(pageList));Promise.resolve(true);
+				dispatch(pageListFetchSuccess(pageList));
+				return Promise.resolve(true);
 			}).catch(function () {
 				return dispatch(pageListFetchError(true));
 			});
@@ -1435,9 +1449,14 @@ var ArticleList = function (_React$Component) {
   }
 
   _createClass(ArticleList, [{
+    key: 'gotPageList',
+    value: function gotPageList() {
+      console.log('got page list');
+    }
+  }, {
     key: 'componentDidMount',
     value: function componentDidMount() {
-      this.props.fetchPageList();
+      this.props.fetchPageList(this.gotPageList);
 
       if (this.props.activeRoute) {
         // route set from url

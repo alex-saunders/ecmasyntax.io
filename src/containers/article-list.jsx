@@ -10,8 +10,12 @@ class ArticleList extends React.Component {
     super(props);
   }
 
+  gotPageList() {
+    console.log('got page list');
+  }
+
   componentDidMount() {
-    this.props.fetchPageList();
+    this.props.fetchPageList(this.gotPageList);
 
     if (this.props.activeRoute) {
       // route set from url
