@@ -5,13 +5,13 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "compileServer": "webpack --config webpack.config.server.js",
-    "compileClient": "webpack --config webpack.config.client.js",
-    "clientDev": "concurrently --kill-others \"webpack --watch --config webpack.config.client.js\" \"npm run runServer\"",
-    "serverDev": "webpack --watch --config webpack.config.server.js",
-    "dev": "NODE_ENV=development concurrently --kill-others  \"npm run clientDev\" \"npm run serverDev\"",
-    "runServer": "babel-node public/server.js",
-    "build": "NODE_ENV=production webpack --config webpack.config.server.js --progress -p && webpack --config webpack.config.client.js --progress -p && npm run runServer"
+
+    "webpackWatch": "NODE_ENV=development webpack --watch",
+    "webpackBuild": "NODE_ENV=production webpack --progress -p",
+
+    "dev": "npm run webpackWatch",
+    "build": "npm run webpackBuild && npm run server",
+    "server": "node public/server.js"
   },
   "author": "Alex Saunders",
   "license": "MIT",
@@ -29,7 +29,6 @@
     "redux": "^3.6.0",
     "redux-logger": "^2.8.1",
     "redux-thunk": "^2.2.0",
-    "vanilla-ripplejs": "^1.0.3",
     "walk": "^2.3.9"
   },
   "devDependencies": {
@@ -40,9 +39,7 @@
     "babel-loader": "^6.3.2",
     "babel-preset-es2015": "^6.22.0",
     "compression-webpack-plugin": "^0.3.2",
-    "concurrently": "^3.4.0",
     "css-loader": "^0.26.2",
-    "extract-text-webpack-plugin": "^2.1.0",
     "isomorphic-style-loader": "^1.1.0",
     "node-sass": "^4.5.0",
     "postcss-loader": "^1.3.3",

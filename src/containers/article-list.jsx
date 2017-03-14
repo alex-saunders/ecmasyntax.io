@@ -16,11 +16,6 @@ class ArticleList extends React.Component {
 
   componentDidMount() {
     this.props.fetchPageList(this.gotPageList);
-
-    if (this.props.activeRoute) {
-      // route set from url
-      console.log('deep linked to', this.props.activeRoute);
-    }
   }
 
   organisePages = () => {

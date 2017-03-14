@@ -9,10 +9,7 @@ const preloadedState = window.__PRELOADED_STATE__
 // Allow the passed state to be garbage-collected
 delete window.__PRELOADED_STATE__
 
-
-
 let middleware = [ thunk ];
-console.log(process.env.NODE_ENV);
 if (process.env.NODE_ENV !== 'production') {
   const logger = createLogger({
     collapsed: true,

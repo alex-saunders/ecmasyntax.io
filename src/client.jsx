@@ -7,6 +7,8 @@ import App from './components/app';
 
 require('babel-polyfill');
 
+console.log(`RUNNING IN %c${process.env.NODE_ENV.toUpperCase()} %cMODE`, "color: red;", "");
+
 const store = configureStore();
 
 const context = {

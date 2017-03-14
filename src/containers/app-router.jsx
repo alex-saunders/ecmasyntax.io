@@ -14,6 +14,11 @@ class AppRouter extends React.Component {
 
   componentDidMount() {
     window.addEventListener('popstate', this.onPopstate);
+
+    if (this.props.route) {
+      // route set from url
+      console.log(`DEEP LINKED TO %c${this.props.route}`, "color: blue");
+    }
   }
 
   componentWillUnmount() {
@@ -30,7 +35,7 @@ class AppRouter extends React.Component {
     if (this.props.route === page)
       return;
 
-    console.log('manual select', page);
+    console.log(`MANUAL SELECT %c${page}`, "color: blue;");
 
     window.history.pushState(null, null, (page));
     return this.onPopstate();

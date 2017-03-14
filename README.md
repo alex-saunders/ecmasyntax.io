@@ -8,18 +8,8 @@ Made using React & React-Redux. React Server side rendering & critical path CSS 
 
 ## Dev
 
-1. `npm run dev`
-2. Navigate to [localhost:8080](http://localhost:8080/)
-
-Or you can run a more specific script (for them sweet sweet faster compile times)
-
-### Server side dev
-1. `npm run serverDev` (watches and compiles changes to src/server.js)
-2. When ready - `npm run runServer` (runs the compiled server.js file)
-3. Navigate to [localhost:8080](http://localhost:8080/)
-
-### Client side dev
-1. `npm run clientDev` (watches and compiles changes to client side code & runs the current compiled version of the server)
+1. In one tab run `npm run dev`
+2. In another, run `npm run server`
 2. Navigate to [localhost:8080](http://localhost:8080/)
 
 ## Build

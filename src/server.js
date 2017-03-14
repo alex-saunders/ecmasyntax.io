@@ -20,6 +20,11 @@ var app = express();
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
+function startServer() {
+  app.listen(port);
+  console.log(`server listening on port ${port} in ${process.env.NODE_ENV} mode`);
+}
+
 function fetchPage(req, res, callback) {
   var filePath = req.params.dirId ? path.join(__dirname, __api, req.params.dirId, req.params.pageId) : path.join(__dirname, __api, req.params.pageId);
   fs.readFile(filePath, 'utf8', (err, data) => {
@@ -148,11 +153,13 @@ APIRouter.route('/articles/:dirId?/:pageId').get(function(req, res) {
   });
 })
 
-app.get('*.js', (req, res, next) => {
-  req.url = req.url + '.gz';
-  res.set('Content-Encoding', 'gzip');
-  next();
-})
+if (process.env.NODE_ENV === 'production') {
+  app.get('*.js', (req, res, next) => {
+    req.url = req.url + '.gz';
+    res.set('Content-Encoding', 'gzip');
+    next();
+  })
+}
 
 app.use('/static', express.static(path.join(__dirname, 'static')));
 
@@ -164,9 +171,10 @@ app.use('*', (req, res) => handle404(req, res));
 
 var port = process.env.PORT || 8080;
 
-buildArticles().then(_ => {
-
-  app.listen(port);
-  console.log(`server listening on port ${port}...`);
-
-});
+if (process.env.NODE_ENV === 'production') {
+  buildArticles().then(_ => {
+    startServer();
+  });
+} else {
+  startServer();
+}
