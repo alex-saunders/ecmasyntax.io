@@ -111,46 +111,6 @@
 .pageList {
   // min-height: 900px;
 }
-.categorySection {
-  padding-bottom: 8px;
-}
-.categorySection-header {
-  animation: fadeIn 0.2s;
-  position: relative;
-  display: block;
-  text-decoration: none;
-  padding: 8px 8px 8px 16px;
-  margin: 0;
-  font-size: 16px;
-  color: #666;
-
-  .chevron {
-    float: right;
-    transition: transform 0.2s linear;
-  }
-  .chevron.hidden {
-    transform: rotateX(180deg);
-  }
-}
-.categorySection-body {
-  animation: fadeIn 0.2s;
-}
-.categorySection-body.hidden {
-  display: none;
-}
-.pageList-item {
-  display: block;
-  position: relative;
-  text-decoration: none;
-  color: #333;
-  padding: 5px 16px 5px 24px;
-  cursor: pointer;
-
-  transition: all .1s linear;
-}
-.pageList-item:hover, .pageList-item.active {
-  background-color: $primary-1;
-}
 .drawer-footer {
   height: 200px;
   background-color: #fcfcfc;

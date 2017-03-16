@@ -30,7 +30,7 @@ var config = {
     filename: 'app.js'
   },
   resolve: {
-    extensions: ['.js', '.jsx', '.json']
+    extensions: ['.js', '.jsx', '.json', '.scss']
   },
   module : {
     loaders : [
@@ -47,11 +47,11 @@ var config = {
         ]
       },
       {
-        test: /\.scss$/,
+        test: /\.s?css$/,
         exclude: /node_modules/,
         use: [
           { loader: 'isomorphic-style-loader' },
-          { loader: 'css-loader' },
+          { loader: 'css-loader?modules&localIdentName=[name]_[local]_[hash:base64:3]' },
           {
             loader: 'postcss-loader',
             options: {
@@ -63,27 +63,6 @@ var config = {
             }
           },
           { loader: 'sass-loader' }
-        ]
-      },
-      {
-        test: /\.sass$/,
-        loaders: ['style-loader','css-loader', 'sass-loader']
-      },
-      {
-        test: /\.css$/,
-        use: [
-          { loader: 'isomorphic-style-loader' },
-          { loader: 'css-loader' },
-          {
-            loader: 'postcss-loader',
-            options: {
-              plugins: function () {
-                return [
-                  require('autoprefixer')
-                ];
-              }
-            }
-          }
         ]
       }
     ]
@@ -118,11 +97,11 @@ var serverConfig = {
         ]
       },
       {
-        test: /\.scss$/,
+        test: /\.s?css$/,
         exclude: /node_modules/,
         use: [
           { loader: 'isomorphic-style-loader' },
-          { loader: 'css-loader' },
+          { loader: 'css-loader?modules&localIdentName=[name]_[local]_[hash:base64:3]' },
           {
             loader: 'postcss-loader',
             options: {
@@ -135,27 +114,6 @@ var serverConfig = {
           },
           { loader: 'sass-loader' }
         ]
-      },
-      {
-        test: /\.sass$/,
-        loaders: ['style-loader','css-loader', 'sass-loader']
-      },
-      {
-        test: /\.css$/,
-        use: [
-          { loader: 'isomorphic-style-loader' },
-          { loader: 'css-loader' },
-          {
-            loader: 'postcss-loader',
-            options: {
-              plugins: function () {
-                return [
-                  require('autoprefixer')
-                ];
-              }
-            }
-          }
-        ]
       }
     ]
   },
@@ -167,7 +125,7 @@ var serverConfig = {
     })
   ],
   resolve: {
-    extensions: ['.js', '.jsx', '.json'],
+    extensions: ['.js', '.jsx', '.json', '.scss'],
   }
 };
 

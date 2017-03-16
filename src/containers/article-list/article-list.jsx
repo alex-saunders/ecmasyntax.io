@@ -1,9 +1,9 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { fetchPageList } from '../actions/article-list';
-import { fetchPage } from '../actions/active-page';
+import { fetchPageList } from '../../actions/article-list';
+import { fetchPage } from '../../actions/active-page';
 
-import CategorySection from '../components/drawer/category-section';
+import CategorySection from '../../components/drawer/category-section/category-section';
 
 class ArticleList extends React.Component {
   constructor(props) {

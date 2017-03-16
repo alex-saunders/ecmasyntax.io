@@ -2,14 +2,29 @@ import fs from 'fs';
 import fm from 'front-matter';
 import walk from 'walk';
 import path from 'path';
-import Markdown from 'markdown-to-jsx';
 import React from 'react';
-import { renderToStaticMarkup } from 'react-dom/server'
 import ReplaceExt from 'replace-ext';
+import marked from 'marked';
+import createDOMPurify from 'dompurify';
+import jsdom from 'jsdom';
 
 var __src = 'src';
 var __public = 'public';
 var __articles = 'articles';
+
+const window = jsdom.jsdom('', {
+  features: {
+    FetchExternalResources: false, // disables resource loading over HTTP / filesystem
+    ProcessExternalResources: false // do not execute JS within script blocks
+  }
+}).defaultView;
+const DOMPurify = createDOMPurify(window);
+
+marked.setOptions({
+  highlight: function (code) {
+    return require('highlight.js').highlightAuto(code).value;
+  }
+});
 
 function deleteFolder(folder) {
   if( fs.existsSync(folder) ) {
@@ -39,11 +54,8 @@ export const buildArticles = () => {
       var absPath = path.join(root, file.name);
       var content = fs.readFileSync(absPath, 'utf-8');
       var obj = fm(content);
-      obj.jsx = renderToStaticMarkup(
-          <Markdown>
-              { obj.body }
-          </Markdown>
-      );
+      // sanitize (just in case), convert to html & syntax highlight the article body
+      obj.html = marked(DOMPurify.sanitize(obj.body));
 
       var buildFolder = root.replace(__src, __public);
       var buildPath = ReplaceExt(absPath.replace(__src, __public), '.json');

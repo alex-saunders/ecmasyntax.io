@@ -1,0 +1,29 @@
+@import '../../../scss/theme';
+
+.categorySection {
+  padding-bottom: 8px;
+}
+.categorySection-header {
+  animation: fadeIn 0.2s;
+  position: relative;
+  display: block;
+  text-decoration: none;
+  padding: 8px 8px 8px 16px;
+  margin: 0;
+  font-size: 16px;
+  color: #666;
+
+  .chevron {
+    float: right;
+    transition: transform 0.2s linear;
+  }
+  .chevron.hidden {
+    transform: rotateX(180deg);
+  }
+}
+.categorySection-body {
+  animation: fadeIn 0.2s;
+}
+.categorySection-body.hidden {
+  display: none;
+}

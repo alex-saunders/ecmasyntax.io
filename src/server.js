@@ -4,6 +4,7 @@ import express from 'express';
 import fs from 'fs';
 import bodyParser from 'body-parser';
 import React from 'react';
+import ReplaceExt from 'replace-ext';
 import { createStore } from 'redux';
 import { renderToString, renderToStaticMarkup } from 'react-dom/server'
 import allReducers from "./reducers";
@@ -26,7 +27,8 @@ function startServer() {
 }
 
 function fetchPage(req, res, callback) {
-  var filePath = req.params.dirId ? path.join(__dirname, __api, req.params.dirId, req.params.pageId) : path.join(__dirname, __api, req.params.pageId);
+  let filePath = req.params.dirId ? path.join(__dirname, __api, req.params.dirId, req.params.pageId) : path.join(__dirname, __api, req.params.pageId);
+  filePath = ReplaceExt(filePath, '.json');
   fs.readFile(filePath, 'utf8', (err, data) => {
     setTimeout(_ => {
       return callback(err, data ? JSON.parse(data) : data);
@@ -130,8 +132,8 @@ APIRouter.route('/articles').get(function(req, res) {
     if (file.type === 'file') {
       let fileObj = {
         category: root.replace(__dirname, '').replace(__api, '').replace(/\//g, ''),
-        name: file.name,
-        route: path.join(root, file.name).replace(__dirname, '')
+        name: ReplaceExt(file.name, ''),
+        route: ReplaceExt((path.join(root, file.name).replace(__dirname, '')), '')
       }
       files.push(fileObj);
     }

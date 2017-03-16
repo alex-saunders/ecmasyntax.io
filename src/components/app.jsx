@@ -1,5 +1,5 @@
 import React, { PropTypes } from 'react';
-import AppRouter from '../containers/app-router';
+import AppRouter from '../containers/app-router/app-router';
 
 const ContextType = {
   // Enables critical path CSS rendering

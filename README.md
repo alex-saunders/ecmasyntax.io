@@ -9,7 +9,7 @@ Made using React & React-Redux. React Server side rendering & critical path CSS 
 ## Dev
 
 1. In one tab run `npm run dev`
-2. In another, run `npm run server`
+2. In another, run `npm start`
 2. Navigate to [localhost:8080](http://localhost:8080/)
 
 ## Build

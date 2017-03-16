@@ -1,6 +1,9 @@
 import React from 'react';
 import {connect} from 'react-redux';
-import MarkdownContainer from '../components/markdown-container/markdown-container.jsx';
+import MarkdownContainer from '../../components/markdown-container/markdown-container.jsx';
+import withStyles from 'isomorphic-style-loader/lib/withStyles';
+
+import s from './article-view.scss';
 
 const VISIBLE = { transform: 'translateX(0)', opacity: '1' },
       HIDDEN = { transform: 'translateX(60px)', opacity: '0' };
@@ -98,7 +101,7 @@ class ArticleView extends React.Component {
 
 	render() {
     return (
-      <div className="page-view" ref={(div) => { this.pageContainer = div; }}>
+      <div className={s['page-view']} ref={(div) => { this.pageContainer = div; }}>
         {this.state.content}
       </div>
     )
@@ -114,4 +117,4 @@ function mapStateToProps(state) {
 	};
 }
 
-export default connect(mapStateToProps)(ArticleView);
+export default withStyles(s)(connect(mapStateToProps)(ArticleView));

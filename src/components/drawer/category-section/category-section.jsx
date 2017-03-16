@@ -1,5 +1,8 @@
 import React from 'react';
-import RouteLink from '../route-link';
+import RouteLink from './route-link/route-link';
+import withStyles from 'isomorphic-style-loader/lib/withStyles';
+
+import s from './category-section.scss';
 
 class CategorySection extends React.Component {
   constructor(props) {
@@ -24,18 +27,18 @@ class CategorySection extends React.Component {
   handleClick = (e) => {
     e.preventDefault();
 
-    this.icon.classList.toggle('hidden');
-    this.linksContainer.classList.toggle('hidden');
+    this.icon.classList.toggle(s['hidden']);
+    this.linksContainer.classList.toggle(s['hidden']);
   }
 
   render() {
     return (
-      <div className="categorySection">
-        <a className="categorySection-header" href="#" onClick={this.handleClick} ref={(a) => { this.header = a; }}>
+      <div className={s['categorySection']}>
+        <a className={s['categorySection-header']} href="#" onClick={this.handleClick} ref={(a) => { this.header = a; }}>
           {this.props.category}
-          <i className="material-icons chevron" ref={(i) => { this.icon = i; }}>keyboard_arrow_down</i>
+          <i className={`material-icons ${s['chevron']}`} ref={(i) => { this.icon = i; }}>keyboard_arrow_down</i>
         </a>
-        <div className="categorySection-body" ref={(div) => { this.linksContainer = div; }}>
+        <div className={s['categorySection-body']} ref={(div) => { this.linksContainer = div; }}>
           { this.mapLinks() }
         </div>
       </div>
@@ -43,4 +46,4 @@ class CategorySection extends React.Component {
   }
 }
 
-export default CategorySection;
+export default withStyles(s)(CategorySection);

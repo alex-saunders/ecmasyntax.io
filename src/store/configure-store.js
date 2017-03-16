@@ -13,7 +13,7 @@ let middleware = [ thunk ];
 if (process.env.NODE_ENV !== 'production') {
   const logger = createLogger({
     collapsed: true,
-    duration: true,
+    duration: false,
     diff: true
   });
   middleware = [ ...middleware, logger ];

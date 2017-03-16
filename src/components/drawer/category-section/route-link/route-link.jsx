@@ -1,4 +1,7 @@
 import React from 'react';
+import withStyles from 'isomorphic-style-loader/lib/withStyles';
+
+import s from './route-link.scss';
 
 class RouteLink extends React.Component {
   constructor(props) {
@@ -14,7 +17,7 @@ class RouteLink extends React.Component {
 	render() {
 		return (
       <a
-        className={this.props.active ? "pageList-item active" : "pageList-item"}
+        className={this.props.active ? (`${s['pageList-item']} ${s['pageList-item-active']}`) : s['pageList-item']}
         href={this.props.route}
         onClick={ this.clickHandler }>
         {this.props.children}
@@ -25,4 +28,4 @@ class RouteLink extends React.Component {
 }
 
 
-export default RouteLink;
+export default withStyles(s)(RouteLink);

@@ -1,6 +1,7 @@
 import React from 'react';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import s from './markdown-container.scss';
+import highlight from './atelier-estuary-light.scss';
 
 class MarkdownContainer extends React.Component {
   constructor(props) {
@@ -9,10 +10,10 @@ class MarkdownContainer extends React.Component {
 
   render() {
     return (
-      <div className="markdown-wrapper" dangerouslySetInnerHTML={{ __html: this.props.content }}>
+      <div className={s['markdown-wrapper']} dangerouslySetInnerHTML={{ __html: this.props.content }}>
       </div>
     )
   }
 }
 
-export default withStyles(s)(MarkdownContainer);
+export default withStyles(s, highlight)(MarkdownContainer);

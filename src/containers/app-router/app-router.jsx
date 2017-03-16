@@ -1,11 +1,11 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { fetchPage } from '../actions/active-page';
+import { fetchPage } from '../../actions/active-page';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
-import s from '../scss/base.scss';
+import s from '../../scss/base.scss';
 
-import Drawer from '../components/drawer/drawer';
-import Main from '../components/main/main';
+import Drawer from '../../components/drawer/drawer';
+import Main from '../../components/main/main';
 
 class AppRouter extends React.Component {
   constructor(props) {
@@ -35,7 +35,7 @@ class AppRouter extends React.Component {
     if (this.props.route === page)
       return;
 
-    console.log(`MANUAL SELECT %c${page}`, "color: blue;");
+    console.log(`MANUAL SELECT %c${page}`, "color: darkblue;");
 
     window.history.pushState(null, null, (page));
     return this.onPopstate();
@@ -43,7 +43,7 @@ class AppRouter extends React.Component {
 
 	render() {
     return (
-      <div className="app-container">
+      <div className={s['app-container']}>
         <Drawer selectRoute={this.selectRoute}/>
         <Main />
       </div>

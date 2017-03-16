@@ -7,22 +7,11 @@
   background-color: #fcfcfc;
   overflow: auto;
 }
-
 .content-wrapper {
   min-height: 100%;
-
   display: flex;
   flex-direction: column;
 }
-
-.page-view {
-  flex: 1;
-  padding: 16px;
-}
-.markdown-wrapper {
-  animation: fadeIn 0.4s;
-}
-
 .footer {
   padding: 16px;
   width: 100%;
