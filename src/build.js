@@ -40,35 +40,71 @@ function deleteFolder(folder) {
   }
 };
 
-export const buildArticles = () => {
+function discoverSrcArticles() {
 
   return new Promise((resolve, reject) => {
-
-    deleteFolder(path.join(__public, __articles));
-    fs.mkdirSync(path.join(__public, __articles));
-
     var files = [];
     var walker = walk.walk(path.join(__src, __articles));
-    walker.on("file", function (root, file, next) {
-
-      var absPath = path.join(root, file.name);
-      var content = fs.readFileSync(absPath, 'utf-8');
-      var obj = fm(content);
-      // sanitize (just in case), convert to html & syntax highlight the article body
-      obj.html = marked(DOMPurify.sanitize(obj.body));
-
-      var buildFolder = root.replace(__src, __public);
-      var buildPath = ReplaceExt(absPath.replace(__src, __public), '.json');
-
-      if (!fs.existsSync(buildFolder)) {
-        fs.mkdirSync(buildFolder);
+    walker.on('file', function(root, fileStats, next) {
+      var obj = {
+        name: fileStats.name,
+        parentDirs: root.split(path.sep),
+        path: path.join(root, fileStats.name)
       }
-      fs.writeFile(buildPath, JSON.stringify(obj), 'utf8');
+      files.push(obj);
       next();
     });
-    walker.on("end", function () {
-      console.log('Articles built');
-      resolve();
+    walker.on('end', function() {
+      resolve(files); 
     });
-  })
+  });
 }
+
+function buildParentPath(parentDirs, index) {
+
+  let currPath = '';
+  for (let i = 0; i < (index + 1); i += 1) {
+    currPath = path.join(currPath, parentDirs[i]);
+  }
+  currPath = currPath.replace(__src, __public);
+  return currPath;
+}
+
+function parseAndCreateArticles(files) {
+  files.forEach((file) => {
+    const parentDirs = file.parentDirs;
+    parentDirs.forEach((parentDir, index) => {
+      const tempParentPath = buildParentPath(parentDirs, index);
+      if (!fs.existsSync(tempParentPath)) {
+        fs.mkdirSync(tempParentPath);
+      }
+    });
+    const content = fs.readFileSync(file.path, 'utf-8');
+    const obj = fm(content);
+    // // sanitize (just in case), convert to html & syntax highlight the article body
+    obj.html = DOMPurify.sanitize(marked(obj.body));
+
+    let buildPath = file.path.replace(__src, __public);
+    buildPath = buildPath.replace('.md', '.json');
+    fs.writeFileSync(buildPath, JSON.stringify(obj));
+  });
+}
+
+function buildArticles() {
+  return new Promise((resolve, reject) => {
+    deleteFolder(path.join(__public, __articles));
+    discoverSrcArticles()
+    .then((files) => {
+      // console.log(files);
+      parseAndCreateArticles(files);
+      resolve();
+    })
+    .catch((err) => {
+      reject(err);
+    });
+  });
+}
+
+export default buildArticles;
+
+

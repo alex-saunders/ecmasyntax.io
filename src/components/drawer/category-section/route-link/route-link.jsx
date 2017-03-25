@@ -17,7 +17,7 @@ class RouteLink extends React.Component {
 	render() {
 		return (
       <a
-        className={this.props.active ? (`${s['pageList-item']} ${s['pageList-item-active']}`) : s['pageList-item']}
+        className={this.props.active ? (`${s['pageList-item']} ${s['active']}`) : s['pageList-item']}
         href={this.props.route}
         onClick={ this.clickHandler }>
         {this.props.children}

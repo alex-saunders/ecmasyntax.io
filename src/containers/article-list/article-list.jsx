@@ -8,14 +8,10 @@ import CategorySection from '../../components/drawer/category-section/category-s
 class ArticleList extends React.Component {
   constructor(props) {
     super(props);
-  }
-
-  gotPageList() {
-    console.log('got page list');
-  }
+  };
 
   componentDidMount() {
-    this.props.fetchPageList(this.gotPageList);
+    this.props.fetchPageList();
   }
 
   organisePages = () => {
@@ -31,16 +27,7 @@ class ArticleList extends React.Component {
       pages = this.props.pages;
     }
 
-    var sortedPages = {};
-    pages.forEach((page) => {
-      if (!sortedPages[page.category]) {
-        sortedPages[page.category] = {
-          pages: []
-        }
-      }
-      sortedPages[page.category].pages.push(page);
-    })
-    return this.mapPages(sortedPages);
+    return this.mapPages(pages);
   }
 
   mapPages = (pages) => {

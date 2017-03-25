@@ -20,7 +20,6 @@ export const pageListFetchSuccess = (pageList) => {
 }
 
 export const fetchPageList = () => {
-
 	return (dispatch) => {
 		dispatch(pageListLoading(true));
 		setTimeout(() => {

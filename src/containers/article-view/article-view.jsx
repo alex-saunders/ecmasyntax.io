@@ -1,6 +1,6 @@
 import React from 'react';
 import {connect} from 'react-redux';
-import MarkdownContainer from '../../components/markdown-container/markdown-container.jsx';
+import MarkdownContainer from '../../components/markdown-container/markdown-container';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 
 import s from './article-view.scss';
@@ -34,7 +34,7 @@ class ArticleView extends React.Component {
     if (this.props.activePage) {
       this.state = {
         content: (
-          <MarkdownContainer content={ this.props.activePage.jsx } />
+          <MarkdownContainer content={ this.props.activePage.html } />
         )
       };
     } else {
@@ -86,7 +86,7 @@ class ArticleView extends React.Component {
   _animateIn(nextProps) {
     this.setState({
       content: (
-        <MarkdownContainer content={ nextProps.activePage.jsx } />
+        <MarkdownContainer content={ nextProps.activePage.html } />
       )
     });
 

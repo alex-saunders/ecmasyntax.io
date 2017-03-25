@@ -1,7 +1,7 @@
 import React from 'react';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import s from './markdown-container.scss';
-import highlight from './atelier-estuary-light.scss';
+import highlight from './atelier-estuary-light.css';
 
 class MarkdownContainer extends React.Component {
   constructor(props) {

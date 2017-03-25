@@ -47,7 +47,7 @@ var config = {
         ]
       },
       {
-        test: /\.s?css$/,
+        test: /\.scss$/,
         exclude: /node_modules/,
         use: [
           { loader: 'isomorphic-style-loader' },
@@ -63,6 +63,24 @@ var config = {
             }
           },
           { loader: 'sass-loader' }
+        ]
+      },
+      {
+        test: /\.css$/,
+        exclude: /node_modules/,
+        use: [
+          { loader: 'isomorphic-style-loader' },
+          { loader: 'css-loader' },
+          {
+            loader: 'postcss-loader',
+            options: {
+              plugins: function () {
+                return [
+                  require('autoprefixer')
+                ];
+              }
+            }
+          },
         ]
       }
     ]
@@ -97,7 +115,7 @@ var serverConfig = {
         ]
       },
       {
-        test: /\.s?css$/,
+        test: /\.scss$/,
         exclude: /node_modules/,
         use: [
           { loader: 'isomorphic-style-loader' },
@@ -113,6 +131,24 @@ var serverConfig = {
             }
           },
           { loader: 'sass-loader' }
+        ]
+      },
+      {
+        test: /\.css$/,
+        exclude: /node_modules/,
+        use: [
+          { loader: 'isomorphic-style-loader' },
+          { loader: 'css-loader' },
+          {
+            loader: 'postcss-loader',
+            options: {
+              plugins: function () {
+                return [
+                  require('autoprefixer')
+                ];
+              }
+            }
+          },
         ]
       }
     ]

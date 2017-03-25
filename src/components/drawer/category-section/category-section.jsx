@@ -27,14 +27,13 @@ class CategorySection extends React.Component {
   handleClick = (e) => {
     e.preventDefault();
 
-    this.icon.classList.toggle(s['hidden']);
-    this.linksContainer.classList.toggle(s['hidden']);
+    this.container.classList.toggle(s['hidden']);
   }
 
   render() {
     return (
-      <div className={s['categorySection']}>
-        <a className={s['categorySection-header']} href="#" onClick={this.handleClick} ref={(a) => { this.header = a; }}>
+      <div className={s['categorySection']} ref={(div) => { this.container = div; }}>
+        <a className={s['categorySection-header']} href="#" onClick={this.handleClick}>
           {this.props.category}
           <i className={`material-icons ${s['chevron']}`} ref={(i) => { this.icon = i; }}>keyboard_arrow_down</i>
         </a>

@@ -11,6 +11,6 @@
 
   transition: all .1s linear;
 }
-.pageList-item:hover, .pageList-item-active {
+.pageList-item:hover, .pageList-item.active {
   background-color: $primary-1;
 }
