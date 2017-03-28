@@ -125,30 +125,22 @@ APIRouter.get('/', function(req, res) {
 
 APIRouter.route('/articles').get(function(req, res) {
   var files = [];
-  // var walker = walk.walk(path.join(__dirname, __api));
-  // walker.on("directory", function (root, dirStats, next) {
-  //   // let fileObj = {
-  //   //   name: ReplaceExt(file.name, ''),
-  //   //   route: ReplaceExt((path.join(root, file.name).replace(__dirname, '')), ''),
-  //   //   categories: root.replace(path.join(__dirname, __api), '')
-  //   //                   .trim()
-  //   //                   .split(path.sep)
-  //   //                   .filter((category) => {
-  //   //                     return category.length != 0
-  //   //                   }),
-  //   // }
-  //   // files.push(fileObj);
-  //   console.log(dirStats.name);
-  //   next();
-  // });
-  // walker.on("end", function () {
-  //   res.json(files);
-  // });
-    const tree = dirTree(path.join(__dirname, __api), ['.json']);
-    res.json(tree);
-    console.log(tree);
+  var walker = walk.walk(path.join(__dirname, __api));
+  walker.on("file", function (root, file, next) {
+    if (file.type === 'file') {
+      let fileObj = {
+        category: root.replace(__dirname, '').replace(__api, '').replace(/\//g, ''),
+        name: file.name,
+        route: path.join(root, file.name).replace(__dirname, '')
+      }
+      files.push(fileObj);
+    }
+    next();
+  });
+  walker.on("end", function () {
+    res.json(files)
+  });
 });
-
 
 APIRouter.route('/articles/:dirId?/:pageId').get(function(req, res) {
   var data = fetchPage(req, res, (err, data) => {
@@ -177,10 +169,11 @@ app.use('/', router);
 
 app.use('*', (req, res) => handle404(req, res));
 
-var port = process.env.PORT || 8080;
+var port = process.env.PORT || 3000;
 
 // if (process.env.NODE_ENV === 'production') {
   buildArticles().then(() => {
+    console.log('built articles');
     startServer();
   });
 // } else {

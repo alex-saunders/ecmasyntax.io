@@ -1,10 +1,12 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { fetchPage } from '../../actions/active-page';
+import { toggleDrawer } from '../../actions/utils';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import s from '../../scss/base.scss';
 
 import Drawer from '../../components/drawer/drawer';
+import DrawerToggle from '../../components/drawer/drawer-toggle/drawer-toggle';
 import Main from '../../components/main/main';
 
 class AppRouter extends React.Component {
@@ -38,12 +40,14 @@ class AppRouter extends React.Component {
     console.log(`MANUAL SELECT %c${page}`, "color: darkblue;");
 
     window.history.pushState(null, null, (page));
+    this.props.toggleDrawer(false);
     return this.onPopstate();
   }
 
 	render() {
     return (
       <div className={s['app-container']}>
+        <DrawerToggle />
         <Drawer selectRoute={this.selectRoute}/>
         <Main />
       </div>
@@ -62,6 +66,7 @@ function mapStateToProps(state) {
 function matchDispatchToProps(dispatch) {
   return {
     fetchPage: (url) => dispatch(fetchPage(url)),
+    toggleDrawer: (open) => dispatch(toggleDrawer(open))
   }
 }
 

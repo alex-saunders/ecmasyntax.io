@@ -14,7 +14,7 @@ class ArticleList extends React.Component {
     this.props.fetchPageList();
   }
 
-  organisePages = () => {
+  organisePages() {
     let pages;
     if (this.props.query.length > 0) {
       pages = this.props.pages.filter((page) => {
@@ -27,7 +27,17 @@ class ArticleList extends React.Component {
       pages = this.props.pages;
     }
 
-    return this.mapPages(pages);
+    var sortedPages = {};
+    pages.forEach((page) => {
+      if (!sortedPages[page.category]) {
+        sortedPages[page.category] = {
+          pages: []
+        }
+      }
+      sortedPages[page.category].pages.push(page);
+    })
+
+    return this.mapPages(sortedPages);
   }
 
   mapPages = (pages) => {

@@ -1,7 +1,11 @@
 $primary-1: #fbce13;
 $accent-1: #454444;
 
+$anim-easing: cubic-bezier(0.4, 0, 0.2, 1);
+
 @keyframes fadeIn {
     from { opacity: 0; }
     to { opacity: 1; }
 }
+
+$screen-sm-max: 500px;

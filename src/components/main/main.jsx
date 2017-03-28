@@ -15,10 +15,12 @@ class Main extends React.Component {
 
 		return (
       <main className={s['main']} ref={(main) => { this.main = main; }}>
+        <div className={s['mobileHeader']}></div>
+        <div className={s['progressBar']}></div>
         <div className={s['content-wrapper']}>
           <ArticleView />
           <footer className={s['footer']}>
-          {/*
+            <iframe src="https://ghbtns.com/github-btn.html?user=alex-saunders&repo=ecmasyntax.io&type=star&count=true" frameBorder="0" scrolling="0" width="170px" height="20px"></iframe>          {/*
             <div className="githubButton-container">
               <a className="github-button" href="https://github.com/alex-saunders/ecmasyntax.io" data-icon="octicon-star" data-style="mega" data-count-href="/alex-saunders/ecmasyntax.io/stargazers" data-count-api="/repos/alex-saunders/ecmasyntax.io#stargazers_count" data-count-aria-label="# stargazers on GitHub" aria-label="Star alex-saunders/ecmasyntax.io on GitHub">Star</a>
             </div>

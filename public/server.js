@@ -551,28 +551,21 @@ APIRouter.get('/', function (req, res) {
 
 APIRouter.route('/articles').get(function (req, res) {
   var files = [];
-  // var walker = walk.walk(path.join(__dirname, __api));
-  // walker.on("directory", function (root, dirStats, next) {
-  //   // let fileObj = {
-  //   //   name: ReplaceExt(file.name, ''),
-  //   //   route: ReplaceExt((path.join(root, file.name).replace(__dirname, '')), ''),
-  //   //   categories: root.replace(path.join(__dirname, __api), '')
-  //   //                   .trim()
-  //   //                   .split(path.sep)
-  //   //                   .filter((category) => {
-  //   //                     return category.length != 0
-  //   //                   }),
-  //   // }
-  //   // files.push(fileObj);
-  //   console.log(dirStats.name);
-  //   next();
-  // });
-  // walker.on("end", function () {
-  //   res.json(files);
-  // });
-  var tree = (0, _directoryTree2.default)(_path2.default.join(__dirname, __api), ['.json']);
-  res.json(tree);
-  console.log(tree);
+  var walker = _walk2.default.walk(_path2.default.join(__dirname, __api));
+  walker.on("file", function (root, file, next) {
+    if (file.type === 'file') {
+      var fileObj = {
+        category: root.replace(__dirname, '').replace(__api, '').replace(/\//g, ''),
+        name: file.name,
+        route: _path2.default.join(root, file.name).replace(__dirname, '')
+      };
+      files.push(fileObj);
+    }
+    next();
+  });
+  walker.on("end", function () {
+    res.json(files);
+  });
 });
 
 APIRouter.route('/articles/:dirId?/:pageId').get(function (req, res) {
@@ -603,10 +596,11 @@ app.use('*', function (req, res) {
   return handle404(req, res);
 });
 
-var port = __webpack_require__.i({"NODE_ENV":"development"}).PORT || 8080;
+var port = __webpack_require__.i({"NODE_ENV":"development"}).PORT || 3000;
 
 // if (process.env.NODE_ENV === 'production') {
 (0, _build2.default)().then(function () {
+  console.log('built articles');
   startServer();
 });
 // } else {
@@ -809,6 +803,61 @@ function buildArticles() {
 }
 
 exports.default = buildArticles;
+
+// let specifications = [];
+
+// var client = contentful.createClient({
+//   space: 'ygp49j9ncoqn',
+//   accessToken: '3ff5816ecb76807c88a570e0e7ab89b77ddde9697d29945ca82d60399d6182e8'
+// })
+
+// client.getEntries({
+//     'content_type': 'syntaxEntry',
+//     'include': 2
+// })
+// .then(function (entries) {
+//     storeEntries(entries);
+// })
+// 
+// 
+// function storeEntries(entries) {
+//   entries.items.forEach(function (entry) {
+//     const category = entry.fields.category;
+//     const specification = category.fields.specification[0];
+
+//     let specificationIndex = getSpecificationIndex(specification);
+//     let categoryIndex = getCategoryIndex(specificationIndex, category)
+//     addEntryToCategory(specificationIndex, categoryIndex, entry)
+
+//   })
+//     console.log('specifications\n', specifications);
+// }
+
+// function getSpecificationIndex(specification) {
+//     let matchedSpec = specifications.findIndex(function(spec) {
+//         return (spec.sys.id === specification.sys.id)
+//     })
+//     if (matchedSpec < 0) {
+//         specifications.push(Object.assign({}, specification, { categories: [] }));
+//         matchedSpec = specifications.length - 1;
+//     }
+//     return matchedSpec;
+// }
+
+// function getCategoryIndex(specificationIndex, category) {
+//     let matchedCat = specifications[specificationIndex].categories.findIndex(function(cat) {
+//         return (cat.sys.id === category.sys.id)
+//     })
+//     if (matchedCat < 0) {
+//         specifications[specificationIndex].categories.push(Object.assign({}, category, { entries: [] }));
+//         matchedCat = specifications.length - 1;
+//     }
+//     return matchedCat
+// }
+
+// function addEntryToCategory(specificationIndex, categoryIndex, entry) {
+//     specifications[specificationIndex].categories[categoryIndex].entries.push(entry.fields);
+// }
 
 /***/ }),
 /* 14 */
@@ -1070,6 +1119,10 @@ var _react = __webpack_require__(0);
 
 var _react2 = _interopRequireDefault(_react);
 
+var _reactRedux = __webpack_require__(4);
+
+var _utils = __webpack_require__(59);
+
 var _articleList = __webpack_require__(21);
 
 var _articleList2 = _interopRequireDefault(_articleList);
@@ -1131,76 +1184,171 @@ var Drawer = function (_React$Component) {
       _this.searchContainer.classList.remove(_drawer2.default['non-empty']);
     };
 
+    _this.onTouchStart = function (evt) {
+      if (!_this.drawerContainer.classList.contains(_drawer2.default['active'])) return;
+
+      _this.drawer.classList.add(_drawer2.default['draggable']);
+
+      _this.setState({
+        startX: evt.touches[0].pageX,
+        currentX: _this.startX,
+        touchingSideNav: true
+      });
+
+      requestAnimationFrame(_this.update);
+    };
+
+    _this.onTouchMove = function (evt) {
+
+      if (!_this.state.touchingSideNav) return;
+
+      _this.setState({
+        currentX: evt.touches[0].pageX
+      });
+    };
+
+    _this.onTouchEnd = function (evt) {
+      if (!_this.state.touchingSideNav) return;
+
+      _this.setState({
+        touchingSideNav: false
+      });
+
+      _this.drawer.classList.remove(_drawer2.default['draggable']);
+
+      var translateX = Math.min(0, _this.state.currentX - _this.state.startX);
+      _this.drawer.style.transform = '';
+
+      if (translateX < -60) {
+        _this.props.toggleDrawer(false);
+      }
+    };
+
+    _this.update = function () {
+      if (!_this.state.touchingSideNav) return;
+
+      requestAnimationFrame(_this.update);
+
+      var translateX = Math.min(0, _this.state.currentX - _this.state.startX);
+      _this.drawer.style.transform = 'translateX(' + translateX + 'px)';
+    };
+
+    _this.hideSideNav = function (evt) {
+      if (evt.target.contains(_this.drawer)) {
+        _this.props.toggleDrawer(false);
+      }
+    };
+
     _this.state = {
-      searchQuery: ''
+      searchQuery: '',
+      startX: 0,
+      currentX: 0,
+      touchingSideNav: false
     };
     return _this;
   }
 
   _createClass(Drawer, [{
+    key: 'componentDidMount',
+    value: function componentDidMount() {
+      this.addEventListeners();
+    }
+  }, {
+    key: 'addEventListeners',
+    value: function addEventListeners() {
+      this.drawerContainer.addEventListener('click', this.hideSideNav);
+
+      this.drawer.addEventListener('touchstart', this.onTouchStart, this.applyPassive());
+      this.drawer.addEventListener('touchmove', this.onTouchMove, this.applyPassive());
+      this.drawer.addEventListener('touchend', this.onTouchEnd);
+    }
+  }, {
+    key: 'applyPassive',
+    value: function applyPassive() {
+      if (this.supportsPassive !== undefined) {
+        return this.supportsPassive ? { passive: true } : false;
+      }
+      var isSupported = false;
+      try {
+        document.addEventListener('test', null, { get passive() {
+            isSupported = true;
+          } });
+      } catch (e) {}
+      this.supportsPassive = isSupported;
+      return this.applyPassive();
+    }
+  }, {
     key: 'render',
     value: function render() {
       var _this2 = this;
 
       return _react2.default.createElement(
-        'aside',
-        { className: _drawer2.default['drawer'] },
+        'div',
+        { className: _drawer2.default['drawer-container'] + ' ' + (this.props.drawerOpen ? _drawer2.default['active'] : ''),
+          ref: function ref(div) {
+            _this2.drawerContainer = div;
+          } },
         _react2.default.createElement(
-          'a',
-          { className: _drawer2.default['drawer-logo'], href: '/' },
-          _react2.default.createElement('img', { src: '/static/img/ecmasyntax-logo.png', alt: 'logo' })
-        ),
-        _react2.default.createElement('hr', { className: _drawer2.default['drawer-divider'] }),
-        _react2.default.createElement(
-          'div',
-          { className: _drawer2.default['search-container'] },
+          'aside',
+          { className: _drawer2.default['drawer'], ref: function ref(aside) {
+              _this2.drawer = aside;
+            } },
           _react2.default.createElement(
-            'label',
-            { htmlFor: 'search',
-              className: _drawer2.default['search-label'],
-              onFocus: this.searchFocused,
-              ref: function ref(label) {
-                _this2.searchContainer = label;
-              } },
+            'a',
+            { className: _drawer2.default['drawer-logo'], href: '/' },
+            _react2.default.createElement('img', { src: '/static/img/ecmasyntax-logo.png', alt: 'logo' })
+          ),
+          _react2.default.createElement(
+            'div',
+            { className: _drawer2.default['search-container'] },
             _react2.default.createElement(
-              'button',
-              { className: _drawer2.default['icon-container'], onClick: this.searchIconClick },
+              'label',
+              { htmlFor: 'search',
+                className: _drawer2.default['search-label'],
+                onFocus: this.searchFocused,
+                ref: function ref(label) {
+                  _this2.searchContainer = label;
+                } },
               _react2.default.createElement(
-                'i',
-                { className: 'material-icons ' + _drawer2.default['search-icon'] },
-                'search'
-              )
-            ),
-            _react2.default.createElement('input', { type: 'text', id: 'search', placeholder: 'Search for syntax',
-              value: this.state.searchQuery,
-              className: _drawer2.default['search-input'],
-              onChange: this.handleInput,
-              onBlur: this.searchUnfocused,
-              ref: function ref(input) {
-                _this2.searchInput = input;
-              } }),
-            _react2.default.createElement(
-              'button',
-              { className: _drawer2.default['icon-container'] + ' ' + _drawer2.default['search-closeIcon'], onClick: this.clearInput },
+                'button',
+                { className: _drawer2.default['icon-container'], onClick: this.searchIconClick },
+                _react2.default.createElement(
+                  'i',
+                  { className: 'material-icons ' + _drawer2.default['search-icon'] },
+                  'search'
+                )
+              ),
+              _react2.default.createElement('input', { type: 'text', id: 'search', placeholder: 'Search for syntax',
+                value: this.state.searchQuery,
+                className: _drawer2.default['search-input'],
+                onChange: this.handleInput,
+                onBlur: this.searchUnfocused,
+                ref: function ref(input) {
+                  _this2.searchInput = input;
+                } }),
               _react2.default.createElement(
-                'i',
-                { className: 'material-icons' },
-                'close'
+                'button',
+                { className: _drawer2.default['icon-container'] + ' ' + _drawer2.default['search-closeIcon'], onClick: this.clearInput },
+                _react2.default.createElement(
+                  'i',
+                  { className: 'material-icons' },
+                  'close'
+                )
               )
             )
-          )
-        ),
-        _react2.default.createElement(
-          'div',
-          { className: _drawer2.default['pageList-wrapper'] },
-          _react2.default.createElement(_articleList2.default, {
-            query: this.state.searchQuery,
-            selectRoute: function selectRoute(page) {
-              return _this2.props.selectRoute(page);
-            } })
-        ),
-        _react2.default.createElement('hr', { className: _drawer2.default['drawer-divider'] }),
-        _react2.default.createElement('div', { className: _drawer2.default['drawer-footer'] })
+          ),
+          _react2.default.createElement(
+            'div',
+            { className: _drawer2.default['pageList-wrapper'] },
+            _react2.default.createElement(_articleList2.default, {
+              query: this.state.searchQuery,
+              selectRoute: function selectRoute(page) {
+                return _this2.props.selectRoute(page);
+              } })
+          ),
+          _react2.default.createElement('hr', { className: _drawer2.default['drawer-divider'] }),
+          _react2.default.createElement('div', { className: _drawer2.default['drawer-footer'] })
+        )
       );
     }
   }]);
@@ -1208,7 +1356,21 @@ var Drawer = function (_React$Component) {
   return Drawer;
 }(_react2.default.Component);
 
-exports.default = (0, _withStyles2.default)(_drawer2.default)(Drawer);
+function mapStateToProps(state) {
+  return {
+    drawerOpen: state.utils.drawerOpen
+  };
+}
+
+function matchDispatchToProps(dispatch) {
+  return {
+    toggleDrawer: function toggleDrawer(open) {
+      return dispatch((0, _utils.toggleDrawer)(open));
+    }
+  };
+}
+
+exports.default = (0, _withStyles2.default)(_drawer2.default)((0, _reactRedux.connect)(mapStateToProps, matchDispatchToProps)(Drawer));
 
 /***/ }),
 /* 18 */
@@ -1269,11 +1431,18 @@ var Main = function (_React$Component) {
         { className: _main2.default['main'], ref: function ref(main) {
             _this2.main = main;
           } },
+        _react2.default.createElement('div', { className: _main2.default['mobileHeader'] }),
+        _react2.default.createElement('div', { className: _main2.default['progressBar'] }),
         _react2.default.createElement(
           'div',
           { className: _main2.default['content-wrapper'] },
           _react2.default.createElement(_articleView2.default, null),
-          _react2.default.createElement('footer', { className: _main2.default['footer'] })
+          _react2.default.createElement(
+            'footer',
+            { className: _main2.default['footer'] },
+            _react2.default.createElement('iframe', { src: 'https://ghbtns.com/github-btn.html?user=alex-saunders&repo=ecmasyntax.io&type=star&count=true', frameBorder: '0', scrolling: '0', width: '170px', height: '20px' }),
+            '          '
+          )
         )
       );
     }
@@ -1363,6 +1532,8 @@ var _reactRedux = __webpack_require__(4);
 
 var _activePage = __webpack_require__(5);
 
+var _utils = __webpack_require__(59);
+
 var _withStyles = __webpack_require__(3);
 
 var _withStyles2 = _interopRequireDefault(_withStyles);
@@ -1374,6 +1545,10 @@ var _base2 = _interopRequireDefault(_base);
 var _drawer = __webpack_require__(17);
 
 var _drawer2 = _interopRequireDefault(_drawer);
+
+var _drawerToggle = __webpack_require__(55);
+
+var _drawerToggle2 = _interopRequireDefault(_drawerToggle);
 
 var _main = __webpack_require__(18);
 
@@ -1406,6 +1581,7 @@ var AppRouter = function (_React$Component) {
       console.log('MANUAL SELECT %c' + page, "color: darkblue;");
 
       window.history.pushState(null, null, page);
+      _this.props.toggleDrawer(false);
       return _this.onPopstate();
     };
 
@@ -1436,6 +1612,7 @@ var AppRouter = function (_React$Component) {
       return _react2.default.createElement(
         'div',
         { className: _base2.default['app-container'] },
+        _react2.default.createElement(_drawerToggle2.default, null),
         _react2.default.createElement(_drawer2.default, { selectRoute: this.selectRoute }),
         _react2.default.createElement(_main2.default, null)
       );
@@ -1457,6 +1634,9 @@ function matchDispatchToProps(dispatch) {
   return {
     fetchPage: function fetchPage(url) {
       return dispatch((0, _activePage.fetchPage)(url));
+    },
+    toggleDrawer: function toggleDrawer(open) {
+      return dispatch((0, _utils.toggleDrawer)(open));
     }
   };
 }
@@ -1506,19 +1686,6 @@ var ArticleList = function (_React$Component) {
 
     var _this = _possibleConstructorReturn(this, (ArticleList.__proto__ || Object.getPrototypeOf(ArticleList)).call(this, props));
 
-    _this.organisePages = function () {
-      var pages = void 0;
-      if (_this.props.query.length > 0) {
-        pages = _this.props.pages.filter(function (page) {
-          return page.name.toLowerCase().match(_this.props.query) || page.category.toLowerCase().match(_this.props.query);
-        });
-      } else {
-        pages = _this.props.pages;
-      }
-
-      return _this.mapPages(pages);
-    };
-
     _this.mapPages = function (pages) {
       var output = Object.keys(pages).map(function (category, index) {
         var links = pages[category].pages;
@@ -1538,6 +1705,32 @@ var ArticleList = function (_React$Component) {
     key: 'componentDidMount',
     value: function componentDidMount() {
       this.props.fetchPageList();
+    }
+  }, {
+    key: 'organisePages',
+    value: function organisePages() {
+      var _this2 = this;
+
+      var pages = void 0;
+      if (this.props.query.length > 0) {
+        pages = this.props.pages.filter(function (page) {
+          return page.name.toLowerCase().match(_this2.props.query) || page.category.toLowerCase().match(_this2.props.query);
+        });
+      } else {
+        pages = this.props.pages;
+      }
+
+      var sortedPages = {};
+      pages.forEach(function (page) {
+        if (!sortedPages[page.category]) {
+          sortedPages[page.category] = {
+            pages: []
+          };
+        }
+        sortedPages[page.category].pages.push(page);
+      });
+
+      return this.mapPages(sortedPages);
     }
   }, {
     key: 'render',
@@ -1814,6 +2007,10 @@ Object.defineProperty(exports, "__esModule", {
 
 var _redux = __webpack_require__(8);
 
+var _utils = __webpack_require__(58);
+
+var _utils2 = _interopRequireDefault(_utils);
+
 var _pageList = __webpack_require__(25);
 
 var _pageList2 = _interopRequireDefault(_pageList);
@@ -1825,6 +2022,7 @@ var _activePage2 = _interopRequireDefault(_activePage);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var allReducers = (0, _redux.combineReducers)({
+  utils: _utils2.default,
   pageList: _pageList2.default,
   activePage: _activePage2.default
 });
@@ -1940,11 +2138,14 @@ exports = module.exports = __webpack_require__(1)();
 
 
 // module
-exports.push([module.i, "@-webkit-keyframes drawer_fadeIn_2FE {\n  from {\n    opacity: 0; }\n  to {\n    opacity: 1; } }\n\n@keyframes drawer_fadeIn_2FE {\n  from {\n    opacity: 0; }\n  to {\n    opacity: 1; } }\n\n.drawer_drawer_3d3 {\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-orient: vertical;\n  -webkit-box-direction: normal;\n      -ms-flex-direction: column;\n          flex-direction: column;\n  position: relative;\n  z-index: 99;\n  height: 100vh;\n  width: 90%;\n  max-width: 280px;\n  box-shadow: 0 0 0.5rem rgba(0, 0, 0, 0.1);\n  overflow: hidden; }\n\n.drawer_drawer-logo_28M {\n  display: block;\n  padding: 16px; }\n  .drawer_drawer-logo_28M img {\n    width: 100%;\n    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1); }\n\n.drawer_drawer-divider__tl {\n  border: 1px solid #e6e6e6;\n  border-bottom: none;\n  margin: 0; }\n\n.drawer_search-container_T81 {\n  padding: 18px; }\n\n.drawer_search-label_2Qu {\n  position: relative;\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-orient: horizontal;\n  -webkit-box-direction: normal;\n      -ms-flex-direction: row;\n          flex-direction: row;\n  width: 100%;\n  height: 24px; }\n\n.drawer_search-icon_3Kp {\n  height: 24px;\n  width: 24px;\n  color: #454444;\n  opacity: 0.8;\n  -webkit-transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);\n  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1); }\n\n.drawer_search-closeIcon_1XQ {\n  position: absolute;\n  right: 0;\n  bottom: 2px;\n  visibility: hidden;\n  opacity: 0;\n  -webkit-transform: scale(0);\n          transform: scale(0);\n  -webkit-transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);\n  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1); }\n  .drawer_search-closeIcon_1XQ i {\n    width: 18px;\n    height: 22px;\n    font-size: 18px;\n    line-height: 22px; }\n\n.drawer_search-input_1II {\n  position: relative;\n  bottom: 6px;\n  height: 30px;\n  outline: 0;\n  border: none;\n  -webkit-box-flex: 1;\n      -ms-flex: 1;\n          flex: 1;\n  padding: 4px 22px 4px 4px;\n  border-bottom: 1px solid #454444;\n  overflow: hidden;\n  font-size: 14px; }\n\n.drawer_search-label_2Qu:after {\n  display: block;\n  content: '';\n  position: absolute;\n  bottom: 0;\n  left: 24px;\n  height: 2px;\n  background-color: #454444;\n  width: 10px;\n  visibility: hidden;\n  -webkit-transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);\n  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1); }\n\n.drawer_search-label_2Qu.drawer_focused_Fis .drawer_search-icon_3Kp, .drawer_search-label_2Qu.drawer_non-empty_35T .drawer_search-icon_3Kp {\n  opacity: 1; }\n\n.drawer_search-label_2Qu.drawer_focused_Fis::after {\n  visibility: visible;\n  width: calc(100% - 24px); }\n\n.drawer_search-label_2Qu.drawer_non-empty_35T .drawer_search-closeIcon_1XQ {\n  visibility: visible;\n  opacity: 1;\n  -webkit-transform: scale(1);\n          transform: scale(1); }\n\n.drawer_icon-container_2BX {\n  background: none;\n  border: none;\n  padding: 0;\n  margin: 0;\n  cursor: pointer; }\n\n.drawer_pageList-wrapper_xWh {\n  -webkit-box-flex: 1;\n      -ms-flex: 1;\n          flex: 1;\n  padding: 0px 0px 18px;\n  overflow: auto; }\n\n.drawer_drawer-footer_2Eb {\n  height: 200px;\n  background-color: #fcfcfc; }\n", ""]);
+exports.push([module.i, "@-webkit-keyframes drawer_fadeIn_2FE {\n  from {\n    opacity: 0; }\n  to {\n    opacity: 1; } }\n\n@keyframes drawer_fadeIn_2FE {\n  from {\n    opacity: 0; }\n  to {\n    opacity: 1; } }\n\n.drawer_drawer-container_20C {\n  position: relative;\n  z-index: 99;\n  height: 100vh;\n  width: 40%;\n  max-width: 280px; }\n  @media (max-width: 500px) {\n    .drawer_drawer-container_20C {\n      position: fixed;\n      left: 0;\n      top: 0;\n      width: 100%;\n      max-width: none;\n      height: 100%;\n      overflow: hidden;\n      pointer-events: none; } }\n\n@media (max-width: 500px) {\n  .drawer_drawer-container_20C::after {\n    display: block;\n    content: '';\n    position: absolute;\n    z-index: -1;\n    top: 0;\n    left: 0;\n    width: 100%;\n    height: 100%;\n    background-color: rgba(0, 0, 0, 0.4);\n    opacity: 0;\n    will-change: opacity;\n    -webkit-transition: opacity 0.4s cubic-bezier(0.4, 0, 0.2, 1);\n    transition: opacity 0.4s cubic-bezier(0.4, 0, 0.2, 1); } }\n\n@media (max-width: 500px) {\n  .drawer_drawer-container_20C.drawer_active_ES2 {\n    pointer-events: auto; } }\n\n@media (max-width: 500px) {\n  .drawer_drawer-container_20C.drawer_active_ES2::after {\n    opacity: 1; } }\n\n.drawer_drawer_3d3 {\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-orient: vertical;\n  -webkit-box-direction: normal;\n      -ms-flex-direction: column;\n          flex-direction: column;\n  position: relative;\n  height: 100vh;\n  width: 100%;\n  -webkit-transition: -webkit-transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);\n  transition: -webkit-transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);\n  transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);\n  transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), -webkit-transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);\n  box-shadow: 0px 0 0.2rem rgba(0, 0, 0, 0.2); }\n  @media (max-width: 500px) {\n    .drawer_drawer_3d3 {\n      box-shadow: 2px 0 12px rgba(0, 0, 0, 0.4);\n      left: 0;\n      top: 0;\n      max-width: 400px;\n      width: 80%;\n      -webkit-transform: translateX(-107%);\n              transform: translateX(-107%);\n      will-change: transform; } }\n\n.drawer_drawer_3d3.drawer_draggable_3iq {\n  -webkit-transition: -webkit-transform 0.13s cubic-bezier(0, 0, 0.3, 1);\n  transition: -webkit-transform 0.13s cubic-bezier(0, 0, 0.3, 1);\n  transition: transform 0.13s cubic-bezier(0, 0, 0.3, 1);\n  transition: transform 0.13s cubic-bezier(0, 0, 0.3, 1), -webkit-transform 0.13s cubic-bezier(0, 0, 0.3, 1); }\n\n@media (max-width: 500px) {\n  .drawer_drawer-container_20C.drawer_active_ES2 .drawer_drawer_3d3 {\n    -webkit-transform: translateX(0px);\n            transform: translateX(0px); } }\n\n.drawer_drawer-logo_28M {\n  display: block;\n  background-color: #fff; }\n  .drawer_drawer-logo_28M img {\n    width: 100%;\n    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1); }\n\n.drawer_drawer-divider__tl {\n  border: 1px solid #e6e6e6;\n  border-bottom: none;\n  margin: 0; }\n\n.drawer_search-container_T81 {\n  padding: 18px;\n  background-color: #fff; }\n\n.drawer_search-label_2Qu {\n  position: relative;\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-orient: horizontal;\n  -webkit-box-direction: normal;\n      -ms-flex-direction: row;\n          flex-direction: row;\n  width: 100%;\n  height: 24px; }\n\n.drawer_search-icon_3Kp {\n  height: 24px;\n  width: 24px;\n  color: #454444;\n  opacity: 0.8;\n  -webkit-transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);\n  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1); }\n\n.drawer_search-closeIcon_1XQ {\n  position: absolute;\n  right: 0;\n  bottom: 2px;\n  visibility: hidden;\n  opacity: 0;\n  -webkit-transform: scale(0);\n          transform: scale(0);\n  -webkit-transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);\n  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1); }\n  .drawer_search-closeIcon_1XQ i {\n    width: 18px;\n    height: 22px;\n    font-size: 18px;\n    line-height: 22px; }\n\n.drawer_search-input_1II {\n  position: relative;\n  bottom: 6px;\n  height: 30px;\n  outline: 0;\n  border: none;\n  -webkit-box-flex: 1;\n      -ms-flex: 1;\n          flex: 1;\n  padding: 4px 22px 4px 4px;\n  border-bottom: 1px solid #454444;\n  overflow: hidden;\n  font-size: 14px; }\n\n.drawer_search-label_2Qu:after {\n  display: block;\n  content: '';\n  position: absolute;\n  bottom: 0;\n  left: 24px;\n  height: 2px;\n  background-color: #454444;\n  width: 10px;\n  visibility: hidden;\n  -webkit-transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);\n  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1); }\n\n.drawer_search-label_2Qu.drawer_focused_Fis .drawer_search-icon_3Kp, .drawer_search-label_2Qu.drawer_non-empty_35T .drawer_search-icon_3Kp {\n  opacity: 1; }\n\n.drawer_search-label_2Qu.drawer_focused_Fis::after {\n  visibility: visible;\n  width: calc(100% - 24px); }\n\n.drawer_search-label_2Qu.drawer_non-empty_35T .drawer_search-closeIcon_1XQ {\n  visibility: visible;\n  opacity: 1;\n  -webkit-transform: scale(1);\n          transform: scale(1); }\n\n.drawer_icon-container_2BX {\n  background: none;\n  border: none;\n  padding: 0;\n  margin: 0;\n  cursor: pointer; }\n\n.drawer_pageList-wrapper_xWh {\n  background-color: #fff;\n  -webkit-box-flex: 1;\n      -ms-flex: 1;\n          flex: 1;\n  padding: 0px 0px 18px;\n  overflow: auto; }\n\n.drawer_drawer-footer_2Eb {\n  height: 200px;\n  background-color: #fcfcfc; }\n", ""]);
 
 // exports
 exports.locals = {
+	"drawer-container": "drawer_drawer-container_20C",
+	"active": "drawer_active_ES2",
 	"drawer": "drawer_drawer_3d3",
+	"draggable": "drawer_draggable_3iq",
 	"drawer-logo": "drawer_drawer-logo_28M",
 	"drawer-divider": "drawer_drawer-divider__tl",
 	"search-container": "drawer_search-container_T81",
@@ -1969,11 +2170,13 @@ exports = module.exports = __webpack_require__(1)();
 
 
 // module
-exports.push([module.i, "@-webkit-keyframes main_fadeIn_27_ {\n  from {\n    opacity: 0; }\n  to {\n    opacity: 1; } }\n\n@keyframes main_fadeIn_27_ {\n  from {\n    opacity: 0; }\n  to {\n    opacity: 1; } }\n\n.main_main_2sg {\n  -webkit-box-flex: 1;\n      -ms-flex: 1;\n          flex: 1;\n  min-height: 100vh;\n  border-top: 5px solid #fbce13;\n  background-color: #fcfcfc;\n  overflow: auto; }\n\n.main_content-wrapper_SPa {\n  min-height: 100%;\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-orient: vertical;\n  -webkit-box-direction: normal;\n      -ms-flex-direction: column;\n          flex-direction: column; }\n\n.main_footer_Qhq {\n  padding: 16px;\n  width: 100%;\n  background: #fbce13;\n  box-shadow: 0 0 0.5rem rgba(0, 0, 0, 0.2); }\n  .main_footer_Qhq .main_githubButton-container_1SI {\n    float: right; }\n    .main_footer_Qhq .main_githubButton-container_1SI iframe {\n      float: right; }\n", ""]);
+exports.push([module.i, "@-webkit-keyframes main_fadeIn_27_ {\n  from {\n    opacity: 0; }\n  to {\n    opacity: 1; } }\n\n@keyframes main_fadeIn_27_ {\n  from {\n    opacity: 0; }\n  to {\n    opacity: 1; } }\n\n.main_main_2sg {\n  position: relative;\n  -webkit-box-flex: 1;\n      -ms-flex: 1;\n          flex: 1;\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-orient: vertical;\n  -webkit-box-direction: normal;\n      -ms-flex-direction: column;\n          flex-direction: column;\n  min-height: 100vh;\n  background-color: #fcfcfc;\n  overflow: auto; }\n\n@media (max-width: 500px) {\n  .main_mobileHeader_lU6 {\n    position: fixed;\n    z-index: 97;\n    top: 0;\n    left: 0;\n    width: 100%;\n    background-color: #fff;\n    height: 50px;\n    box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.2); } }\n\n.main_progressBar_yYZ {\n  position: absolute;\n  z-index: 96;\n  top: 0;\n  left: 0;\n  width: 100%;\n  background-color: #fbce13;\n  height: 5px;\n  -webkit-transition: width 0.2s cubic-bezier(0.4, 0, 0.2, 1);\n  transition: width 0.2s cubic-bezier(0.4, 0, 0.2, 1); }\n  @media (max-width: 500px) {\n    .main_progressBar_yYZ {\n      position: fixed;\n      top: 50px; } }\n\n.main_content-wrapper_SPa {\n  -webkit-box-flex: 1;\n      -ms-flex: 1;\n          flex: 1;\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-orient: vertical;\n  -webkit-box-direction: normal;\n      -ms-flex-direction: column;\n          flex-direction: column;\n  padding-top: 5px; }\n  @media (max-width: 500px) {\n    .main_content-wrapper_SPa {\n      padding-top: 50px; } }\n\n.main_footer_Qhq {\n  padding: 16px;\n  width: 100%;\n  background: #fbce13;\n  box-shadow: 0 0 0.5rem rgba(0, 0, 0, 0.2); }\n  .main_footer_Qhq .main_githubButton-container_1SI {\n    float: right; }\n    .main_footer_Qhq .main_githubButton-container_1SI iframe {\n      float: right; }\n", ""]);
 
 // exports
 exports.locals = {
 	"main": "main_main_2sg",
+	"mobileHeader": "main_mobileHeader_lU6",
+	"progressBar": "main_progressBar_yYZ",
 	"content-wrapper": "main_content-wrapper_SPa",
 	"footer": "main_footer_Qhq",
 	"githubButton-container": "main_githubButton-container_1SI",
@@ -2388,6 +2591,194 @@ module.exports = require("react-dom/server");
 
 module.exports = __webpack_require__(11);
 
+
+/***/ }),
+/* 55 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__(0);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _reactRedux = __webpack_require__(4);
+
+var _utils = __webpack_require__(59);
+
+var _withStyles = __webpack_require__(3);
+
+var _withStyles2 = _interopRequireDefault(_withStyles);
+
+var _drawerToggle = __webpack_require__(57);
+
+var _drawerToggle2 = _interopRequireDefault(_drawerToggle);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var DrawerToggle = function (_React$Component) {
+  _inherits(DrawerToggle, _React$Component);
+
+  function DrawerToggle(props) {
+    _classCallCheck(this, DrawerToggle);
+
+    var _this = _possibleConstructorReturn(this, (DrawerToggle.__proto__ || Object.getPrototypeOf(DrawerToggle)).call(this, props));
+
+    _this.openDrawer = function () {
+      _this.props.toggleDrawer(true);
+    };
+
+    return _this;
+  }
+
+  _createClass(DrawerToggle, [{
+    key: 'render',
+    value: function render() {
+      return _react2.default.createElement(
+        'div',
+        { className: _drawerToggle2.default['drawer-toggle'], onClick: this.openDrawer },
+        _react2.default.createElement(
+          'i',
+          { className: 'material-icons' },
+          'menu'
+        )
+      );
+    }
+  }]);
+
+  return DrawerToggle;
+}(_react2.default.Component);
+
+function mapStateToProps(state) {
+  return {
+    drawerOpen: state.utils.drawerOpen
+  };
+}
+
+function matchDispatchToProps(dispatch) {
+  return {
+    toggleDrawer: function toggleDrawer(open) {
+      return dispatch((0, _utils.toggleDrawer)(open));
+    }
+  };
+}
+
+exports.default = (0, _withStyles2.default)(_drawerToggle2.default)((0, _reactRedux.connect)(mapStateToProps, matchDispatchToProps)(DrawerToggle));
+
+/***/ }),
+/* 56 */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(1)();
+// imports
+
+
+// module
+exports.push([module.i, "@-webkit-keyframes drawer-toggle_fadeIn_3jD {\n  from {\n    opacity: 0; }\n  to {\n    opacity: 1; } }\n\n@keyframes drawer-toggle_fadeIn_3jD {\n  from {\n    opacity: 0; }\n  to {\n    opacity: 1; } }\n\n.drawer-toggle_drawer-toggle_Iqd {\n  display: none;\n  position: fixed;\n  z-index: 98;\n  top: 0;\n  left: 0;\n  padding: 10px; }\n  @media (max-width: 500px) {\n    .drawer-toggle_drawer-toggle_Iqd {\n      display: block; } }\n\n.drawer-toggle_drawer-toggle_Iqd i {\n  font-size: 30px;\n  line-height: 30px;\n  color: #3d3d3d; }\n", ""]);
+
+// exports
+exports.locals = {
+	"drawer-toggle": "drawer-toggle_drawer-toggle_Iqd",
+	"fadeIn": "drawer-toggle_fadeIn_3jD"
+};
+
+/***/ }),
+/* 57 */
+/***/ (function(module, exports, __webpack_require__) {
+
+
+    var content = __webpack_require__(56);
+    var insertCss = __webpack_require__(2);
+
+    if (typeof content === 'string') {
+      content = [[module.i, content, '']];
+    }
+
+    module.exports = content.locals || {};
+    module.exports._getContent = function() { return content; };
+    module.exports._getCss = function() { return content.toString(); };
+    module.exports._insertCss = function(options) { return insertCss(content, options) };
+    
+    // Hot Module Replacement
+    // https://webpack.github.io/docs/hot-module-replacement
+    // Only activated in browser context
+    if (false) {
+      var removeCss = function() {};
+      module.hot.accept("!!../../../../node_modules/css-loader/index.js?modules&localIdentName=[name]_[local]_[hash:base64:3]!../../../../node_modules/postcss-loader/index.js??ref--1-2!../../../../node_modules/sass-loader/lib/loader.js!./drawer-toggle.scss", function() {
+        content = require("!!../../../../node_modules/css-loader/index.js?modules&localIdentName=[name]_[local]_[hash:base64:3]!../../../../node_modules/postcss-loader/index.js??ref--1-2!../../../../node_modules/sass-loader/lib/loader.js!./drawer-toggle.scss");
+
+        if (typeof content === 'string') {
+          content = [[module.id, content, '']];
+        }
+
+        removeCss = insertCss(content, { replace: true });
+      });
+      module.hot.dispose(function() { removeCss(); });
+    }
+  
+
+/***/ }),
+/* 58 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+exports.default = function () {
+  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : initialState;
+  var action = arguments[1];
+
+  switch (action.type) {
+    case 'TOGGLE_DRAWER':
+      {
+        return Object.assign({}, state, {
+          drawerOpen: action.payload
+        });
+      }
+    default:
+      {
+        return state;
+      }
+  }
+};
+
+var initialState = {
+  drawerOpen: false
+};
+
+/***/ }),
+/* 59 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+var toggleDrawer = exports.toggleDrawer = function toggleDrawer(bool) {
+	return {
+		type: "TOGGLE_DRAWER",
+		payload: bool
+	};
+};
 
 /***/ })
 /******/ ]);

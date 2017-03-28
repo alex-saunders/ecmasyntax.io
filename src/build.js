@@ -107,4 +107,59 @@ function buildArticles() {
 
 export default buildArticles;
 
+// let specifications = [];
+
+// var client = contentful.createClient({
+//   space: 'ygp49j9ncoqn',
+//   accessToken: '3ff5816ecb76807c88a570e0e7ab89b77ddde9697d29945ca82d60399d6182e8'
+// })
+
+// client.getEntries({
+//     'content_type': 'syntaxEntry',
+//     'include': 2
+// })
+// .then(function (entries) {
+//     storeEntries(entries);
+// })
+// 
+// 
+// function storeEntries(entries) {
+//   entries.items.forEach(function (entry) {
+//     const category = entry.fields.category;
+//     const specification = category.fields.specification[0];
+
+//     let specificationIndex = getSpecificationIndex(specification);
+//     let categoryIndex = getCategoryIndex(specificationIndex, category)
+//     addEntryToCategory(specificationIndex, categoryIndex, entry)
+
+//   })
+//     console.log('specifications\n', specifications);
+// }
+
+// function getSpecificationIndex(specification) {
+//     let matchedSpec = specifications.findIndex(function(spec) {
+//         return (spec.sys.id === specification.sys.id)
+//     })
+//     if (matchedSpec < 0) {
+//         specifications.push(Object.assign({}, specification, { categories: [] }));
+//         matchedSpec = specifications.length - 1;
+//     }
+//     return matchedSpec;
+// }
+
+// function getCategoryIndex(specificationIndex, category) {
+//     let matchedCat = specifications[specificationIndex].categories.findIndex(function(cat) {
+//         return (cat.sys.id === category.sys.id)
+//     })
+//     if (matchedCat < 0) {
+//         specifications[specificationIndex].categories.push(Object.assign({}, category, { entries: [] }));
+//         matchedCat = specifications.length - 1;
+//     }
+//     return matchedCat
+// }
+
+// function addEntryToCategory(specificationIndex, categoryIndex, entry) {
+//     specifications[specificationIndex].categories[categoryIndex].entries.push(entry.fields);
+// }
+
 
