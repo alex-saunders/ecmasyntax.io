@@ -8,8 +8,8 @@
     "webpackWatch": "NODE_ENV=development webpack --watch",
     "webpackBuild": "NODE_ENV=production webpack --progress -p",
     "dev": "npm run webpackWatch",
-    "build": "npm run webpackBuild && npm start",
-    "start": "node public/server.js --ignore public/static --ignore src/"
+    "start": "npm run webpackBuild && npm server",
+    "server": "node public/server.js --ignore public/static --ignore src/"
   },
   "author": "Alex Saunders",
   "license": "MIT",
