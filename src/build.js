@@ -8,7 +8,8 @@ import marked from 'marked';
 import createDOMPurify from 'dompurify';
 import jsdom from 'jsdom';
 import highlightJS from 'highlight.js';
-import contentful from 'contentful';
+
+const contentful = require('contentful')
 
 const window = jsdom.jsdom('', {
   features: {
