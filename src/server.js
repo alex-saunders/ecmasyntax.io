@@ -8,7 +8,7 @@ import ReplaceExt from 'replace-ext';
 import { createStore } from 'redux';
 import { renderToString, renderToStaticMarkup } from 'react-dom/server'
 import allReducers from "./reducers";
-import App from './components/App';
+import App from './components/app';
 import { Provider } from 'react-redux';
 import dirTree from 'directory-tree';
 
