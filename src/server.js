@@ -26,11 +26,6 @@ let preloadedState = {};
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
-function startServer() {
-  app.listen(app.get('port'));
-  console.log(`server listening on port ${app.get('port')} in ${process.env.NODE_ENV} mode`);
-}
-
 function fetchPage(req, res, callback) {
   let filePath = path.join(__dirname, __api, (req.params.dirId ? req.params.dirId : ''), req.params.pageId);
   filePath = ReplaceExt(filePath, '.json');
@@ -181,7 +176,8 @@ app.use('*', (req, res) => handle404(req, res));
       entries: articles,
     }
     preloadedState = Object.assign({}, preloadedState, { pageList: pages });
-    startServer();
+    app.listen(app.get('port'));
+    console.log(`server listening on port ${app.get('port')} in ${process.env.NODE_ENV} mode`);
   });
 // } else {
 //   startServer();
