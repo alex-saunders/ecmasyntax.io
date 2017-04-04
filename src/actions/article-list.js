@@ -19,6 +19,13 @@ export const pageListFetchSuccess = (pageList) => {
 	};
 }
 
+export const pageListQuery = (query) => {
+  return {
+    type: "PAGELIST_QUERY",
+    payload: query,
+  };
+};
+
 export const fetchPageList = () => {
 	return (dispatch) => {
 		dispatch(pageListLoading(true));

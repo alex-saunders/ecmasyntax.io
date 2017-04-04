@@ -1,7 +1,7 @@
 # ecmasytax.io
 SPA for ECMAScript syntax reference
 
-Made using React & React-Redux. React Server side rendering & critical path CSS enabled.
+Made using React & React-Redux. Features React Server side rendering w/ critical path CSS.
 
 ## Install
 1. `npm i`
@@ -13,9 +13,9 @@ Made using React & React-Redux. React Server side rendering & critical path CSS 
 2. Navigate to [localhost:8080](http://localhost:8080/)
 
 ## Build
-1. Add markdown files to the src/articles folder using front matter style seen in other files in this folder
-2. `npm run build`
-3. navigate to [localhost:8080](http://localhost:8080/)
+
+1. `npm run build`
+2. navigate to [localhost:8080](http://localhost:8080/)
 
 
 ### License

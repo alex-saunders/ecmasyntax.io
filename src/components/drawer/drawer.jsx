@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { toggleDrawer } from '../../actions/utils';
+import { pageListQuery } from '../../actions/article-list';
 import ArticleList from '../../containers/article-list/article-list';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import s from './drawer.scss';
@@ -15,6 +16,8 @@ class Drawer extends React.Component {
       currentX: 0,
       touchingSideNav: false
     };
+
+    this.props.pageListQuery('');
   }
 
   componentDidMount() {
@@ -37,7 +40,7 @@ class Drawer extends React.Component {
 
   handleInput = (e) => {
     this.setState({
-      searchQuery: e.target.value
+      searchQuery: e.target.value,
     });
 
     if (e.target.value.length > 0) {
@@ -45,6 +48,9 @@ class Drawer extends React.Component {
     } else {
       this.searchContainer.classList.remove(s['non-empty']);
     }
+
+    this.props.pageListQuery(e.target.value);
+
   }
 
   clearInput = (e) => {
@@ -53,6 +59,8 @@ class Drawer extends React.Component {
     });
     this.searchContainer.click();
     this.searchContainer.classList.remove(s['non-empty']);
+
+    this.props.pageListQuery('');
   }
 
   addEventListeners () {
@@ -168,7 +176,6 @@ class Drawer extends React.Component {
           </div>
           <div className={s['pageList-wrapper']}>
             <ArticleList
-              query={this.state.searchQuery}
               selectRoute={(page) => this.props.selectRoute(page)}/>
           </div>
           <hr className={s['drawer-divider']}/>
@@ -191,6 +198,7 @@ function mapStateToProps(state) {
 function matchDispatchToProps(dispatch) {
   return {
     toggleDrawer: (open) => dispatch(toggleDrawer(open)),
+    pageListQuery: (query) => dispatch(pageListQuery(query)),
   }
 }
 

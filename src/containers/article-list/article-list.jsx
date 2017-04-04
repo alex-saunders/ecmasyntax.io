@@ -11,40 +11,18 @@ class ArticleList extends React.Component {
   };
 
   componentDidMount() {
-    this.props.fetchPageList();
   }
 
   organisePages() {
-    let pages;
-    if (this.props.query.length > 0) {
-      pages = this.props.pages.filter((page) => {
-          return (
-            page.name.toLowerCase().match( this.props.query ) ||
-            page.category.toLowerCase().match( this.props.query )
-          );
-      });
-    } else {
-      pages = this.props.pages;
-    }
-
-    var sortedPages = {};
-    pages.forEach((page) => {
-      if (!sortedPages[page.category]) {
-        sortedPages[page.category] = {
-          pages: []
-        }
-      }
-      sortedPages[page.category].pages.push(page);
-    })
-
-    return this.mapPages(sortedPages);
+    let pages = this.props.activePages;
+    console.log('ACTIVE PAGES', pages);
+    return this.mapPages(pages);
   }
 
-  mapPages = (pages) => {
-    let output = Object.keys(pages).map((category, index) => {
-      let links = pages[category].pages;
+  mapPages = (activePages) => {
+    let output = activePages.map((category, index) => {
       return (
-        <CategorySection key={index} category={category} links={links} activeRoute={this.props.activeRoute} selectRoute={this.selectRoute}/>
+        <CategorySection key={index} category={category} activeRoute={this.props.activeRoute} selectRoute={this.selectRoute}/>
       )
     });
     return output;
@@ -63,27 +41,35 @@ class ArticleList extends React.Component {
         return (<p></p>);
     }
 
-		return (
-      <div className="pageList">
-        { this.organisePages() }
-      </div>
+    if (this.props.activePages) {
+      return (
+        <div className="pageList">
+          { this.props.activePages.length > 0 ? this.organisePages() : <p>No Results</p> }
+        </div>
+      )
+    }
+
+    return (
+      <p>No Results</p>
     )
 	}
 
 }
 
 function mapStateToProps(state) {
+  const { pages, searchText } = state.pageList;
 	return {
     hasErrored: state.pageList.pageListError,
     isLoading: state.pageList.pageListLoading,
-		pages: state.pageList.pages,
+		pageList: state.pageList.pages,
+    activePages: state.pageList.activePages,
     activeRoute: state.activePage.route
 	};
 }
 
 function matchDispatchToProps(dispatch) {
   return {
-    fetchPageList: () => dispatch(fetchPageList())
+    fetchPageList: () => dispatch(fetchPageList()),
   }
 }
 

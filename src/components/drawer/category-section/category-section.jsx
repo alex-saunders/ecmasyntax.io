@@ -10,15 +10,13 @@ class CategorySection extends React.Component {
   }
 
   mapLinks() {
-    return this.props.links.map((page, index) => {
+// active={(this.props.activeRoute ? this.props.activeRoute : null) === page.route}
+    return this.props.category.entries.map((entry, index) => {
       return (
         <RouteLink
           key={index}
-          active={(this.props.activeRoute ? this.props.activeRoute : null) === page.route}
-          route={page.route}
-          category={page.category}
           selectRoute={ this.props.selectRoute }>
-          {page.name}
+          {entry.name}
         </RouteLink>
       )
     })
@@ -34,7 +32,7 @@ class CategorySection extends React.Component {
     return (
       <div className={s['categorySection']} ref={(div) => { this.container = div; }}>
         <a className={s['categorySection-header']} href="#" onClick={this.handleClick}>
-          {this.props.category}
+          {this.props.category.fields.name}
           <i className={`material-icons ${s['chevron']}`} ref={(i) => { this.icon = i; }}>keyboard_arrow_down</i>
         </a>
         <div className={s['categorySection-body']} ref={(div) => { this.linksContainer = div; }}>

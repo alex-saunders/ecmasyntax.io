@@ -30,6 +30,7 @@ class AppRouter extends React.Component {
   // route change function
   onPopstate = () => {
     const path = window.location.pathname;
+    console.log('here');
     this.props.fetchPage(path);
   }
 
@@ -41,6 +42,7 @@ class AppRouter extends React.Component {
 
     window.history.pushState(null, null, (page));
     this.props.toggleDrawer(false);
+
     return this.onPopstate();
   }
 

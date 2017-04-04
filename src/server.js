@@ -19,6 +19,8 @@ var __dirname = 'public';
 
 var app = express();
 
+let preloadedState = {};
+
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
@@ -35,7 +37,7 @@ function fetchPage(req, res, callback) {
   });
 }
 
-function handleRender(req, res, preloadedState) {
+function handleRender(req, res) {
 
   const store = createStore(allReducers, preloadedState);
 
@@ -91,20 +93,21 @@ router.route('/articles/:dirId?/:pageId').get(function(req, res) {
       handle404(req, res);
     }
     else {
-      let preloadedState = {
+      const preloadedActivePage = {
         activePage: {
           article: data,
-          route: req.url
-        }
-      }
-      handleRender(req, res, preloadedState);
+          route: req.url,
+        },
+      };
+      preloadedState = Object.assign({}, preloadedState, preloadedActivePage);
+      handleRender(req, res);
     }
   });
 });
 
 // no page deep linked (homepage)
 router.get('', function(req, res) {
-  handleRender(req, res, {});
+  handleRender(req, res);
 });
 
 router.get('*', (req, res) => handle404(req, res));
@@ -172,8 +175,12 @@ app.use('*', (req, res) => handle404(req, res));
 var port = process.env.PORT || 3000;
 
 // if (process.env.NODE_ENV === 'production') {
-  buildArticles().then(() => {
-    console.log('built articles');
+  buildArticles().then((articles) => {
+    console.log('built articles', articles);
+    const pages = {
+      entries: articles,
+    }
+    preloadedState = Object.assign({}, preloadedState, { pageList: pages });
     startServer();
   });
 // } else {
