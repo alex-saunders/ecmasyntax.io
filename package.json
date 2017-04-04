@@ -29,7 +29,8 @@
     "redux": "^3.6.0",
     "redux-logger": "^2.8.1",
     "redux-thunk": "^2.2.0",
-    "walk": "^2.3.9"
+    "walk": "^2.3.9",
+    "webpack": "^2.2.1",
   },
   "devDependencies": {
     "autoprefixer": "^6.7.6",
@@ -57,7 +58,6 @@
     "replace-ext": "^1.0.0",
     "sass-loader": "^6.0.2",
     "style-loader": "^0.13.2",
-    "webpack": "^2.2.1",
     "webpack-node-externals": "^1.5.4"
   },
   "babel": {
