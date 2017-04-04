@@ -24,6 +24,8 @@ let preloadedState = {};
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
+app.set('port', (process.env.PORT || 5000));
+
 function startServer() {
   app.listen(app.get('port'));
   console.log(`server listening on port ${app.get('port')} in ${process.env.NODE_ENV} mode`);
@@ -171,8 +173,6 @@ app.use('/api', APIRouter);
 app.use('/', router);
 
 app.use('*', (req, res) => handle404(req, res));
-
-app.set('port', (process.env.PORT || 5000));
 
 // if (process.env.NODE_ENV === 'production') {
   buildArticles().then((articles) => {
