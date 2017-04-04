@@ -8,7 +8,7 @@
     "webpackWatch": "NODE_ENV=development webpack --watch",
     "webpackBuild": "NODE_ENV=production webpack --progress -p",
     "dev": "npm run webpackWatch",
-    "start": "npm run webpackBuild && npm server",
+    "start": "npm run webpackBuild && npm run server",
     "server": "node public/server.js --ignore public/static --ignore src/"
   },
   "author": "Alex Saunders",
