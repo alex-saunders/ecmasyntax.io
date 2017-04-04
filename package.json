@@ -14,6 +14,8 @@
   "author": "Alex Saunders",
   "license": "MIT",
   "dependencies": {
+    "babel-cli": "^6.24.0",
+    "babel-plugin-transform-inline-environment-variables": "0.0.2",
     "babel-polyfill": "^6.23.0",
     "babel-preset-react": "^6.23.0",
     "babel-preset-stage-0": "^6.22.0",
@@ -65,6 +67,9 @@
       "es2015",
       "stage-0",
       "react"
+    ],
+    "plugins": [
+      "transform-inline-environment-variables"
     ]
   }
 }
