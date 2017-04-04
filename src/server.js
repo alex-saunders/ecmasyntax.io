@@ -25,8 +25,8 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
 function startServer() {
-  app.listen(port);
-  console.log(`server listening on port ${port} in ${process.env.NODE_ENV} mode`);
+  app.listen(app.get('port'));
+  console.log(`server listening on port ${app.get('port')} in ${process.env.NODE_ENV} mode`);
 }
 
 function fetchPage(req, res, callback) {
@@ -172,7 +172,7 @@ app.use('/', router);
 
 app.use('*', (req, res) => handle404(req, res));
 
-var port = process.env.PORT || 3000;
+app.set('port', (process.env.PORT || 5000));
 
 // if (process.env.NODE_ENV === 'production') {
   buildArticles().then((articles) => {
