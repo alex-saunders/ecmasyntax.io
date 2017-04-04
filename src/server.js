@@ -19,12 +19,12 @@ var __dirname = 'public';
 
 var app = express();
 
+app.set('port', (process.env.PORT || 5000));
+
 let preloadedState = {};
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
-
-app.set('port', (process.env.PORT || 5000));
 
 function startServer() {
   app.listen(app.get('port'));
