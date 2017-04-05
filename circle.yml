@@ -3,6 +3,10 @@ deployment:
     branch: master
     heroku:
       appname: ecmasyntax
+  integration:
+    branch: integration
+    commands: 
+      - heroku restart
 
 test:
   override:
