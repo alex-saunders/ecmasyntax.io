@@ -1,4 +1,6 @@
 # ecmasytax.io
+[![CircleCI](https://circleci.com/gh/alex-saunders/ecmasyntax.io.svg?style=shield)](https://circleci.com/gh/alex-saunders/ecmasyntax.io)
+
 SPA for ECMAScript syntax reference
 
 Made using React & React-Redux. Features React Server side rendering w/ critical path CSS.
