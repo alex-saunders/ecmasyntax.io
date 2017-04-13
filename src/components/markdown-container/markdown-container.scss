@@ -58,7 +58,11 @@
 
   a {
     text-decoration: none;
-    color: #0366d6;
+    color: $primary-2;
+  }
+
+  img {
+    max-width: 100%;
   }
 
 }

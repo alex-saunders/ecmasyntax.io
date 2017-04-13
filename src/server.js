@@ -1,184 +1,271 @@
 import path from 'path';
 import walk from 'walk';
 import express from 'express';
-import fs from 'fs';
 import bodyParser from 'body-parser';
 import React from 'react';
-import ReplaceExt from 'replace-ext';
 import { createStore } from 'redux';
-import { renderToString, renderToStaticMarkup } from 'react-dom/server'
-import allReducers from "./reducers";
-import App from './components/app';
+import { renderToString } from 'react-dom/server';
 import { Provider } from 'react-redux';
-import dirTree from 'directory-tree';
+import marked from 'marked';
+import createDOMPurify from 'dompurify';
+import jsdom from 'jsdom';
+import allReducers from './reducers';
+import App from './components/app';
 
-import buildArticles from './build';
+const contentful = require('contentful');
+const highlightjs = require('highlight.js');
 
-const __api = 'articles';
-var __dirname = 'public';
+class Server {
+  constructor() {
+    this.app = express();
+    this.port = 5000;
+    this.router = express.Router();
+    this.APIRouter = express.Router();
 
-var app = express();
+    this.__api = 'articles';
+    this.__dirname = 'public';
 
-app.set('port', (process.env.PORT || 5000));
+    this.client = contentful.createClient({
+      space: 'ygp49j9ncoqn',
+      accessToken: '3ff5816ecb76807c88a570e0e7ab89b77ddde9697d29945ca82d60399d6182e8',
+    });
 
-let preloadedState = {};
+    marked.setOptions({
+      highlight: (code) => { return highlightjs.highlightAuto(code).value; },
+    });
+    const window = jsdom.jsdom('', {
+      features: {
+        FetchExternalResources: false,
+        ProcessExternalResources: false,
+      },
+    }).defaultView;
+    this.DOMPurify = createDOMPurify(window);
 
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(bodyParser.json());
+    this.preloadedState = {
+      activePage: {
+        page: null,
+        route: null,
+        pageIsLoading: false,
+        pageHasErrored: false,
+      },
+      utils: {
+        drawerOpen: false,
+      },
+      pageList: {
+        entries: [],
+        activePages: [],
+        filters: [],
+        query: '',
+      },
+    };
 
-function fetchPage(req, res, callback) {
-  let filePath = path.join(__dirname, __api, (req.params.dirId ? req.params.dirId : ''), req.params.pageId);
-  filePath = ReplaceExt(filePath, '.json');
-  fs.readFile(filePath, 'utf8', (err, data) => {
-    return callback(err, data ? JSON.parse(data) : data);
-  });
-}
+    this.app.set('port', (process.env.PORT || 5000));
+    this.app.use(bodyParser.urlencoded({ extended: true }));
+    this.app.use(bodyParser.json());
+  }
 
-function handleRender(req, res) {
+  _fetchPage(req) {
+    const spec = decodeURI(req.params.specId);
+    const cat = decodeURI(req.params.catId);
+    const pageName = decodeURI(req.params.pageId);
 
-  const store = createStore(allReducers, preloadedState);
+    return new Promise((resolve, reject) => {
+      const index = this.preloadedState.pageList.entries.findIndex((page) => {
+        const category = page.fields.category;
+        const specification = category.fields.specification[0];
 
-  const css = new Set(); // CSS for all rendered React components
-  const context = { insertCss: (...styles) => styles.forEach(style => css.add(style._getCss())) };
-  const html = renderToString(
+        return ((page.fields.name === pageName) &&
+                (category.fields.name === cat) &&
+                (specification.fields.name === spec));
+      });
+      if (index > -1) {
+        resolve(this.preloadedState.pageList.entries[index]);
+      } else {
+        reject();
+      }
+    });
+  }
+
+  _handleRender(req, res, state = this.preloadedState) {
+    const store = createStore(allReducers, state);
+
+    const css = new Set(); // CSS for all rendered React components
+    const context = { insertCss: (...styles) => { styles.forEach((style) => { css.add(style._getCss()); }); } };
+    const html = renderToString(
       <Provider store={store}>
-          <App context={context}></App>
-      </Provider>
-  );
+        <App context={context} />
+      </Provider>,
+    );
+    const title = state.activePage.page ? `ECMASyntax - ${state.activePage.page.fields.name}` : 'ECMASyntax';
+    const response = `
+      <!doctype html>
+      <html>
+        <head>
+          <meta charset="utf-8">
+          <meta http-equiv="x-ua-compatible" content="ie=edge">
+          <meta name="viewport" content="width=device-width, initial-scale=1">
+          <title>${title}</title>
+          <style>
+            ${[...css].join('')}
+          </style>
+        </head>
+        <body>
+          <div id="root">${html}</div>
+          <script>
+            window.__PRELOADED_STATE__ = ${JSON.stringify(state).replace(/</g, '\\u003c')}
+          </script>
+          <script src="/static/app.js" async></script>
+        </body>
+      </html>
+      `;
+    res.send(response);
+  }
 
-  const title = preloadedState.activePage ? preloadedState.activePage.article.attributes.title : 'ECMASyntax.io'
-  const response = `
-    <!doctype html>
-    <html>
-      <head>
-        <meta charset="utf-8">
-        <meta http-equiv="x-ua-compatible" content="ie=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>${title}</title>
-        <style>
-          ${[...css].join('')}
-        </style>
-      </head>
-      <body>
-        <div id="root">${html}</div>
-        <script>
-          window.__PRELOADED_STATE__ = ${JSON.stringify(preloadedState).replace(/</g, '\\u003c')}
-        </script>
-        <script src="/static/app.js" async></script>
-      </body>
-    </html>
-    `
-  res.send(response);
-}
+  static handle404(req, res) {
+    res.status(404).send('404 Page');
+  }
 
-function handle404(req, res) {
-  res.status(404).send('404 Page');
-}
+  _setupRoutes() {
+    this.router.use((req, res, next) => {
+      next();
+    });
 
-const router = express.Router();
+    this.router.route('/:specId/:catId/:pageId').get((req, res) => {
+      this._fetchPage(req)
+      .then((entry) => {
+        const newPreloadedState = {
+          activePage: {
+            page: entry,
+            route: req.url,
+            pageIsLoading: false,
+            pageHasErrored: false,
+          },
+        };
+        const state = Object.assign({}, this.preloadedState, newPreloadedState);
+        this._handleRender(req, res, state);
+      })
+      .catch(() => {
+        Server.handle404(req, res);
+      });
+    });
 
-// middleware used for all non-api requests
-router.use(function(req, res, next) {
-  // console.log('request made.');
-  next();
-});
+    this.router.get('/', (req, res) => {
+      this._handleRender(req, res);
+    });
 
-// page deep linked
-router.route('/articles/:dirId?/:pageId').get(function(req, res) {
-  fetchPage(req, res, (err, data) => {
-    if (err) {
-      handle404(req, res);
+    this.router.get('*', (req, res) => Server.handle404(req, res));
+  }
+
+  _setupAPIRoutes() {
+    this.APIRouter.use((req, res, next) => {
+      next();
+    });
+
+    this.APIRouter.get('/', (req, res) => {
+      res.json({
+        message: 'Welcome to my api',
+      });
+    });
+
+    this.APIRouter.route('/articles').get((req, res) => {
+      const files = [];
+      const walker = walk.walk(path.join(this.__dirname, this.__api));
+      walker.on('file', function (root, file, next) {
+        if (file.type === 'file') {
+          const fileObj = {
+            category: root.replace(this.__dirname, '').replace(this.__api, '').replace(/\//g, ''),
+            name: file.name,
+            route: path.join(root, file.name).replace(this.__dirname, ''),
+          };
+          files.push(fileObj);
+        }
+        next();
+      });
+      walker.on('end', () => {
+        res.json(files);
+      });
+    });
+
+    this.APIRouter.route('/articles/:specId/:catId/:pageId').get((req, res) => {
+      this._fetchPage(req, res)
+      .then((entry) => {
+        res.status(200).json(entry);
+      })
+      .catch(() => {
+        Server.handle404(req, res);
+      });
+    });
+  }
+
+  _initCompression() {
+    if (process.env.NODE_ENV === 'production') {
+      this.app.get('*.js', (req, res, next) => {
+        req.url += '.gz';
+        res.set('Content-Encoding', 'gzip');
+        next();
+      });
     }
-    else {
-      const preloadedActivePage = {
-        activePage: {
-          article: data,
-          route: req.url,
+  }
+
+  _setupRouters() {
+    this._setupRoutes();
+    this._setupAPIRoutes();
+
+    this.app.use('/static', express.static(path.join(this.__dirname, 'static')));
+
+    this.app.use('/api', this.APIRouter);
+
+    this.app.use('/', this.router);
+
+    this.app.use('*', (req, res) => Server.handle404(req, res));
+  }
+
+  _buildArticles() {
+    return new Promise((resolve, reject) => {
+      this.client.getEntries({
+        content_type: 'syntaxEntry',
+        include: 2,
+      })
+      .then((entries) => {
+        const markedEntries = entries;
+        entries.items.forEach((item, index) => {
+          if (item.fields.blob) {
+            const html = marked(item.fields.blob);
+            markedEntries.items[index].fields.blob = html;
+          } else {
+            markedEntries.items[index].fields.blob = '';
+          }
+        });
+        resolve(markedEntries);
+      })
+      .catch((err) => {
+        reject(err);
+      });
+    });
+  }
+
+  start() {
+    this._initCompression();
+    this._setupRouters();
+
+    this._buildArticles().then((articles) => {
+      const initialLoadedState = {
+        pageList: {
+          entries: articles.items,
+          filters: [],
+          query: '',
+          activePages: articles.items,
         },
       };
-      preloadedState = Object.assign({}, preloadedState, preloadedActivePage);
-      handleRender(req, res);
-    }
-  });
-});
-
-// no page deep linked (homepage)
-router.get('', function(req, res) {
-  handleRender(req, res);
-});
-
-router.get('*', (req, res) => handle404(req, res));
-
-var APIRouter = express.Router();
-
-// middleware used for all API requests
-APIRouter.use(function(req, res, next) {
-  // console.log('api request made.');
-  next();
-});
-
-APIRouter.get('/', function(req, res) {
-  res.json({
-    message: 'Welcome to my api'
-  });
-});
-
-APIRouter.route('/articles').get(function(req, res) {
-  var files = [];
-  var walker = walk.walk(path.join(__dirname, __api));
-  walker.on("file", function (root, file, next) {
-    if (file.type === 'file') {
-      let fileObj = {
-        category: root.replace(__dirname, '').replace(__api, '').replace(/\//g, ''),
-        name: file.name,
-        route: path.join(root, file.name).replace(__dirname, '')
-      }
-      files.push(fileObj);
-    }
-    next();
-  });
-  walker.on("end", function () {
-    res.json(files)
-  });
-});
-
-APIRouter.route('/articles/:dirId?/:pageId').get(function(req, res) {
-  var data = fetchPage(req, res, (err, data) => {
-    if (err) {
-      handle404(req, res);
-    }
-    else {
-      res.status(200).json(data)
-    }
-  });
-})
-
-if (process.env.NODE_ENV === 'production') {
-  app.get('*.js', (req, res, next) => {
-    req.url = req.url + '.gz';
-    res.set('Content-Encoding', 'gzip');
-    next();
-  })
+      this.preloadedState = Object.assign({}, this.preloadedState, initialLoadedState);
+      this.app.listen(this.app.get('port'));
+      console.log(`server listening on port ${this.app.get('port')} in ${process.env.NODE_ENV} mode`);
+    })
+    .catch((err) => {
+      throw err;
+    });
+  }
 }
 
-app.use('/static', express.static(path.join(__dirname, 'static')));
-
-app.use('/api', APIRouter);
-
-app.use('/', router);
-
-app.use('*', (req, res) => handle404(req, res));
-
-// if (process.env.NODE_ENV === 'production') {
-  buildArticles().then((articles) => {
-    console.log('built articles', articles);
-    const pages = {
-      entries: articles,
-    }
-    preloadedState = Object.assign({}, preloadedState, { pageList: pages });
-    app.listen(app.get('port'));
-    console.log(`server listening on port ${app.get('port')} in ${process.env.NODE_ENV} mode`);
-  });
-// } else {
-//   startServer();
-// }
+const server = new Server();
+server.start();

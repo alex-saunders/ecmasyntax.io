@@ -1,8 +1,9 @@
 const initialState = {
-  pageListError: false,
-  pageListLoading: false,
+  entries: [],
+  activePages: [],
+  filters: [],
+  query: 'prom',
 };
-let activePages;
 
 export default function (state = initialState, action) {
   switch (action.type) {
@@ -28,30 +29,39 @@ export default function (state = initialState, action) {
       );
     }
     case 'PAGELIST_QUERY': {
-      const query = action.payload.trim().toLowerCase();
-      const syntaxEntries = state.entries.items;
-      let matchedEntries = syntaxEntries;
-      if (query.length > 0) {
-        matchedEntries = syntaxEntries.filter((entry) => {
-          return ((entry.fields.name.trim().toLowerCase().match(query)) ||
-            (entry.fields.category.fields.name.trim().toLowerCase().match(query)));
-        });
-      }
-      storeEntries(matchedEntries);
-      console.log(matchedEntries);
-
+      let activePages = filterPages(state.filters, state.entries);
       return Object.assign({}, state,
         {
-          activePages: activePages,
+          query: action.payload,
+          activePages: queryPages(action.payload, activePages),
         }
       );
     }
-
     case 'ADD_FILTER': {
+      let activePages = queryPages(state.query, state.entries);
+      let newFilters = state.filters;
+      newFilters.push(action.payload);      
+
+      return Object.assign({}, state,
+        {
+          activePages: filterPages(newFilters, activePages),
+          filters: newFilters
+        }
+      )
 
     }
     case 'REMOVE_FILTER': {
+      let filter = action.payload;
+      let newFilters = state.filters;
+      let activePages = queryPages(state.query, state.entries);
+      newFilters.splice(newFilters.indexOf(filter), 1);
 
+      return Object.assign({}, state, 
+        {
+          activePages: filterPages(newFilters, activePages),
+          filters: newFilters
+        }
+      )
     }
     default: {
       return state;
@@ -59,43 +69,24 @@ export default function (state = initialState, action) {
   }
 }
 
-function getCategoryIndex(category) {
-  let matchedCat = activePages.findIndex((cat) => {
-    return (cat.sys.id === category.sys.id);
-  });
-  if (matchedCat < 0) {
-    activePages.push(Object.assign({}, category, { entries: [] }));
-    matchedCat = activePages.length - 1;
+function queryPages(query, pages) {
+  const syntaxEntries = pages;
+  let matchedEntries = syntaxEntries;
+  if (query.length > 0) {
+    matchedEntries = syntaxEntries.filter((entry) => {
+      return ((entry.fields.name.trim().toLowerCase().match(query)) ||
+        (entry.fields.category.fields.name.trim().toLowerCase().match(query)));
+    });
   }
-  return matchedCat;
+  return matchedEntries;
 }
 
-// function getCategoryIndex(specificationIndex, category) {
-//   let matchedCat = specifications[specificationIndex].categories.findIndex((cat) => {
-//     return (cat.sys.id === category.sys.id);
-//   });
-//   console.log('MATCHED CAT', matchedCat);
-//   if (matchedCat < 0) {
-//     specifications[specificationIndex]
-//       .categories.push(Object.assign({}, category, { entries: [] }));
-//     matchedCat = specifications[specificationIndex].categories.length - 1;
-//   }
-//   return matchedCat;
-// }
-
-function addEntryToCategory(categoryIndex, entry) {
-  activePages[categoryIndex].entries.push(entry.fields);
-}
-
-function storeEntries(entries) {
-  activePages = [];
-  entries.forEach((entry) => {
-    const category = entry.fields.category;
-    // const specification = category.fields.specification[0];
-
-    // const specificationIndex = getSpecificationIndex(specification);
-    const categoryIndex = getCategoryIndex(category);
-
-    addEntryToCategory(categoryIndex, entry);
-  });
+function filterPages(filters, pages) {
+  let filteredPages = pages;
+  if (filters.length > 0) {
+    filteredPages = pages.filter((page) => {
+      return filters.includes(page.fields.category.fields.specification[0].fields.name);
+    });
+  }
+  return filteredPages;
 }

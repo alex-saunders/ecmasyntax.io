@@ -1,8 +1,9 @@
 const initialState = {
+  page: null,
+  route: null,
   pageIsLoading: false,
   pageHasErrored: false,
-  route: null
-}
+};
 
 export default function (state = initialState, action) {
   switch (action.type) {
@@ -23,7 +24,7 @@ export default function (state = initialState, action) {
     case 'PAGE_FETCH_SUCCESS': {
       return Object.assign({}, state,
         {
-          article: action.payload
+          page: action.payload
         }
       );
     }

@@ -12,38 +12,56 @@ import Main from '../../components/main/main';
 class AppRouter extends React.Component {
   constructor(props) {
     super(props);
+
+    this.state = {
+      activeRoute: this.props.activeRoute,
+    }
+
+    if (this.props.activeRoute) {
+      console.log(`DEEP LINKED TO %c${this.props.activeRoute}`, "color: blue");
+    }
   }
 
   componentDidMount() {
     window.addEventListener('popstate', this.onPopstate);
-
-    if (this.props.route) {
-      // route set from url
-      console.log(`DEEP LINKED TO %c${this.props.route}`, "color: blue");
-    }
   }
 
   componentWillUnmount() {
     window.removeEventListener('popstate', this.onPopstate);
   }
 
+  componentDidUpdate(prevProps, prevState) {
+    if (prevState.activeRoute !== this.state.activeRoute) {
+      return this.onPopstate();
+    }
+  }
+
   // route change function
   onPopstate = () => {
-    const path = window.location.pathname;
-    console.log('here');
-    this.props.fetchPage(path);
+    // temp fix
+    if (location.pathname === '/') {
+      location.reload();
+    } else {
+      this.props.fetchPage(location.pathname);
+    }
   }
 
   selectRoute = (page) => {
-    if (this.props.route === page)
+    let category = page.fields.category;
+    let specification = category.fields.specification[0];
+    let route = `/${specification.fields.name}/${category.fields.name}/${page.fields.name}`;
+
+    if (this.props.activeRoute === route)
       return;
+
+    window.history.pushState(null, null, (route));
 
     console.log(`MANUAL SELECT %c${page}`, "color: darkblue;");
 
-    window.history.pushState(null, null, (page));
     this.props.toggleDrawer(false);
-
+    
     return this.onPopstate();
+
   }
 
 	render() {
@@ -59,7 +77,8 @@ class AppRouter extends React.Component {
 
 function mapStateToProps(state) {
 	return {
-    route: state.activePage.route,
+    activePage: state.activePage.page,
+    activeRoute: state.activePage.route,
     hasErrored: state.activePage.pageListError,
     isLoading: state.activePage.pageListLoading,
 	};

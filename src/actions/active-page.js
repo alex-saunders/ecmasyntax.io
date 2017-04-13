@@ -26,13 +26,19 @@ export const setActiveRoute  = (page) => {
 	};
 }
 
-export const fetchPage = (page) => {
+export const setActivePage = (page) => {
+	return {
+		type: "ACTIVE_PAGE",
+		payload: page
+	}
+}
+
+export const fetchPage = (route) => {
 	return (dispatch) => {
 		dispatch(pageIsLoading(true));
 		dispatch(pageFetchError(false));
 		setTimeout(() => {
-
-			fetch(`/api${page}`)
+			fetch(`/api/articles${route}`)
 			.then((response) => {
 				if (!response.ok) {
 					throw Error(response.statusText);
@@ -43,8 +49,8 @@ export const fetchPage = (page) => {
 			.then((response) => response.json())
 			.then((response) => {
 				dispatch(pageFetchSuccess(response));
-				dispatch(setActiveRoute(page));
-				document.title = response.attributes.title;
+				dispatch(setActiveRoute(route));
+				document.title = `ECMASyntax - ${response.fields.name}`;
 			})
 			.catch((err) => {
 				console.log('ERROR', err);

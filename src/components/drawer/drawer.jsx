@@ -2,7 +2,8 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { toggleDrawer } from '../../actions/utils';
 import { pageListQuery } from '../../actions/article-list';
-import ArticleList from '../../containers/article-list/article-list';
+import ArticleFilters from '../../containers/article-filters/article-filters';
+import SearchResults from '../../containers/search-results/search-results';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import s from './drawer.scss';
 
@@ -11,19 +12,16 @@ class Drawer extends React.Component {
     super(props);
 
     this.state = {
-      searchQuery: '',
       startX: 0,
       currentX: 0,
       touchingSideNav: false
     };
 
-    this.props.pageListQuery('');
   }
 
   componentDidMount() {
     this.addEventListeners();
   }
-  
 
   searchIconClick = () => {
     this.searchInput.focus();
@@ -39,10 +37,6 @@ class Drawer extends React.Component {
   }
 
   handleInput = (e) => {
-    this.setState({
-      searchQuery: e.target.value,
-    });
-
     if (e.target.value.length > 0) {
       this.searchContainer.classList.add(s['non-empty']);
     } else {
@@ -50,13 +44,9 @@ class Drawer extends React.Component {
     }
 
     this.props.pageListQuery(e.target.value);
-
   }
 
   clearInput = (e) => {
-    this.setState({
-      searchQuery: ''
-    });
     this.searchContainer.click();
     this.searchContainer.classList.remove(s['non-empty']);
 
@@ -163,7 +153,7 @@ class Drawer extends React.Component {
               </button>
 
               <input type="text" id="search" placeholder="Search for syntax"
-                value={this.state.searchQuery}
+                value={this.props.searchQuery}
                 className={s['search-input']}
                 onChange={this.handleInput}
                 onBlur={this.searchUnfocused}
@@ -174,8 +164,15 @@ class Drawer extends React.Component {
               </button>
             </label>
           </div>
+          { this.props.activePages.length > 0 ? 
+          <div className={s['articleFilters-wrapper']}>
+            <ArticleFilters />
+          </div>
+          :
+          ''}
+          {/*<hr className={s['drawer-divider']}/>*/}
           <div className={s['pageList-wrapper']}>
-            <ArticleList
+            <SearchResults
               selectRoute={(page) => this.props.selectRoute(page)}/>
           </div>
           <hr className={s['drawer-divider']}/>
@@ -191,7 +188,9 @@ class Drawer extends React.Component {
 
 function mapStateToProps(state) {
 	return {
+    searchQuery: state.pageList.query,
     drawerOpen: state.utils.drawerOpen,
+    activePages: state.pageList.activePages,
 	};
 }
 

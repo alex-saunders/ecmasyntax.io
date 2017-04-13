@@ -34,7 +34,7 @@ class ArticleView extends React.Component {
     if (this.props.activePage) {
       this.state = {
         content: (
-          <MarkdownContainer content={ this.props.activePage.html } />
+          <MarkdownContainer content={ this.props.activePage.fields.blob } />
         )
       };
     } else {
@@ -48,7 +48,7 @@ class ArticleView extends React.Component {
     if (nextProps.isLoading) {
       this._out(nextProps.activePage);
     }
-    if (!nextProps.isLoading && !nextProps.hasErrored) {
+    if (!nextProps.isLoading && !nextProps.hasErrored && (nextProps.activePage !== this.props.activePage)) {
       this._in(nextProps)
     }
   }
@@ -63,11 +63,7 @@ class ArticleView extends React.Component {
       ANIM_OPTIONS
     )
     this.outAnim.onfinish = _ => {
-      this.setState({
-        content: (
-          <div>loading</div>
-        )
-      })
+      this.pageContainer.style.opacity = 0;
       this.ANIMATING_OUT = false;
     }
   }
@@ -86,9 +82,11 @@ class ArticleView extends React.Component {
   _animateIn(nextProps) {
     this.setState({
       content: (
-        <MarkdownContainer content={ nextProps.activePage.html } />
+        <MarkdownContainer content={ nextProps.activePage.fields.blob } />
       )
     });
+
+    this.pageContainer.style.opacity = 1;
 
     this.inAnim = this.pageContainer.animate(
       IN_KEYFRAMES,
@@ -111,7 +109,8 @@ class ArticleView extends React.Component {
 
 function mapStateToProps(state) {
 	return {
-    activePage: state.activePage.article,
+    activePageInfo: state.activePage,
+    activePage: state.activePage.page,
     hasErrored: state.activePage.hasErrored,
     isLoading: state.activePage.isLoading
 	};

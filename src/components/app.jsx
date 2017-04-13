@@ -8,6 +8,10 @@ const ContextType = {
 
 class App extends React.Component {
 
+	constructor(props) {
+		super(props);
+	}
+
 	static propTypes = {
     context: PropTypes.shape(ContextType).isRequired,
   };
@@ -20,7 +24,7 @@ class App extends React.Component {
 
 	render() {
 		return (
-		  <AppRouter />
+			<AppRouter />
 		)
 	}
 }

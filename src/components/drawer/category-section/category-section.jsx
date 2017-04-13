@@ -14,9 +14,11 @@ class CategorySection extends React.Component {
     return this.props.category.entries.map((entry, index) => {
       return (
         <RouteLink
+          page={entry}
           key={index}
+          activePage={this.props.activePage}
           selectRoute={ this.props.selectRoute }>
-          {entry.name}
+          {entry.fields.name}
         </RouteLink>
       )
     })

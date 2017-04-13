@@ -1,6 +1,6 @@
 const initialState = {
-  drawerOpen: false
-}
+  drawerOpen: false,
+};
 
 export default function (state = initialState, action) {
   switch (action.type) {
