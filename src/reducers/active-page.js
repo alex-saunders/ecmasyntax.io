@@ -10,29 +10,29 @@ export default function (state = initialState, action) {
     case 'PAGE_ERROR': {
       return Object.assign({}, state,
         {
-          hasErrored: action.payload
-        }
+          hasErrored: action.payload,
+        },
       );
     }
     case 'PAGE_LOADING': {
       return Object.assign({}, state,
         {
-          isLoading: action.payload
-        }
+          isLoading: action.payload,
+        },
       );
     }
     case 'PAGE_FETCH_SUCCESS': {
       return Object.assign({}, state,
         {
-          page: action.payload
-        }
+          page: action.payload,
+        },
       );
     }
     case 'ACTIVE_ROUTE': {
       return Object.assign({}, state,
         {
-          route: action.payload
-        }
+          route: action.payload,
+        },
       );
     }
     default: {

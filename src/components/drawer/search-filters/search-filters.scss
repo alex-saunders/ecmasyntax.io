@@ -1,0 +1,52 @@
+@import '../../../scss/theme';
+
+.articleFilters {
+  width: 100%;
+  padding: 8px 0px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.54);
+}
+
+.articleFilters-header {
+  position: relative;
+  display: block;
+  text-decoration: none;
+  height: 40px;
+  padding: 0px 16px;
+  margin: 0; 
+  user-select: none;
+  cursor: pointer;
+
+  span {
+    float: left;
+    color: #fff;
+    font-size: 14px;
+    text-transform: uppercase;
+    line-height: 40px;
+    font-weight: 400;
+  }
+
+  .articleFilters-expandIcon {
+    float: right;
+    color: #fff;
+    line-height: 40px;
+    transition: transform 0.2s ease-in;
+  }
+
+}
+
+.articleFilters-body {
+  animation: fadeIn 0.6s 1;
+}
+
+.articleFilters.hidden {
+
+  .articleFilters-header {
+
+    .articleFilters-expandIcon {
+      transform: rotate(-180deg);
+    }
+  }
+  .articleFilters-body {
+    display: none;
+  }
+}

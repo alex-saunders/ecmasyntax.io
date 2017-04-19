@@ -1,0 +1,86 @@
+@import '../../../../scss/theme';
+
+.articleFilter {
+  display: block;
+  padding: 2px 8px;
+  // border: 1px solid $accent-1;
+  color: #fff;
+  transition: all 0.1s linear;
+  cursor: pointer;
+}
+
+.articleFilter:hover, .articleFilter.active {
+  // border: 1px solid $primary-1;
+  // background-color: $primary-1;
+}
+
+.rkmd-checkbox {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  height: 32px;
+  color: #fff;
+  font-size: 14px;
+  padding: 0px 16px 0px 32px;
+  transition: background-color 0.1s linear;
+
+  .input-checkbox {
+    position: relative;
+    display: inline-block;
+    width: 24px;
+    height: 24px;
+    text-align: center;
+    vertical-align: -9px;
+    top: 50%;
+    transform: translateY(-50%);
+
+    input[type="checkbox"] {
+      visibility: hidden;
+      margin: 0;
+      padding: 0;
+      outline: none;
+      cursor: pointer;
+      opacity: 0;
+
+      & + .checkbox:before {
+        position: absolute;
+        left: 0px;
+        width: 24px;
+        height: 24px;
+        font-family: 'Material Icons';
+        font-weight: normal;
+        font-style: normal;
+        font-size: 24px;
+        line-height: 1;
+        text-transform: none;
+        letter-spacing: normal;
+        word-wrap: normal;
+        white-space: nowrap;
+        direction: ltr;
+        vertical-align: -6px;
+        transition: all .2s ease;
+        z-index: 1;
+      }
+
+      & + .checkbox:before { content: "\e835"; color: rgba(255, 255, 255, 0.9); }
+
+      &:checked + .checkbox:before { content: "\e834"; }
+
+      &:active:not(:disabled) + .checkbox:before { transform: scale3d(0.88, 0.88, 1); }
+
+      &:disabled + .checkbox:before { color: #fff !important; }
+    }
+  }
+
+  label, .label { cursor: pointer; }
+
+  .label {
+    flex: 1;
+    line-height: 32px;
+    user-select: none;
+  }
+}
+
+.rkmd-checkbox:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+}

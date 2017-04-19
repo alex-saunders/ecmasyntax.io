@@ -15,8 +15,8 @@ const context = {
   // Enables critical path CSS rendering
   // https://github.com/kriasoft/isomorphic-style-loader
   insertCss: (...styles) => {
-    const removeCss = styles.map((x) => { x._insertCss(); });
-    return () => { removeCss.forEach((f) => { f(); }); };
+    const removeCss = styles.map(x => x._insertCss());
+    return () => { removeCss.forEach(f => f()); };
   },
 };
 

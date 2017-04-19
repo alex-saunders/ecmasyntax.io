@@ -1,12 +1,12 @@
 import { combineReducers } from 'redux';
 import UtilReducer from './utils';
-import PageListReducer from './page-list';
+import SearchReducer from './search';
 import ActivePageReducer from './active-page';
 
 const allReducers = combineReducers(
   {
     utils: UtilReducer,
-    pageList: PageListReducer,
+    pageList: SearchReducer,
     activePage: ActivePageReducer
   }
 );

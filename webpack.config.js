@@ -10,7 +10,7 @@ var clientPlugins = [
     }
   })
 ]
-if (process.env.NODE_ENV === 'production') {
+// if (process.env.NODE_ENV === 'production') {
   clientPlugins.push(
     new CompressionPlugin({
       asset: "[path].gz[query]",
@@ -20,7 +20,7 @@ if (process.env.NODE_ENV === 'production') {
       minRatio: 0.8
     })
   );
-}
+// }
 
 var config = {
   entry: './src/client.jsx',
@@ -30,7 +30,7 @@ var config = {
     filename: 'app.js'
   },
   resolve: {
-    extensions: ['.js', '.jsx', '.json', '.scss']
+    extensions: ['.js', '.jsx', '.json', '.scss', '.css']
   },
   module : {
     loaders : [
@@ -67,7 +67,6 @@ var config = {
       },
       {
         test: /\.css$/,
-        exclude: /node_modules/,
         use: [
           { loader: 'isomorphic-style-loader' },
           { loader: 'css-loader' },
@@ -135,7 +134,6 @@ var serverConfig = {
       },
       {
         test: /\.css$/,
-        exclude: /node_modules/,
         use: [
           { loader: 'isomorphic-style-loader' },
           { loader: 'css-loader' },
@@ -161,7 +159,7 @@ var serverConfig = {
     })
   ],
   resolve: {
-    extensions: ['.js', '.jsx', '.json', '.scss'],
+    extensions: ['.js', '.jsx', '.json', '.scss', '.css'],
   }
 };
 

@@ -1,0 +1,17 @@
+@import '../../../../../scss/theme';
+
+
+.pageList-item {
+  display: block;
+  position: relative;
+  text-decoration: none;
+  color: #fff;
+  padding: 0px 8px 0px 32px;
+  cursor: pointer;
+  line-height: 32px;
+
+  transition: all .1s linear;
+}
+.pageList-item:hover, .pageList-item.active {
+  background-color: rgba(255, 255, 255, 0.2);
+}

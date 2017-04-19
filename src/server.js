@@ -1,5 +1,4 @@
 import path from 'path';
-import walk from 'walk';
 import express from 'express';
 import bodyParser from 'body-parser';
 import React from 'react';
@@ -25,7 +24,7 @@ class Server {
     this.__api = 'articles';
     this.__dirname = 'public';
 
-    this.client = contentful.createClient({
+    this.contentfulClient = contentful.createClient({
       space: 'ygp49j9ncoqn',
       accessToken: '3ff5816ecb76807c88a570e0e7ab89b77ddde9697d29945ca82d60399d6182e8',
     });
@@ -109,6 +108,13 @@ class Server {
             ${[...css].join('')}
           </style>
         </head>
+        <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+        <script>
+          (adsbygoogle = window.adsbygoogle || []).push({
+            google_ad_client: "ca-pub-9442776377103990",
+            enable_page_level_ads: true
+          });
+        </script>
         <body>
           <div id="root">${html}</div>
           <script>
@@ -168,22 +174,7 @@ class Server {
     });
 
     this.APIRouter.route('/articles').get((req, res) => {
-      const files = [];
-      const walker = walk.walk(path.join(this.__dirname, this.__api));
-      walker.on('file', function (root, file, next) {
-        if (file.type === 'file') {
-          const fileObj = {
-            category: root.replace(this.__dirname, '').replace(this.__api, '').replace(/\//g, ''),
-            name: file.name,
-            route: path.join(root, file.name).replace(this.__dirname, ''),
-          };
-          files.push(fileObj);
-        }
-        next();
-      });
-      walker.on('end', () => {
-        res.json(files);
-      });
+      // TODO
     });
 
     this.APIRouter.route('/articles/:specId/:catId/:pageId').get((req, res) => {
@@ -198,13 +189,13 @@ class Server {
   }
 
   _initCompression() {
-    if (process.env.NODE_ENV === 'production') {
+    // if (process.env.NODE_ENV === 'production') {
       this.app.get('*.js', (req, res, next) => {
         req.url += '.gz';
         res.set('Content-Encoding', 'gzip');
         next();
       });
-    }
+    // }
   }
 
   _setupRouters() {
@@ -217,12 +208,12 @@ class Server {
 
     this.app.use('/', this.router);
 
-    this.app.use('*', (req, res) => Server.handle404(req, res));
+    this.app.use('*', (req, res) => { Server.handle404(req, res); });
   }
 
   _buildArticles() {
     return new Promise((resolve, reject) => {
-      this.client.getEntries({
+      this.contentfulClient.getEntries({
         content_type: 'syntaxEntry',
         include: 2,
       })

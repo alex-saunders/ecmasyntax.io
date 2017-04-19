@@ -5,9 +5,9 @@ import { toggleDrawer } from '../../actions/utils';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import s from '../../scss/base.scss';
 
-import Drawer from '../../components/drawer/drawer';
+import Drawer from '../drawer/drawer';
 import DrawerToggle from '../../components/drawer/drawer-toggle/drawer-toggle';
-import Main from '../../components/main/main';
+import Main from '../main/main';
 
 class AppRouter extends React.Component {
   constructor(props) {
@@ -67,7 +67,9 @@ class AppRouter extends React.Component {
 	render() {
     return (
       <div className={s['app-container']}>
-        <DrawerToggle />
+        <DrawerToggle
+           drawerOpen={this.props.drawerOpen}
+           toggleDrawer={this.props.toggleDrawer}/>
         <Drawer selectRoute={this.selectRoute}/>
         <Main />
       </div>
@@ -81,6 +83,7 @@ function mapStateToProps(state) {
     activeRoute: state.activePage.route,
     hasErrored: state.activePage.pageListError,
     isLoading: state.activePage.pageListLoading,
+    drawerOpen: state.utils.drawerOpen,
 	};
 }
 

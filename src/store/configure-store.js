@@ -7,16 +7,16 @@ import allReducers from '../reducers';
 const preloadedState = window.__PRELOADED_STATE__
 
 // Allow the passed state to be garbage-collected
-delete window.__PRELOADED_STATE__
+delete window.__PRELOADED_STATE__;
 
-let middleware = [ thunk ];
+let middleware = [thunk];
 if (process.env.NODE_ENV !== 'production') {
   const logger = createLogger({
     collapsed: true,
     duration: false,
     diff: true
   });
-  middleware = [ ...middleware, logger ];
+  middleware = [...middleware, logger];
 }
 
 export default function configureStore() {
