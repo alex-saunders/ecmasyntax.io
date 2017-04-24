@@ -24,9 +24,10 @@ class Server {
     this.__api = 'articles';
     this.__dirname = 'public';
 
+    // test api keys, will be replaced with environment vars when time comes to prodouctionise
     this.contentfulClient = contentful.createClient({
-      space: process.env.CONTENTFUL_SPACE,
-      accessToken: process.env.CONTENTFUL_TOKEN,
+      space: "ygp49j9ncoqn",
+      accessToken: "3ff5816ecb76807c88a570e0e7ab89b77ddde9697d29945ca82d60399d6182e8",
     });
 
     marked.setOptions({
