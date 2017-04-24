@@ -4,6 +4,7 @@ import { toggleDrawer } from '../../actions/utils';
 import { search, addFilter, removeFilter } from '../../actions/search';
 import SearchFilters from '../../components/drawer/search-filters/search-filters';
 import SearchResults from '../../components/drawer/search-results/search-results';
+import Ad from '../../components/drawer/adsense/adsense';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import s from './drawer.scss';
 
@@ -16,6 +17,8 @@ class Drawer extends React.Component {
       currentX: 0,
       touchingSideNav: false
     };
+
+    this.DRAG_THRESHOLD = -30;
   }
 
   componentDidMount() {
@@ -113,7 +116,7 @@ class Drawer extends React.Component {
     const translateX = Math.min(0, this.state.currentX - this.state.startX);
     this.drawer.style.transform = '';
 
-    if (translateX < -60) {
+    if (translateX < this.DRAG_THRESHOLD) {
       this.props.toggleDrawer(false);
     }
   }
@@ -182,7 +185,7 @@ class Drawer extends React.Component {
               />
           </div>
           <div className={s['drawer-footer']}>
-
+            {/*<Ad />*/}
           </div>
         </aside>
       </div>

@@ -9,6 +9,7 @@
 
   @media (max-width: $screen-sm-max) {
     position: fixed;
+    z-index: 101;
     left: 0;
     top: 0;
     width: 100%;

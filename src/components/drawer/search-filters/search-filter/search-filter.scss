@@ -1,5 +1,16 @@
 @import '../../../../scss/theme';
 
+@keyframes flyIn {
+    from { 
+      opacity: 0; 
+      transform: translateY(-20px);
+    }
+    to { 
+      opacity: 1; 
+      transform: none;
+    }
+}
+
 .articleFilter {
   display: block;
   padding: 2px 8px;
@@ -14,7 +25,12 @@
   // background-color: $primary-1;
 }
 
+.searchFilter-container {
+  position: relative;
+}
+
 .rkmd-checkbox {
+  position: relative;
   display: flex;
   flex-direction: row;
   width: 100%;
@@ -22,7 +38,9 @@
   color: #fff;
   font-size: 14px;
   padding: 0px 16px 0px 32px;
+  // cursor: pointer;
   transition: background-color 0.1s linear;
+  animation: flyIn 0.6s 1;
 
   .input-checkbox {
     position: relative;
@@ -78,6 +96,7 @@
     flex: 1;
     line-height: 32px;
     user-select: none;
+    -webkit-tap-highlight-color: transparent;
   }
 }
 

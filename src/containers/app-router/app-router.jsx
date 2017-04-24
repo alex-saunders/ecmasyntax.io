@@ -6,7 +6,6 @@ import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import s from '../../scss/base.scss';
 
 import Drawer from '../drawer/drawer';
-import DrawerToggle from '../../components/drawer/drawer-toggle/drawer-toggle';
 import Main from '../main/main';
 
 class AppRouter extends React.Component {
@@ -67,9 +66,6 @@ class AppRouter extends React.Component {
 	render() {
     return (
       <div className={s['app-container']}>
-        <DrawerToggle
-           drawerOpen={this.props.drawerOpen}
-           toggleDrawer={this.props.toggleDrawer}/>
         <Drawer selectRoute={this.selectRoute}/>
         <Main />
       </div>

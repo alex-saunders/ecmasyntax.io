@@ -1,0 +1,35 @@
+@import '../../../scss/theme';
+
+.header {
+    position: relative;
+    padding: 16px;
+    z-index: 100;
+    width: 100%;
+    background-color: $primary-1;
+    box-shadow: 0px 2px 4px rgba(0,0,0,0.2);
+}
+
+.toggle-container {
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 48px;
+}
+
+.title {
+    display: block;
+    width: 100%;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    color: #fff;
+    font-size: 20px;
+    
+    @media (max-width: $screen-sm-max) {
+        padding-left: 32px;
+    }
+}

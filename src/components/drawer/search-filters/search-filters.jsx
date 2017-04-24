@@ -38,15 +38,14 @@ class ArticleFilters extends React.Component {
 
   render() {
     return (
-      <div className={s["articleFilters"]} ref={(div) => { this.container = div; }}>
-        <Ripple>
-          <h1 className={s["articleFilters-header"]} onClick={this.handleClick}>
-            <span>
-            Filter By Specification
-            </span>
-            <i className={`material-icons ${s['articleFilters-expandIcon']}`}>keyboard_arrow_down</i>
-          </h1>
-        </Ripple>
+      <div className={`${s.articleFilters} ${s.hidden}`} ref={(div) => { this.container = div; }}>
+        <h1 className={s["articleFilters-header"]} onClick={this.handleClick}>
+          <span>
+          Filter By Specification
+          </span>
+          <i className={`material-icons ${s['articleFilters-expandIcon']}`}>keyboard_arrow_down</i>
+          <Ripple />
+        </h1>
         <div className={s["articleFilters-body"]}>
           { this.mapFilters() }
         </div>

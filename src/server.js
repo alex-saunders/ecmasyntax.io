@@ -8,6 +8,7 @@ import { Provider } from 'react-redux';
 import marked from 'marked';
 import createDOMPurify from 'dompurify';
 import jsdom from 'jsdom';
+import { CONTENTFUL_SPACE, CONTENTFUL_TOKEN } from '../env.js';
 import allReducers from './reducers';
 import App from './components/app';
 
@@ -25,8 +26,8 @@ class Server {
     this.__dirname = 'public';
 
     this.contentfulClient = contentful.createClient({
-      space: 'ygp49j9ncoqn',
-      accessToken: '3ff5816ecb76807c88a570e0e7ab89b77ddde9697d29945ca82d60399d6182e8',
+      space: CONTENTFUL_SPACE,
+      accessToken: CONTENTFUL_TOKEN,
     });
 
     marked.setOptions({
@@ -107,14 +108,8 @@ class Server {
           <style>
             ${[...css].join('')}
           </style>
+          <link rel="stylesheet" href="/static/font-awesome-4.7.0/css/font-awesome.min.css">
         </head>
-        <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-        <script>
-          (adsbygoogle = window.adsbygoogle || []).push({
-            google_ad_client: "ca-pub-9442776377103990",
-            enable_page_level_ads: true
-          });
-        </script>
         <body>
           <div id="root">${html}</div>
           <script>

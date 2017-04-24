@@ -27,15 +27,17 @@ class ArticleFilter extends React.Component {
 
   render() {
     return (
-      <Ripple>
-        <div className={`${s["rkmd-checkbox"]}`} >
-          <label htmlFor={`filter-${this.props.filter}`} className={s["label"]}>{ this.props.filter }</label>
-          <label className={`${s["input-checkbox"]}`}>
-            <input type="checkbox" id={`filter-${this.props.filter}`} onChange={this.handleClick}></input>
-            <span className={s["checkbox"]}></span>
-          </label>
-        </div>
-      </Ripple>
+      <div className={`${s["rkmd-checkbox"]}`} >
+        <label htmlFor={`filter-${this.props.filter}`} className={s["label"]}>
+          { this.props.filter }
+          <Ripple />
+        </label>
+        <label className={`${s["input-checkbox"]}`}>
+          <input type="checkbox" id={`filter-${this.props.filter}`} onChange={this.handleClick}></input>
+          <span className={s["checkbox"]}></span>
+        </label>
+        {/*<Ripple />*/}
+      </div>
     );
   }
 

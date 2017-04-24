@@ -29,6 +29,8 @@
     float: right;
     color: #fff;
     line-height: 40px;
+    width: 24px;
+    height: 40px;
     transition: transform 0.2s ease-in;
   }
 
@@ -43,7 +45,7 @@
   .articleFilters-header {
 
     .articleFilters-expandIcon {
-      transform: rotate(-180deg);
+      transform: rotateX(-180deg);
     }
   }
   .articleFilters-body {

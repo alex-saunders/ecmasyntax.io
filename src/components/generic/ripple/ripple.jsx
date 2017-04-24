@@ -7,14 +7,38 @@ class Ripple extends React.Component {
 
 	constructor(props) {
 		super(props);
-	}
 
-  triggerRipple = (e) => {
+    this.state = {
+      activeRipple: null,
+    }
+	}
+  
+  onTouchStart = (e) => {
     e.stopPropagation();
+
+    const rect = this.container.getBoundingClientRect();
+    this.parentHeight = rect.height;
+    this.parentWidth = rect.width;
+    this.parentX = rect.left;
+    this.parentY = rect.top;
+
+    const clickX = e.touches[0].pageX;
+    const clickY = e.touches[0].pageY;
+
+    const x = clickX - this.parentX
+    const y = clickY - this.parentY;
+
+    this.createRipple(x, y);
+  }
+
+  onMouseDown = (e) => {
+    // e.stopPropagation();
     
-    this.parentWidth = this.container.getBoundingClientRect().width;
-    this.parentX = this.container.offsetLeft;
-    this.parentY = this.container.offsetTop;
+    const rect = this.container.getBoundingClientRect();
+    this.parentHeight = rect.height;
+    this.parentWidth = rect.width;
+    this.parentX = rect.left;
+    this.parentY = rect.top;
 
     const clickX = e.pageX;
     const clickY = e.pageY;
@@ -25,38 +49,51 @@ class Ripple extends React.Component {
     this.createRipple(x, y);
   }
 
+  onMouseUp = (e) => {
+    if (this.state.activeRipple) {
+      this.fadeOutRipple(this.state.activeRipple);
+    }
+  }
+
   createRipple = (x, y) => {
     var ripple = document.createElement("span");
     ripple.classList.add(s['ripple-origin']);
 
     ripple.style.transform = 'scale(0)';
-    ripple.style.width = `${this.parentWidth}px`;
-    ripple.style.height = `${this.parentWidth}px`
-    ripple.style.left = `${x - (this.parentWidth / 2)}px`;
-    ripple.style.top = `${y - (this.parentWidth / 2)}px`;
+
+
+    const size = Math.sqrt(Math.pow(this.parentWidth, 2) + Math.pow(this.parentHeight, 2));
+    ripple.style.width = `${size}px`;
+    ripple.style.height = `${size}px`
+    ripple.style.left = `${x - (size / 2)}px`;
+    ripple.style.top = `${y - (size / 2)}px`;
 
     ripple.classList.add(s['animatable']);
     
     this.container.appendChild(ripple);
 
-    ripple.addEventListener('transitionend', (e) => {
-      this.removeRipple(ripple);
+    this.setState({
+      activeRipple: ripple,
     });
-    this.removeRippleOverride = setTimeout(() => {
-      this.removeRipple(ripple);
-    }, 1000);
 
     requestAnimationFrame(() => {
       requestAnimationFrame(() => {
         ripple.style.transform = 'scale(2)';
-        ripple.style.opacity = 0;
       })
     });
   }
 
-  removeRipple = (ripple) => {
-    clearTimeout(this.removeRippleOverride);
+  fadeOutRipple = (ripple) => {
+    ripple.style.opacity = 0;
 
+    ripple.addEventListener('transitionend', (e) => {
+      if (e.propertyName === 'opacity') {
+        this.removeRipple(ripple);
+      }
+    });
+  }
+
+  removeRipple = (ripple) => {
     if (ripple && ripple.parentNode == this.container) {
       this.container.removeChild(ripple);
     }
@@ -64,7 +101,10 @@ class Ripple extends React.Component {
 
 	render() {
 		return (
-			<div className={s['ripple-container']} onClick={this.triggerRipple} ref={(div) => this.container = div}>
+			<div className={s['ripple-container']} 
+        onMouseDown={this.onMouseDown} onMouseUp={this.onMouseUp} 
+        onTouchStart={this.onTouchStart} onTouchEnd={this.onMouseUp} 
+        ref={(div) => this.container = div}>
         {this.props.children}
       </div>
 		)

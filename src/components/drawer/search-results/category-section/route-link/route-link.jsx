@@ -19,14 +19,13 @@ class RouteLink extends React.Component {
 
 	render() {
 		return (
-      <Ripple>
         <a
           className={((this.props.activePage) && (this.props.activePage.sys.id === this.props.page.sys.id)) ? (`${s['pageList-item']} ${s['active']}`) : s['pageList-item']}
           href={this.props.route}
           onClick={ this.clickHandler }>
           {this.props.children}
+          <Ripple />
         </a>
-      </Ripple>
     )
 	}
 
