@@ -11,12 +11,12 @@ Made using React & React-Redux. Features React Server side rendering w/ critical
 ## Dev
 
 1. In one tab run `npm run dev`
-2. In another, run `npm start`
+2. In another, run `npm run server`
 2. Navigate to [localhost:8080](http://localhost:8080/)
 
 ## Build
 
-1. `npm run build`
+1. `npm start`
 2. navigate to [localhost:8080](http://localhost:8080/)
 
 
