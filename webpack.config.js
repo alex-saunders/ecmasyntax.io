@@ -3,6 +3,8 @@ const path = require('path');
 const CompressionPlugin = require('compression-webpack-plugin');
 const nodeExternals = require('webpack-node-externals');
 
+console.log(process.env);
+
 var clientPlugins = [
   new webpack.DefinePlugin({
     'process.env': {
@@ -155,6 +157,8 @@ var serverConfig = {
     new webpack.DefinePlugin({
       'process.env': {
         'NODE_ENV': JSON.stringify(process.env.NODE_ENV),
+        'CONTENTFUL_TOKEN': JSON.stringify(process.env.CONTENTFUL_TOKEN),
+        'CONTENTFUL_SPACE': JSON.stringify(process.env.CONTENTFUL_SPACE),
       }
     }),
   ],

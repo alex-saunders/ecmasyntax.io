@@ -8,7 +8,6 @@ import { Provider } from 'react-redux';
 import marked from 'marked';
 import createDOMPurify from 'dompurify';
 import jsdom from 'jsdom';
-import { CONTENTFUL_SPACE, CONTENTFUL_TOKEN } from '../env.js';
 import allReducers from './reducers';
 import App from './components/app';
 
@@ -26,8 +25,8 @@ class Server {
     this.__dirname = 'public';
 
     this.contentfulClient = contentful.createClient({
-      space: CONTENTFUL_SPACE,
-      accessToken: CONTENTFUL_TOKEN,
+      space: process.env.CONTENTFUL_SPACE,
+      accessToken: process.env.CONTENTFUL_TOKEN,
     });
 
     marked.setOptions({

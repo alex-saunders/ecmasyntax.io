@@ -516,8 +516,6 @@ var _jsdom = __webpack_require__(65);
 
 var _jsdom2 = _interopRequireDefault(_jsdom);
 
-var _env = __webpack_require__(71);
-
 var _reducers = __webpack_require__(26);
 
 var _reducers2 = _interopRequireDefault(_reducers);
@@ -548,8 +546,8 @@ var Server = function () {
     this.__dirname = 'public';
 
     this.contentfulClient = contentful.createClient({
-      space: _env.CONTENTFUL_SPACE,
-      accessToken: _env.CONTENTFUL_TOKEN
+      space: 'ygp49j9ncoqn',
+      accessToken: '3ff5816ecb76807c88a570e0e7ab89b77ddde9697d29945ca82d60399d6182e8'
     });
 
     _marked2.default.setOptions({
@@ -3578,20 +3576,6 @@ module.exports = require("react-dom/server");
 
 module.exports = __webpack_require__(8);
 
-
-/***/ }),
-/* 70 */,
-/* 71 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-var CONTENTFUL_SPACE = exports.CONTENTFUL_SPACE = "ygp49j9ncoqn";
-var CONTENTFUL_TOKEN = exports.CONTENTFUL_TOKEN = "3ff5816ecb76807c88a570e0e7ab89b77ddde9697d29945ca82d60399d6182e8";
 
 /***/ })
 /******/ ]);
