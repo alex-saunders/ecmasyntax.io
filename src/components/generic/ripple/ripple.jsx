@@ -103,7 +103,6 @@ class Ripple extends React.Component {
 		return (
 			<div className={s['ripple-container']} 
         onMouseDown={this.onMouseDown} onMouseUp={this.onMouseUp} 
-        onTouchStart={this.onTouchStart} onTouchEnd={this.onMouseUp} 
         ref={(div) => this.container = div}>
         {this.props.children}
       </div>

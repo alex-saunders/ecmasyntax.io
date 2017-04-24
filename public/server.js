@@ -436,7 +436,6 @@ var Ripple = function (_React$Component) {
         'div',
         { className: _ripple2.default['ripple-container'],
           onMouseDown: this.onMouseDown, onMouseUp: this.onMouseUp,
-          onTouchStart: this.onTouchStart, onTouchEnd: this.onMouseUp,
           ref: function ref(div) {
             return _this2.container = div;
           } },
@@ -545,9 +544,10 @@ var Server = function () {
     this.__api = 'articles';
     this.__dirname = 'public';
 
+    // test api keys, will be replaced with environment vars when time comes to prodouctionise
     this.contentfulClient = contentful.createClient({
-      space: 'ygp49j9ncoqn',
-      accessToken: '3ff5816ecb76807c88a570e0e7ab89b77ddde9697d29945ca82d60399d6182e8'
+      space: "ygp49j9ncoqn",
+      accessToken: "3ff5816ecb76807c88a570e0e7ab89b77ddde9697d29945ca82d60399d6182e8"
     });
 
     _marked2.default.setOptions({
@@ -2388,6 +2388,10 @@ var _mainHeader = __webpack_require__(21);
 
 var _mainHeader2 = _interopRequireDefault(_mainHeader);
 
+var _progressIndicator = __webpack_require__(70);
+
+var _progressIndicator2 = _interopRequireDefault(_progressIndicator);
+
 var _articleView = __webpack_require__(18);
 
 var _articleView2 = _interopRequireDefault(_articleView);
@@ -2430,6 +2434,11 @@ var Main = function (_React$Component) {
           activePage: this.props.activePage,
           drawerOpen: this.props.drawerOpen,
           toggleDrawer: this.props.toggleDrawer
+        }),
+        _react2.default.createElement(_progressIndicator2.default, {
+          activePage: this.props.activePage,
+          hasErrored: this.props.hasErrored,
+          isLoading: this.props.isLoading
         }),
         _react2.default.createElement('div', { className: _main2.default['progressBar'] }),
         _react2.default.createElement(
@@ -2944,7 +2953,7 @@ exports = module.exports = __webpack_require__(1)();
 
 
 // module
-exports.push([module.i, "@-webkit-keyframes drawer_fadeIn_3EK {\n  from {\n    opacity: 0; }\n  to {\n    opacity: 1; } }\n\n@keyframes drawer_fadeIn_3EK {\n  from {\n    opacity: 0; }\n  to {\n    opacity: 1; } }\n\n.drawer_drawer-container_31e {\n  position: relative;\n  z-index: 99;\n  height: 100vh;\n  width: 40%;\n  max-width: 280px; }\n  @media (max-width: 500px) {\n    .drawer_drawer-container_31e {\n      position: fixed;\n      z-index: 101;\n      left: 0;\n      top: 0;\n      width: 100%;\n      max-width: none;\n      height: 100%;\n      overflow: hidden;\n      pointer-events: none; } }\n\n@media (max-width: 500px) {\n  .drawer_drawer-container_31e::after {\n    display: block;\n    content: '';\n    position: absolute;\n    z-index: -1;\n    top: 0;\n    left: 0;\n    width: 100%;\n    height: 100%;\n    background-color: rgba(0, 0, 0, 0.4);\n    opacity: 0;\n    will-change: opacity;\n    -webkit-transition: opacity 0.4s cubic-bezier(0.4, 0, 0.2, 1);\n    transition: opacity 0.4s cubic-bezier(0.4, 0, 0.2, 1); } }\n\n@media (max-width: 500px) {\n  .drawer_drawer-container_31e.drawer_active_SOS {\n    pointer-events: auto; } }\n\n@media (max-width: 500px) {\n  .drawer_drawer-container_31e.drawer_active_SOS::after {\n    opacity: 1; } }\n\n.drawer_drawer_2Js {\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-orient: vertical;\n  -webkit-box-direction: normal;\n      -ms-flex-direction: column;\n          flex-direction: column;\n  position: relative;\n  height: 100vh;\n  width: 100%;\n  -webkit-transition: -webkit-transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);\n  transition: -webkit-transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);\n  transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);\n  transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), -webkit-transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);\n  background-color: #fff;\n  box-shadow: 0px 0 0.2rem rgba(0, 0, 0, 0.2); }\n  @media (max-width: 500px) {\n    .drawer_drawer_2Js {\n      box-shadow: 2px 0 12px rgba(0, 0, 0, 0.4);\n      left: 0;\n      top: 0;\n      max-width: 400px;\n      width: 80%;\n      -webkit-transform: translateX(-107%);\n              transform: translateX(-107%);\n      will-change: transform; } }\n\n.drawer_drawer_2Js.drawer_draggable_iwv {\n  -webkit-transition: -webkit-transform 0.13s cubic-bezier(0, 0, 0.3, 1);\n  transition: -webkit-transform 0.13s cubic-bezier(0, 0, 0.3, 1);\n  transition: transform 0.13s cubic-bezier(0, 0, 0.3, 1);\n  transition: transform 0.13s cubic-bezier(0, 0, 0.3, 1), -webkit-transform 0.13s cubic-bezier(0, 0, 0.3, 1); }\n\n@media (max-width: 500px) {\n  .drawer_drawer-container_31e.drawer_active_SOS .drawer_drawer_2Js {\n    -webkit-transform: translateX(0px);\n            transform: translateX(0px); } }\n\n.drawer_drawer-logo_108 {\n  display: block;\n  background-color: #FFB300; }\n  .drawer_drawer-logo_108 img {\n    width: 100%; }\n\n.drawer_drawer-divider_3-J {\n  border: 1px solid rgba(255, 255, 255, 0.1);\n  border-bottom: none;\n  margin: 0; }\n\n.drawer_search-container_2-X {\n  padding: 0px 12px 14px;\n  background-color: #FFB300;\n  border-bottom: 1px solid rgba(255, 255, 255, 0.3); }\n\n.drawer_search-label_2Vh {\n  position: relative;\n  background-color: #fff;\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-orient: horizontal;\n  -webkit-box-direction: normal;\n      -ms-flex-direction: row;\n          flex-direction: row;\n  width: 100%;\n  padding: 8px;\n  border-radius: 2px;\n  box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.2);\n  -webkit-transition: box-shadow 0.2s ease-in-out;\n  transition: box-shadow 0.2s ease-in-out; }\n\n.drawer_search-icon_1L6 {\n  height: 24px;\n  width: 24px;\n  color: #373737;\n  opacity: 0.8;\n  -webkit-transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);\n  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1); }\n\n.drawer_search-closeIcon_1eq {\n  position: absolute;\n  right: 0;\n  top: 0;\n  height: 100%;\n  visibility: hidden;\n  opacity: 0;\n  -webkit-transform: scale(0);\n          transform: scale(0);\n  -webkit-transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);\n  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-align: center;\n      -ms-flex-align: center;\n          align-items: center; }\n  .drawer_search-closeIcon_1eq i {\n    padding: 8px;\n    font-size: 18px; }\n\n.drawer_search-input__u5 {\n  position: relative;\n  height: 30px;\n  outline: 0;\n  border: none;\n  -webkit-box-flex: 1;\n      -ms-flex: 1;\n          flex: 1;\n  padding: 4px 22px 4px 4px;\n  overflow: hidden;\n  font-size: 14px; }\n\n.drawer_search-label_2Vh:after {\n  display: block;\n  content: '';\n  position: absolute;\n  bottom: 0;\n  left: 24px;\n  height: 2px;\n  background-color: #373737;\n  width: 10px;\n  visibility: hidden;\n  -webkit-transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);\n  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1); }\n\n.drawer_search-label_2Vh:hover, .drawer_search-label_2Vh.drawer_focused_2ur {\n  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.4); }\n\n.drawer_search-label_2Vh.drawer_focused_2ur .drawer_search-icon_1L6, .drawer_search-label_2Vh.drawer_non-empty_18W .drawer_search-icon_1L6 {\n  opacity: 1; }\n\n.drawer_search-label_2Vh.drawer_non-empty_18W .drawer_search-closeIcon_1eq {\n  visibility: visible;\n  opacity: 1;\n  -webkit-transform: scale(1);\n          transform: scale(1); }\n\n.drawer_icon-container_2dQ {\n  background: none;\n  border: none;\n  padding: 0;\n  margin: 0;\n  cursor: pointer; }\n\n.drawer_articleFilters-wrapper_3oY {\n  background-color: #FFB300; }\n\n.drawer_pageList-wrapper_2-C {\n  background-color: #FFB300;\n  -webkit-box-flex: 1;\n      -ms-flex: 1;\n          flex: 1;\n  padding: 0px 0px 18px;\n  overflow: auto; }\n\n.drawer_drawer-footer_2Nz {\n  height: 25%;\n  background-color: #fcfcfc; }\n", ""]);
+exports.push([module.i, "@-webkit-keyframes drawer_fadeIn_3EK {\n  from {\n    opacity: 0; }\n  to {\n    opacity: 1; } }\n\n@keyframes drawer_fadeIn_3EK {\n  from {\n    opacity: 0; }\n  to {\n    opacity: 1; } }\n\n.drawer_drawer-container_31e {\n  position: relative;\n  z-index: 99;\n  height: 100vh;\n  width: 40%;\n  max-width: 280px; }\n  @media (max-width: 500px) {\n    .drawer_drawer-container_31e {\n      position: fixed;\n      z-index: 102;\n      left: 0;\n      top: 0;\n      width: 100%;\n      max-width: none;\n      height: 100%;\n      overflow: hidden;\n      pointer-events: none; } }\n\n@media (max-width: 500px) {\n  .drawer_drawer-container_31e::after {\n    display: block;\n    content: '';\n    position: absolute;\n    z-index: -1;\n    top: 0;\n    left: 0;\n    width: 100%;\n    height: 100%;\n    background-color: rgba(0, 0, 0, 0.4);\n    opacity: 0;\n    will-change: opacity;\n    -webkit-transition: opacity 0.4s cubic-bezier(0.4, 0, 0.2, 1);\n    transition: opacity 0.4s cubic-bezier(0.4, 0, 0.2, 1); } }\n\n@media (max-width: 500px) {\n  .drawer_drawer-container_31e.drawer_active_SOS {\n    pointer-events: auto; } }\n\n@media (max-width: 500px) {\n  .drawer_drawer-container_31e.drawer_active_SOS::after {\n    opacity: 1; } }\n\n.drawer_drawer_2Js {\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-orient: vertical;\n  -webkit-box-direction: normal;\n      -ms-flex-direction: column;\n          flex-direction: column;\n  position: relative;\n  height: 100vh;\n  width: 100%;\n  -webkit-transition: -webkit-transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);\n  transition: -webkit-transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);\n  transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);\n  transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), -webkit-transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);\n  background-color: #fff;\n  box-shadow: 0px 0 0.2rem rgba(0, 0, 0, 0.2); }\n  @media (max-width: 500px) {\n    .drawer_drawer_2Js {\n      box-shadow: 2px 0 12px rgba(0, 0, 0, 0.4);\n      left: 0;\n      top: 0;\n      max-width: 400px;\n      width: 80%;\n      -webkit-transform: translateX(-107%);\n              transform: translateX(-107%);\n      will-change: transform; } }\n\n.drawer_drawer_2Js.drawer_draggable_iwv {\n  -webkit-transition: -webkit-transform 0.13s cubic-bezier(0, 0, 0.3, 1);\n  transition: -webkit-transform 0.13s cubic-bezier(0, 0, 0.3, 1);\n  transition: transform 0.13s cubic-bezier(0, 0, 0.3, 1);\n  transition: transform 0.13s cubic-bezier(0, 0, 0.3, 1), -webkit-transform 0.13s cubic-bezier(0, 0, 0.3, 1); }\n\n@media (max-width: 500px) {\n  .drawer_drawer-container_31e.drawer_active_SOS .drawer_drawer_2Js {\n    -webkit-transform: translateX(0px);\n            transform: translateX(0px); } }\n\n.drawer_drawer-logo_108 {\n  display: block;\n  background-color: #FFB300; }\n  .drawer_drawer-logo_108 img {\n    width: 100%; }\n\n.drawer_drawer-divider_3-J {\n  border: 1px solid rgba(255, 255, 255, 0.1);\n  border-bottom: none;\n  margin: 0; }\n\n.drawer_search-container_2-X {\n  padding: 0px 12px 14px;\n  background-color: #FFB300;\n  border-bottom: 1px solid rgba(255, 255, 255, 0.3); }\n\n.drawer_search-label_2Vh {\n  position: relative;\n  background-color: #fff;\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-orient: horizontal;\n  -webkit-box-direction: normal;\n      -ms-flex-direction: row;\n          flex-direction: row;\n  width: 100%;\n  padding: 8px;\n  border-radius: 2px;\n  box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.2);\n  -webkit-transition: box-shadow 0.2s ease-in-out;\n  transition: box-shadow 0.2s ease-in-out; }\n\n.drawer_search-icon_1L6 {\n  height: 24px;\n  width: 24px;\n  color: #373737;\n  opacity: 0.8;\n  -webkit-transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);\n  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1); }\n\n.drawer_search-closeIcon_1eq {\n  position: absolute;\n  right: 0;\n  top: 0;\n  height: 100%;\n  visibility: hidden;\n  opacity: 0;\n  -webkit-transform: scale(0);\n          transform: scale(0);\n  -webkit-transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);\n  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-align: center;\n      -ms-flex-align: center;\n          align-items: center; }\n  .drawer_search-closeIcon_1eq i {\n    padding: 8px;\n    font-size: 18px; }\n\n.drawer_search-input__u5 {\n  position: relative;\n  height: 30px;\n  outline: 0;\n  border: none;\n  -webkit-box-flex: 1;\n      -ms-flex: 1;\n          flex: 1;\n  padding: 4px 22px 4px 4px;\n  overflow: hidden;\n  font-size: 14px; }\n\n.drawer_search-label_2Vh:after {\n  display: block;\n  content: '';\n  position: absolute;\n  bottom: 0;\n  left: 24px;\n  height: 2px;\n  background-color: #373737;\n  width: 10px;\n  visibility: hidden;\n  -webkit-transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);\n  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1); }\n\n.drawer_search-label_2Vh:hover, .drawer_search-label_2Vh.drawer_focused_2ur {\n  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.4); }\n\n.drawer_search-label_2Vh.drawer_focused_2ur .drawer_search-icon_1L6, .drawer_search-label_2Vh.drawer_non-empty_18W .drawer_search-icon_1L6 {\n  opacity: 1; }\n\n.drawer_search-label_2Vh.drawer_non-empty_18W .drawer_search-closeIcon_1eq {\n  visibility: visible;\n  opacity: 1;\n  -webkit-transform: scale(1);\n          transform: scale(1); }\n\n.drawer_icon-container_2dQ {\n  background: none;\n  border: none;\n  padding: 0;\n  margin: 0;\n  cursor: pointer; }\n\n.drawer_articleFilters-wrapper_3oY {\n  background-color: #FFB300; }\n\n.drawer_pageList-wrapper_2-C {\n  background-color: #FFB300;\n  -webkit-box-flex: 1;\n      -ms-flex: 1;\n          flex: 1;\n  padding: 0px 0px 18px;\n  overflow: auto; }\n\n.drawer_drawer-footer_2Nz {\n  height: 25%;\n  background-color: #fcfcfc; }\n", ""]);
 
 // exports
 exports.locals = {
@@ -3576,6 +3585,172 @@ module.exports = require("react-dom/server");
 
 module.exports = __webpack_require__(8);
 
+
+/***/ }),
+/* 70 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__(0);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _withStyles = __webpack_require__(3);
+
+var _withStyles2 = _interopRequireDefault(_withStyles);
+
+var _progressIndicator = __webpack_require__(72);
+
+var _progressIndicator2 = _interopRequireDefault(_progressIndicator);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var ProgressIndicator = function (_React$Component) {
+  _inherits(ProgressIndicator, _React$Component);
+
+  function ProgressIndicator(props) {
+    _classCallCheck(this, ProgressIndicator);
+
+    var _this = _possibleConstructorReturn(this, (ProgressIndicator.__proto__ || Object.getPrototypeOf(ProgressIndicator)).call(this, props));
+
+    _this._fadeout = function () {
+      _this.progressIndicator.removeEventListener('transitionend', _this._fadeout);
+      _this.setState({
+        opacity: 0
+      });
+      _this.progressIndicator.addEventListener('transitionend', _this._reset);
+    };
+
+    _this._reset = function (evt) {
+      if (evt.propertyName === 'opacity') {
+        console.log('reset');
+        _this.progressIndicator.removeEventListener('transitionend', _this._reset);
+        _this.progressIndicator.classList.remove(_progressIndicator2.default.animatable);
+
+        _this.setState({
+          width: '0%',
+          opacity: 1
+        });
+      }
+    };
+
+    _this.state = {
+      width: '0%',
+      opacity: 1
+    };
+    return _this;
+  }
+
+  _createClass(ProgressIndicator, [{
+    key: 'componentWillReceiveProps',
+    value: function componentWillReceiveProps(nextProps) {
+      if (nextProps.isLoading) {
+        this.progressIndicator.classList.add(_progressIndicator2.default.animatable);
+        this.setState({
+          width: '50%',
+          opacity: 1
+        });
+      }
+      if (!nextProps.isLoading && !nextProps.hasErrored && nextProps.activePage !== this.props.activePage) {
+        this.progressIndicator.classList.add(_progressIndicator2.default.animatable);
+        this.progressIndicator.addEventListener('transitionend', this._fadeout);
+        this.setState({
+          width: '100%',
+          opacity: 1
+        });
+      }
+    }
+  }, {
+    key: 'render',
+    value: function render() {
+      var _this2 = this;
+
+      var style = {
+        width: this.state.width,
+        opacity: this.state.opacity
+      };
+
+      return _react2.default.createElement('div', {
+        ref: function ref(div) {
+          _this2.progressIndicator = div;
+        },
+        className: _progressIndicator2.default.progressIndicator,
+        style: style
+      });
+    }
+  }]);
+
+  return ProgressIndicator;
+}(_react2.default.Component);
+
+exports.default = (0, _withStyles2.default)(_progressIndicator2.default)(ProgressIndicator);
+
+/***/ }),
+/* 71 */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(1)();
+// imports
+
+
+// module
+exports.push([module.i, "@-webkit-keyframes progress-indicator_fadeIn_F5i {\n  from {\n    opacity: 0; }\n  to {\n    opacity: 1; } }\n\n@keyframes progress-indicator_fadeIn_F5i {\n  from {\n    opacity: 0; }\n  to {\n    opacity: 1; } }\n\n.progress-indicator_progressIndicator_2I_ {\n  position: relative;\n  z-index: 101;\n  background-color: #2196F3;\n  height: 4px; }\n\n.progress-indicator_progressIndicator_2I_.progress-indicator_animatable_3qR {\n  -webkit-transition: width 0.3s linear, opacity 0.7s linear;\n  transition: width 0.3s linear, opacity 0.7s linear; }\n", ""]);
+
+// exports
+exports.locals = {
+	"progressIndicator": "progress-indicator_progressIndicator_2I_",
+	"animatable": "progress-indicator_animatable_3qR",
+	"fadeIn": "progress-indicator_fadeIn_F5i"
+};
+
+/***/ }),
+/* 72 */
+/***/ (function(module, exports, __webpack_require__) {
+
+
+    var content = __webpack_require__(71);
+    var insertCss = __webpack_require__(2);
+
+    if (typeof content === 'string') {
+      content = [[module.i, content, '']];
+    }
+
+    module.exports = content.locals || {};
+    module.exports._getContent = function() { return content; };
+    module.exports._getCss = function() { return content.toString(); };
+    module.exports._insertCss = function(options) { return insertCss(content, options) };
+    
+    // Hot Module Replacement
+    // https://webpack.github.io/docs/hot-module-replacement
+    // Only activated in browser context
+    if (false) {
+      var removeCss = function() {};
+      module.hot.accept("!!../../../../node_modules/css-loader/index.js?modules&localIdentName=[name]_[local]_[hash:base64:3]!../../../../node_modules/postcss-loader/index.js??ref--1-2!../../../../node_modules/sass-loader/lib/loader.js!./progress-indicator.scss", function() {
+        content = require("!!../../../../node_modules/css-loader/index.js?modules&localIdentName=[name]_[local]_[hash:base64:3]!../../../../node_modules/postcss-loader/index.js??ref--1-2!../../../../node_modules/sass-loader/lib/loader.js!./progress-indicator.scss");
+
+        if (typeof content === 'string') {
+          content = [[module.id, content, '']];
+        }
+
+        removeCss = insertCss(content, { replace: true });
+      });
+      module.hot.dispose(function() { removeCss(); });
+    }
+  
 
 /***/ })
 /******/ ]);

@@ -1,0 +1,12 @@
+@import '../../../scss/theme';
+
+.progressIndicator {
+  position: relative;
+  z-index: 101;
+  background-color: $primary-2;
+  height: 4px;
+}
+
+.progressIndicator.animatable {
+  transition: width 0.3s linear, opacity 0.7s linear;
+}
