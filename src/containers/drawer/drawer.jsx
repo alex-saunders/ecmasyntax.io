@@ -168,12 +168,12 @@ class Drawer extends React.Component {
           </div>
           <div className={s['articleFilters-wrapper']}>
             <SearchFilters 
-              entries={this.props.entries} 
-              currFilters={this.props.currFilters} 
-              addFilter={this.props.addFilter}
-              removeFilter={this.props.removeFilter} />
+            entries={this.props.entries} 
+            activePages={this.props.activePages}
+            currFilters={this.props.currFilters} 
+            addFilter={this.props.addFilter}
+            removeFilter={this.props.removeFilter} />
           </div>
-          {/*<hr className={s['drawer-divider']}/>*/}
           <div className={s['pageList-wrapper']}>
             <SearchResults
               selectRoute={(page) => this.props.selectRoute(page)} 

@@ -37,6 +37,9 @@
   }
 }
 .drawer-container.active {
+  @media (min-width: $screen-sm-max) {
+    display: none;
+  }
   @media (max-width: $screen-sm-max) {
     pointer-events: auto; 
   }

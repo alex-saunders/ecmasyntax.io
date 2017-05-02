@@ -23,7 +23,7 @@ class ArticleFilters extends React.Component {
   }
 
   mapFilters() {
-    let pages = this.props.entries;
+    let pages = this.props.activePages;
     let filters = this.generateFilters(pages);
     let articleFilters = filters.map((filter, index) => {
       return (<ArticleFilter filter={filter} key={index} currFilters={this.props.currFilters}
@@ -52,7 +52,6 @@ class ArticleFilters extends React.Component {
       </div>
     );
   }
-
 }
 
 export default withStyles(s)(ArticleFilters);

@@ -28,8 +28,5 @@
     text-overflow: ellipsis;
     color: #fff;
     font-size: 20px;
-    
-    @media (max-width: $screen-sm-max) {
-        padding-left: 32px;
-    }
+    padding-left: 32px;
 }

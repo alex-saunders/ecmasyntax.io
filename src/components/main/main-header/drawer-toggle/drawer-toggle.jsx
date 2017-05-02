@@ -9,7 +9,7 @@ class DrawerToggle extends React.Component {
   }
 
   openDrawer = () => {
-    this.props.toggleDrawer(true);
+    this.props.toggleDrawer(!this.props.drawerOpen);
   };
 
   render() {

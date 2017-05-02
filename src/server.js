@@ -24,10 +24,10 @@ class Server {
     this.__api = 'articles';
     this.__dirname = 'public';
 
-    // test api keys, will be replaced with environment vars when time comes to prodouctionise
+    // test api keys, will be replaced with environment vars when time comes to productionise
     this.contentfulClient = contentful.createClient({
-      space: "ygp49j9ncoqn",
-      accessToken: "3ff5816ecb76807c88a570e0e7ab89b77ddde9697d29945ca82d60399d6182e8",
+      space: process.env.CONTENTFUL_SPACE,
+      accessToken: process.env.CONTENTFUL_TOKEN,
     });
 
     marked.setOptions({
@@ -184,13 +184,11 @@ class Server {
   }
 
   _initCompression() {
-    // if (process.env.NODE_ENV === 'production') {
-      this.app.get('*.js', (req, res, next) => {
-        req.url += '.gz';
-        res.set('Content-Encoding', 'gzip');
-        next();
-      });
-    // }
+    this.app.get('*.js', (req, res, next) => {
+      req.url += '.gz';
+      res.set('Content-Encoding', 'gzip');
+      next();
+    });
   }
 
   _setupRouters() {
@@ -231,7 +229,9 @@ class Server {
   }
 
   start() {
-    this._initCompression();
+    if (process.env.NODE_ENV === 'production') {
+      this._initCompression();
+    }
     this._setupRouters();
 
     this._buildArticles().then((articles) => {

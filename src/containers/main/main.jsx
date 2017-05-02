@@ -41,13 +41,13 @@ class Main extends React.Component {
                 A free, open source project to help web developers
               </h1>
               <p>
-                Created by <a href="#" target="_blank">@alexjrsaunders</a>
+                Created by <a href="https://twitter.com/AlexJRsaunders" target="_blank">@alexjrsaunders</a>
               </p>
               <p>
                 Design inspired by
-                <a href="#" target="_blank"> HTML/CSSReference.io</a>
+                <a href="http://cssreference.io/" target="_blank"> HTML/CSSReference.io</a>
                 , created by
-                <a href="#" target="_blank"> @jgthms</a>
+                <a href="https://twitter.com/jgthms" target="_blank"> @jgthms</a>
               </p>
             </div>
             <div className={s.section}>

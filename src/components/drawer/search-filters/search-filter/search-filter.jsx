@@ -20,12 +20,14 @@ class ArticleFilter extends React.Component {
       this.setState({ active: false });
     } else {
       this.props.addFilter(this.props.filter);
+      console.log(`setting ${this.props.filter} to active`);
       this.setState({ active: true })
     }
 
   }
 
   render() {
+    const active = (this.props.currFilters.indexOf(this.props.filter) > -1);
     return (
       <div className={`${s["rkmd-checkbox"]}`} >
         <label htmlFor={`filter-${this.props.filter}`} className={s["label"]}>
@@ -33,7 +35,7 @@ class ArticleFilter extends React.Component {
           <Ripple />
         </label>
         <label className={`${s["input-checkbox"]}`}>
-          <input type="checkbox" id={`filter-${this.props.filter}`} onChange={this.handleClick}></input>
+          <input type="checkbox" checked={active}  id={`filter-${this.props.filter}`} onChange={this.handleClick}></input>
           <span className={s["checkbox"]}></span>
         </label>
         {/*<Ripple />*/}

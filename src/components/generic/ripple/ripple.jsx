@@ -31,9 +31,7 @@ class Ripple extends React.Component {
     this.createRipple(x, y);
   }
 
-  onMouseDown = (e) => {
-    // e.stopPropagation();
-    
+  onMouseDown = (e) => {    
     const rect = this.container.getBoundingClientRect();
     this.parentHeight = rect.height;
     this.parentWidth = rect.width;
@@ -50,6 +48,12 @@ class Ripple extends React.Component {
   }
 
   onMouseUp = (e) => {
+    if (this.state.activeRipple) {
+      this.fadeOutRipple(this.state.activeRipple);
+    }
+  }
+
+  onMouseLeave = (e) => {
     if (this.state.activeRipple) {
       this.fadeOutRipple(this.state.activeRipple);
     }
@@ -103,6 +107,7 @@ class Ripple extends React.Component {
 		return (
 			<div className={s['ripple-container']} 
         onMouseDown={this.onMouseDown} onMouseUp={this.onMouseUp} 
+        onMouseLeave={this.onMouseLeave}
         ref={(div) => this.container = div}>
         {this.props.children}
       </div>

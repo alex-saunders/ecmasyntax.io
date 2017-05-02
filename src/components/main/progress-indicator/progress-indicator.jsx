@@ -40,7 +40,6 @@ class ProgressIndicator extends React.Component {
 
   _reset = (evt) => {
     if (evt.propertyName === 'opacity') {
-      console.log('reset');
       this.progressIndicator.removeEventListener('transitionend', this._reset);
       this.progressIndicator.classList.remove(s.animatable);
 
