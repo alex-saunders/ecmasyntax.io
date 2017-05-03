@@ -5,6 +5,8 @@ import { toggleDrawer } from '../../actions/utils';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import s from '../../scss/base.scss';
 
+import ProgressIndicator from '../../components/main/progress-indicator/progress-indicator';
+import MainHeader from '../../components/main/main-header/main-header';
 import Drawer from '../drawer/drawer';
 import Main from '../main/main';
 
@@ -66,8 +68,20 @@ class AppRouter extends React.Component {
 	render() {
     return (
       <div className={s['app-container']}>
-        <Drawer selectRoute={this.selectRoute}/>
-        <Main />
+        <ProgressIndicator
+          activePage={this.props.activePage}
+          hasErrored={this.props.hasErrored}
+          isLoading={this.props.isLoading}
+        />
+        <MainHeader
+          activePage={this.props.activePage}
+          drawerOpen={this.props.drawerOpen}
+          toggleDrawer={this.props.toggleDrawer} 
+        />
+        <div className={s['main-container']}>
+          <Drawer selectRoute={this.selectRoute}/>
+          <Main />
+        </div>
       </div>
     );
 	}
@@ -77,8 +91,8 @@ function mapStateToProps(state) {
 	return {
     activePage: state.activePage.page,
     activeRoute: state.activePage.route,
-    hasErrored: state.activePage.pageListError,
-    isLoading: state.activePage.pageListLoading,
+    hasErrored: state.activePage.hasErrored,
+    isLoading: state.activePage.isLoading,
     drawerOpen: state.utils.drawerOpen,
 	};
 }

@@ -38,7 +38,7 @@ class ArticleFilters extends React.Component {
 
   render() {
     return (
-      <div className={`${s.articleFilters} ${s.hidden}`} ref={(div) => { this.container = div; }}>
+      <div className={`${s.articleFilters}`} ref={(div) => { this.container = div; }}>
         <h1 className={s["articleFilters-header"]} onClick={this.handleClick}>
           <span>
           Filter By Specification

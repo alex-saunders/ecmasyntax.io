@@ -7,27 +7,52 @@ class ProgressIndicator extends React.Component {
     super(props);
 
     this.state = {
-      width: '0%',
+      width: '100%',
       opacity: 1,
+      animatable: false,
     };
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.isLoading) {
-      this.progressIndicator.classList.add(s.animatable);
-      this.setState({
-        width: '50%',
-        opacity: 1,
-      });
-    }
     if (!nextProps.isLoading && !nextProps.hasErrored && (nextProps.activePage !== this.props.activePage)) {
-      this.progressIndicator.classList.add(s.animatable);
-      this.progressIndicator.addEventListener('transitionend', this._fadeout);
+      // this.progressIndicator.addEventListener('transitionend', this._fadeout);
       this.setState({
         width: '100%',
         opacity: 1,
+        animatable: true,
       });
     }
+
+    if (nextProps.isLoading && !this.props.isLoading) {
+      this.setState({
+        width: '0%',
+        opacity: 1,
+        animatable: false,
+      });
+
+      // Hacky and horrible, TODO: Improve this (extra action creator?)
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          if (this.props.isLoading) {
+          this.setState({
+            width: '42%',
+            opacity: 1,
+            animatable: true,
+          });
+          }
+        })
+      })
+    }
+
+
+    // if (!nextProps.isLoading) {
+    //   this.setState({
+    //     width: '50%',
+    //     opacity: 1,
+    //     animatable: true,
+    //   });
+    // }
+
   }
 
   _fadeout = () => {
@@ -41,11 +66,11 @@ class ProgressIndicator extends React.Component {
   _reset = (evt) => {
     if (evt.propertyName === 'opacity') {
       this.progressIndicator.removeEventListener('transitionend', this._reset);
-      this.progressIndicator.classList.remove(s.animatable);
 
       this.setState({
         width: '0%',
         opacity: 1,
+        animatable: false,
       });
     }
   }
@@ -59,7 +84,7 @@ class ProgressIndicator extends React.Component {
     return (
       <div
         ref={(div) => { this.progressIndicator = div; }}
-        className={s.progressIndicator}
+        className={`${s.progressIndicator} ${this.state.animatable ? s.animatable : ''}`}
         style={style} 
       />
     );

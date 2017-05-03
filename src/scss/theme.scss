@@ -1,7 +1,17 @@
-$primary-1: #FFB300;
+$primary-1: #fff;
 $primary-2: #2196F3;
+
 $accent-1: #373737;
 $accent-2: #FF6F00;
+$accent-3: #fcfcfc;
+
+$text-1: #373737;
+$text-2: #000;
+$text-3: rgba(20, 15, 15, 0.560784);
+
+$border-color: rgb(237, 237, 237);
+
+$drawer-bg: #fff;
 
 $anim-easing: cubic-bezier(0.4, 0, 0.2, 1);
 
@@ -11,3 +21,9 @@ $anim-easing: cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 $screen-sm-max: 500px;
+
+@mixin ellipsis() {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}

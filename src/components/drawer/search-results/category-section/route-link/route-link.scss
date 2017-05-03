@@ -5,13 +5,18 @@
   display: block;
   position: relative;
   text-decoration: none;
-  color: #fff;
+  color: $text-2;
   padding: 0px 8px 0px 32px;
   cursor: pointer;
-  line-height: 32px;
+  line-height: 40px;
+  @include ellipsis();
 
   transition: all .1s linear;
 }
 .pageList-item:hover, .pageList-item.active {
-  background-color: rgba(255, 255, 255, 0.2);
+  // background-color: rgba(255, 255, 255, 0.2);
+}
+
+.pageList-item.active {
+  color: $primary-2;
 }

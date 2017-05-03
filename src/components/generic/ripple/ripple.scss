@@ -10,10 +10,14 @@
   -webkit-tap-highlight-color: rgba(0,0,0,0);
 }
 
+.ripple-container:hover {
+  background-color: rgba(155, 155, 155, 0.13);
+}
+
 .ripple-origin {
   position: absolute;
   z-index: 9999999;
-  background: rgba(255, 255, 255, 0.3);
+  background: rgba(155, 155, 155, 0.3);
   border-radius: 50%;
   pointer-events: none;
 }

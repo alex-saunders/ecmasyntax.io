@@ -2,8 +2,8 @@
 
 .articleFilters {
   width: 100%;
-  padding: 8px 0px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.54);
+  padding: 0px 0px 8px 0px;
+  border-bottom: 1px solid $border-color;
 }
 
 .articleFilters-header {
@@ -11,23 +11,24 @@
   display: block;
   text-decoration: none;
   height: 40px;
-  padding: 0px 16px;
+  padding: 0px 24px;
   margin: 0; 
   user-select: none;
   cursor: pointer;
+  @include ellipsis();
 
   span {
     float: left;
-    color: #fff;
+    color: $text-3;
     font-size: 14px;
     text-transform: uppercase;
     line-height: 40px;
-    font-weight: 400;
+    font-weight: 500;
   }
 
   .articleFilters-expandIcon {
     float: right;
-    color: #fff;
+    color: $text-2;
     line-height: 40px;
     width: 24px;
     height: 40px;

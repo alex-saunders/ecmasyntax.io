@@ -9,7 +9,7 @@
     "webpackBuild": "NODE_ENV=production webpack --progress -p",
     "dev": "npm run webpackWatch",
     "start": "npm run webpackBuild && npm run server",
-    "server": "nodemon public/server.js --ignore public/static"
+    "server": "nodemon public/server.js --ignore src/"
   },
   "author": "Alex Saunders",
   "license": "MIT",

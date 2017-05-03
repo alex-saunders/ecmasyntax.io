@@ -2,8 +2,6 @@ import React from 'react';
 import { connect } from 'react-redux';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import { toggleDrawer } from '../../actions/utils';
-import MainHeader from '../../components/main/main-header/main-header';
-import ProgressIndicator from '../../components/main/progress-indicator/progress-indicator';
 import ArticleView from '../../components/main/article-view/article-view';
 import s from './main.scss';
 
@@ -18,16 +16,6 @@ class Main extends React.Component {
   render() {
     return (
       <main className={s['main']} ref={(main) => { this.main = main; }}>
-        <MainHeader
-          activePage={this.props.activePage}
-          drawerOpen={this.props.drawerOpen}
-          toggleDrawer={this.props.toggleDrawer} 
-        />
-        <ProgressIndicator
-          activePage={this.props.activePage}
-          hasErrored={this.props.hasErrored}
-          isLoading={this.props.isLoading}
-        />
         <div className={s['progressBar']} />
         <div className={s['content-wrapper']}>
           <ArticleView

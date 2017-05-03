@@ -58,6 +58,6 @@ export const fetchPage = (route) => {
 				document.title = 'nope fail';
 			});
 
-		}, 100);
+		}, 400);
 	};
 }

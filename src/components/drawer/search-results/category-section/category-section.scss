@@ -10,12 +10,14 @@
   position: relative;
   display: block;
   text-decoration: none;
-  padding: 8px 8px 8px 16px;
+  padding: 8px 24px;
   margin: 0;
-  color: rgba(255,255,255,0.6);
-  font-size: 16px;
-  line-height: 24px;
-  font-weight: 400;
+  color: $text-3;
+  font-size: 14px;
+  text-transform: uppercase;
+  // height: 16px;
+  line-height: 16px;
+  font-weight: 500;
 
   .chevron {
     float: right;
