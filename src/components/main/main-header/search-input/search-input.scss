@@ -1,0 +1,101 @@
+@import '../../../../scss/theme';
+
+.search-label {
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  width: 20px;
+  overflow: hidden;
+  transition: all 0.1s $anim-easing;
+}
+.icon-container {
+  background: none;
+  border: none;
+  margin: 0;
+  padding: 0;
+  cursor: pointer;
+  outline: none;
+  color: $primary-1-text;
+}
+.search-icon {
+  height: 20px;
+  width: 20px;
+  transition: all 0.2s $anim-easing
+}
+.search-closeIcon {
+  position: absolute;
+  right: 0;
+  top: 0;
+  height: 100%;
+  opacity: 0;
+  transition: all 0.2s $anim-easing;
+  display: flex;
+  align-items: center;
+
+  i {
+    padding: 0px;
+    font-size: 20px;
+  }
+}
+.search-input--container {
+  border-bottom: 1px solid $border-color;
+  position: relative;
+  flex: 1;
+  margin-left: 8px;
+}
+.search-input--container::after {
+  display: block;
+  content: '';
+  position: absolute;
+  bottom: -1px;
+  // left: 20px;
+  left: 0px;
+  height: 2px;
+  background-color: $primary-1-text;
+  width: 10px;
+  visibility: hidden;
+
+  transition: all .2s $anim-easing;
+}
+.search-input {
+  position: relative;
+  height: 30px;
+  width: 100%;
+  outline: 0;
+  border: none;
+  padding: 4px 22px 4px 4px;
+  overflow: hidden;
+  font-size: 16px;
+  background: none;
+  color: $primary-1-text;
+}
+
+.search-label.opened {
+    width: 360px;
+
+  @media (max-width: $screen-sm-max) {
+      width: 100%;
+  }
+  
+  .search-input--container {
+    @media (max-width: $screen-sm-max) {
+      margin-left: 0;
+    }
+  }
+
+  .search-closeIcon {
+    opacity: 1;
+  }
+  .search-searchIcon {
+    @media (max-width: $screen-sm-max) {
+      display: none;
+    }  
+  }
+}
+
+.search-label.focused {
+  .search-input--container::after {
+    visibility: visible;
+    width: 100%;
+  }
+}

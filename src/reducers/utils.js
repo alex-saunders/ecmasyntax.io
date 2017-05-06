@@ -1,5 +1,6 @@
 const initialState = {
   drawerOpen: false,
+  searchOpen: false,
 };
 
 export default function (state = initialState, action) {
@@ -7,8 +8,15 @@ export default function (state = initialState, action) {
     case 'TOGGLE_DRAWER': {
       return Object.assign({}, state,
         {
-          drawerOpen: action.payload
-        }
+          drawerOpen: action.payload,
+        },
+      );
+    }
+    case 'TOGGLE_SEARCH': {
+      return Object.assign({}, state,
+        {
+          searchOpen: action.payload,
+        },
       );
     }
     default: {

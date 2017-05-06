@@ -2,7 +2,7 @@
 
 .categorySection {
   padding-bottom: 8px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+  border-bottom: 1px solid $border-color;
 }
 .categorySection-header {
   animation: fadeIn 0.6s 1;
@@ -10,12 +10,14 @@
   position: relative;
   display: block;
   text-decoration: none;
-  padding: 8px 8px 8px 16px;
+  padding: 8px 24px;
   margin: 0;
-  color: rgba(255,255,255,0.6);
-  font-size: 16px;
-  line-height: 24px;
-  font-weight: 400;
+  color: $drawer-subheading;
+  font-size: 14px;
+  text-transform: uppercase;
+  // height: 16px;
+  line-height: 16px;
+  font-weight: 500;
 
   .chevron {
     float: right;

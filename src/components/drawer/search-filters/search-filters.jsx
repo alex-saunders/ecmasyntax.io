@@ -9,6 +9,10 @@ import s from './search-filters.scss';
 class ArticleFilters extends React.Component {
   constructor(props) {
     super(props);
+
+    this.state = {
+      hidden: false,
+    }
   };
 
   generateFilters(pages) {
@@ -33,19 +37,24 @@ class ArticleFilters extends React.Component {
   }
 
   handleClick = (evt) => {
-    this.container.classList.toggle(s.hidden);
+    this.setState((prevState) => {
+      return {
+        hidden: !prevState.hidden, 
+      };
+    })
+    evt.preventDefault();
   }
 
   render() {
     return (
-      <div className={`${s.articleFilters} ${s.hidden}`} ref={(div) => { this.container = div; }}>
-        <h1 className={s["articleFilters-header"]} onClick={this.handleClick}>
+      <div className={`${s.articleFilters} ${this.state.hidden ? s.hidden : ''}`} ref={(div) => { this.container = div; }}>
+        <a className={s["articleFilters-header"]} onClick={this.handleClick} href="#">
           <span>
           Filter By Specification
           </span>
           <i className={`material-icons ${s['articleFilters-expandIcon']}`}>keyboard_arrow_down</i>
           <Ripple />
-        </h1>
+        </a>
         <div className={s["articleFilters-body"]}>
           { this.mapFilters() }
         </div>

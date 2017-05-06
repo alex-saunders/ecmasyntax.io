@@ -1,5 +1,5 @@
 export const pageFetchError = (bool) => {
-	return {
+  return {
 		type: "PAGE_ERROR",
 		payload: bool
 	};
@@ -58,6 +58,6 @@ export const fetchPage = (route) => {
 				document.title = 'nope fail';
 			});
 
-		}, 100);
+		}, 400);
 	};
 }

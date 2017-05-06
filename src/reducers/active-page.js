@@ -1,8 +1,8 @@
 const initialState = {
   page: null,
   route: null,
-  pageIsLoading: false,
-  pageHasErrored: false,
+  isLoading: false,
+  hasErrored: false,
 };
 
 export default function (state = initialState, action) {

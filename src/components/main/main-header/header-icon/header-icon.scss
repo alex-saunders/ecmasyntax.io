@@ -1,0 +1,56 @@
+@import '../../../../scss/theme';
+
+@keyframes grow {
+    0% { 
+        transform: scale(0);
+        opacity: 0; 
+    }
+    100% { 
+        transform: scale(1); 
+        opacity: 1;
+    }
+}
+
+.header-icon {
+    display: flex;
+    position: relative;
+    z-index: 98;
+    text-decoration: none;
+    cursor: pointer;
+    border-radius: 50%;
+    overflow: hidden;
+    user-select: none;
+    -webkit-tap-highlight-color: rgba(0,0,0,0);
+    background: none;
+    border: none;
+}
+.header-icon i {
+    text-decoration: none;
+    font-size: 24px;
+    padding: 8px;
+    border-radius: 50%;
+    position: relative;
+    overflow: hidden;
+    color: $primary-1-text;
+}
+
+.menuIcon {
+
+}
+.menuIcon.searchOpen {
+    @media (max-width: $screen-sm-max) {
+        display: none;
+    }
+}
+
+.backIcon {
+    display: none;
+}
+.backIcon.searchOpen {
+    animation: grow 0.2s 1;
+    -webkit-animation-timing-function: $anim-easing;
+
+    @media (max-width: $screen-sm-max) {
+        display: block;
+    }
+}

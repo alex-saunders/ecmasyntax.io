@@ -2,11 +2,18 @@
 
 .header {
     position: relative;
-    padding: 16px;
+    padding: 16px 24px 16px 72px;
     z-index: 100;
     width: 100%;
     background-color: $primary-1;
-    box-shadow: 0px 2px 4px rgba(0,0,0,0.2);
+    box-shadow: 0px 2px 4px rgba(0,0,0,0.1);
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+
+    @media (max-width: $screen-sm-max) {
+        padding: 16px 24px 16px 48px;
+    }
 }
 
 .toggle-container {
@@ -18,15 +25,28 @@
     left: 0;
     height: 100%;
     width: 48px;
+
+    @media (min-width: $screen-sm-max) {
+        left: 16px;
+    }
 }
 
 .title {
     display: block;
-    width: 100%;
-    overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-    color: #fff;
-    font-size: 20px;
-    padding-left: 32px;
+    flex: 1;
+    padding-right: 16px;
+    color: $primary-1-text;
+    font-size: 18px;
+    transition: all 0.2s linear;
+    @include ellipsis();
 }
+
+.header.searchOpen {
+    .title {
+        @media (max-width: $screen-sm-max) {
+            opacity: 0;
+            padding: 0;
+        }
+    }
+}
+

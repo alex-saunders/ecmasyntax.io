@@ -20,23 +20,16 @@ class CategorySection extends React.Component {
           selectRoute={ this.props.selectRoute }>
           {entry.fields.name}
         </RouteLink>
-      )
-    })
-  }
-
-  handleClick = (e) => {
-    e.preventDefault();
-
-    this.container.classList.toggle(s['hidden']);
+      );
+    });
   }
 
   render() {
     return (
       <div className={s['categorySection']} ref={(div) => { this.container = div; }}>
-        <a className={s['categorySection-header']} href="#" onClick={this.handleClick}>
+        <div className={s['categorySection-header']} href="#">
           {this.props.category.fields.name}
-          {/*<i className={`material-icons ${s['chevron']}`} ref={(i) => { this.icon = i; }}>keyboard_arrow_down</i>*/}
-        </a>
+        </div>
         <div className={s['categorySection-body']} ref={(div) => { this.linksContainer = div; }}>
           { this.mapLinks() }
         </div>
