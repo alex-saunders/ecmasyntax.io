@@ -48,7 +48,7 @@ class SearchResults extends React.Component {
   }
 
   mapPages = () => {
-    let pages = this.organisePages(this.props.activePages);
+    let pages = this.organisePages(this.props.pages);
     let output = pages.map((category, index) => {
       return (
         <CategorySection key={index} category={category} activePage={this.props.activePage} selectRoute={this.selectRoute}/>
@@ -70,24 +70,11 @@ class SearchResults extends React.Component {
         return (<p></p>);
     }
 
-    if (this.props.activePages.length > 0) {
-      return (
-        <div>
-          { this.mapPages() }
-        </div>
-      )
-    }
-
     return (
-      <div className={s.noResults}>
-        <p className={s["noResults-copy"]}>
-          <i className="material-icons">&#xE000;</i>
-          <span>
-          Sorry, no results found.
-          </span>
-        </p>
+      <div>
+        { this.mapPages() }
       </div>
-    )
+    );
 	}
 
 }

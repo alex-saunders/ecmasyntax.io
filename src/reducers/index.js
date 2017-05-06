@@ -1,13 +1,13 @@
 import { combineReducers } from 'redux';
 import UtilReducer from './utils';
-import SearchReducer from './search';
+import PageListReducer from './page-list';
 import ActivePageReducer from './active-page';
 
 const allReducers = combineReducers(
   {
     utils: UtilReducer,
-    pageList: SearchReducer,
-    activePage: ActivePageReducer
+    pageList: PageListReducer,
+    activePage: ActivePageReducer,
   }
 );
 

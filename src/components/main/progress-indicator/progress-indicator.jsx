@@ -26,7 +26,7 @@ class ProgressIndicator extends React.Component {
     if (nextProps.isLoading && !this.props.isLoading) {
       this.setState({
         width: '0%',
-        opacity: 1,
+        opacity: 0,
         animatable: false,
       });
 

@@ -2,7 +2,7 @@
 
 .categorySection {
   padding-bottom: 8px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+  border-bottom: 1px solid $border-color;
 }
 .categorySection-header {
   animation: fadeIn 0.6s 1;
@@ -12,7 +12,7 @@
   text-decoration: none;
   padding: 8px 24px;
   margin: 0;
-  color: $text-3;
+  color: $drawer-subheading;
   font-size: 14px;
   text-transform: uppercase;
   // height: 16px;

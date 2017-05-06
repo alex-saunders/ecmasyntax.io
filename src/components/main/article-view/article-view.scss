@@ -1,8 +1,9 @@
 @import '../../../scss/theme';
 
 .page-view {
-  padding: 16px 16px 16px 48px;
+  padding: 16px 32px 16px 48px;
   overflow-x: hidden;
+  flex: 1;
 
   @media (max-width: $screen-sm-max) { 
     padding: 16px;

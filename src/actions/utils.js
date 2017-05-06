@@ -4,3 +4,10 @@ export const toggleDrawer = (bool) => {
 		payload: bool
 	};
 }
+
+export const toggleSearch = (bool) => {
+	return {
+		type: "TOGGLE_SEARCH",
+		payload: bool
+	};
+}

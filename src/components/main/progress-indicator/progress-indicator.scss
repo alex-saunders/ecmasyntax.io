@@ -8,5 +8,5 @@
 }
 
 .progressIndicator.animatable {
-  transition: width 0.3s linear, opacity 0.7s linear;
+  transition: width 0.4s $anim-easing, opacity 0.1s linear;
 }

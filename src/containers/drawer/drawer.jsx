@@ -1,12 +1,14 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { toggleDrawer } from '../../actions/utils';
-import { search, addFilter, removeFilter } from '../../actions/search';
+import { addFilter, removeFilter } from '../../actions/search';
+import withStyles from 'isomorphic-style-loader/lib/withStyles';
+import s from './drawer.scss';
+
+import Ripple from '../../components/generic/ripple/ripple';
 import SearchFilters from '../../components/drawer/search-filters/search-filters';
 import SearchResults from '../../components/drawer/search-results/search-results';
 import Ad from '../../components/drawer/adsense/adsense';
-import withStyles from 'isomorphic-style-loader/lib/withStyles';
-import s from './drawer.scss';
 
 class Drawer extends React.Component {
   constructor(props) {
@@ -23,36 +25,6 @@ class Drawer extends React.Component {
 
   componentDidMount() {
     this.addEventListeners();
-  }
-
-  searchIconClick = () => {
-    this.searchInput.focus();
-  }
-
-  searchFocused = () => {
-    this.searchContainer.classList.add(s['focused']);
-    this.searchInput.click();
-  }
-
-  searchUnfocused = () => {
-    this.searchContainer.classList.remove(s['focused']);
-  }
-
-  handleInput = (e) => {
-    if (e.target.value.length > 0) {
-      this.searchContainer.classList.add(s['non-empty']);
-    } else {
-      this.searchContainer.classList.remove(s['non-empty']);
-    }
-
-    this.props.search(e.target.value);
-  }
-
-  clearInput = (e) => {
-    this.searchContainer.click();
-    this.searchContainer.classList.remove(s['non-empty']);
-
-    this.props.search('');
   }
 
   addEventListeners () {
@@ -143,46 +115,39 @@ class Drawer extends React.Component {
         ref={(div) => { this.drawerContainer = div }}>
         <aside className={s['drawer']} ref={(aside) => { this.drawer = aside }}>
           <a className={s['drawer-logo']} href="/">
-            <img src="/static/img/ecmasyntax-logo.png" alt="logo" />
+            {/*<img src="/static/img/ecmasyntax-logo.png" alt="logo" />*/}
           </a>
-          <div className={s['search-container']}>
-            <label htmlFor="search"
-              className={s['search-label']}
-              onFocus={this.searchFocused}
-              ref={(label) => { this.searchContainer = label; }}>
-              <button className={s['icon-container']} onClick={this.searchIconClick}>
-                <i className={`material-icons ${s['search-icon']}`}>search</i>
-              </button>
-
-              <input type="text" id="search" placeholder="Search for syntax"
-                value={this.props.searchQuery}
-                className={s['search-input']}
-                onChange={this.handleInput}
-                onBlur={this.searchUnfocused}
-                ref={(input) => { this.searchInput = input; }} />
-
-              <button className={`${s['icon-container']} ${s['search-closeIcon']}`} onClick={this.clearInput}>
-                <i className='material-icons'>close</i>
-              </button>
-            </label>
+          <div className={s['drawer-homeContainer']}>
+            <a className={`${s['drawer-home']} ${this.props.activePage ? '' : s.active}`} href="/">
+              <i className='material-icons'>home</i>
+              <span>
+                Home
+              </span>
+              <Ripple />
+            </a>
           </div>
-          <div className={s['articleFilters-wrapper']}>
+          {/*<div className={s['search-container']}>
+            
+          </div>*/}
+          {/*<div className={s['articleFilters-wrapper']}>
             <SearchFilters 
-            entries={this.props.entries} 
-            activePages={this.props.activePages}
-            currFilters={this.props.currFilters} 
-            addFilter={this.props.addFilter}
-            removeFilter={this.props.removeFilter} />
-          </div>
+              entries={this.props.entries} 
+              activePages={this.props.activePages}
+              currFilters={this.props.currFilters} 
+              addFilter={this.props.addFilter}
+              removeFilter={this.props.removeFilter} 
+            />
+          </div>*/}
           <div className={s['pageList-wrapper']}>
             <SearchResults
               selectRoute={(page) => this.props.selectRoute(page)} 
               hasErrored={this.props.hasErrored}
               isLoading={this.props.isLoading}
+              pages={this.props.entries}
               activePages={this.props.activePages}
               activePage={this.props.activePage}
               activeRoute={this.props.activeRoute}
-              />
+            />
           </div>
           <div className={s['drawer-footer']}>
             {/*<Ad />*/}
@@ -202,7 +167,6 @@ function mapStateToProps(state) {
     activePages: state.pageList.activePages,
     activePage: state.activePage.page,
     activeRoute: state.activePage.route,
-    searchQuery: state.pageList.query,
     currFilters: state.pageList.filters,
     drawerOpen: state.utils.drawerOpen,
 	};
@@ -211,7 +175,6 @@ function mapStateToProps(state) {
 function matchDispatchToProps(dispatch) {
   return {
     toggleDrawer: (open) => dispatch(toggleDrawer(open)),
-    search: (query) => dispatch(search(query)),
     addFilter: (filter) => dispatch(addFilter(filter)),
     removeFilter: (filter) => dispatch(removeFilter(filter)),
   }

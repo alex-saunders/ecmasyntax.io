@@ -2,7 +2,7 @@
 
 .articleFilters {
   width: 100%;
-  padding: 0px 0px 8px 0px;
+  padding: 8px 0px 8px 0px;
   border-bottom: 1px solid $border-color;
 }
 
@@ -19,7 +19,7 @@
 
   span {
     float: left;
-    color: $text-3;
+    color: $primary-1-text;
     font-size: 14px;
     text-transform: uppercase;
     line-height: 40px;
@@ -28,7 +28,7 @@
 
   .articleFilters-expandIcon {
     float: right;
-    color: $text-2;
+    color: $primary-1-text;
     line-height: 40px;
     width: 24px;
     height: 40px;

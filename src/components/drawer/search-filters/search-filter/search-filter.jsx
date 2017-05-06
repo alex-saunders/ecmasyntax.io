@@ -23,23 +23,23 @@ class ArticleFilter extends React.Component {
       console.log(`setting ${this.props.filter} to active`);
       this.setState({ active: true })
     }
-
+    e.preventDefault();
   }
 
   render() {
     const active = (this.props.currFilters.indexOf(this.props.filter) > -1);
     return (
-      <div className={`${s["rkmd-checkbox"]}`} >
+      <a className={`${s["rkmd-checkbox"]}`} href="#" onClick={this.handleClick}>
         <label htmlFor={`filter-${this.props.filter}`} className={s["label"]}>
           { this.props.filter }
           <Ripple />
         </label>
         <label className={`${s["input-checkbox"]}`}>
-          <input type="checkbox" checked={active}  id={`filter-${this.props.filter}`} onChange={this.handleClick}></input>
+          <input type="checkbox" checked={active}  id={`filter-${this.props.filter}`}></input>
           <span className={s["checkbox"]}></span>
         </label>
         {/*<Ripple />*/}
-      </div>
+      </a>
     );
   }
 

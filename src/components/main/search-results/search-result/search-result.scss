@@ -1,0 +1,59 @@
+@import '../../../../scss/theme';
+
+.result {
+  position: relative;
+  overflow: hidden;
+  padding: 4px 0 25px 0;
+  border-bottom: 1px solid $border-color;
+  cursor: pointer;
+
+  @media (max-width: $screen-sm-max) {
+    padding: 0px 8px 0px 48px;
+    border-bottom: none;
+  }
+
+}
+
+.ripple {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  overflow: hidden;
+
+  @media (min-width: $screen-sm-max) {
+    display: none;
+  }
+}
+
+.result-title {
+  color: $primary-2;
+  font-size: 24px;
+
+  @media (max-width: $screen-sm-max) {
+    color: $body-text;
+    font-size: 16px;
+    margin: 16px 0;
+  }
+}
+
+.result-url {
+  font-size: 13px;
+  color: $accent-1;
+  @include ellipsis();
+
+  @media (max-width: $screen-sm-max) {
+    display: none;
+  }
+}
+
+.result-route {
+  color: $body-text;
+  font-size: 13px;
+  line-height: 24px;
+
+  @media (max-width: $screen-sm-max) {
+    display: none;
+  }
+}

@@ -1,5 +1,5 @@
 export const pageFetchError = (bool) => {
-	return {
+  return {
 		type: "PAGE_ERROR",
 		payload: bool
 	};

@@ -50,6 +50,7 @@ class Server {
       },
       utils: {
         drawerOpen: false,
+        searchOpen: false,
       },
       pageList: {
         entries: [],
@@ -213,6 +214,13 @@ class Server {
       .then((entries) => {
         const markedEntries = entries;
         entries.items.forEach((item, index) => {
+          // create url for each page
+          const category = item.fields.category;
+          const specification = category.fields.specification[0];
+          const route = `/${specification.fields.name}/${category.fields.name}/${item.fields.name}`;
+
+          markedEntries.items[index].fields.route = encodeURI(route);
+
           if (item.fields.blob) {
             const html = marked(item.fields.blob);
             markedEntries.items[index].fields.blob = html;

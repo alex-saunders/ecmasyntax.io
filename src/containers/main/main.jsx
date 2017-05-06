@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import { toggleDrawer } from '../../actions/utils';
+import SearchResults from '../search-results/search-results';
 import ArticleView from '../../components/main/article-view/article-view';
 import s from './main.scss';
 
@@ -18,11 +19,15 @@ class Main extends React.Component {
       <main className={s['main']} ref={(main) => { this.main = main; }}>
         <div className={s['progressBar']} />
         <div className={s['content-wrapper']}>
+          {this.props.searchOpen ? 
+          <SearchResults 
+            selectRoute={this.props.selectRoute}/>
+          :
           <ArticleView
             activePage={this.props.activePage}
             hasErrored={this.props.hasErrored}
-            isLoading={this.props.isLoading}
-          />
+            isLoading={this.props.isLoading}/>
+          }
           <footer className={s['footer']}>
             <div className={s.section}>
               <h1>
@@ -64,6 +69,8 @@ function mapStateToProps(state) {
     hasErrored: state.activePage.hasErrored,
     isLoading: state.activePage.isLoading,
     drawerOpen: state.utils.drawerOpen,
+    searchOpen: state.utils.searchOpen,
+    currQuery: state.pageList.query,
   };
 }
 
