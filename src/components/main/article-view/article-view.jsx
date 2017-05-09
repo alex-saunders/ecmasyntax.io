@@ -1,4 +1,5 @@
 import React from 'react';
+import CSSTransitionGroup from 'react-transition-group/CSSTransitionGroup';
 import MarkdownContainer from './markdown-container/markdown-container';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 
@@ -62,6 +63,8 @@ class ArticleView extends React.Component {
       ANIM_OPTIONS
     )
     this.outAnim.onfinish = _ => {
+      // TODO: Loading
+      
       this.pageContainer.style.opacity = 0;
       this.ANIMATING_OUT = false;
     }
@@ -90,19 +93,19 @@ class ArticleView extends React.Component {
     this.inAnim = this.pageContainer.animate(
       IN_KEYFRAMES,
       ANIM_OPTIONS
-    ).onfinish = _ => {
+    ).onfinish = () => {
       this.pageContainer.style.transform = 'scale(1)';
       this.pageContainer.style.opacity = '1';
-    }
+    };
   }
 
-	render() {
+  render() {
     return (
       <div className={s['page-view']} ref={(div) => { this.pageContainer = div; }}>
         {this.state.content}
       </div>
-    )
-	}
+    );
+  }
 
 }
 

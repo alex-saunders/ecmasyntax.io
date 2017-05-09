@@ -53,7 +53,7 @@ function queryPages(query, pages) {
   let matchedEntries = syntaxEntries;
   if (query.length > 0) {
     matchedEntries = syntaxEntries.filter((entry) => {
-      return ((entry.fields.name.trim().toLowerCase().match(query))) // ||
+      return ((entry.fields.name.trim().toLowerCase().match(query.toLowerCase()))) // ||
         // (entry.fields.category.fields.name.trim().toLowerCase().match(query)));
     });
   }
