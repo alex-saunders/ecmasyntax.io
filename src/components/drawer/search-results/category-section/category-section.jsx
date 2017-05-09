@@ -16,7 +16,7 @@ class CategorySection extends React.Component {
         <RouteLink
           page={entry}
           key={index}
-          activePage={this.props.activePage}
+          activeRoute={this.props.activeRoute}
           selectRoute={ this.props.selectRoute }>
           {entry.fields.name}
         </RouteLink>
