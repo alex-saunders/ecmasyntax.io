@@ -71,7 +71,7 @@ class Server {
     const pageName = decodeURI(req.params.pageId);
 
     return new Promise((resolve, reject) => {
-      const index = this.preloadedState.pageList.entries.findIndex((page) => {
+      const index = this.pages.findIndex((page) => {
         const category = page.fields.category;
         const specification = category.fields.specification[0];
 
@@ -80,7 +80,7 @@ class Server {
                 (specification.fields.name === spec));
       });
       if (index > -1) {
-        resolve(this.preloadedState.pageList.entries[index]);
+        resolve(this.pages[index]);
       } else {
         reject();
       }
@@ -132,23 +132,12 @@ class Server {
       next();
     });
 
-    this.router.route('/:specId/:catId/:pageId').get((req, res) => {
-      this._fetchPage(req)
-      .then((entry) => {
-        const newPreloadedState = {
-          activePage: {
-            page: entry,
-            route: req.url,
-            pageIsLoading: false,
-            pageHasErrored: false,
-          },
-        };
-        const state = Object.assign({}, this.preloadedState, newPreloadedState);
-        this._handleRender(req, res, state);
-      })
-      .catch(() => {
-        Server.handle404(req, res);
-      });
+    this.router.get('/sw.js', (req, res) => {
+      res.sendFile('sw.js', { root: this.__dirname });
+    })
+
+    this.router.route('/pages/:specId/:catId/:pageId').get((req, res) => {
+      this._handleRender(req, res);
     });
 
     this.router.get('/', (req, res) => {
@@ -169,11 +158,11 @@ class Server {
       });
     });
 
-    this.APIRouter.route('/articles').get((req, res) => {
+    this.APIRouter.route('/pages/').get((req, res) => {
       // TODO
     });
 
-    this.APIRouter.route('/articles/:specId/:catId/:pageId').get((req, res) => {
+    this.APIRouter.route('/pages/:specId/:catId/:pageId').get((req, res) => {
       this._fetchPage(req, res)
       .then((entry) => {
         res.status(200).json(entry);
@@ -185,7 +174,7 @@ class Server {
   }
 
   _initCompression() {
-    this.app.get('*.js', (req, res, next) => {
+    this.app.get('app.js', (req, res, next) => {
       req.url += '.gz';
       res.set('Content-Encoding', 'gzip');
       next();
@@ -217,7 +206,7 @@ class Server {
           // create url for each page
           const category = item.fields.category;
           const specification = category.fields.specification[0];
-          const route = `/${specification.fields.name}/${category.fields.name}/${item.fields.name}`;
+          const route = `/pages/${specification.fields.name}/${category.fields.name}/${item.fields.name}`;
 
           markedEntries.items[index].fields.route = encodeURI(route);
 
@@ -237,18 +226,31 @@ class Server {
   }
 
   start() {
-    if (process.env.NODE_ENV === 'production') {
-      this._initCompression();
-    }
+    // this._initCompression();
     this._setupRouters();
 
-    this._buildArticles().then((articles) => {
+    
+    this._buildArticles().then((pages) => {
+      this.pages = pages.items;
+
+      const preloadedPageInfo = this.pages.map((page) => {
+        return {
+          fields: {
+            category: page.fields.category,
+            name: page.fields.name,
+            route: page.fields.route,
+          },
+          sys: {
+            id: page.sys.id,
+          },
+        };
+      });
       const initialLoadedState = {
         pageList: {
-          entries: articles.items,
+          entries: preloadedPageInfo,
           filters: [],
           query: '',
-          activePages: articles.items,
+          activePages: preloadedPageInfo,
         },
       };
       this.preloadedState = Object.assign({}, this.preloadedState, initialLoadedState);

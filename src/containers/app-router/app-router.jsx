@@ -18,13 +18,13 @@ class AppRouter extends React.Component {
     this.state = {
       activeRoute: this.props.activeRoute,
     }
-
-    if (this.props.activeRoute) {
-      console.log(`DEEP LINKED TO %c${this.props.activeRoute}`, "color: blue");
-    }
   }
 
   componentDidMount() {
+    if (window.location.pathname); {
+      this.onPopstate();
+      console.log(`DEEP LINKED TO %c${window.location.pathname}`, "color: blue");
+    }
     window.addEventListener('popstate', this.onPopstate);
   }
 
@@ -40,16 +40,12 @@ class AppRouter extends React.Component {
 
   // route change function
   onPopstate = () => {
-    // temp fix
-    if (location.pathname === '/') {
-      location.reload();
-    } else {
+    if (location.pathname !== '/') {
       this.props.fetchPage(location.pathname);
     }
   }
 
   selectRoute = (page) => {
-    console.log('here');
     const route = page.fields.route;
 
     // if (this.props.activeRoute === route)
@@ -57,7 +53,7 @@ class AppRouter extends React.Component {
 
     window.history.pushState(null, null, (route));
 
-    console.log(`MANUAL SELECT %c${page}`, "color: darkblue;");
+    console.log(`MANUAL SELECT %c${route}`, "color: darkblue;");
 
     this.props.toggleDrawer(false);
     this.props.toggleSearch(false);
@@ -72,6 +68,7 @@ class AppRouter extends React.Component {
       <div className={s['app-container']}>
         <ProgressIndicator
           activePage={this.props.activePage}
+          activeRoute={this.props.activeRoute}
           hasErrored={this.props.hasErrored}
           isLoading={this.props.isLoading}
         />

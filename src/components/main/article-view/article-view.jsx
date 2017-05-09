@@ -30,27 +30,15 @@ class ArticleView extends React.Component {
     this.ANIMATING_OUT = false;
     this.outAnim;
     this.inAnim;
-
-    if (this.props.activePage) {
-      this.state = {
-        content: (
-          <MarkdownContainer content={ this.props.activePage.fields.blob } />
-        )
-      };
-    } else {
-      this.state = {
-        content: (<div>no page selected</div>)
-      };
-    }
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.isLoading) {
-      this._out(nextProps.activePage);
-    }
-    if (!nextProps.isLoading && !nextProps.hasErrored && (nextProps.activePage !== this.props.activePage)) {
-      this._in(nextProps)
-    }
+    // if (nextProps.isLoading) {
+    //   this._out(nextProps.activePage);
+    // }
+    // if (!nextProps.isLoading && !nextProps.hasErrored && (nextProps.activePage !== this.props.activePage)) {
+    //   this._in(nextProps)
+    // }
   }
 
   _out() {
@@ -100,9 +88,25 @@ class ArticleView extends React.Component {
   }
 
   render() {
+    let content;
+    if (this.props.activeRoute && 
+          (!this.props.activePage || 
+          (this.props.activeRoute !== this.props.activePage.fields.route))) {
+            
+      content = (
+        <div>Loading</div>
+      );
+    } else if (this.props.activePage) {
+      content = (
+        <MarkdownContainer content={ this.props.activePage.fields.blob } />
+      );
+    } else {
+      content = (<div />);
+    }
+
     return (
       <div className={s['page-view']} ref={(div) => { this.pageContainer = div; }}>
-        {this.state.content}
+        {content}
       </div>
     );
   }

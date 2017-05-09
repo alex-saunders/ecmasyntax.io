@@ -51,7 +51,7 @@ class SearchResults extends React.Component {
     let pages = this.organisePages(this.props.pages);
     let output = pages.map((category, index) => {
       return (
-        <CategorySection key={index} category={category} activePage={this.props.activePage} selectRoute={this.selectRoute}/>
+        <CategorySection key={index} category={category} activeRoute={this.props.activeRoute} selectRoute={this.selectRoute}/>
       )
     });
     return output;

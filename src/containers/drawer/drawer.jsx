@@ -145,7 +145,6 @@ class Drawer extends React.Component {
               isLoading={this.props.isLoading}
               pages={this.props.entries}
               activePages={this.props.activePages}
-              activePage={this.props.activePage}
               activeRoute={this.props.activeRoute}
             />
           </div>

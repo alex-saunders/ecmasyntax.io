@@ -38,6 +38,7 @@ class Main extends React.Component {
             selectRoute={this.props.selectRoute} key={1}/>
           :
           <ArticleView
+            activeRoute={this.props.activeRoute}
             activePage={this.props.activePage}
             hasErrored={this.props.hasErrored}
             isLoading={this.props.isLoading} key={2}/>
@@ -50,20 +51,20 @@ class Main extends React.Component {
                   A free, open source project to help web developers
                 </h1>
                 <p>
-                  Created by <a href="https://twitter.com/AlexJRsaunders" target="_blank">@alexjrsaunders</a>
+                  Created by <a href="https://twitter.com/AlexJRsaunders" rel="noopener">@alexjrsaunders</a>
                 </p>
                 <p>
                   Design inspired by
-                  <a href="http://cssreference.io/" target="_blank"> HTML/CSSReference.io</a>
+                  <a href="http://cssreference.io/" rel="noopener"> HTML/CSSReference.io</a>
                   , created by
-                  <a href="https://twitter.com/jgthms" target="_blank"> @jgthms</a>
+                  <a href="https://twitter.com/jgthms" rel="noopener"> @jgthms</a>
                 </p>
               </div>
               <div className={s.section}>
                 <h1>Share</h1>
                 <p>
 
-                  <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A//ecmasyntax.io" target="_blank">
+                  <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A//ecmasyntax.io" rel="noopener">
                     <i className={`${s.facebook} fa fa-facebook-square`} aria-hidden="true"></i>
                   </a>
                   <a href="https://twitter.com/home?status=Javascript%20syntax%20reference%3A%20https%3A//ecmasyntax.io">
@@ -84,6 +85,7 @@ class Main extends React.Component {
 
 function mapStateToProps(state) {
   return {
+    activeRoute: state.activePage.route,
     activePage: state.activePage.page,
     hasErrored: state.activePage.hasErrored,
     isLoading: state.activePage.isLoading,

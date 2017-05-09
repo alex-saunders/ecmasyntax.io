@@ -646,14 +646,14 @@ var Server = function () {
       var pageName = decodeURI(req.params.pageId);
 
       return new Promise(function (resolve, reject) {
-        var index = _this.preloadedState.pageList.entries.findIndex(function (page) {
+        var index = _this.pages.findIndex(function (page) {
           var category = page.fields.category;
           var specification = category.fields.specification[0];
 
           return page.fields.name === pageName && category.fields.name === cat && specification.fields.name === spec;
         });
         if (index > -1) {
-          resolve(_this.preloadedState.pageList.entries[index]);
+          resolve(_this.pages[index]);
         } else {
           reject();
         }
@@ -694,21 +694,12 @@ var Server = function () {
         next();
       });
 
-      this.router.route('/:specId/:catId/:pageId').get(function (req, res) {
-        _this2._fetchPage(req).then(function (entry) {
-          var newPreloadedState = {
-            activePage: {
-              page: entry,
-              route: req.url,
-              pageIsLoading: false,
-              pageHasErrored: false
-            }
-          };
-          var state = Object.assign({}, _this2.preloadedState, newPreloadedState);
-          _this2._handleRender(req, res, state);
-        }).catch(function () {
-          Server.handle404(req, res);
-        });
+      this.router.get('/sw.js', function (req, res) {
+        res.sendFile('sw.js', { root: _this2.__dirname });
+      });
+
+      this.router.route('/pages/:specId/:catId/:pageId').get(function (req, res) {
+        _this2._handleRender(req, res);
       });
 
       this.router.get('/', function (req, res) {
@@ -734,11 +725,11 @@ var Server = function () {
         });
       });
 
-      this.APIRouter.route('/articles').get(function (req, res) {
+      this.APIRouter.route('/pages/').get(function (req, res) {
         // TODO
       });
 
-      this.APIRouter.route('/articles/:specId/:catId/:pageId').get(function (req, res) {
+      this.APIRouter.route('/pages/:specId/:catId/:pageId').get(function (req, res) {
         _this3._fetchPage(req, res).then(function (entry) {
           res.status(200).json(entry);
         }).catch(function () {
@@ -749,7 +740,7 @@ var Server = function () {
   }, {
     key: '_initCompression',
     value: function _initCompression() {
-      this.app.get('*.js', function (req, res, next) {
+      this.app.get('app.js', function (req, res, next) {
         req.url += '.gz';
         res.set('Content-Encoding', 'gzip');
         next();
@@ -786,7 +777,7 @@ var Server = function () {
             // create url for each page
             var category = item.fields.category;
             var specification = category.fields.specification[0];
-            var route = '/' + specification.fields.name + '/' + category.fields.name + '/' + item.fields.name;
+            var route = '/pages/' + specification.fields.name + '/' + category.fields.name + '/' + item.fields.name;
 
             markedEntries.items[index].fields.route = encodeURI(route);
 
@@ -808,18 +799,30 @@ var Server = function () {
     value: function start() {
       var _this5 = this;
 
-      if (false) {
-        this._initCompression();
-      }
+      // this._initCompression();
       this._setupRouters();
 
-      this._buildArticles().then(function (articles) {
+      this._buildArticles().then(function (pages) {
+        _this5.pages = pages.items;
+
+        var preloadedPageInfo = _this5.pages.map(function (page) {
+          return {
+            fields: {
+              category: page.fields.category,
+              name: page.fields.name,
+              route: page.fields.route
+            },
+            sys: {
+              id: page.sys.id
+            }
+          };
+        });
         var initialLoadedState = {
           pageList: {
-            entries: articles.items,
+            entries: preloadedPageInfo,
             filters: [],
             query: '',
-            activePages: articles.items
+            activePages: preloadedPageInfo
           }
         };
         _this5.preloadedState = Object.assign({}, _this5.preloadedState, initialLoadedState);
@@ -889,10 +892,11 @@ var setActivePage = exports.setActivePage = function setActivePage(page) {
 
 var fetchPage = exports.fetchPage = function fetchPage(route) {
 	return function (dispatch) {
+		dispatch(setActiveRoute(route));
 		dispatch(pageIsLoading(true));
 		dispatch(pageFetchError(false));
 		setTimeout(function () {
-			fetch("/api/articles" + route).then(function (response) {
+			fetch("/api/" + route).then(function (response) {
 				if (!response.ok) {
 					throw Error(response.statusText);
 				}
@@ -902,7 +906,6 @@ var fetchPage = exports.fetchPage = function fetchPage(route) {
 				return response.json();
 			}).then(function (response) {
 				dispatch(pageFetchSuccess(response));
-				dispatch(setActiveRoute(route));
 				document.title = "ECMASyntax - " + response.fields.name;
 			}).catch(function (err) {
 				console.log('ERROR', err);
@@ -1328,7 +1331,7 @@ var CategorySection = function (_React$Component) {
           {
             page: entry,
             key: index,
-            activePage: _this2.props.activePage,
+            activeRoute: _this2.props.activeRoute,
             selectRoute: _this2.props.selectRoute },
           entry.fields.name
         );
@@ -1420,17 +1423,12 @@ var RouteLink = function (_React$Component) {
   }
 
   _createClass(RouteLink, [{
-    key: 'componentDidMount',
-    value: function componentDidMount() {
-      console.log(this.props);
-    }
-  }, {
     key: 'render',
     value: function render() {
       return _react2.default.createElement(
         'a',
         {
-          className: this.props.activePage && this.props.activePage.sys.id === this.props.page.sys.id ? _routeLink2.default['pageList-item'] + ' ' + _routeLink2.default['active'] : _routeLink2.default['pageList-item'],
+          className: this.props.activeRoute && this.props.activeRoute === this.props.page.fields.route ? _routeLink2.default['pageList-item'] + ' ' + _routeLink2.default['active'] : _routeLink2.default['pageList-item'],
           href: this.props.page.fields.route,
           onClick: this.clickHandler },
         this.props.children,
@@ -1494,7 +1492,7 @@ var SearchResults = function (_React$Component) {
     _this.mapPages = function () {
       var pages = _this.organisePages(_this.props.pages);
       var output = pages.map(function (category, index) {
-        return _react2.default.createElement(_categorySection2.default, { key: index, category: category, activePage: _this.props.activePage, selectRoute: _this.selectRoute });
+        return _react2.default.createElement(_categorySection2.default, { key: index, category: category, activeRoute: _this.props.activeRoute, selectRoute: _this.selectRoute });
       });
       return output;
     };
@@ -1639,32 +1637,18 @@ var ArticleView = function (_React$Component) {
     _this.ANIMATING_OUT = false;
     _this.outAnim;
     _this.inAnim;
-
-    if (_this.props.activePage) {
-      _this.state = {
-        content: _react2.default.createElement(_markdownContainer2.default, { content: _this.props.activePage.fields.blob })
-      };
-    } else {
-      _this.state = {
-        content: _react2.default.createElement(
-          'div',
-          null,
-          'no page selected'
-        )
-      };
-    }
     return _this;
   }
 
   _createClass(ArticleView, [{
     key: 'componentWillReceiveProps',
     value: function componentWillReceiveProps(nextProps) {
-      if (nextProps.isLoading) {
-        this._out(nextProps.activePage);
-      }
-      if (!nextProps.isLoading && !nextProps.hasErrored && nextProps.activePage !== this.props.activePage) {
-        this._in(nextProps);
-      }
+      // if (nextProps.isLoading) {
+      //   this._out(nextProps.activePage);
+      // }
+      // if (!nextProps.isLoading && !nextProps.hasErrored && (nextProps.activePage !== this.props.activePage)) {
+      //   this._in(nextProps)
+      // }
     }
   }, {
     key: '_out',
@@ -1717,12 +1701,26 @@ var ArticleView = function (_React$Component) {
     value: function render() {
       var _this5 = this;
 
+      var content = void 0;
+      if (this.props.activeRoute && (!this.props.activePage || this.props.activeRoute !== this.props.activePage.fields.route)) {
+
+        content = _react2.default.createElement(
+          'div',
+          null,
+          'Loading'
+        );
+      } else if (this.props.activePage) {
+        content = _react2.default.createElement(_markdownContainer2.default, { content: this.props.activePage.fields.blob });
+      } else {
+        content = _react2.default.createElement('div', null);
+      }
+
       return _react2.default.createElement(
         'div',
         { className: _articleView2.default['page-view'], ref: function ref(div) {
             _this5.pageContainer = div;
           } },
-        this.state.content
+        content
       );
     }
   }]);
@@ -2420,16 +2418,12 @@ var AppRouter = function (_React$Component) {
     var _this = _possibleConstructorReturn(this, (AppRouter.__proto__ || Object.getPrototypeOf(AppRouter)).call(this, props));
 
     _this.onPopstate = function () {
-      // temp fix
-      if (location.pathname === '/') {
-        location.reload();
-      } else {
+      if (location.pathname !== '/') {
         _this.props.fetchPage(location.pathname);
       }
     };
 
     _this.selectRoute = function (page) {
-      console.log('here');
       var route = page.fields.route;
 
       // if (this.props.activeRoute === route)
@@ -2437,7 +2431,7 @@ var AppRouter = function (_React$Component) {
 
       window.history.pushState(null, null, route);
 
-      console.log('MANUAL SELECT %c' + page, "color: darkblue;");
+      console.log('MANUAL SELECT %c' + route, "color: darkblue;");
 
       _this.props.toggleDrawer(false);
       _this.props.toggleSearch(false);
@@ -2449,16 +2443,16 @@ var AppRouter = function (_React$Component) {
     _this.state = {
       activeRoute: _this.props.activeRoute
     };
-
-    if (_this.props.activeRoute) {
-      console.log('DEEP LINKED TO %c' + _this.props.activeRoute, "color: blue");
-    }
     return _this;
   }
 
   _createClass(AppRouter, [{
     key: 'componentDidMount',
     value: function componentDidMount() {
+      if (window.location.pathname) ;{
+        this.onPopstate();
+        console.log('DEEP LINKED TO %c' + window.location.pathname, "color: blue");
+      }
       window.addEventListener('popstate', this.onPopstate);
     }
   }, {
@@ -2484,6 +2478,7 @@ var AppRouter = function (_React$Component) {
         { className: _base2.default['app-container'] },
         _react2.default.createElement(_progressIndicator2.default, {
           activePage: this.props.activePage,
+          activeRoute: this.props.activeRoute,
           hasErrored: this.props.hasErrored,
           isLoading: this.props.isLoading
         }),
@@ -2744,7 +2739,6 @@ var Drawer = function (_React$Component) {
               isLoading: this.props.isLoading,
               pages: this.props.entries,
               activePages: this.props.activePages,
-              activePage: this.props.activePage,
               activeRoute: this.props.activeRoute
             })
           ),
@@ -2878,6 +2872,7 @@ var Main = function (_React$Component) {
               transitionLeaveTimeout: 300 },
             this.props.searchOpen ? _react2.default.createElement(_searchResults2.default, {
               selectRoute: this.props.selectRoute, key: 1 }) : _react2.default.createElement(_articleView2.default, {
+              activeRoute: this.props.activeRoute,
               activePage: this.props.activePage,
               hasErrored: this.props.hasErrored,
               isLoading: this.props.isLoading, key: 2 })
@@ -2899,7 +2894,7 @@ var Main = function (_React$Component) {
                 'Created by ',
                 _react2.default.createElement(
                   'a',
-                  { href: 'https://twitter.com/AlexJRsaunders', target: '_blank' },
+                  { href: 'https://twitter.com/AlexJRsaunders', rel: 'noopener' },
                   '@alexjrsaunders'
                 )
               ),
@@ -2909,13 +2904,13 @@ var Main = function (_React$Component) {
                 'Design inspired by',
                 _react2.default.createElement(
                   'a',
-                  { href: 'http://cssreference.io/', target: '_blank' },
+                  { href: 'http://cssreference.io/', rel: 'noopener' },
                   ' HTML/CSSReference.io'
                 ),
                 ', created by',
                 _react2.default.createElement(
                   'a',
-                  { href: 'https://twitter.com/jgthms', target: '_blank' },
+                  { href: 'https://twitter.com/jgthms', rel: 'noopener' },
                   ' @jgthms'
                 )
               )
@@ -2933,7 +2928,7 @@ var Main = function (_React$Component) {
                 null,
                 _react2.default.createElement(
                   'a',
-                  { href: 'https://www.facebook.com/sharer/sharer.php?u=https%3A//ecmasyntax.io', target: '_blank' },
+                  { href: 'https://www.facebook.com/sharer/sharer.php?u=https%3A//ecmasyntax.io', rel: 'noopener' },
                   _react2.default.createElement('i', { className: _main2.default.facebook + ' fa fa-facebook-square', 'aria-hidden': 'true' })
                 ),
                 _react2.default.createElement(
@@ -2955,6 +2950,7 @@ var Main = function (_React$Component) {
 
 function mapStateToProps(state) {
   return {
+    activeRoute: state.activePage.route,
     activePage: state.activePage.page,
     hasErrored: state.activePage.hasErrored,
     isLoading: state.activePage.isLoading,
