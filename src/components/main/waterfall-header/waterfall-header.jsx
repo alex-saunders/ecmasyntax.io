@@ -7,7 +7,7 @@ class WaterfallHeader extends React.Component {
 
   render() {
     const style = {
-      maxHeight: this.props.scrolled ? '0px' : '51px',
+      maxHeight: this.props.scrolled ? '0px' : '57px',
     }
     return (
       <div className={s.header} style={style}>
