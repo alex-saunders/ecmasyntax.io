@@ -89,9 +89,7 @@ class ArticleView extends React.Component {
 
   render() {
     let content;
-    if (this.props.activeRoute && 
-          (!this.props.activePage || 
-          (this.props.activeRoute !== this.props.activePage.fields.route))) {
+    if (this.props.isLoading) {
             
       content = (
         <div>Loading</div>

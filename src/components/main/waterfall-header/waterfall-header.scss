@@ -13,11 +13,14 @@
 }
 
 .header-contentWrapper {
-  color: $primary-1-text;
+  color: $drawer-subheading;
   float: right;
-  padding: 16px;
+  padding: 20px 24px 20px 20px;
 
   span {
+    font-size: 14px;
+    font-weight: 500;
+    text-transform: uppercase;
     margin-right: 16px;
   }
 }
