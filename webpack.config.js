@@ -47,8 +47,8 @@ var config = {
         ]
       },
       {
-        test: /\.scss$/,
-        exclude: /node_modules/,
+        test: /\.s?css$/,
+        // exclude: /node_modules/,
         use: [
           { loader: 'isomorphic-style-loader' },
           { loader: 'css-loader?modules&localIdentName=[name]_[local]_[hash:base64:3]' },
@@ -65,23 +65,6 @@ var config = {
           { loader: 'sass-loader' }
         ]
       },
-      {
-        test: /\.css$/,
-        use: [
-          { loader: 'isomorphic-style-loader' },
-          { loader: 'css-loader' },
-          {
-            loader: 'postcss-loader',
-            options: {
-              plugins: function () {
-                return [
-                  require('autoprefixer')
-                ];
-              }
-            }
-          },
-        ]
-      }
     ]
   },
   plugins: clientPlugins
@@ -91,7 +74,9 @@ var serverConfig = {
   name: 'server',
   target: 'node',
   devtool: 'cheap-module-source-map',
-  externals: [nodeExternals()],
+  externals: [nodeExternals({
+    whitelist: ['@material/switch/dist/mdc.switch.css'],
+  })],
   entry: [
     './src/server.js'
   ],
@@ -114,8 +99,8 @@ var serverConfig = {
         ]
       },
       {
-        test: /\.scss$/,
-        exclude: /node_modules/,
+        test: /\.s?css$/,
+        // exclude: /node_modules/,
         use: [
           { loader: 'isomorphic-style-loader' },
           { loader: 'css-loader?modules&localIdentName=[name]_[local]_[hash:base64:3]' },
@@ -132,23 +117,6 @@ var serverConfig = {
           { loader: 'sass-loader' }
         ]
       },
-      {
-        test: /\.css$/,
-        use: [
-          { loader: 'isomorphic-style-loader' },
-          { loader: 'css-loader' },
-          {
-            loader: 'postcss-loader',
-            options: {
-              plugins: function () {
-                return [
-                  require('autoprefixer')
-                ];
-              }
-            }
-          },
-        ]
-      }
     ]
   },
   plugins: [

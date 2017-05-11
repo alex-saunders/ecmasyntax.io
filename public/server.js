@@ -63,17 +63,11 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 84);
+/******/ 	return __webpack_require__(__webpack_require__.s = 86);
 /******/ })
 /************************************************************************/
 /******/ ([
 /* 0 */
-/***/ (function(module, exports) {
-
-module.exports = require("react");
-
-/***/ }),
-/* 1 */
 /***/ (function(module, exports) {
 
 /*
@@ -129,21 +123,21 @@ module.exports = function() {
 
 
 /***/ }),
-/* 2 */
+/* 1 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var _stringify = __webpack_require__(73);
+var _stringify = __webpack_require__(75);
 
 var _stringify2 = _interopRequireDefault(_stringify);
 
-var _slicedToArray2 = __webpack_require__(74);
+var _slicedToArray2 = __webpack_require__(76);
 
 var _slicedToArray3 = _interopRequireDefault(_slicedToArray2);
 
-var _getIterator2 = __webpack_require__(72);
+var _getIterator2 = __webpack_require__(74);
 
 var _getIterator3 = _interopRequireDefault(_getIterator2);
 
@@ -284,6 +278,12 @@ function insertCss(styles) {
 module.exports = insertCss;
 
 /***/ }),
+/* 2 */
+/***/ (function(module, exports) {
+
+module.exports = require("react");
+
+/***/ }),
 /* 3 */
 /***/ (function(module, exports) {
 
@@ -308,7 +308,7 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _react = __webpack_require__(0);
+var _react = __webpack_require__(2);
 
 var _react2 = _interopRequireDefault(_react);
 
@@ -316,7 +316,7 @@ var _withStyles = __webpack_require__(3);
 
 var _withStyles2 = _interopRequireDefault(_withStyles);
 
-var _ripple = __webpack_require__(60);
+var _ripple = __webpack_require__(61);
 
 var _ripple2 = _interopRequireDefault(_ripple);
 
@@ -530,37 +530,37 @@ module.exports = require("redux");
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _path = __webpack_require__(82);
+var _path = __webpack_require__(84);
 
 var _path2 = _interopRequireDefault(_path);
 
-var _express = __webpack_require__(78);
+var _express = __webpack_require__(80);
 
 var _express2 = _interopRequireDefault(_express);
 
-var _bodyParser = __webpack_require__(75);
+var _bodyParser = __webpack_require__(77);
 
 var _bodyParser2 = _interopRequireDefault(_bodyParser);
 
-var _react = __webpack_require__(0);
+var _react = __webpack_require__(2);
 
 var _react2 = _interopRequireDefault(_react);
 
 var _redux = __webpack_require__(9);
 
-var _server = __webpack_require__(83);
+var _server = __webpack_require__(85);
 
 var _reactRedux = __webpack_require__(4);
 
-var _marked = __webpack_require__(81);
+var _marked = __webpack_require__(83);
 
 var _marked2 = _interopRequireDefault(_marked);
 
-var _dompurify = __webpack_require__(77);
+var _dompurify = __webpack_require__(79);
 
 var _dompurify2 = _interopRequireDefault(_dompurify);
 
-var _jsdom = __webpack_require__(80);
+var _jsdom = __webpack_require__(82);
 
 var _jsdom2 = _interopRequireDefault(_jsdom);
 
@@ -578,8 +578,8 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-var contentful = __webpack_require__(76);
-var highlightjs = __webpack_require__(79);
+var contentful = __webpack_require__(78);
+var highlightjs = __webpack_require__(81);
 
 var Server = function () {
   function Server() {
@@ -685,6 +685,8 @@ var Server = function () {
       var response = '\n      <!doctype html>\n      <html>\n        <head>\n          <meta charset="utf-8">\n          <meta http-equiv="x-ua-compatible" content="ie=edge">\n          <meta name="viewport" content="width=device-width, initial-scale=1">\n          <title>' + title + '</title>\n          <style>\n            ' + [].concat(_toConsumableArray(css)).join('') + '\n          </style>\n          <link rel="stylesheet" href="/static/font-awesome-4.7.0/css/font-awesome.min.css">\n        </head>\n        <body>\n          <div id="root">' + html + '</div>\n          <script>\n            window.__PRELOADED_STATE__ = ' + JSON.stringify(state).replace(/</g, '\\u003c') + '\n          </script>\n          <script src="/static/app.js" async></script>\n        </body>\n      </html>\n      ';
       res.send(response);
     }
+    // <link rel="stylesheet" href="/node_modules/@material/switch/dist/mdc.switch.css">
+
   }, {
     key: '_setupRoutes',
     value: function _setupRoutes() {
@@ -753,6 +755,9 @@ var Server = function () {
       this._setupAPIRoutes();
 
       this.app.use('/static', _express2.default.static(_path2.default.join(this.__dirname, 'static')));
+
+      // required for material-components-web
+      this.app.use('/node_modules', _express2.default.static(_path2.default.join('node_modules')));
 
       this.app.use('/api', this.APIRouter);
 
@@ -929,7 +934,7 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _react = __webpack_require__(0);
+var _react = __webpack_require__(2);
 
 var _react2 = _interopRequireDefault(_react);
 
@@ -993,7 +998,7 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _react = __webpack_require__(0);
+var _react = __webpack_require__(2);
 
 var _react2 = _interopRequireDefault(_react);
 
@@ -1005,7 +1010,7 @@ var _ripple = __webpack_require__(5);
 
 var _ripple2 = _interopRequireDefault(_ripple);
 
-var _adsense = __webpack_require__(54);
+var _adsense = __webpack_require__(55);
 
 var _adsense2 = _interopRequireDefault(_adsense);
 
@@ -1063,7 +1068,7 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _react = __webpack_require__(0);
+var _react = __webpack_require__(2);
 
 var _react2 = _interopRequireDefault(_react);
 
@@ -1077,7 +1082,7 @@ var _withStyles = __webpack_require__(3);
 
 var _withStyles2 = _interopRequireDefault(_withStyles);
 
-var _searchFilter = __webpack_require__(55);
+var _searchFilter = __webpack_require__(56);
 
 var _searchFilter2 = _interopRequireDefault(_searchFilter);
 
@@ -1156,7 +1161,7 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _react = __webpack_require__(0);
+var _react = __webpack_require__(2);
 
 var _react2 = _interopRequireDefault(_react);
 
@@ -1174,7 +1179,7 @@ var _searchFilter = __webpack_require__(14);
 
 var _searchFilter2 = _interopRequireDefault(_searchFilter);
 
-var _searchFilters = __webpack_require__(56);
+var _searchFilters = __webpack_require__(57);
 
 var _searchFilters2 = _interopRequireDefault(_searchFilters);
 
@@ -1286,7 +1291,7 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _react = __webpack_require__(0);
+var _react = __webpack_require__(2);
 
 var _react2 = _interopRequireDefault(_react);
 
@@ -1298,7 +1303,7 @@ var _withStyles = __webpack_require__(3);
 
 var _withStyles2 = _interopRequireDefault(_withStyles);
 
-var _categorySection = __webpack_require__(57);
+var _categorySection = __webpack_require__(58);
 
 var _categorySection2 = _interopRequireDefault(_categorySection);
 
@@ -1381,7 +1386,7 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _react = __webpack_require__(0);
+var _react = __webpack_require__(2);
 
 var _react2 = _interopRequireDefault(_react);
 
@@ -1393,7 +1398,7 @@ var _withStyles = __webpack_require__(3);
 
 var _withStyles2 = _interopRequireDefault(_withStyles);
 
-var _routeLink = __webpack_require__(58);
+var _routeLink = __webpack_require__(59);
 
 var _routeLink2 = _interopRequireDefault(_routeLink);
 
@@ -1455,7 +1460,7 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _react = __webpack_require__(0);
+var _react = __webpack_require__(2);
 
 var _react2 = _interopRequireDefault(_react);
 
@@ -1465,7 +1470,7 @@ var _withStyles = __webpack_require__(3);
 
 var _withStyles2 = _interopRequireDefault(_withStyles);
 
-var _searchResults = __webpack_require__(59);
+var _searchResults = __webpack_require__(60);
 
 var _searchResults2 = _interopRequireDefault(_searchResults);
 
@@ -1587,7 +1592,7 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _react = __webpack_require__(0);
+var _react = __webpack_require__(2);
 
 var _react2 = _interopRequireDefault(_react);
 
@@ -1603,7 +1608,7 @@ var _withStyles = __webpack_require__(3);
 
 var _withStyles2 = _interopRequireDefault(_withStyles);
 
-var _articleView = __webpack_require__(61);
+var _articleView = __webpack_require__(62);
 
 var _articleView2 = _interopRequireDefault(_articleView);
 
@@ -1743,7 +1748,7 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _react = __webpack_require__(0);
+var _react = __webpack_require__(2);
 
 var _react2 = _interopRequireDefault(_react);
 
@@ -1751,11 +1756,11 @@ var _withStyles = __webpack_require__(3);
 
 var _withStyles2 = _interopRequireDefault(_withStyles);
 
-var _markdownContainer = __webpack_require__(62);
+var _markdownContainer = __webpack_require__(64);
 
 var _markdownContainer2 = _interopRequireDefault(_markdownContainer);
 
-var _atelierEstuaryLight = __webpack_require__(53);
+var _atelierEstuaryLight = __webpack_require__(63);
 
 var _atelierEstuaryLight2 = _interopRequireDefault(_atelierEstuaryLight);
 
@@ -1801,7 +1806,7 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _react = __webpack_require__(0);
+var _react = __webpack_require__(2);
 
 var _react2 = _interopRequireDefault(_react);
 
@@ -1813,7 +1818,7 @@ var _ripple = __webpack_require__(5);
 
 var _ripple2 = _interopRequireDefault(_ripple);
 
-var _headerIcon = __webpack_require__(63);
+var _headerIcon = __webpack_require__(65);
 
 var _headerIcon2 = _interopRequireDefault(_headerIcon);
 
@@ -1889,7 +1894,7 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _react = __webpack_require__(0);
+var _react = __webpack_require__(2);
 
 var _react2 = _interopRequireDefault(_react);
 
@@ -1905,7 +1910,7 @@ var _searchInput = __webpack_require__(23);
 
 var _searchInput2 = _interopRequireDefault(_searchInput);
 
-var _mainHeader = __webpack_require__(64);
+var _mainHeader = __webpack_require__(66);
 
 var _mainHeader2 = _interopRequireDefault(_mainHeader);
 
@@ -1957,8 +1962,9 @@ var MainHeader = function (_React$Component) {
         _react2.default.createElement(
           'span',
           { className: _mainHeader2.default.title },
-          'ECMASyntax \u2013',
-          this.props.activePage ? ' ' + this.props.activePage.fields.name : ' Home'
+          'ECMASyntax ',
+          _react2.default.createElement('span', { dangerouslySetInnerHTML: {
+              __html: this.props.activePage ? '&ndash; ' + this.props.activePage.fields.name : '' } })
         ),
         _react2.default.createElement(_searchInput2.default, {
           currQuery: this.props.currQuery,
@@ -1988,7 +1994,7 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _react = __webpack_require__(0);
+var _react = __webpack_require__(2);
 
 var _react2 = _interopRequireDefault(_react);
 
@@ -1996,7 +2002,7 @@ var _withStyles = __webpack_require__(3);
 
 var _withStyles2 = _interopRequireDefault(_withStyles);
 
-var _searchInput = __webpack_require__(65);
+var _searchInput = __webpack_require__(67);
 
 var _searchInput2 = _interopRequireDefault(_searchInput);
 
@@ -2133,7 +2139,7 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _react = __webpack_require__(0);
+var _react = __webpack_require__(2);
 
 var _react2 = _interopRequireDefault(_react);
 
@@ -2141,7 +2147,7 @@ var _withStyles = __webpack_require__(3);
 
 var _withStyles2 = _interopRequireDefault(_withStyles);
 
-var _progressIndicator = __webpack_require__(66);
+var _progressIndicator = __webpack_require__(68);
 
 var _progressIndicator2 = _interopRequireDefault(_progressIndicator);
 
@@ -2270,7 +2276,7 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _react = __webpack_require__(0);
+var _react = __webpack_require__(2);
 
 var _react2 = _interopRequireDefault(_react);
 
@@ -2284,7 +2290,7 @@ var _ripple = __webpack_require__(5);
 
 var _ripple2 = _interopRequireDefault(_ripple);
 
-var _searchResult = __webpack_require__(67);
+var _searchResult = __webpack_require__(69);
 
 var _searchResult2 = _interopRequireDefault(_searchResult);
 
@@ -2365,7 +2371,7 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _react = __webpack_require__(0);
+var _react = __webpack_require__(2);
 
 var _react2 = _interopRequireDefault(_react);
 
@@ -2381,7 +2387,7 @@ var _withStyles = __webpack_require__(3);
 
 var _withStyles2 = _interopRequireDefault(_withStyles);
 
-var _base = __webpack_require__(71);
+var _base = __webpack_require__(73);
 
 var _base2 = _interopRequireDefault(_base);
 
@@ -2548,7 +2554,7 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _react = __webpack_require__(0);
+var _react = __webpack_require__(2);
 
 var _react2 = _interopRequireDefault(_react);
 
@@ -2562,7 +2568,7 @@ var _withStyles = __webpack_require__(3);
 
 var _withStyles2 = _interopRequireDefault(_withStyles);
 
-var _drawer = __webpack_require__(68);
+var _drawer = __webpack_require__(70);
 
 var _drawer2 = _interopRequireDefault(_drawer);
 
@@ -2793,7 +2799,7 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _react = __webpack_require__(0);
+var _react = __webpack_require__(2);
 
 var _react2 = _interopRequireDefault(_react);
 
@@ -2809,6 +2815,10 @@ var _withStyles2 = _interopRequireDefault(_withStyles);
 
 var _utils = __webpack_require__(6);
 
+var _waterfallHeader = __webpack_require__(87);
+
+var _waterfallHeader2 = _interopRequireDefault(_waterfallHeader);
+
 var _searchResults = __webpack_require__(29);
 
 var _searchResults2 = _interopRequireDefault(_searchResults);
@@ -2817,7 +2827,7 @@ var _articleView = __webpack_require__(19);
 
 var _articleView2 = _interopRequireDefault(_articleView);
 
-var _main = __webpack_require__(69);
+var _main = __webpack_require__(71);
 
 var _main2 = _interopRequireDefault(_main);
 
@@ -2837,7 +2847,22 @@ var Main = function (_React$Component) {
 
     var _this = _possibleConstructorReturn(this, (Main.__proto__ || Object.getPrototypeOf(Main)).call(this, props));
 
-    _this.state = {};
+    _this.scrollHandler = function (evt) {
+      if (_this.contentWrapper.scrollTop > 0 && !_this.state.scrolled) {
+        _this.setState({
+          scrolled: true
+        });
+      }
+      if (_this.contentWrapper.scrollTop < 1 && _this.state.scrolled) {
+        _this.setState({
+          scrolled: false
+        });
+      }
+    };
+
+    _this.state = {
+      scrolled: false
+    };
     return _this;
   }
 
@@ -2851,95 +2876,101 @@ var Main = function (_React$Component) {
         { className: _main2.default['main'], ref: function ref(main) {
             _this2.main = main;
           } },
-        _react2.default.createElement('div', { className: _main2.default['progressBar'] }),
+        this.props.activePage ? _react2.default.createElement(_waterfallHeader2.default, { scrolled: this.state.scrolled }) : '',
         _react2.default.createElement(
           'div',
-          { className: _main2.default['content-wrapper'] },
+          { className: _main2.default['content-wrapper'], onScroll: this.scrollHandler, ref: function ref(div) {
+              _this2.contentWrapper = div;
+            } },
           _react2.default.createElement(
-            _CSSTransitionGroup2.default,
-            {
-              transitionName: {
-                enter: _main2.default.enter,
-                enterActive: _main2.default.enterActive,
-                leave: _main2.default.leave,
-                leaveActive: _main2.default.leaveActive,
-                appear: _main2.default.appear,
-                appearActive: _main2.default.appearActive
-              },
-              component: 'div',
-              className: _main2.default['transition-container'],
-              transitionEnterTimeout: 500,
-              transitionLeaveTimeout: 300 },
-            this.props.searchOpen ? _react2.default.createElement(_searchResults2.default, {
-              selectRoute: this.props.selectRoute, key: 1 }) : _react2.default.createElement(_articleView2.default, {
-              activeRoute: this.props.activeRoute,
-              activePage: this.props.activePage,
-              hasErrored: this.props.hasErrored,
-              isLoading: this.props.isLoading, key: 2 })
-          ),
-          !this.props.searchOpen ? _react2.default.createElement(
-            'footer',
-            { className: _main2.default['footer'] },
+            'div',
+            { className: _main2.default['flex-wrapper'] },
             _react2.default.createElement(
-              'div',
-              { className: _main2.default.section },
-              _react2.default.createElement(
-                'h1',
-                null,
-                'A free, open source project to help web developers'
-              ),
-              _react2.default.createElement(
-                'p',
-                null,
-                'Created by ',
-                _react2.default.createElement(
-                  'a',
-                  { href: 'https://twitter.com/AlexJRsaunders', rel: 'noopener' },
-                  '@alexjrsaunders'
-                )
-              ),
-              _react2.default.createElement(
-                'p',
-                null,
-                'Design inspired by',
-                _react2.default.createElement(
-                  'a',
-                  { href: 'http://cssreference.io/', rel: 'noopener' },
-                  ' HTML/CSSReference.io'
-                ),
-                ', created by',
-                _react2.default.createElement(
-                  'a',
-                  { href: 'https://twitter.com/jgthms', rel: 'noopener' },
-                  ' @jgthms'
-                )
-              )
+              _CSSTransitionGroup2.default,
+              {
+                transitionName: {
+                  enter: _main2.default.enter,
+                  enterActive: _main2.default.enterActive,
+                  leave: _main2.default.leave,
+                  leaveActive: _main2.default.leaveActive,
+                  appear: _main2.default.appear,
+                  appearActive: _main2.default.appearActive
+                },
+                component: 'div',
+                className: _main2.default['transition-container'],
+                transitionEnterTimeout: 500,
+                transitionLeaveTimeout: 300 },
+              this.props.searchOpen ? _react2.default.createElement(_searchResults2.default, {
+                selectRoute: this.props.selectRoute, key: 1 }) : _react2.default.createElement(_articleView2.default, {
+                activeRoute: this.props.activeRoute,
+                activePage: this.props.activePage,
+                hasErrored: this.props.hasErrored,
+                isLoading: this.props.isLoading, key: 2 })
             ),
-            _react2.default.createElement(
-              'div',
-              { className: _main2.default.section },
+            !this.props.searchOpen ? _react2.default.createElement(
+              'footer',
+              { className: _main2.default['footer'] },
               _react2.default.createElement(
-                'h1',
-                null,
-                'Share'
-              ),
-              _react2.default.createElement(
-                'p',
-                null,
+                'div',
+                { className: _main2.default.section },
                 _react2.default.createElement(
-                  'a',
-                  { href: 'https://www.facebook.com/sharer/sharer.php?u=https%3A//ecmasyntax.io', rel: 'noopener' },
-                  _react2.default.createElement('i', { className: _main2.default.facebook + ' fa fa-facebook-square', 'aria-hidden': 'true' })
+                  'h1',
+                  null,
+                  'A free, open source project to help web developers'
                 ),
                 _react2.default.createElement(
-                  'a',
-                  { href: 'https://twitter.com/home?status=Javascript%20syntax%20reference%3A%20https%3A//ecmasyntax.io' },
-                  _react2.default.createElement('i', { className: _main2.default.twitter + ' fa fa-twitter-square', 'aria-hidden': 'true' })
+                  'p',
+                  null,
+                  'Created by ',
+                  _react2.default.createElement(
+                    'a',
+                    { href: 'https://twitter.com/AlexJRsaunders', rel: 'noopener' },
+                    '@alexjrsaunders'
+                  )
+                ),
+                _react2.default.createElement(
+                  'p',
+                  null,
+                  'Design inspired by',
+                  _react2.default.createElement(
+                    'a',
+                    { href: 'http://cssreference.io/', rel: 'noopener' },
+                    ' HTML/CSSReference.io'
+                  ),
+                  ', created by',
+                  _react2.default.createElement(
+                    'a',
+                    { href: 'https://twitter.com/jgthms', rel: 'noopener' },
+                    ' @jgthms'
+                  )
                 )
               ),
-              _react2.default.createElement('iframe', { src: 'https://ghbtns.com/github-btn.html?user=alex-saunders&repo=ecmasyntax.io&type=star&count=true', frameBorder: '0', scrolling: '0', width: '160px', height: '30px' })
-            )
-          ) : ''
+              _react2.default.createElement(
+                'div',
+                { className: _main2.default.section },
+                _react2.default.createElement(
+                  'h1',
+                  null,
+                  'Share'
+                ),
+                _react2.default.createElement(
+                  'p',
+                  null,
+                  _react2.default.createElement(
+                    'a',
+                    { href: 'https://www.facebook.com/sharer/sharer.php?u=https%3A//ecmasyntax.io', rel: 'noopener' },
+                    _react2.default.createElement('i', { className: _main2.default.facebook + ' fa fa-facebook-square', 'aria-hidden': 'true' })
+                  ),
+                  _react2.default.createElement(
+                    'a',
+                    { href: 'https://twitter.com/home?status=Javascript%20syntax%20reference%3A%20https%3A//ecmasyntax.io' },
+                    _react2.default.createElement('i', { className: _main2.default.twitter + ' fa fa-twitter-square', 'aria-hidden': 'true' })
+                  )
+                ),
+                _react2.default.createElement('iframe', { src: 'https://ghbtns.com/github-btn.html?user=alex-saunders&repo=ecmasyntax.io&type=star&count=true', frameBorder: '0', scrolling: '0', width: '160px', height: '30px' })
+              )
+            ) : ''
+          )
         )
       );
     }
@@ -2983,7 +3014,7 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _react = __webpack_require__(0);
+var _react = __webpack_require__(2);
 
 var _react2 = _interopRequireDefault(_react);
 
@@ -2997,7 +3028,7 @@ var _searchResult = __webpack_require__(25);
 
 var _searchResult2 = _interopRequireDefault(_searchResult);
 
-var _searchResults = __webpack_require__(70);
+var _searchResults = __webpack_require__(72);
 
 var _searchResults2 = _interopRequireDefault(_searchResults);
 
@@ -3284,21 +3315,28 @@ var initialState = {
 /* 34 */
 /***/ (function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__(1)();
+exports = module.exports = __webpack_require__(0)();
 // imports
 
 
 // module
-exports.push([module.i, ".hljs-comment,\n.hljs-quote {\n    color: #6c6b5a\n}\n.hljs-variable,\n.hljs-template-variable,\n.hljs-attribute,\n.hljs-tag,\n.hljs-name,\n.hljs-regexp,\n.hljs-link,\n.hljs-name,\n.hljs-selector-id,\n.hljs-selector-class {\n    color: #ba6236\n}\n.hljs-number,\n.hljs-meta,\n.hljs-built_in,\n.hljs-builtin-name,\n.hljs-literal,\n.hljs-type,\n.hljs-params {\n    color: #ae7313\n}\n.hljs-string,\n.hljs-symbol,\n.hljs-bullet {\n    color: #7d9726\n}\n.hljs-title,\n.hljs-section {\n    color: #36a166\n}\n.hljs-keyword,\n.hljs-selector-tag {\n    color: #5f9182\n}\n.hljs-deletion,\n.hljs-addition {\n    color: #22221b;\n    display: inline-block;\n    width: 100%\n}\n.hljs-deletion {\n    background-color: #ba6236\n}\n.hljs-addition {\n    background-color: #7d9726\n}\n.hljs {\n    display: block;\n    overflow-x: auto;\n    background: #f4f3ec;\n    color: #5f5e4e;\n    padding: 0.5em\n}\n.hljs-emphasis {\n    font-style: italic\n}\n.hljs-strong {\n    font-weight: bold\n}\n", ""]);
+exports.push([module.i, "/*!\n Material Components for the web\n Copyright (c) 2017 Google Inc.\n License: Apache-2.0\n*/\n/**\n * The css property used for elevation. In most cases this should not be changed. It is exposed\n * as a variable for abstraction / easy use when needing to reference the property directly, for\n * example in a `will-change` rule.\n */\n/**\n * The default duration value for elevation transitions.\n */\n/**\n * The default easing value for elevation transitions.\n */\n/**\n * Applies the correct css rules to an element to give it the elevation specified by $z-value.\n * The $z-value must be between 0 and 24.\n */\n/**\n * Returns a string that can be used as the value for a `transition` property for elevation.\n * Calling this function directly is useful in situations where a component needs to transition\n * more than one property.\n *\n * ```scss\n * .foo {\n *   transition: mdc-elevation-transition-rule(), opacity 100ms ease;\n *   will-change: $mdc-elevation-property, opacity;\n * }\n * ```\n */\n/**\n * Applies the correct css rules needed to have an element transition between elevations.\n * This mixin should be applied to elements whose elevation values will change depending on their\n * context (e.g. when active or disabled).\n */\n/*\n  Precomputed linear color channel values, for use in contrast calculations.\n  See https://www.w3.org/TR/WCAG20-TECHS/G17.html#G17-tests\n\n  Algorithm, for c in 0 to 255:\n  f(c) {\n    c = c / 255;\n    return c < 0.03928 ? c / 12.92 : Math.pow((c + 0.055) / 1.055, 2.4);\n  }\n\n  This lookup table is needed since there is no `pow` in SASS.\n*/\n/**\n * Calculate the luminance for a color.\n * See https://www.w3.org/TR/WCAG20-TECHS/G17.html#G17-tests\n */\n/**\n * Calculate the contrast ratio between two colors.\n * See https://www.w3.org/TR/WCAG20-TECHS/G17.html#G17-tests\n */\n/**\n * Determine whether to use dark or light text on top of given color.\n * Returns \"dark\" for dark text and \"light\" for light text.\n */\n/*\n  Main theme colors.\n  If you're a user customizing your color scheme in SASS, these are probably the only variables you need to change.\n*/\n/* Indigo 500 */\n/* Pink A200 */\n/* White */\n/* Which set of text colors to use for each main theme color (light or dark) */\n/* Text colors according to light vs dark and text type */\n/* Primary text colors for each of the theme colors */\n/**\n * Applies the correct theme color style to the specified property.\n * $property is typically color or background-color, but can be any CSS property that accepts color values.\n * $style should be one of the map keys in $mdc-theme-property-values (_variables.scss).\n */\n/**\n * Creates a rule to be used in MDC-Web components for dark theming, and applies the provided contents.\n * Should provide the $root-selector option if applied to anything other than the root selector.\n * When used with a modifier class, provide a second argument of `true` for the $compound parameter\n * to specify that this should be attached as a compound class.\n *\n * Usage example:\n *\n * ```scss\n * .mdc-foo {\n *   color: black;\n *\n *   @include mdc-theme-dark {\n *     color: white;\n *   }\n *\n *   &__bar {\n *     background: black;\n *\n *     @include mdc-theme-dark(\".mdc-foo\") {\n *       background: white;\n *     }\n *   }\n * }\n *\n * .mdc-foo--disabled {\n *   opacity: .38;\n *\n *   @include mdc-theme-dark(\".mdc-foo\", true) {\n *     opacity: .5;\n *   }\n * }\n * ```\n */\n.mdc-switch_mdc-switch_17x {\n  display: inline-block;\n  position: relative; }\n\n.mdc-switch_mdc-switch__native-control_3j7 {\n  display: inline-block;\n  position: absolute;\n  top: 0;\n  left: 0;\n  width: 34px;\n  height: 14px;\n  cursor: pointer;\n  opacity: 0;\n  z-index: 2; }\n\n.mdc-switch_mdc-switch__background_1PX {\n  display: block;\n  position: relative;\n  width: 34px;\n  height: 14px;\n  border-radius: 7px;\n  outline: none;\n  background-color: transparent;\n  cursor: pointer;\n  -webkit-user-select: none;\n  -moz-user-select: none;\n  -ms-user-select: none;\n  user-select: none; }\n\n.mdc-switch_mdc-switch--theme-dark_1-V .mdc-switch_mdc-switch__background_1PX,\n.mdc-switch_mdc-theme--dark_16D .mdc-switch_mdc-switch__background_1PX {\n  background-color: transparent; }\n\n.mdc-switch_mdc-switch__background_1PX::before {\n  display: block;\n  position: absolute;\n  top: 0;\n  right: 0;\n  bottom: 0;\n  left: 0;\n  -webkit-transition: opacity 90ms cubic-bezier(0.4, 0, 0.2, 1), background-color 90ms cubic-bezier(0.4, 0, 0.2, 1);\n  transition: opacity 90ms cubic-bezier(0.4, 0, 0.2, 1), background-color 90ms cubic-bezier(0.4, 0, 0.2, 1);\n  border-radius: 7px;\n  background-color: #000;\n  content: \"\";\n  opacity: .38; }\n\n.mdc-switch_mdc-switch--theme-dark_1-V .mdc-switch_mdc-switch__background_1PX::before,\n.mdc-switch_mdc-theme--dark_16D .mdc-switch_mdc-switch__background_1PX::before {\n  background-color: #fff;\n  opacity: .3; }\n\n.mdc-switch_mdc-switch__background_1PX .mdc-switch_mdc-switch__knob_YgJ {\n  display: block;\n  position: absolute;\n  top: -3px;\n  left: 0;\n  width: 20px;\n  height: 20px;\n  -webkit-transform: translateX(0);\n  transform: translateX(0);\n  transition: background-color 90ms cubic-bezier(0.4, 0, 0.2, 1), -webkit-transform 90ms cubic-bezier(0.4, 0, 0.2, 1);\n  -webkit-transition: background-color 90ms cubic-bezier(0.4, 0, 0.2, 1), -webkit-transform 90ms cubic-bezier(0.4, 0, 0.2, 1);\n  transition: transform 90ms cubic-bezier(0.4, 0, 0.2, 1), background-color 90ms cubic-bezier(0.4, 0, 0.2, 1);\n  transition: transform 90ms cubic-bezier(0.4, 0, 0.2, 1), background-color 90ms cubic-bezier(0.4, 0, 0.2, 1), -webkit-transform 90ms cubic-bezier(0.4, 0, 0.2, 1);\n  border-radius: 10px;\n  background-color: #fafafa;\n  box-shadow: 0px 3px 1px -2px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 1px 5px 0px rgba(0, 0, 0, 0.12);\n  z-index: 1; }\n\n.mdc-switch_mdc-switch--theme-dark_1-V .mdc-switch_mdc-switch__background_1PX .mdc-switch_mdc-switch__knob_YgJ,\n.mdc-switch_mdc-theme--dark_16D .mdc-switch_mdc-switch__background_1PX .mdc-switch_mdc-switch__knob_YgJ {\n  background-color: #bdbdbd; }\n\n.mdc-switch_mdc-switch__background_1PX .mdc-switch_mdc-switch__knob_YgJ::before {\n  position: absolute;\n  top: -14px;\n  left: -14px;\n  width: 48px;\n  height: 48px;\n  -webkit-transform: scale(0);\n  transform: scale(0);\n  transition: background-color 90ms cubic-bezier(0.4, 0, 0.2, 1), -webkit-transform 90ms cubic-bezier(0.4, 0, 0.2, 1);\n  -webkit-transition: background-color 90ms cubic-bezier(0.4, 0, 0.2, 1), -webkit-transform 90ms cubic-bezier(0.4, 0, 0.2, 1);\n  transition: transform 90ms cubic-bezier(0.4, 0, 0.2, 1), background-color 90ms cubic-bezier(0.4, 0, 0.2, 1);\n  transition: transform 90ms cubic-bezier(0.4, 0, 0.2, 1), background-color 90ms cubic-bezier(0.4, 0, 0.2, 1), -webkit-transform 90ms cubic-bezier(0.4, 0, 0.2, 1);\n  border-radius: 24px;\n  background-color: transparent;\n  content: \"\";\n  opacity: .2; }\n\n.mdc-switch_mdc-switch__native-control_3j7:focus ~ .mdc-switch_mdc-switch__background_1PX .mdc-switch_mdc-switch__knob_YgJ::before {\n  position: absolute;\n  width: 48px;\n  height: 48px;\n  -webkit-transform: scale(1);\n  transform: scale(1);\n  transition: background-color 90ms cubic-bezier(0.4, 0, 0.2, 1), -webkit-transform 90ms cubic-bezier(0.4, 0, 0.2, 1);\n  -webkit-transition: background-color 90ms cubic-bezier(0.4, 0, 0.2, 1), -webkit-transform 90ms cubic-bezier(0.4, 0, 0.2, 1);\n  transition: transform 90ms cubic-bezier(0.4, 0, 0.2, 1), background-color 90ms cubic-bezier(0.4, 0, 0.2, 1);\n  transition: transform 90ms cubic-bezier(0.4, 0, 0.2, 1), background-color 90ms cubic-bezier(0.4, 0, 0.2, 1), -webkit-transform 90ms cubic-bezier(0.4, 0, 0.2, 1);\n  border-radius: 24px;\n  background-color: #9e9e9e; }\n\n.mdc-switch_mdc-switch--theme-dark_1-V .mdc-switch_mdc-switch__native-control_3j7:focus ~ .mdc-switch_mdc-switch__background_1PX .mdc-switch_mdc-switch__knob_YgJ::before,\n.mdc-switch_mdc-theme--dark_16D .mdc-switch_mdc-switch__native-control_3j7:focus ~ .mdc-switch_mdc-switch__background_1PX .mdc-switch_mdc-switch__knob_YgJ::before {\n  background-color: #f1f1f1;\n  opacity: .14; }\n\n.mdc-switch_mdc-switch__native-control_3j7:checked ~ .mdc-switch_mdc-switch__background_1PX::before {\n  background-color: #3f51b5;\n  background-color: var(--mdc-theme-primary, #3f51b5);\n  opacity: .5; }\n\n.mdc-switch_mdc-switch__native-control_3j7:checked ~ .mdc-switch_mdc-switch__background_1PX .mdc-switch_mdc-switch__knob_YgJ {\n  -webkit-transform: translateX(14px);\n  transform: translateX(14px);\n  transition: background-color 90ms cubic-bezier(0.4, 0, 0.2, 1), -webkit-transform 90ms cubic-bezier(0.4, 0, 0.2, 1);\n  -webkit-transition: background-color 90ms cubic-bezier(0.4, 0, 0.2, 1), -webkit-transform 90ms cubic-bezier(0.4, 0, 0.2, 1);\n  transition: transform 90ms cubic-bezier(0.4, 0, 0.2, 1), background-color 90ms cubic-bezier(0.4, 0, 0.2, 1);\n  transition: transform 90ms cubic-bezier(0.4, 0, 0.2, 1), background-color 90ms cubic-bezier(0.4, 0, 0.2, 1), -webkit-transform 90ms cubic-bezier(0.4, 0, 0.2, 1);\n  background-color: #3f51b5;\n  background-color: var(--mdc-theme-primary, #3f51b5); }\n\n.mdc-switch_mdc-switch__native-control_3j7:checked ~ .mdc-switch_mdc-switch__background_1PX .mdc-switch_mdc-switch__knob_YgJ::before {\n  background-color: #3f51b5;\n  background-color: var(--mdc-theme-primary, #3f51b5);\n  opacity: .15; }\n\n.mdc-switch_mdc-switch--theme-dark_1-V .mdc-switch_mdc-switch__native-control_3j7:checked ~ .mdc-switch_mdc-switch__background_1PX .mdc-switch_mdc-switch__knob_YgJ::before,\n.mdc-switch_mdc-theme--dark_16D .mdc-switch_mdc-switch__native-control_3j7:checked ~ .mdc-switch_mdc-switch__background_1PX .mdc-switch_mdc-switch__knob_YgJ::before {\n  background-color: #3f51b5;\n  background-color: var(--mdc-theme-primary, #3f51b5); }\n\n.mdc-switch_mdc-switch__native-control_3j7:disabled {\n  cursor: initial; }\n\n.mdc-switch_mdc-switch__native-control_3j7:disabled ~ .mdc-switch_mdc-switch__background_1PX::before {\n  background-color: #000;\n  opacity: .12; }\n\n.mdc-switch_mdc-switch--theme-dark_1-V .mdc-switch_mdc-switch__native-control_3j7:disabled ~ .mdc-switch_mdc-switch__background_1PX::before,\n.mdc-switch_mdc-theme--dark_16D .mdc-switch_mdc-switch__native-control_3j7:disabled ~ .mdc-switch_mdc-switch__background_1PX::before {\n  background-color: #fff;\n  opacity: .1; }\n\n.mdc-switch_mdc-switch__native-control_3j7:disabled ~ .mdc-switch_mdc-switch__background_1PX .mdc-switch_mdc-switch__knob_YgJ {\n  background-color: #bdbdbd; }\n\n.mdc-switch_mdc-switch--theme-dark_1-V .mdc-switch_mdc-switch__native-control_3j7:disabled ~ .mdc-switch_mdc-switch__background_1PX .mdc-switch_mdc-switch__knob_YgJ,\n.mdc-switch_mdc-theme--dark_16D .mdc-switch_mdc-switch__native-control_3j7:disabled ~ .mdc-switch_mdc-switch__background_1PX .mdc-switch_mdc-switch__knob_YgJ {\n  background-color: #424242; }\n", ""]);
 
 // exports
-
+exports.locals = {
+	"mdc-switch": "mdc-switch_mdc-switch_17x",
+	"mdc-switch__native-control": "mdc-switch_mdc-switch__native-control_3j7",
+	"mdc-switch__background": "mdc-switch_mdc-switch__background_1PX",
+	"mdc-switch--theme-dark": "mdc-switch_mdc-switch--theme-dark_1-V",
+	"mdc-theme--dark": "mdc-switch_mdc-theme--dark_16D",
+	"mdc-switch__knob": "mdc-switch_mdc-switch__knob_YgJ"
+};
 
 /***/ }),
 /* 35 */
 /***/ (function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__(1)();
+exports = module.exports = __webpack_require__(0)();
 // imports
 
 
@@ -3315,12 +3353,12 @@ exports.locals = {
 /* 36 */
 /***/ (function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__(1)();
+exports = module.exports = __webpack_require__(0)();
 // imports
 
 
 // module
-exports.push([module.i, "@-webkit-keyframes search-filter_fadeIn_2p8 {\n  from {\n    opacity: 0; }\n  to {\n    opacity: 1; } }\n\n@keyframes search-filter_fadeIn_2p8 {\n  from {\n    opacity: 0; }\n  to {\n    opacity: 1; } }\n\n@-webkit-keyframes search-filter_flyIn_3d8 {\n  from {\n    opacity: 0;\n    -webkit-transform: translateY(-20px);\n            transform: translateY(-20px); }\n  to {\n    opacity: 1;\n    -webkit-transform: none;\n            transform: none; } }\n\n@keyframes search-filter_flyIn_3d8 {\n  from {\n    opacity: 0;\n    -webkit-transform: translateY(-20px);\n            transform: translateY(-20px); }\n  to {\n    opacity: 1;\n    -webkit-transform: none;\n            transform: none; } }\n\n.search-filter_articleFilter_2r5 {\n  display: block;\n  padding: 2px 8px;\n  color: #fff;\n  -webkit-transition: all 0.1s linear;\n  transition: all 0.1s linear;\n  cursor: pointer; }\n\n.search-filter_searchFilter-container_1Rg {\n  position: relative; }\n\n.search-filter_rkmd-checkbox_1gT {\n  position: relative;\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-orient: horizontal;\n  -webkit-box-direction: normal;\n      -ms-flex-direction: row;\n          flex-direction: row;\n  width: 100%;\n  height: 40px;\n  color: #fff;\n  text-decoration: none;\n  font-size: 14px;\n  padding: 0px 24px 0px 32px;\n  -webkit-transition: background-color 0.1s linear;\n  transition: background-color 0.1s linear;\n  -webkit-animation: search-filter_flyIn_3d8 0.6s 1;\n          animation: search-filter_flyIn_3d8 0.6s 1; }\n  .search-filter_rkmd-checkbox_1gT .search-filter_input-checkbox_nfN {\n    position: relative;\n    display: inline-block;\n    width: 24px;\n    height: 24px;\n    text-align: center;\n    vertical-align: -9px;\n    top: 50%;\n    -webkit-transform: translateY(-50%);\n            transform: translateY(-50%); }\n    .search-filter_rkmd-checkbox_1gT .search-filter_input-checkbox_nfN input[type=\"checkbox\"] {\n      visibility: hidden;\n      margin: 0;\n      padding: 0;\n      outline: none;\n      cursor: pointer;\n      opacity: 0; }\n      .search-filter_rkmd-checkbox_1gT .search-filter_input-checkbox_nfN input[type=\"checkbox\"] + .search-filter_checkbox_1kX:before {\n        position: absolute;\n        left: 0px;\n        width: 24px;\n        height: 24px;\n        font-family: 'Material Icons';\n        font-weight: normal;\n        font-style: normal;\n        font-size: 24px;\n        line-height: 1;\n        text-transform: none;\n        letter-spacing: normal;\n        word-wrap: normal;\n        white-space: nowrap;\n        direction: ltr;\n        vertical-align: -6px;\n        -webkit-transition: all .2s ease;\n        transition: all .2s ease;\n        z-index: 1; }\n      .search-filter_rkmd-checkbox_1gT .search-filter_input-checkbox_nfN input[type=\"checkbox\"] + .search-filter_checkbox_1kX:before {\n        content: \"\\E835\";\n        color: #fff; }\n      .search-filter_rkmd-checkbox_1gT .search-filter_input-checkbox_nfN input[type=\"checkbox\"]:checked + .search-filter_checkbox_1kX:before {\n        content: \"\\E834\"; }\n      .search-filter_rkmd-checkbox_1gT .search-filter_input-checkbox_nfN input[type=\"checkbox\"]:active:not(:disabled) + .search-filter_checkbox_1kX:before {\n        -webkit-transform: scale3d(0.88, 0.88, 1);\n                transform: scale3d(0.88, 0.88, 1); }\n      .search-filter_rkmd-checkbox_1gT .search-filter_input-checkbox_nfN input[type=\"checkbox\"]:disabled + .search-filter_checkbox_1kX:before {\n        color: #fff !important; }\n  .search-filter_rkmd-checkbox_1gT label, .search-filter_rkmd-checkbox_1gT .search-filter_label_G0Z {\n    cursor: pointer; }\n  .search-filter_rkmd-checkbox_1gT .search-filter_label_G0Z {\n    -webkit-box-flex: 1;\n        -ms-flex: 1;\n            flex: 1;\n    line-height: 40px;\n    -webkit-user-select: none;\n       -moz-user-select: none;\n        -ms-user-select: none;\n            user-select: none;\n    -webkit-tap-highlight-color: transparent;\n    overflow: hidden;\n    white-space: nowrap;\n    text-overflow: ellipsis; }\n\n.search-filter_rkmd-checkbox_1gT:hover {\n  background-color: rgba(255, 255, 255, 0.2); }\n", ""]);
+exports.push([module.i, ":root {\n  --mdc-theme-primary: #00BFA5; }\n\n@-webkit-keyframes search-filter_fadeIn_2p8 {\n  from {\n    opacity: 0; }\n  to {\n    opacity: 1; } }\n\n@keyframes search-filter_fadeIn_2p8 {\n  from {\n    opacity: 0; }\n  to {\n    opacity: 1; } }\n\n@-webkit-keyframes search-filter_flyIn_3d8 {\n  from {\n    opacity: 0;\n    -webkit-transform: translateY(-20px);\n            transform: translateY(-20px); }\n  to {\n    opacity: 1;\n    -webkit-transform: none;\n            transform: none; } }\n\n@keyframes search-filter_flyIn_3d8 {\n  from {\n    opacity: 0;\n    -webkit-transform: translateY(-20px);\n            transform: translateY(-20px); }\n  to {\n    opacity: 1;\n    -webkit-transform: none;\n            transform: none; } }\n\n.search-filter_articleFilter_2r5 {\n  display: block;\n  padding: 2px 8px;\n  color: #fff;\n  -webkit-transition: all 0.1s linear;\n  transition: all 0.1s linear;\n  cursor: pointer; }\n\n.search-filter_searchFilter-container_1Rg {\n  position: relative; }\n\n.search-filter_rkmd-checkbox_1gT {\n  position: relative;\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-orient: horizontal;\n  -webkit-box-direction: normal;\n      -ms-flex-direction: row;\n          flex-direction: row;\n  width: 100%;\n  height: 40px;\n  color: #fff;\n  text-decoration: none;\n  font-size: 14px;\n  padding: 0px 24px 0px 32px;\n  -webkit-transition: background-color 0.1s linear;\n  transition: background-color 0.1s linear;\n  -webkit-animation: search-filter_flyIn_3d8 0.6s 1;\n          animation: search-filter_flyIn_3d8 0.6s 1; }\n  .search-filter_rkmd-checkbox_1gT .search-filter_input-checkbox_nfN {\n    position: relative;\n    display: inline-block;\n    width: 24px;\n    height: 24px;\n    text-align: center;\n    vertical-align: -9px;\n    top: 50%;\n    -webkit-transform: translateY(-50%);\n            transform: translateY(-50%); }\n    .search-filter_rkmd-checkbox_1gT .search-filter_input-checkbox_nfN input[type=\"checkbox\"] {\n      visibility: hidden;\n      margin: 0;\n      padding: 0;\n      outline: none;\n      cursor: pointer;\n      opacity: 0; }\n      .search-filter_rkmd-checkbox_1gT .search-filter_input-checkbox_nfN input[type=\"checkbox\"] + .search-filter_checkbox_1kX:before {\n        position: absolute;\n        left: 0px;\n        width: 24px;\n        height: 24px;\n        font-family: 'Material Icons';\n        font-weight: normal;\n        font-style: normal;\n        font-size: 24px;\n        line-height: 1;\n        text-transform: none;\n        letter-spacing: normal;\n        word-wrap: normal;\n        white-space: nowrap;\n        direction: ltr;\n        vertical-align: -6px;\n        -webkit-transition: all .2s ease;\n        transition: all .2s ease;\n        z-index: 1; }\n      .search-filter_rkmd-checkbox_1gT .search-filter_input-checkbox_nfN input[type=\"checkbox\"] + .search-filter_checkbox_1kX:before {\n        content: \"\\E835\";\n        color: #fff; }\n      .search-filter_rkmd-checkbox_1gT .search-filter_input-checkbox_nfN input[type=\"checkbox\"]:checked + .search-filter_checkbox_1kX:before {\n        content: \"\\E834\"; }\n      .search-filter_rkmd-checkbox_1gT .search-filter_input-checkbox_nfN input[type=\"checkbox\"]:active:not(:disabled) + .search-filter_checkbox_1kX:before {\n        -webkit-transform: scale3d(0.88, 0.88, 1);\n                transform: scale3d(0.88, 0.88, 1); }\n      .search-filter_rkmd-checkbox_1gT .search-filter_input-checkbox_nfN input[type=\"checkbox\"]:disabled + .search-filter_checkbox_1kX:before {\n        color: #fff !important; }\n  .search-filter_rkmd-checkbox_1gT label, .search-filter_rkmd-checkbox_1gT .search-filter_label_G0Z {\n    cursor: pointer; }\n  .search-filter_rkmd-checkbox_1gT .search-filter_label_G0Z {\n    -webkit-box-flex: 1;\n        -ms-flex: 1;\n            flex: 1;\n    line-height: 40px;\n    -webkit-user-select: none;\n       -moz-user-select: none;\n        -ms-user-select: none;\n            user-select: none;\n    -webkit-tap-highlight-color: transparent;\n    overflow: hidden;\n    white-space: nowrap;\n    text-overflow: ellipsis; }\n\n.search-filter_rkmd-checkbox_1gT:hover {\n  background-color: rgba(255, 255, 255, 0.2); }\n", ""]);
 
 // exports
 exports.locals = {
@@ -3338,12 +3376,12 @@ exports.locals = {
 /* 37 */
 /***/ (function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__(1)();
+exports = module.exports = __webpack_require__(0)();
 // imports
 
 
 // module
-exports.push([module.i, "@-webkit-keyframes search-filters_fadeIn_C1d {\n  from {\n    opacity: 0; }\n  to {\n    opacity: 1; } }\n\n@keyframes search-filters_fadeIn_C1d {\n  from {\n    opacity: 0; }\n  to {\n    opacity: 1; } }\n\n.search-filters_articleFilters_21O {\n  width: 100%;\n  padding: 8px 0px 8px 0px;\n  border-bottom: 1px solid #324047; }\n\n.search-filters_articleFilters-header_1ah {\n  position: relative;\n  display: block;\n  text-decoration: none;\n  height: 40px;\n  padding: 0px 24px;\n  margin: 0;\n  -webkit-user-select: none;\n     -moz-user-select: none;\n      -ms-user-select: none;\n          user-select: none;\n  cursor: pointer;\n  overflow: hidden;\n  white-space: nowrap;\n  text-overflow: ellipsis; }\n  .search-filters_articleFilters-header_1ah span {\n    float: left;\n    color: #fff;\n    font-size: 14px;\n    text-transform: uppercase;\n    line-height: 40px;\n    font-weight: 500; }\n  .search-filters_articleFilters-header_1ah .search-filters_articleFilters-expandIcon_1QT {\n    float: right;\n    color: #fff;\n    line-height: 40px;\n    width: 24px;\n    height: 40px;\n    -webkit-transition: -webkit-transform 0.2s ease-in;\n    transition: -webkit-transform 0.2s ease-in;\n    transition: transform 0.2s ease-in;\n    transition: transform 0.2s ease-in, -webkit-transform 0.2s ease-in; }\n\n.search-filters_articleFilters-body_3-t {\n  -webkit-animation: search-filters_fadeIn_C1d 0.6s 1;\n          animation: search-filters_fadeIn_C1d 0.6s 1; }\n\n.search-filters_articleFilters_21O.search-filters_hidden_3gq .search-filters_articleFilters-header_1ah .search-filters_articleFilters-expandIcon_1QT {\n  -webkit-transform: rotateX(-180deg);\n          transform: rotateX(-180deg); }\n\n.search-filters_articleFilters_21O.search-filters_hidden_3gq .search-filters_articleFilters-body_3-t {\n  display: none; }\n", ""]);
+exports.push([module.i, ":root {\n  --mdc-theme-primary: #00BFA5; }\n\n@-webkit-keyframes search-filters_fadeIn_C1d {\n  from {\n    opacity: 0; }\n  to {\n    opacity: 1; } }\n\n@keyframes search-filters_fadeIn_C1d {\n  from {\n    opacity: 0; }\n  to {\n    opacity: 1; } }\n\n.search-filters_articleFilters_21O {\n  width: 100%;\n  padding: 8px 0px 8px 0px;\n  border-bottom: 1px solid #324047; }\n\n.search-filters_articleFilters-header_1ah {\n  position: relative;\n  display: block;\n  text-decoration: none;\n  height: 40px;\n  padding: 0px 24px;\n  margin: 0;\n  -webkit-user-select: none;\n     -moz-user-select: none;\n      -ms-user-select: none;\n          user-select: none;\n  cursor: pointer;\n  overflow: hidden;\n  white-space: nowrap;\n  text-overflow: ellipsis; }\n  .search-filters_articleFilters-header_1ah span {\n    float: left;\n    color: #fff;\n    font-size: 14px;\n    text-transform: uppercase;\n    line-height: 40px;\n    font-weight: 500; }\n  .search-filters_articleFilters-header_1ah .search-filters_articleFilters-expandIcon_1QT {\n    float: right;\n    color: #fff;\n    line-height: 40px;\n    width: 24px;\n    height: 40px;\n    -webkit-transition: -webkit-transform 0.2s ease-in;\n    transition: -webkit-transform 0.2s ease-in;\n    transition: transform 0.2s ease-in;\n    transition: transform 0.2s ease-in, -webkit-transform 0.2s ease-in; }\n\n.search-filters_articleFilters-body_3-t {\n  -webkit-animation: search-filters_fadeIn_C1d 0.6s 1;\n          animation: search-filters_fadeIn_C1d 0.6s 1; }\n\n.search-filters_articleFilters_21O.search-filters_hidden_3gq .search-filters_articleFilters-header_1ah .search-filters_articleFilters-expandIcon_1QT {\n  -webkit-transform: rotateX(-180deg);\n          transform: rotateX(-180deg); }\n\n.search-filters_articleFilters_21O.search-filters_hidden_3gq .search-filters_articleFilters-body_3-t {\n  display: none; }\n", ""]);
 
 // exports
 exports.locals = {
@@ -3359,12 +3397,12 @@ exports.locals = {
 /* 38 */
 /***/ (function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__(1)();
+exports = module.exports = __webpack_require__(0)();
 // imports
 
 
 // module
-exports.push([module.i, "@-webkit-keyframes category-section_fadeIn_1ER {\n  from {\n    opacity: 0; }\n  to {\n    opacity: 1; } }\n\n@keyframes category-section_fadeIn_1ER {\n  from {\n    opacity: 0; }\n  to {\n    opacity: 1; } }\n\n.category-section_categorySection_1ZO {\n  padding-bottom: 8px;\n  border-bottom: 1px solid #324047; }\n\n.category-section_categorySection-header_1_3 {\n  -webkit-animation: category-section_fadeIn_1ER 0.6s 1;\n          animation: category-section_fadeIn_1ER 0.6s 1;\n  -webkit-animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1);\n          animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1);\n  position: relative;\n  display: block;\n  text-decoration: none;\n  padding: 8px 24px;\n  margin: 0;\n  color: silver;\n  font-size: 14px;\n  text-transform: uppercase;\n  line-height: 16px;\n  font-weight: 500; }\n  .category-section_categorySection-header_1_3 .category-section_chevron_i5C {\n    float: right;\n    -webkit-transition: -webkit-transform 0.2s linear;\n    transition: -webkit-transform 0.2s linear;\n    transition: transform 0.2s linear;\n    transition: transform 0.2s linear, -webkit-transform 0.2s linear;\n    -webkit-transform: rotate(0deg);\n            transform: rotate(0deg); }\n\n.category-section_categorySection-body_1aL {\n  -webkit-animation: category-section_fadeIn_1ER 0.4s 1;\n          animation: category-section_fadeIn_1ER 0.4s 1;\n  -webkit-animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1);\n          animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1); }\n\n.category-section_categorySection_1ZO.category-section_hidden_2Q3 {\n  padding-bottom: 0px; }\n  .category-section_categorySection_1ZO.category-section_hidden_2Q3 .category-section_chevron_i5C {\n    -webkit-transform: rotateX(180deg);\n            transform: rotateX(180deg); }\n  .category-section_categorySection_1ZO.category-section_hidden_2Q3 .category-section_categorySection-body_1aL {\n    display: none; }\n", ""]);
+exports.push([module.i, ":root {\n  --mdc-theme-primary: #00BFA5; }\n\n@-webkit-keyframes category-section_fadeIn_1ER {\n  from {\n    opacity: 0; }\n  to {\n    opacity: 1; } }\n\n@keyframes category-section_fadeIn_1ER {\n  from {\n    opacity: 0; }\n  to {\n    opacity: 1; } }\n\n.category-section_categorySection_1ZO {\n  padding-bottom: 8px;\n  border-bottom: 1px solid #324047; }\n\n.category-section_categorySection-header_1_3 {\n  -webkit-animation: category-section_fadeIn_1ER 0.6s 1;\n          animation: category-section_fadeIn_1ER 0.6s 1;\n  -webkit-animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1);\n          animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1);\n  position: relative;\n  display: block;\n  text-decoration: none;\n  padding: 8px 24px;\n  margin: 0;\n  color: silver;\n  font-size: 14px;\n  text-transform: uppercase;\n  line-height: 16px;\n  font-weight: 500; }\n  .category-section_categorySection-header_1_3 .category-section_chevron_i5C {\n    float: right;\n    -webkit-transition: -webkit-transform 0.2s linear;\n    transition: -webkit-transform 0.2s linear;\n    transition: transform 0.2s linear;\n    transition: transform 0.2s linear, -webkit-transform 0.2s linear;\n    -webkit-transform: rotate(0deg);\n            transform: rotate(0deg); }\n\n.category-section_categorySection-body_1aL {\n  -webkit-animation: category-section_fadeIn_1ER 0.4s 1;\n          animation: category-section_fadeIn_1ER 0.4s 1;\n  -webkit-animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1);\n          animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1); }\n\n.category-section_categorySection_1ZO.category-section_hidden_2Q3 {\n  padding-bottom: 0px; }\n  .category-section_categorySection_1ZO.category-section_hidden_2Q3 .category-section_chevron_i5C {\n    -webkit-transform: rotateX(180deg);\n            transform: rotateX(180deg); }\n  .category-section_categorySection_1ZO.category-section_hidden_2Q3 .category-section_categorySection-body_1aL {\n    display: none; }\n", ""]);
 
 // exports
 exports.locals = {
@@ -3380,12 +3418,12 @@ exports.locals = {
 /* 39 */
 /***/ (function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__(1)();
+exports = module.exports = __webpack_require__(0)();
 // imports
 
 
 // module
-exports.push([module.i, "@-webkit-keyframes route-link_fadeIn_3x2 {\n  from {\n    opacity: 0; }\n  to {\n    opacity: 1; } }\n\n@keyframes route-link_fadeIn_3x2 {\n  from {\n    opacity: 0; }\n  to {\n    opacity: 1; } }\n\n.route-link_pageList-item_OIQ {\n  display: block;\n  position: relative;\n  text-decoration: none;\n  color: #fff;\n  padding: 0px 8px 0px 32px;\n  cursor: pointer;\n  line-height: 40px;\n  overflow: hidden;\n  white-space: nowrap;\n  text-overflow: ellipsis;\n  -webkit-transition: all .1s linear;\n  transition: all .1s linear; }\n\n.route-link_pageList-item_OIQ.route-link_active_38i {\n  font-weight: 500;\n  color: #009688; }\n", ""]);
+exports.push([module.i, ":root {\n  --mdc-theme-primary: #00BFA5; }\n\n@-webkit-keyframes route-link_fadeIn_3x2 {\n  from {\n    opacity: 0; }\n  to {\n    opacity: 1; } }\n\n@keyframes route-link_fadeIn_3x2 {\n  from {\n    opacity: 0; }\n  to {\n    opacity: 1; } }\n\n.route-link_pageList-item_OIQ {\n  display: block;\n  position: relative;\n  text-decoration: none;\n  color: #fff;\n  padding: 0px 8px 0px 32px;\n  cursor: pointer;\n  line-height: 40px;\n  overflow: hidden;\n  white-space: nowrap;\n  text-overflow: ellipsis;\n  -webkit-transition: all .1s linear;\n  transition: all .1s linear; }\n\n.route-link_pageList-item_OIQ.route-link_active_38i {\n  font-weight: 500;\n  color: #009688; }\n", ""]);
 
 // exports
 exports.locals = {
@@ -3398,12 +3436,12 @@ exports.locals = {
 /* 40 */
 /***/ (function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__(1)();
+exports = module.exports = __webpack_require__(0)();
 // imports
 
 
 // module
-exports.push([module.i, "@-webkit-keyframes search-results_fadeIn_2sT {\n  from {\n    opacity: 0; }\n  to {\n    opacity: 1; } }\n\n@keyframes search-results_fadeIn_2sT {\n  from {\n    opacity: 0; }\n  to {\n    opacity: 1; } }\n\n.search-results_noResults_3IK {\n  position: relative;\n  width: 100%;\n  height: 100%;\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-align: center;\n      -ms-flex-align: center;\n          align-items: center;\n  -webkit-box-pack: center;\n      -ms-flex-pack: center;\n          justify-content: center;\n  -webkit-animation: search-results_fadeIn_2sT 0.6s 1;\n          animation: search-results_fadeIn_2sT 0.6s 1; }\n\n.search-results_noResults-copy_1lZ {\n  color: rgba(255, 255, 255, 0.6); }\n\n.search-results_noResults-copy_1lZ i {\n  padding-right: 4px; }\n\n.search-results_noResults-copy_1lZ span {\n  display: inline-block;\n  line-height: 24px;\n  position: relative;\n  bottom: 5px; }\n", ""]);
+exports.push([module.i, ":root {\n  --mdc-theme-primary: #00BFA5; }\n\n@-webkit-keyframes search-results_fadeIn_2sT {\n  from {\n    opacity: 0; }\n  to {\n    opacity: 1; } }\n\n@keyframes search-results_fadeIn_2sT {\n  from {\n    opacity: 0; }\n  to {\n    opacity: 1; } }\n\n.search-results_noResults_3IK {\n  position: relative;\n  width: 100%;\n  height: 100%;\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-align: center;\n      -ms-flex-align: center;\n          align-items: center;\n  -webkit-box-pack: center;\n      -ms-flex-pack: center;\n          justify-content: center;\n  -webkit-animation: search-results_fadeIn_2sT 0.6s 1;\n          animation: search-results_fadeIn_2sT 0.6s 1; }\n\n.search-results_noResults-copy_1lZ {\n  color: rgba(255, 255, 255, 0.6); }\n\n.search-results_noResults-copy_1lZ i {\n  padding-right: 4px; }\n\n.search-results_noResults-copy_1lZ span {\n  display: inline-block;\n  line-height: 24px;\n  position: relative;\n  bottom: 5px; }\n", ""]);
 
 // exports
 exports.locals = {
@@ -3416,7 +3454,7 @@ exports.locals = {
 /* 41 */
 /***/ (function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__(1)();
+exports = module.exports = __webpack_require__(0)();
 // imports
 
 
@@ -3434,12 +3472,12 @@ exports.locals = {
 /* 42 */
 /***/ (function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__(1)();
+exports = module.exports = __webpack_require__(0)();
 // imports
 
 
 // module
-exports.push([module.i, "@-webkit-keyframes article-view_fadeIn_3dY {\n  from {\n    opacity: 0; }\n  to {\n    opacity: 1; } }\n\n@keyframes article-view_fadeIn_3dY {\n  from {\n    opacity: 0; }\n  to {\n    opacity: 1; } }\n\n.article-view_page-view_3HZ {\n  -webkit-box-flex: 1;\n      -ms-flex: 1;\n          flex: 1;\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-orient: vertical;\n  -webkit-box-direction: normal;\n      -ms-flex-direction: column;\n          flex-direction: column;\n  padding: 16px 32px 16px 48px;\n  overflow-x: hidden; }\n  @media (max-width: 500px) {\n    .article-view_page-view_3HZ {\n      padding: 16px; } }\n\n.article-view_transition-container_3yo {\n  -webkit-box-flex: 1;\n      -ms-flex: 1;\n          flex: 1;\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-orient: vertical;\n  -webkit-box-direction: normal;\n      -ms-flex-direction: column;\n          flex-direction: column; }\n\n.article-view_loading_1nT {\n  -webkit-box-flex: 1;\n      -ms-flex: 1;\n          flex: 1;\n  padding: 16px; }\n\n.article-view_loading_1nT.article-view_enterActive_1P7 {\n  top: 0;\n  left: 0; }\n\n.article-view_enter_19C {\n  position: relative;\n  -webkit-transform: translateX(100px);\n          transform: translateX(100px);\n  opacity: 0.01; }\n\n.article-view_enter_19C.article-view_enterActive_1P7 {\n  opacity: 1;\n  -webkit-transform: translateX(0);\n          transform: translateX(0);\n  -webkit-transition: opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1), -webkit-transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);\n  transition: opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1), -webkit-transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);\n  transition: opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1), transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);\n  transition: opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1), transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), -webkit-transform 0.3s cubic-bezier(0.4, 0, 0.2, 1); }\n\n.article-view_leave_30L {\n  -webkit-transform: translateX(0);\n          transform: translateX(0);\n  opacity: 1; }\n\n.article-view_leave_30L.article-view_leaveActive_1UH {\n  position: absolute;\n  top: 16px;\n  left: 48px;\n  -webkit-transform: translateX(-100px);\n          transform: translateX(-100px);\n  opacity: 0;\n  -webkit-transition: opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1), -webkit-transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);\n  transition: opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1), -webkit-transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);\n  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1);\n  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1), -webkit-transform 0.3s cubic-bezier(0.4, 0, 0.2, 1); }\n\n.article-view_appear_2Cc {\n  opacity: 0.01; }\n\n.article-view_appear_2Cc.article-view_appearActive_2_n {\n  opacity: 1;\n  -webkit-transition: opacity 0.5s cubic-bezier(0.4, 0, 0.2, 1);\n  transition: opacity 0.5s cubic-bezier(0.4, 0, 0.2, 1); }\n", ""]);
+exports.push([module.i, ":root {\n  --mdc-theme-primary: #00BFA5; }\n\n@-webkit-keyframes article-view_fadeIn_3dY {\n  from {\n    opacity: 0; }\n  to {\n    opacity: 1; } }\n\n@keyframes article-view_fadeIn_3dY {\n  from {\n    opacity: 0; }\n  to {\n    opacity: 1; } }\n\n.article-view_page-view_3HZ {\n  -webkit-box-flex: 1;\n      -ms-flex: 1;\n          flex: 1;\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-orient: vertical;\n  -webkit-box-direction: normal;\n      -ms-flex-direction: column;\n          flex-direction: column;\n  padding: 16px 32px 16px 48px;\n  overflow-x: hidden; }\n  @media (max-width: 500px) {\n    .article-view_page-view_3HZ {\n      padding: 16px; } }\n\n.article-view_transition-container_3yo {\n  -webkit-box-flex: 1;\n      -ms-flex: 1;\n          flex: 1;\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-orient: vertical;\n  -webkit-box-direction: normal;\n      -ms-flex-direction: column;\n          flex-direction: column; }\n\n.article-view_loading_1nT {\n  -webkit-box-flex: 1;\n      -ms-flex: 1;\n          flex: 1;\n  padding: 16px; }\n\n.article-view_loading_1nT.article-view_enterActive_1P7 {\n  top: 0;\n  left: 0; }\n\n.article-view_enter_19C {\n  position: relative;\n  -webkit-transform: translateX(100px);\n          transform: translateX(100px);\n  opacity: 0.01; }\n\n.article-view_enter_19C.article-view_enterActive_1P7 {\n  opacity: 1;\n  -webkit-transform: translateX(0);\n          transform: translateX(0);\n  -webkit-transition: opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1), -webkit-transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);\n  transition: opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1), -webkit-transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);\n  transition: opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1), transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);\n  transition: opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1), transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), -webkit-transform 0.3s cubic-bezier(0.4, 0, 0.2, 1); }\n\n.article-view_leave_30L {\n  -webkit-transform: translateX(0);\n          transform: translateX(0);\n  opacity: 1; }\n\n.article-view_leave_30L.article-view_leaveActive_1UH {\n  position: absolute;\n  top: 16px;\n  left: 48px;\n  -webkit-transform: translateX(-100px);\n          transform: translateX(-100px);\n  opacity: 0;\n  -webkit-transition: opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1), -webkit-transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);\n  transition: opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1), -webkit-transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);\n  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1);\n  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1), -webkit-transform 0.3s cubic-bezier(0.4, 0, 0.2, 1); }\n\n.article-view_appear_2Cc {\n  opacity: 0.01; }\n\n.article-view_appear_2Cc.article-view_appearActive_2_n {\n  opacity: 1;\n  -webkit-transition: opacity 0.5s cubic-bezier(0.4, 0, 0.2, 1);\n  transition: opacity 0.5s cubic-bezier(0.4, 0, 0.2, 1); }\n", ""]);
 
 // exports
 exports.locals = {
@@ -3459,12 +3497,57 @@ exports.locals = {
 /* 43 */
 /***/ (function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__(1)();
+exports = module.exports = __webpack_require__(0)();
+// imports
+
+
+// module
+exports.push([module.i, ".atelier-estuary-light_hljs-comment_D0U,\n.atelier-estuary-light_hljs-quote_19T {\n  color: #6c6b5a; }\n\n.atelier-estuary-light_hljs-variable_2yc,\n.atelier-estuary-light_hljs-template-variable_1Lp,\n.atelier-estuary-light_hljs-attribute_1wz,\n.atelier-estuary-light_hljs-tag_27T,\n.atelier-estuary-light_hljs-name_V6V,\n.atelier-estuary-light_hljs-regexp_2n5,\n.atelier-estuary-light_hljs-link_2Xl,\n.atelier-estuary-light_hljs-name_V6V,\n.atelier-estuary-light_hljs-selector-id_2gy,\n.atelier-estuary-light_hljs-selector-class_2Ny {\n  color: #ba6236; }\n\n.atelier-estuary-light_hljs-number_18E,\n.atelier-estuary-light_hljs-meta_D3I,\n.atelier-estuary-light_hljs-built_in_Asy,\n.atelier-estuary-light_hljs-builtin-name_38X,\n.atelier-estuary-light_hljs-literal_2tw,\n.atelier-estuary-light_hljs-type_1JG,\n.atelier-estuary-light_hljs-params_1by {\n  color: #ae7313; }\n\n.atelier-estuary-light_hljs-string_2z9,\n.atelier-estuary-light_hljs-symbol_1Un,\n.atelier-estuary-light_hljs-bullet_2LD {\n  color: #7d9726; }\n\n.atelier-estuary-light_hljs-title_rQa,\n.atelier-estuary-light_hljs-section_1Bc {\n  color: #36a166; }\n\n.atelier-estuary-light_hljs-keyword_16-,\n.atelier-estuary-light_hljs-selector-tag_3Jy {\n  color: #5f9182; }\n\n.atelier-estuary-light_hljs-deletion_abA,\n.atelier-estuary-light_hljs-addition_3BC {\n  color: #22221b;\n  display: inline-block;\n  width: 100%; }\n\n.atelier-estuary-light_hljs-deletion_abA {\n  background-color: #ba6236; }\n\n.atelier-estuary-light_hljs-addition_3BC {\n  background-color: #7d9726; }\n\n.atelier-estuary-light_hljs_3od {\n  display: block;\n  overflow-x: auto;\n  background: #f4f3ec;\n  color: #5f5e4e;\n  padding: 0.5em; }\n\n.atelier-estuary-light_hljs-emphasis_3-_ {\n  font-style: italic; }\n\n.atelier-estuary-light_hljs-strong_1-K {\n  font-weight: bold; }\n", ""]);
+
+// exports
+exports.locals = {
+	"hljs-comment": "atelier-estuary-light_hljs-comment_D0U",
+	"hljs-quote": "atelier-estuary-light_hljs-quote_19T",
+	"hljs-variable": "atelier-estuary-light_hljs-variable_2yc",
+	"hljs-template-variable": "atelier-estuary-light_hljs-template-variable_1Lp",
+	"hljs-attribute": "atelier-estuary-light_hljs-attribute_1wz",
+	"hljs-tag": "atelier-estuary-light_hljs-tag_27T",
+	"hljs-name": "atelier-estuary-light_hljs-name_V6V",
+	"hljs-regexp": "atelier-estuary-light_hljs-regexp_2n5",
+	"hljs-link": "atelier-estuary-light_hljs-link_2Xl",
+	"hljs-selector-id": "atelier-estuary-light_hljs-selector-id_2gy",
+	"hljs-selector-class": "atelier-estuary-light_hljs-selector-class_2Ny",
+	"hljs-number": "atelier-estuary-light_hljs-number_18E",
+	"hljs-meta": "atelier-estuary-light_hljs-meta_D3I",
+	"hljs-built_in": "atelier-estuary-light_hljs-built_in_Asy",
+	"hljs-builtin-name": "atelier-estuary-light_hljs-builtin-name_38X",
+	"hljs-literal": "atelier-estuary-light_hljs-literal_2tw",
+	"hljs-type": "atelier-estuary-light_hljs-type_1JG",
+	"hljs-params": "atelier-estuary-light_hljs-params_1by",
+	"hljs-string": "atelier-estuary-light_hljs-string_2z9",
+	"hljs-symbol": "atelier-estuary-light_hljs-symbol_1Un",
+	"hljs-bullet": "atelier-estuary-light_hljs-bullet_2LD",
+	"hljs-title": "atelier-estuary-light_hljs-title_rQa",
+	"hljs-section": "atelier-estuary-light_hljs-section_1Bc",
+	"hljs-keyword": "atelier-estuary-light_hljs-keyword_16-",
+	"hljs-selector-tag": "atelier-estuary-light_hljs-selector-tag_3Jy",
+	"hljs-deletion": "atelier-estuary-light_hljs-deletion_abA",
+	"hljs-addition": "atelier-estuary-light_hljs-addition_3BC",
+	"hljs": "atelier-estuary-light_hljs_3od",
+	"hljs-emphasis": "atelier-estuary-light_hljs-emphasis_3-_",
+	"hljs-strong": "atelier-estuary-light_hljs-strong_1-K"
+};
+
+/***/ }),
+/* 44 */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(0)();
 // imports
 exports.push([module.i, "@import url(https://fonts.googleapis.com/css?family=Inconsolata);", ""]);
 
 // module
-exports.push([module.i, "@-webkit-keyframes markdown-container_fadeIn_1Hp {\n  from {\n    opacity: 0; }\n  to {\n    opacity: 1; } }\n@keyframes markdown-container_fadeIn_1Hp {\n  from {\n    opacity: 0; }\n  to {\n    opacity: 1; } }\n\n.markdown-container_markdown-wrapper_X9L {\n  line-height: 1.5; }\n  .markdown-container_markdown-wrapper_X9L h1,\n  .markdown-container_markdown-wrapper_X9L h2,\n  .markdown-container_markdown-wrapper_X9L strong {\n    color: #333; }\n  .markdown-container_markdown-wrapper_X9L h1 {\n    padding-bottom: 0.3em;\n    font-size: 2em;\n    border-bottom: 1px solid #eaecef; }\n  .markdown-container_markdown-wrapper_X9L h2 {\n    padding-bottom: 0.3em;\n    font-size: 1.5em;\n    border-bottom: 1px solid #eaecef; }\n  .markdown-container_markdown-wrapper_X9L p {\n    color: #373737; }\n  .markdown-container_markdown-wrapper_X9L pre {\n    background-color: #f6f8fa;\n    padding: 8px 8px 8px 16px;\n    border-left: 4px solid #28353e;\n    border-radius: 0px 3px 3px 0px;\n    white-space: pre-wrap; }\n    .markdown-container_markdown-wrapper_X9L pre code {\n      font-family: 'Inconsolata', monospace;\n      -moz-tab-size: 2;\n        -o-tab-size: 2;\n           tab-size: 2; }\n  .markdown-container_markdown-wrapper_X9L table {\n    border-spacing: 0;\n    border-collapse: collapse; }\n    .markdown-container_markdown-wrapper_X9L table tr {\n      background-color: #fff; }\n      .markdown-container_markdown-wrapper_X9L table tr th, .markdown-container_markdown-wrapper_X9L table tr td {\n        padding: 8px 16px;\n        border: 1px solid #dfe2e5; }\n      .markdown-container_markdown-wrapper_X9L table tr th {\n        font-weight: 600; }\n  .markdown-container_markdown-wrapper_X9L hr {\n    border-width: 3px;\n    border-bottom: none;\n    border-right: none;\n    border-left: none;\n    border-color: rgba(0, 0, 0, 0.1); }\n  .markdown-container_markdown-wrapper_X9L a {\n    text-decoration: none;\n    color: #009688; }\n  .markdown-container_markdown-wrapper_X9L img {\n    max-width: 100%; }\n", ""]);
+exports.push([module.i, ":root {\n  --mdc-theme-primary: #00BFA5; }\n\n@-webkit-keyframes markdown-container_fadeIn_1Hp {\n  from {\n    opacity: 0; }\n  to {\n    opacity: 1; } }\n\n@keyframes markdown-container_fadeIn_1Hp {\n  from {\n    opacity: 0; }\n  to {\n    opacity: 1; } }\n\n.markdown-container_markdown-wrapper_X9L {\n  line-height: 1.5; }\n  .markdown-container_markdown-wrapper_X9L h1,\n  .markdown-container_markdown-wrapper_X9L h2,\n  .markdown-container_markdown-wrapper_X9L strong {\n    color: #333; }\n  .markdown-container_markdown-wrapper_X9L h1 {\n    padding-bottom: 0.3em;\n    font-size: 2em;\n    border-bottom: 1px solid #eaecef; }\n  .markdown-container_markdown-wrapper_X9L h2 {\n    padding-bottom: 0.3em;\n    font-size: 1.5em;\n    border-bottom: 1px solid #eaecef; }\n  .markdown-container_markdown-wrapper_X9L p {\n    color: #373737; }\n  .markdown-container_markdown-wrapper_X9L pre {\n    background-color: #f6f8fa;\n    padding: 8px 8px 8px 16px;\n    border-left: 4px solid #28353e;\n    border-radius: 0px 3px 3px 0px;\n    white-space: pre-wrap; }\n    .markdown-container_markdown-wrapper_X9L pre code {\n      font-family: 'Inconsolata', monospace;\n      -moz-tab-size: 2;\n        -o-tab-size: 2;\n           tab-size: 2; }\n  .markdown-container_markdown-wrapper_X9L table {\n    border-spacing: 0;\n    border-collapse: collapse; }\n    .markdown-container_markdown-wrapper_X9L table tr {\n      background-color: #fff; }\n      .markdown-container_markdown-wrapper_X9L table tr th, .markdown-container_markdown-wrapper_X9L table tr td {\n        padding: 8px 16px;\n        border: 1px solid #dfe2e5; }\n      .markdown-container_markdown-wrapper_X9L table tr th {\n        font-weight: 600; }\n  .markdown-container_markdown-wrapper_X9L hr {\n    border-width: 3px;\n    border-bottom: none;\n    border-right: none;\n    border-left: none;\n    border-color: rgba(0, 0, 0, 0.1); }\n  .markdown-container_markdown-wrapper_X9L a {\n    text-decoration: none;\n    color: #009688; }\n  .markdown-container_markdown-wrapper_X9L img {\n    max-width: 100%; }\n", ""]);
 
 // exports
 exports.locals = {
@@ -3473,15 +3556,15 @@ exports.locals = {
 };
 
 /***/ }),
-/* 44 */
+/* 45 */
 /***/ (function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__(1)();
+exports = module.exports = __webpack_require__(0)();
 // imports
 
 
 // module
-exports.push([module.i, "@-webkit-keyframes header-icon_fadeIn_3_t {\n  from {\n    opacity: 0; }\n  to {\n    opacity: 1; } }\n\n@keyframes header-icon_fadeIn_3_t {\n  from {\n    opacity: 0; }\n  to {\n    opacity: 1; } }\n\n@-webkit-keyframes header-icon_grow_N9V {\n  0% {\n    -webkit-transform: scale(0);\n            transform: scale(0);\n    opacity: 0; }\n  100% {\n    -webkit-transform: scale(1);\n            transform: scale(1);\n    opacity: 1; } }\n\n@keyframes header-icon_grow_N9V {\n  0% {\n    -webkit-transform: scale(0);\n            transform: scale(0);\n    opacity: 0; }\n  100% {\n    -webkit-transform: scale(1);\n            transform: scale(1);\n    opacity: 1; } }\n\n.header-icon_header-icon_2Mt {\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  position: relative;\n  z-index: 98;\n  text-decoration: none;\n  cursor: pointer;\n  border-radius: 50%;\n  overflow: hidden;\n  -webkit-user-select: none;\n     -moz-user-select: none;\n      -ms-user-select: none;\n          user-select: none;\n  -webkit-tap-highlight-color: transparent;\n  background: none;\n  border: none; }\n\n.header-icon_header-icon_2Mt i {\n  text-decoration: none;\n  font-size: 24px;\n  padding: 8px;\n  border-radius: 50%;\n  position: relative;\n  overflow: hidden;\n  color: #fff; }\n\n@media (max-width: 500px) {\n  .header-icon_menuIcon_3g0.header-icon_searchOpen_LoU {\n    display: none; } }\n\n.header-icon_backIcon__g9 {\n  display: none; }\n\n.header-icon_backIcon__g9.header-icon_searchOpen_LoU {\n  -webkit-animation: header-icon_grow_N9V 0.2s 1;\n          animation: header-icon_grow_N9V 0.2s 1;\n  -webkit-animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1); }\n  @media (max-width: 500px) {\n    .header-icon_backIcon__g9.header-icon_searchOpen_LoU {\n      display: block; } }\n", ""]);
+exports.push([module.i, ":root {\n  --mdc-theme-primary: #00BFA5; }\n\n@-webkit-keyframes header-icon_fadeIn_3_t {\n  from {\n    opacity: 0; }\n  to {\n    opacity: 1; } }\n\n@keyframes header-icon_fadeIn_3_t {\n  from {\n    opacity: 0; }\n  to {\n    opacity: 1; } }\n\n@-webkit-keyframes header-icon_grow_N9V {\n  0% {\n    -webkit-transform: scale(0);\n            transform: scale(0);\n    opacity: 0; }\n  100% {\n    -webkit-transform: scale(1);\n            transform: scale(1);\n    opacity: 1; } }\n\n@keyframes header-icon_grow_N9V {\n  0% {\n    -webkit-transform: scale(0);\n            transform: scale(0);\n    opacity: 0; }\n  100% {\n    -webkit-transform: scale(1);\n            transform: scale(1);\n    opacity: 1; } }\n\n.header-icon_header-icon_2Mt {\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  position: relative;\n  z-index: 98;\n  text-decoration: none;\n  cursor: pointer;\n  border-radius: 50%;\n  overflow: hidden;\n  -webkit-user-select: none;\n     -moz-user-select: none;\n      -ms-user-select: none;\n          user-select: none;\n  -webkit-tap-highlight-color: transparent;\n  background: none;\n  border: none; }\n\n.header-icon_header-icon_2Mt i {\n  text-decoration: none;\n  font-size: 24px;\n  padding: 8px;\n  border-radius: 50%;\n  position: relative;\n  overflow: hidden;\n  color: #fff; }\n\n@media (max-width: 500px) {\n  .header-icon_menuIcon_3g0.header-icon_searchOpen_LoU {\n    display: none; } }\n\n.header-icon_backIcon__g9 {\n  display: none; }\n\n.header-icon_backIcon__g9.header-icon_searchOpen_LoU {\n  -webkit-animation: header-icon_grow_N9V 0.2s 1;\n          animation: header-icon_grow_N9V 0.2s 1;\n  -webkit-animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1); }\n  @media (max-width: 500px) {\n    .header-icon_backIcon__g9.header-icon_searchOpen_LoU {\n      display: block; } }\n", ""]);
 
 // exports
 exports.locals = {
@@ -3494,15 +3577,15 @@ exports.locals = {
 };
 
 /***/ }),
-/* 45 */
+/* 46 */
 /***/ (function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__(1)();
+exports = module.exports = __webpack_require__(0)();
 // imports
 
 
 // module
-exports.push([module.i, "@-webkit-keyframes main-header_fadeIn_1wX {\n  from {\n    opacity: 0; }\n  to {\n    opacity: 1; } }\n\n@keyframes main-header_fadeIn_1wX {\n  from {\n    opacity: 0; }\n  to {\n    opacity: 1; } }\n\n.main-header_header_2ao {\n  position: relative;\n  padding: 16px 24px 16px 72px;\n  z-index: 100;\n  width: 100%;\n  background-color: #28353e;\n  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-orient: horizontal;\n  -webkit-box-direction: normal;\n      -ms-flex-direction: row;\n          flex-direction: row;\n  -webkit-box-align: center;\n      -ms-flex-align: center;\n          align-items: center; }\n  @media (max-width: 500px) {\n    .main-header_header_2ao {\n      padding: 16px 24px 16px 48px; } }\n\n.main-header_toggle-container_1WI {\n  position: absolute;\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-align: center;\n      -ms-flex-align: center;\n          align-items: center;\n  -webkit-box-pack: center;\n      -ms-flex-pack: center;\n          justify-content: center;\n  top: 0;\n  left: 0;\n  height: 100%;\n  width: 48px; }\n  @media (min-width: 500px) {\n    .main-header_toggle-container_1WI {\n      left: 16px; } }\n\n.main-header_title_3U7 {\n  display: block;\n  -webkit-box-flex: 1;\n      -ms-flex: 1;\n          flex: 1;\n  padding-right: 16px;\n  color: #fff;\n  font-size: 18px;\n  -webkit-transition: all 0.2s linear;\n  transition: all 0.2s linear;\n  overflow: hidden;\n  white-space: nowrap;\n  text-overflow: ellipsis; }\n\n@media (max-width: 500px) {\n  .main-header_header_2ao.main-header_searchOpen_109 .main-header_title_3U7 {\n    opacity: 0;\n    padding: 0; } }\n", ""]);
+exports.push([module.i, ":root {\n  --mdc-theme-primary: #00BFA5; }\n\n@-webkit-keyframes main-header_fadeIn_1wX {\n  from {\n    opacity: 0; }\n  to {\n    opacity: 1; } }\n\n@keyframes main-header_fadeIn_1wX {\n  from {\n    opacity: 0; }\n  to {\n    opacity: 1; } }\n\n.main-header_header_2ao {\n  position: relative;\n  padding: 16px 24px 16px 72px;\n  z-index: 100;\n  width: 100%;\n  background-color: #28353e;\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-orient: horizontal;\n  -webkit-box-direction: normal;\n      -ms-flex-direction: row;\n          flex-direction: row;\n  -webkit-box-align: center;\n      -ms-flex-align: center;\n          align-items: center;\n  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1); }\n  @media (max-width: 500px) {\n    .main-header_header_2ao {\n      padding: 16px 24px 16px 48px; } }\n\n.main-header_toggle-container_1WI {\n  position: absolute;\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-align: center;\n      -ms-flex-align: center;\n          align-items: center;\n  -webkit-box-pack: center;\n      -ms-flex-pack: center;\n          justify-content: center;\n  top: 0;\n  left: 0;\n  height: 100%;\n  width: 48px; }\n  @media (min-width: 500px) {\n    .main-header_toggle-container_1WI {\n      left: 16px; } }\n\n.main-header_title_3U7 {\n  display: block;\n  -webkit-box-flex: 1;\n      -ms-flex: 1;\n          flex: 1;\n  padding-right: 16px;\n  color: #fff;\n  font-size: 18px;\n  -webkit-transition: all 0.2s linear;\n  transition: all 0.2s linear;\n  overflow: hidden;\n  white-space: nowrap;\n  text-overflow: ellipsis; }\n\n@media (max-width: 500px) {\n  .main-header_header_2ao.main-header_searchOpen_109 .main-header_title_3U7 {\n    opacity: 0;\n    padding: 0; } }\n", ""]);
 
 // exports
 exports.locals = {
@@ -3514,15 +3597,15 @@ exports.locals = {
 };
 
 /***/ }),
-/* 46 */
+/* 47 */
 /***/ (function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__(1)();
+exports = module.exports = __webpack_require__(0)();
 // imports
 
 
 // module
-exports.push([module.i, "@-webkit-keyframes search-input_fadeIn_1TH {\n  from {\n    opacity: 0; }\n  to {\n    opacity: 1; } }\n\n@keyframes search-input_fadeIn_1TH {\n  from {\n    opacity: 0; }\n  to {\n    opacity: 1; } }\n\n.search-input_search-label_2BU {\n  position: relative;\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-orient: horizontal;\n  -webkit-box-direction: normal;\n      -ms-flex-direction: row;\n          flex-direction: row;\n  width: 20px;\n  overflow: hidden;\n  -webkit-transition: all 0.1s cubic-bezier(0.4, 0, 0.2, 1);\n  transition: all 0.1s cubic-bezier(0.4, 0, 0.2, 1); }\n\n.search-input_icon-container_orR {\n  background: none;\n  border: none;\n  margin: 0;\n  padding: 0;\n  cursor: pointer;\n  outline: none;\n  color: #fff; }\n\n.search-input_search-icon_b0B {\n  height: 20px;\n  width: 20px;\n  -webkit-transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);\n  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1); }\n\n.search-input_search-closeIcon_3Jx {\n  position: absolute;\n  right: 0;\n  top: 0;\n  height: 100%;\n  opacity: 0;\n  -webkit-transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);\n  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-align: center;\n      -ms-flex-align: center;\n          align-items: center; }\n  .search-input_search-closeIcon_3Jx i {\n    padding: 0px;\n    font-size: 20px; }\n\n.search-input_search-input--container_3Tj {\n  border-bottom: 1px solid #324047;\n  position: relative;\n  -webkit-box-flex: 1;\n      -ms-flex: 1;\n          flex: 1;\n  margin-left: 8px; }\n\n.search-input_search-input--container_3Tj::after {\n  display: block;\n  content: '';\n  position: absolute;\n  bottom: -1px;\n  left: 0px;\n  height: 2px;\n  background-color: #fff;\n  width: 10px;\n  visibility: hidden;\n  -webkit-transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);\n  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1); }\n\n.search-input_search-input_1uU {\n  position: relative;\n  height: 30px;\n  width: 100%;\n  outline: 0;\n  border: none;\n  padding: 4px 22px 4px 4px;\n  overflow: hidden;\n  font-size: 16px;\n  background: none;\n  color: #fff; }\n\n.search-input_search-label_2BU.search-input_opened_3zw {\n  width: 360px; }\n  @media (max-width: 500px) {\n    .search-input_search-label_2BU.search-input_opened_3zw {\n      width: 100%; } }\n  @media (max-width: 500px) {\n    .search-input_search-label_2BU.search-input_opened_3zw .search-input_search-input--container_3Tj {\n      margin-left: 0; } }\n  .search-input_search-label_2BU.search-input_opened_3zw .search-input_search-closeIcon_3Jx {\n    opacity: 1; }\n  @media (max-width: 500px) {\n    .search-input_search-label_2BU.search-input_opened_3zw .search-input_search-searchIcon_2em {\n      display: none; } }\n\n.search-input_search-label_2BU.search-input_focused_WIx .search-input_search-input--container_3Tj::after {\n  visibility: visible;\n  width: 100%; }\n", ""]);
+exports.push([module.i, ":root {\n  --mdc-theme-primary: #00BFA5; }\n\n@-webkit-keyframes search-input_fadeIn_1TH {\n  from {\n    opacity: 0; }\n  to {\n    opacity: 1; } }\n\n@keyframes search-input_fadeIn_1TH {\n  from {\n    opacity: 0; }\n  to {\n    opacity: 1; } }\n\n.search-input_search-label_2BU {\n  position: relative;\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-orient: horizontal;\n  -webkit-box-direction: normal;\n      -ms-flex-direction: row;\n          flex-direction: row;\n  width: 20px;\n  overflow: hidden;\n  -webkit-transition: all 0.1s cubic-bezier(0.4, 0, 0.2, 1);\n  transition: all 0.1s cubic-bezier(0.4, 0, 0.2, 1); }\n\n.search-input_icon-container_orR {\n  background: none;\n  border: none;\n  margin: 0;\n  padding: 0;\n  cursor: pointer;\n  outline: none;\n  color: #fff; }\n\n.search-input_search-icon_b0B {\n  height: 20px;\n  width: 20px;\n  -webkit-transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);\n  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1); }\n\n.search-input_search-closeIcon_3Jx {\n  position: absolute;\n  right: 0;\n  top: 0;\n  height: 100%;\n  opacity: 0;\n  -webkit-transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);\n  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-align: center;\n      -ms-flex-align: center;\n          align-items: center; }\n  .search-input_search-closeIcon_3Jx i {\n    padding: 0px;\n    font-size: 20px; }\n\n.search-input_search-input--container_3Tj {\n  border-bottom: 1px solid #324047;\n  position: relative;\n  -webkit-box-flex: 1;\n      -ms-flex: 1;\n          flex: 1;\n  margin-left: 8px; }\n\n.search-input_search-input--container_3Tj::after {\n  display: block;\n  content: '';\n  position: absolute;\n  bottom: -1px;\n  left: 0px;\n  height: 2px;\n  background-color: #fff;\n  width: 10px;\n  visibility: hidden;\n  -webkit-transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);\n  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1); }\n\n.search-input_search-input_1uU {\n  position: relative;\n  height: 30px;\n  width: 100%;\n  outline: 0;\n  border: none;\n  padding: 4px 22px 4px 4px;\n  overflow: hidden;\n  font-size: 16px;\n  background: none;\n  color: #fff; }\n\n.search-input_search-label_2BU.search-input_opened_3zw {\n  width: 360px; }\n  @media (max-width: 500px) {\n    .search-input_search-label_2BU.search-input_opened_3zw {\n      width: 100%; } }\n  @media (max-width: 500px) {\n    .search-input_search-label_2BU.search-input_opened_3zw .search-input_search-input--container_3Tj {\n      margin-left: 0; } }\n  .search-input_search-label_2BU.search-input_opened_3zw .search-input_search-closeIcon_3Jx {\n    opacity: 1; }\n  @media (max-width: 500px) {\n    .search-input_search-label_2BU.search-input_opened_3zw .search-input_search-searchIcon_2em {\n      display: none; } }\n\n.search-input_search-label_2BU.search-input_focused_WIx .search-input_search-input--container_3Tj::after {\n  visibility: visible;\n  width: 100%; }\n", ""]);
 
 // exports
 exports.locals = {
@@ -3539,15 +3622,15 @@ exports.locals = {
 };
 
 /***/ }),
-/* 47 */
+/* 48 */
 /***/ (function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__(1)();
+exports = module.exports = __webpack_require__(0)();
 // imports
 
 
 // module
-exports.push([module.i, "@-webkit-keyframes progress-indicator_fadeIn_F5i {\n  from {\n    opacity: 0; }\n  to {\n    opacity: 1; } }\n\n@keyframes progress-indicator_fadeIn_F5i {\n  from {\n    opacity: 0; }\n  to {\n    opacity: 1; } }\n\n.progress-indicator_progressIndicator_2I_ {\n  position: relative;\n  z-index: 101;\n  background-color: #009688;\n  height: 4px; }\n\n.progress-indicator_progressIndicator_2I_.progress-indicator_animatable_3qR {\n  -webkit-transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.1s linear;\n  transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.1s linear; }\n", ""]);
+exports.push([module.i, ":root {\n  --mdc-theme-primary: #00BFA5; }\n\n@-webkit-keyframes progress-indicator_fadeIn_F5i {\n  from {\n    opacity: 0; }\n  to {\n    opacity: 1; } }\n\n@keyframes progress-indicator_fadeIn_F5i {\n  from {\n    opacity: 0; }\n  to {\n    opacity: 1; } }\n\n.progress-indicator_progressIndicator_2I_ {\n  position: relative;\n  z-index: 101;\n  background-color: #009688;\n  height: 4px; }\n\n.progress-indicator_progressIndicator_2I_.progress-indicator_animatable_3qR {\n  -webkit-transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.1s linear;\n  transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.1s linear; }\n", ""]);
 
 // exports
 exports.locals = {
@@ -3557,15 +3640,15 @@ exports.locals = {
 };
 
 /***/ }),
-/* 48 */
+/* 49 */
 /***/ (function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__(1)();
+exports = module.exports = __webpack_require__(0)();
 // imports
 
 
 // module
-exports.push([module.i, "@-webkit-keyframes search-result_fadeIn_11R {\n  from {\n    opacity: 0; }\n  to {\n    opacity: 1; } }\n\n@keyframes search-result_fadeIn_11R {\n  from {\n    opacity: 0; }\n  to {\n    opacity: 1; } }\n\n.search-result_result_1_F {\n  position: relative;\n  overflow: hidden;\n  padding: 4px 0 25px 0;\n  border-bottom: 1px solid #324047;\n  cursor: pointer; }\n  @media (max-width: 500px) {\n    .search-result_result_1_F {\n      padding: 0px 8px 0px 48px;\n      border-bottom: none; } }\n\n.search-result_ripple_1lD {\n  position: absolute;\n  top: 0;\n  left: 0;\n  right: 0;\n  bottom: 0;\n  overflow: hidden; }\n  @media (min-width: 500px) {\n    .search-result_ripple_1lD {\n      display: none; } }\n\n.search-result_result-title_2z7 {\n  color: #009688;\n  font-size: 24px; }\n  @media (max-width: 500px) {\n    .search-result_result-title_2z7 {\n      color: #373737;\n      font-size: 16px;\n      margin: 16px 0; } }\n\n.search-result_result-url_3fq {\n  font-size: 13px;\n  color: #00BFA5;\n  overflow: hidden;\n  white-space: nowrap;\n  text-overflow: ellipsis; }\n  @media (max-width: 500px) {\n    .search-result_result-url_3fq {\n      display: none; } }\n\n.search-result_result-route_2ho {\n  color: #373737;\n  font-size: 13px;\n  line-height: 24px; }\n  @media (max-width: 500px) {\n    .search-result_result-route_2ho {\n      display: none; } }\n", ""]);
+exports.push([module.i, ":root {\n  --mdc-theme-primary: #00BFA5; }\n\n@-webkit-keyframes search-result_fadeIn_11R {\n  from {\n    opacity: 0; }\n  to {\n    opacity: 1; } }\n\n@keyframes search-result_fadeIn_11R {\n  from {\n    opacity: 0; }\n  to {\n    opacity: 1; } }\n\n.search-result_result_1_F {\n  position: relative;\n  overflow: hidden;\n  padding: 4px 0 25px 0;\n  border-bottom: 1px solid #324047;\n  cursor: pointer; }\n  @media (max-width: 500px) {\n    .search-result_result_1_F {\n      padding: 0px 8px 0px 48px;\n      border-bottom: none; } }\n\n.search-result_ripple_1lD {\n  position: absolute;\n  top: 0;\n  left: 0;\n  right: 0;\n  bottom: 0;\n  overflow: hidden; }\n  @media (min-width: 500px) {\n    .search-result_ripple_1lD {\n      display: none; } }\n\n.search-result_result-title_2z7 {\n  color: #009688;\n  font-size: 24px; }\n  @media (max-width: 500px) {\n    .search-result_result-title_2z7 {\n      color: #373737;\n      font-size: 16px;\n      margin: 16px 0; } }\n\n.search-result_result-url_3fq {\n  font-size: 13px;\n  color: #00BFA5;\n  overflow: hidden;\n  white-space: nowrap;\n  text-overflow: ellipsis; }\n  @media (max-width: 500px) {\n    .search-result_result-url_3fq {\n      display: none; } }\n\n.search-result_result-route_2ho {\n  color: #373737;\n  font-size: 13px;\n  line-height: 24px; }\n  @media (max-width: 500px) {\n    .search-result_result-route_2ho {\n      display: none; } }\n", ""]);
 
 // exports
 exports.locals = {
@@ -3578,15 +3661,15 @@ exports.locals = {
 };
 
 /***/ }),
-/* 49 */
+/* 50 */
 /***/ (function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__(1)();
+exports = module.exports = __webpack_require__(0)();
 // imports
 
 
 // module
-exports.push([module.i, "@-webkit-keyframes drawer_fadeIn_3EK {\n  from {\n    opacity: 0; }\n  to {\n    opacity: 1; } }\n\n@keyframes drawer_fadeIn_3EK {\n  from {\n    opacity: 0; }\n  to {\n    opacity: 1; } }\n\n.drawer_drawer-container_31e {\n  position: relative;\n  z-index: 99;\n  height: 100vh;\n  width: 40%;\n  max-width: 260px; }\n  @media (max-width: 500px) {\n    .drawer_drawer-container_31e {\n      position: fixed;\n      z-index: 102;\n      left: 0;\n      top: 0;\n      width: 100%;\n      max-width: none;\n      height: 100%;\n      overflow: hidden;\n      pointer-events: none; } }\n\n@media (max-width: 500px) {\n  .drawer_drawer-container_31e::after {\n    display: block;\n    content: '';\n    position: absolute;\n    z-index: -1;\n    top: 0;\n    left: 0;\n    width: 100%;\n    height: 100%;\n    background-color: rgba(0, 0, 0, 0.4);\n    opacity: 0;\n    will-change: opacity;\n    -webkit-transition: opacity 0.4s cubic-bezier(0.4, 0, 0.2, 1);\n    transition: opacity 0.4s cubic-bezier(0.4, 0, 0.2, 1); } }\n\n@media (min-width: 500px) {\n  .drawer_drawer-container_31e.drawer_active_SOS {\n    display: none; } }\n\n@media (max-width: 500px) {\n  .drawer_drawer-container_31e.drawer_active_SOS {\n    pointer-events: auto; } }\n\n@media (max-width: 500px) {\n  .drawer_drawer-container_31e.drawer_active_SOS::after {\n    opacity: 1; } }\n\n.drawer_drawer_2Js {\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-orient: vertical;\n  -webkit-box-direction: normal;\n      -ms-flex-direction: column;\n          flex-direction: column;\n  position: relative;\n  height: 100vh;\n  width: 100%;\n  -webkit-transition: -webkit-transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);\n  transition: -webkit-transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);\n  transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);\n  transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), -webkit-transform 0.4s cubic-bezier(0.4, 0, 0.2, 1); }\n  @media (max-width: 500px) {\n    .drawer_drawer_2Js {\n      box-shadow: 2px 0 12px rgba(0, 0, 0, 0.4);\n      left: 0;\n      top: 0;\n      max-width: 400px;\n      width: 80%;\n      -webkit-transform: translateX(-107%);\n              transform: translateX(-107%);\n      will-change: transform; } }\n\n.drawer_drawer_2Js.drawer_draggable_iwv {\n  -webkit-transition: -webkit-transform 0.13s cubic-bezier(0, 0, 0.3, 1);\n  transition: -webkit-transform 0.13s cubic-bezier(0, 0, 0.3, 1);\n  transition: transform 0.13s cubic-bezier(0, 0, 0.3, 1);\n  transition: transform 0.13s cubic-bezier(0, 0, 0.3, 1), -webkit-transform 0.13s cubic-bezier(0, 0, 0.3, 1); }\n\n@media (max-width: 500px) {\n  .drawer_drawer-container_31e.drawer_active_SOS .drawer_drawer_2Js {\n    -webkit-transform: translateX(0px);\n            transform: translateX(0px); } }\n\n.drawer_drawer-homeContainer_1Bo {\n  padding: 8px 0;\n  border-bottom: 1px solid #324047;\n  background-color: #1e2b32; }\n\n.drawer_drawer-home_2Lu {\n  position: relative;\n  overflow: hidden;\n  padding: 0 24px;\n  height: 40px;\n  text-decoration: none;\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-align: center;\n      -ms-flex-align: center;\n          align-items: center; }\n  .drawer_drawer-home_2Lu i {\n    margin-right: 27px;\n    color: #fff; }\n  .drawer_drawer-home_2Lu span {\n    color: #fff; }\n\n.drawer_drawer-home_2Lu.drawer_active_SOS i {\n  color: #009688; }\n\n.drawer_drawer-home_2Lu.drawer_active_SOS span {\n  font-weight: 500;\n  color: #009688; }\n\n.drawer_drawer-logo_108 {\n  display: none;\n  background-color: #1e2b32; }\n  .drawer_drawer-logo_108 img {\n    width: 100%; }\n\n.drawer_drawer-divider_3-J {\n  border: 1px solid #324047;\n  border-bottom: none;\n  margin: 0; }\n\n.drawer_search-container_2-X {\n  padding: 16px;\n  background-color: #324047;\n  border-bottom: 1px solid #324047; }\n\n.drawer_articleFilters-wrapper_3oY {\n  background-color: #1e2b32; }\n\n.drawer_pageList-wrapper_2-C {\n  background-color: #1e2b32;\n  -webkit-box-flex: 1;\n      -ms-flex: 1;\n          flex: 1;\n  padding: 8px 0px;\n  overflow: auto; }\n\n.drawer_drawer-footer_2Nz {\n  height: 33%;\n  background-color: #1e2b32; }\n", ""]);
+exports.push([module.i, ":root {\n  --mdc-theme-primary: #00BFA5; }\n\n@-webkit-keyframes drawer_fadeIn_3EK {\n  from {\n    opacity: 0; }\n  to {\n    opacity: 1; } }\n\n@keyframes drawer_fadeIn_3EK {\n  from {\n    opacity: 0; }\n  to {\n    opacity: 1; } }\n\n.drawer_drawer-container_31e {\n  position: relative;\n  z-index: 99;\n  height: 100vh;\n  width: 40%;\n  max-width: 260px; }\n  @media (max-width: 500px) {\n    .drawer_drawer-container_31e {\n      position: fixed;\n      z-index: 102;\n      left: 0;\n      top: 0;\n      width: 100%;\n      max-width: none;\n      height: 100%;\n      overflow: hidden;\n      pointer-events: none; } }\n\n@media (max-width: 500px) {\n  .drawer_drawer-container_31e::after {\n    display: block;\n    content: '';\n    position: absolute;\n    z-index: -1;\n    top: 0;\n    left: 0;\n    width: 100%;\n    height: 100%;\n    background-color: rgba(0, 0, 0, 0.4);\n    opacity: 0;\n    will-change: opacity;\n    -webkit-transition: opacity 0.4s cubic-bezier(0.4, 0, 0.2, 1);\n    transition: opacity 0.4s cubic-bezier(0.4, 0, 0.2, 1); } }\n\n@media (min-width: 500px) {\n  .drawer_drawer-container_31e.drawer_active_SOS {\n    display: none; } }\n\n@media (max-width: 500px) {\n  .drawer_drawer-container_31e.drawer_active_SOS {\n    pointer-events: auto; } }\n\n@media (max-width: 500px) {\n  .drawer_drawer-container_31e.drawer_active_SOS::after {\n    opacity: 1; } }\n\n.drawer_drawer_2Js {\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-orient: vertical;\n  -webkit-box-direction: normal;\n      -ms-flex-direction: column;\n          flex-direction: column;\n  position: relative;\n  height: 100vh;\n  width: 100%;\n  -webkit-transition: -webkit-transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);\n  transition: -webkit-transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);\n  transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);\n  transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), -webkit-transform 0.4s cubic-bezier(0.4, 0, 0.2, 1); }\n  @media (max-width: 500px) {\n    .drawer_drawer_2Js {\n      box-shadow: 2px 0 12px rgba(0, 0, 0, 0.4);\n      left: 0;\n      top: 0;\n      max-width: 400px;\n      width: 80%;\n      -webkit-transform: translateX(-107%);\n              transform: translateX(-107%);\n      will-change: transform; } }\n\n.drawer_drawer_2Js.drawer_draggable_iwv {\n  -webkit-transition: -webkit-transform 0.13s cubic-bezier(0, 0, 0.3, 1);\n  transition: -webkit-transform 0.13s cubic-bezier(0, 0, 0.3, 1);\n  transition: transform 0.13s cubic-bezier(0, 0, 0.3, 1);\n  transition: transform 0.13s cubic-bezier(0, 0, 0.3, 1), -webkit-transform 0.13s cubic-bezier(0, 0, 0.3, 1); }\n\n@media (max-width: 500px) {\n  .drawer_drawer-container_31e.drawer_active_SOS .drawer_drawer_2Js {\n    -webkit-transform: translateX(0px);\n            transform: translateX(0px); } }\n\n.drawer_drawer-homeContainer_1Bo {\n  padding: 8px 0;\n  border-bottom: 1px solid #324047;\n  background-color: #1e2b32; }\n\n.drawer_drawer-home_2Lu {\n  position: relative;\n  overflow: hidden;\n  padding: 0 24px;\n  height: 40px;\n  text-decoration: none;\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-align: center;\n      -ms-flex-align: center;\n          align-items: center; }\n  .drawer_drawer-home_2Lu i {\n    margin-right: 27px;\n    color: #fff; }\n  .drawer_drawer-home_2Lu span {\n    color: #fff; }\n\n.drawer_drawer-home_2Lu.drawer_active_SOS i {\n  color: #009688; }\n\n.drawer_drawer-home_2Lu.drawer_active_SOS span {\n  font-weight: 500;\n  color: #009688; }\n\n.drawer_drawer-logo_108 {\n  display: none;\n  background-color: #1e2b32; }\n  .drawer_drawer-logo_108 img {\n    width: 100%; }\n\n.drawer_drawer-divider_3-J {\n  border: 1px solid #324047;\n  border-bottom: none;\n  margin: 0; }\n\n.drawer_search-container_2-X {\n  padding: 16px;\n  background-color: #324047;\n  border-bottom: 1px solid #324047; }\n\n.drawer_articleFilters-wrapper_3oY {\n  background-color: #1e2b32; }\n\n.drawer_pageList-wrapper_2-C {\n  background-color: #1e2b32;\n  -webkit-box-flex: 1;\n      -ms-flex: 1;\n          flex: 1;\n  padding: 8px 0px;\n  overflow: auto; }\n\n.drawer_drawer-footer_2Nz {\n  height: 33%;\n  background-color: #1e2b32; }\n", ""]);
 
 // exports
 exports.locals = {
@@ -3606,21 +3689,22 @@ exports.locals = {
 };
 
 /***/ }),
-/* 50 */
+/* 51 */
 /***/ (function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__(1)();
+exports = module.exports = __webpack_require__(0)();
 // imports
 
 
 // module
-exports.push([module.i, "@-webkit-keyframes main_fadeIn_3Wz {\n  from {\n    opacity: 0; }\n  to {\n    opacity: 1; } }\n\n@keyframes main_fadeIn_3Wz {\n  from {\n    opacity: 0; }\n  to {\n    opacity: 1; } }\n\n.main_main_3IX {\n  position: relative;\n  -webkit-box-flex: 1;\n      -ms-flex: 1;\n          flex: 1;\n  display: inline-block;\n  min-height: 100%;\n  background-color: #fff;\n  overflow: auto;\n  -webkit-overflow-scrolling: touch; }\n\n.main_progressBar_3PJ {\n  /* TEMP */\n  display: none;\n  /* *** */\n  position: relative;\n  z-index: 96;\n  width: 100%;\n  background-color: #28353e;\n  height: 5px;\n  -webkit-transition: width 0.2s cubic-bezier(0.4, 0, 0.2, 1);\n  transition: width 0.2s cubic-bezier(0.4, 0, 0.2, 1); }\n\n.main_content-wrapper_2tP {\n  position: relative;\n  z-index: 9;\n  overflow-x: hidden;\n  -webkit-overflow-scrolling: touch;\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-orient: vertical;\n  -webkit-box-direction: normal;\n      -ms-flex-direction: column;\n          flex-direction: column;\n  min-height: 100%; }\n\n.main_footer_110 {\n  position: relative;\n  z-index: 10;\n  padding: 16px;\n  width: 100%;\n  background: #1e2b32;\n  color: #fff;\n  box-shadow: 0 0 0.5rem rgba(0, 0, 0, 0.2); }\n  .main_footer_110 .main_section_zKk {\n    display: inline-block;\n    width: 50%;\n    vertical-align: top;\n    word-break: break-word; }\n    @media (max-width: 500px) {\n      .main_footer_110 .main_section_zKk {\n        width: 100%; } }\n    .main_footer_110 .main_section_zKk p {\n      color: #fff; }\n      .main_footer_110 .main_section_zKk p a {\n        color: #009688;\n        text-decoration: none; }\n      .main_footer_110 .main_section_zKk p i {\n        font-size: 24px;\n        margin-right: 8px;\n        -webkit-transition: all 0.2s linear;\n        transition: all 0.2s linear; }\n      .main_footer_110 .main_section_zKk p i:hover {\n        opacity: 0.8; }\n      .main_footer_110 .main_section_zKk p i:active {\n        -webkit-transform: scale(0.94);\n                transform: scale(0.94); }\n      .main_footer_110 .main_section_zKk p .main_facebook_K7i {\n        color: #3B5998; }\n      .main_footer_110 .main_section_zKk p .main_twitter_1q4 {\n        color: #4099FF; }\n    .main_footer_110 .main_section_zKk h1 {\n      font-size: 16px; }\n  @media (min-width: 500px) {\n    .main_footer_110 .main_section_zKk:nth-child(1) {\n      padding-right: 24px;\n      border-right: 1px solid rgba(0, 0, 0, 0.1); } }\n  @media (min-width: 500px) {\n    .main_footer_110 .main_section_zKk:nth-child(2) {\n      padding-left: 24px; } }\n\n.main_transition-container_17I {\n  -webkit-box-flex: 1;\n      -ms-flex: 1;\n          flex: 1;\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-orient: vertical;\n  -webkit-box-direction: normal;\n      -ms-flex-direction: column;\n          flex-direction: column; }\n\n.main_enter_267 {\n  opacity: 0.01; }\n\n.main_enter_267.main_enterActive_1AK {\n  opacity: 1;\n  -webkit-transition: opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1), -webkit-transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);\n  transition: opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1), -webkit-transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);\n  transition: opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1), transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);\n  transition: opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1), transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), -webkit-transform 0.3s cubic-bezier(0.4, 0, 0.2, 1); }\n\n.main_leave_wDn {\n  opacity: 0;\n  position: absolute; }\n\n.main_leave_wDn.main_leaveActive_1oa {\n  opacity: 0.01;\n  -webkit-transition: opacity 0.2s cubic-bezier(0.4, 0, 0.2, 1), -webkit-transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);\n  transition: opacity 0.2s cubic-bezier(0.4, 0, 0.2, 1), -webkit-transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);\n  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.2s cubic-bezier(0.4, 0, 0.2, 1);\n  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.2s cubic-bezier(0.4, 0, 0.2, 1), -webkit-transform 0.3s cubic-bezier(0.4, 0, 0.2, 1); }\n\n.main_appear_IkB {\n  opacity: 0.01; }\n\n.main_appear_IkB.main_appearActive_2wP {\n  opacity: 1;\n  -webkit-transition: opacity 0.5s cubic-bezier(0.4, 0, 0.2, 1);\n  transition: opacity 0.5s cubic-bezier(0.4, 0, 0.2, 1); }\n", ""]);
+exports.push([module.i, ":root {\n  --mdc-theme-primary: #00BFA5; }\n\n@-webkit-keyframes main_fadeIn_3Wz {\n  from {\n    opacity: 0; }\n  to {\n    opacity: 1; } }\n\n@keyframes main_fadeIn_3Wz {\n  from {\n    opacity: 0; }\n  to {\n    opacity: 1; } }\n\n.main_main_3IX {\n  position: relative;\n  -webkit-box-flex: 1;\n      -ms-flex: 1;\n          flex: 1;\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-orient: vertical;\n  -webkit-box-direction: normal;\n      -ms-flex-direction: column;\n          flex-direction: column;\n  min-height: 100%;\n  background-color: #fff;\n  overflow: auto;\n  -webkit-overflow-scrolling: touch; }\n\n.main_progressBar_3PJ {\n  /* TEMP */\n  display: none;\n  /* *** */\n  position: relative;\n  z-index: 96;\n  width: 100%;\n  background-color: #28353e;\n  height: 5px;\n  -webkit-transition: width 0.2s cubic-bezier(0.4, 0, 0.2, 1);\n  transition: width 0.2s cubic-bezier(0.4, 0, 0.2, 1); }\n\n.main_content-wrapper_2tP {\n  -webkit-box-flex: 1;\n      -ms-flex: 1;\n          flex: 1;\n  position: relative;\n  z-index: 9;\n  overflow-x: hidden;\n  -webkit-overflow-scrolling: touch;\n  display: inline-block; }\n\n.main_flex-wrapper_2W6 {\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-orient: vertical;\n  -webkit-box-direction: normal;\n      -ms-flex-direction: column;\n          flex-direction: column;\n  width: 100%;\n  min-height: 100%; }\n\n.main_footer_110 {\n  position: relative;\n  z-index: 10;\n  padding: 16px;\n  width: 100%;\n  background: #1e2b32;\n  color: #fff;\n  box-shadow: 0 0 0.5rem rgba(0, 0, 0, 0.2); }\n  .main_footer_110 .main_section_zKk {\n    display: inline-block;\n    width: 50%;\n    vertical-align: top;\n    word-break: break-word; }\n    @media (max-width: 500px) {\n      .main_footer_110 .main_section_zKk {\n        width: 100%; } }\n    .main_footer_110 .main_section_zKk p {\n      color: #fff; }\n      .main_footer_110 .main_section_zKk p a {\n        color: #009688;\n        text-decoration: none; }\n      .main_footer_110 .main_section_zKk p i {\n        font-size: 24px;\n        margin-right: 8px;\n        -webkit-transition: all 0.2s linear;\n        transition: all 0.2s linear; }\n      .main_footer_110 .main_section_zKk p i:hover {\n        opacity: 0.8; }\n      .main_footer_110 .main_section_zKk p i:active {\n        -webkit-transform: scale(0.94);\n                transform: scale(0.94); }\n      .main_footer_110 .main_section_zKk p .main_facebook_K7i {\n        color: #3B5998; }\n      .main_footer_110 .main_section_zKk p .main_twitter_1q4 {\n        color: #4099FF; }\n    .main_footer_110 .main_section_zKk h1 {\n      font-size: 16px; }\n  @media (min-width: 500px) {\n    .main_footer_110 .main_section_zKk:nth-child(1) {\n      padding-right: 24px;\n      border-right: 1px solid rgba(0, 0, 0, 0.1); } }\n  @media (min-width: 500px) {\n    .main_footer_110 .main_section_zKk:nth-child(2) {\n      padding-left: 24px; } }\n\n.main_transition-container_17I {\n  -webkit-box-flex: 1;\n      -ms-flex: 1;\n          flex: 1;\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-orient: vertical;\n  -webkit-box-direction: normal;\n      -ms-flex-direction: column;\n          flex-direction: column; }\n\n.main_enter_267 {\n  opacity: 0.01; }\n\n.main_enter_267.main_enterActive_1AK {\n  opacity: 1;\n  -webkit-transition: opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1), -webkit-transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);\n  transition: opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1), -webkit-transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);\n  transition: opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1), transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);\n  transition: opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1), transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), -webkit-transform 0.3s cubic-bezier(0.4, 0, 0.2, 1); }\n\n.main_leave_wDn {\n  opacity: 0;\n  position: absolute; }\n\n.main_leave_wDn.main_leaveActive_1oa {\n  opacity: 0.01;\n  -webkit-transition: opacity 0.2s cubic-bezier(0.4, 0, 0.2, 1), -webkit-transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);\n  transition: opacity 0.2s cubic-bezier(0.4, 0, 0.2, 1), -webkit-transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);\n  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.2s cubic-bezier(0.4, 0, 0.2, 1);\n  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.2s cubic-bezier(0.4, 0, 0.2, 1), -webkit-transform 0.3s cubic-bezier(0.4, 0, 0.2, 1); }\n\n.main_appear_IkB {\n  opacity: 0.01; }\n\n.main_appear_IkB.main_appearActive_2wP {\n  opacity: 1;\n  -webkit-transition: opacity 0.5s cubic-bezier(0.4, 0, 0.2, 1);\n  transition: opacity 0.5s cubic-bezier(0.4, 0, 0.2, 1); }\n", ""]);
 
 // exports
 exports.locals = {
 	"main": "main_main_3IX",
 	"progressBar": "main_progressBar_3PJ",
 	"content-wrapper": "main_content-wrapper_2tP",
+	"flex-wrapper": "main_flex-wrapper_2W6",
 	"footer": "main_footer_110",
 	"section": "main_section_zKk",
 	"facebook": "main_facebook_K7i",
@@ -3636,15 +3720,15 @@ exports.locals = {
 };
 
 /***/ }),
-/* 51 */
+/* 52 */
 /***/ (function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__(1)();
+exports = module.exports = __webpack_require__(0)();
 // imports
 
 
 // module
-exports.push([module.i, "@-webkit-keyframes search-results_fadeIn_pSZ {\n  from {\n    opacity: 0; }\n  to {\n    opacity: 1; } }\n\n@keyframes search-results_fadeIn_pSZ {\n  from {\n    opacity: 0; }\n  to {\n    opacity: 1; } }\n\n@-webkit-keyframes search-results_flyIn_1xB {\n  0% {\n    opacity: 0;\n    -webkit-transform: translateY(-20px);\n            transform: translateY(-20px); }\n  50% {\n    -webkit-transform: translateY(0);\n            transform: translateY(0); }\n  100% {\n    opacity: 1; } }\n\n@keyframes search-results_flyIn_1xB {\n  0% {\n    opacity: 0;\n    -webkit-transform: translateY(-20px);\n            transform: translateY(-20px); }\n  50% {\n    -webkit-transform: translateY(0);\n            transform: translateY(0); }\n  100% {\n    opacity: 1; } }\n\n.search-results_search-container_-Li {\n  -webkit-box-flex: 1;\n      -ms-flex: 1;\n          flex: 1;\n  width: 75%;\n  padding: 80px 0;\n  margin: 0 auto; }\n  @media (max-width: 500px) {\n    .search-results_search-container_-Li {\n      width: 100%;\n      padding: 8px 0; } }\n\n.search-results_search-results_27x {\n  padding: 16px; }\n  @media (max-width: 500px) {\n    .search-results_search-results_27x {\n      padding: 0; } }\n\n.search-results_search-title_1sI {\n  font-weight: 400; }\n  @media (max-width: 500px) {\n    .search-results_search-title_1sI {\n      display: none; } }\n\n.search-results_search-query_2hs {\n  color: #009688;\n  overflow: hidden;\n  white-space: nowrap;\n  text-overflow: ellipsis; }\n", ""]);
+exports.push([module.i, ":root {\n  --mdc-theme-primary: #00BFA5; }\n\n@-webkit-keyframes search-results_fadeIn_pSZ {\n  from {\n    opacity: 0; }\n  to {\n    opacity: 1; } }\n\n@keyframes search-results_fadeIn_pSZ {\n  from {\n    opacity: 0; }\n  to {\n    opacity: 1; } }\n\n@-webkit-keyframes search-results_flyIn_1xB {\n  0% {\n    opacity: 0;\n    -webkit-transform: translateY(-20px);\n            transform: translateY(-20px); }\n  50% {\n    -webkit-transform: translateY(0);\n            transform: translateY(0); }\n  100% {\n    opacity: 1; } }\n\n@keyframes search-results_flyIn_1xB {\n  0% {\n    opacity: 0;\n    -webkit-transform: translateY(-20px);\n            transform: translateY(-20px); }\n  50% {\n    -webkit-transform: translateY(0);\n            transform: translateY(0); }\n  100% {\n    opacity: 1; } }\n\n.search-results_search-container_-Li {\n  -webkit-box-flex: 1;\n      -ms-flex: 1;\n          flex: 1;\n  width: 75%;\n  padding: 80px 0;\n  margin: 0 auto; }\n  @media (max-width: 500px) {\n    .search-results_search-container_-Li {\n      width: 100%;\n      padding: 8px 0; } }\n\n.search-results_search-results_27x {\n  padding: 16px; }\n  @media (max-width: 500px) {\n    .search-results_search-results_27x {\n      padding: 0; } }\n\n.search-results_search-title_1sI {\n  font-weight: 400; }\n  @media (max-width: 500px) {\n    .search-results_search-title_1sI {\n      display: none; } }\n\n.search-results_search-query_2hs {\n  color: #009688;\n  overflow: hidden;\n  white-space: nowrap;\n  text-overflow: ellipsis; }\n", ""]);
 
 // exports
 exports.locals = {
@@ -3657,10 +3741,10 @@ exports.locals = {
 };
 
 /***/ }),
-/* 52 */
+/* 53 */
 /***/ (function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__(1)();
+exports = module.exports = __webpack_require__(0)();
 // imports
 exports.push([module.i, "@import url(https://fonts.googleapis.com/css?family=Roboto:300,400,500,700);", ""]);
 exports.push([module.i, "@import url(https://fonts.googleapis.com/icon?family=Material+Icons);", ""]);
@@ -3675,12 +3759,12 @@ exports.locals = {
 };
 
 /***/ }),
-/* 53 */
+/* 54 */
 /***/ (function(module, exports, __webpack_require__) {
 
 
     var content = __webpack_require__(34);
-    var insertCss = __webpack_require__(2);
+    var insertCss = __webpack_require__(1);
 
     if (typeof content === 'string') {
       content = [[module.i, content, '']];
@@ -3696,8 +3780,8 @@ exports.locals = {
     // Only activated in browser context
     if (false) {
       var removeCss = function() {};
-      module.hot.accept("!!../../../../../node_modules/css-loader/index.js!../../../../../node_modules/postcss-loader/index.js??ref--2-2!./atelier-estuary-light.css", function() {
-        content = require("!!../../../../../node_modules/css-loader/index.js!../../../../../node_modules/postcss-loader/index.js??ref--2-2!./atelier-estuary-light.css");
+      module.hot.accept("!!../../../css-loader/index.js?modules&localIdentName=[name]_[local]_[hash:base64:3]!../../../postcss-loader/index.js??ref--1-2!../../../sass-loader/lib/loader.js!./mdc.switch.css", function() {
+        content = require("!!../../../css-loader/index.js?modules&localIdentName=[name]_[local]_[hash:base64:3]!../../../postcss-loader/index.js??ref--1-2!../../../sass-loader/lib/loader.js!./mdc.switch.css");
 
         if (typeof content === 'string') {
           content = [[module.id, content, '']];
@@ -3710,12 +3794,12 @@ exports.locals = {
   
 
 /***/ }),
-/* 54 */
+/* 55 */
 /***/ (function(module, exports, __webpack_require__) {
 
 
     var content = __webpack_require__(35);
-    var insertCss = __webpack_require__(2);
+    var insertCss = __webpack_require__(1);
 
     if (typeof content === 'string') {
       content = [[module.i, content, '']];
@@ -3745,12 +3829,12 @@ exports.locals = {
   
 
 /***/ }),
-/* 55 */
+/* 56 */
 /***/ (function(module, exports, __webpack_require__) {
 
 
     var content = __webpack_require__(36);
-    var insertCss = __webpack_require__(2);
+    var insertCss = __webpack_require__(1);
 
     if (typeof content === 'string') {
       content = [[module.i, content, '']];
@@ -3780,12 +3864,12 @@ exports.locals = {
   
 
 /***/ }),
-/* 56 */
+/* 57 */
 /***/ (function(module, exports, __webpack_require__) {
 
 
     var content = __webpack_require__(37);
-    var insertCss = __webpack_require__(2);
+    var insertCss = __webpack_require__(1);
 
     if (typeof content === 'string') {
       content = [[module.i, content, '']];
@@ -3815,12 +3899,12 @@ exports.locals = {
   
 
 /***/ }),
-/* 57 */
+/* 58 */
 /***/ (function(module, exports, __webpack_require__) {
 
 
     var content = __webpack_require__(38);
-    var insertCss = __webpack_require__(2);
+    var insertCss = __webpack_require__(1);
 
     if (typeof content === 'string') {
       content = [[module.i, content, '']];
@@ -3850,12 +3934,12 @@ exports.locals = {
   
 
 /***/ }),
-/* 58 */
+/* 59 */
 /***/ (function(module, exports, __webpack_require__) {
 
 
     var content = __webpack_require__(39);
-    var insertCss = __webpack_require__(2);
+    var insertCss = __webpack_require__(1);
 
     if (typeof content === 'string') {
       content = [[module.i, content, '']];
@@ -3885,12 +3969,12 @@ exports.locals = {
   
 
 /***/ }),
-/* 59 */
+/* 60 */
 /***/ (function(module, exports, __webpack_require__) {
 
 
     var content = __webpack_require__(40);
-    var insertCss = __webpack_require__(2);
+    var insertCss = __webpack_require__(1);
 
     if (typeof content === 'string') {
       content = [[module.i, content, '']];
@@ -3920,12 +4004,12 @@ exports.locals = {
   
 
 /***/ }),
-/* 60 */
+/* 61 */
 /***/ (function(module, exports, __webpack_require__) {
 
 
     var content = __webpack_require__(41);
-    var insertCss = __webpack_require__(2);
+    var insertCss = __webpack_require__(1);
 
     if (typeof content === 'string') {
       content = [[module.i, content, '']];
@@ -3955,12 +4039,12 @@ exports.locals = {
   
 
 /***/ }),
-/* 61 */
+/* 62 */
 /***/ (function(module, exports, __webpack_require__) {
 
 
     var content = __webpack_require__(42);
-    var insertCss = __webpack_require__(2);
+    var insertCss = __webpack_require__(1);
 
     if (typeof content === 'string') {
       content = [[module.i, content, '']];
@@ -3990,12 +4074,47 @@ exports.locals = {
   
 
 /***/ }),
-/* 62 */
+/* 63 */
 /***/ (function(module, exports, __webpack_require__) {
 
 
     var content = __webpack_require__(43);
-    var insertCss = __webpack_require__(2);
+    var insertCss = __webpack_require__(1);
+
+    if (typeof content === 'string') {
+      content = [[module.i, content, '']];
+    }
+
+    module.exports = content.locals || {};
+    module.exports._getContent = function() { return content; };
+    module.exports._getCss = function() { return content.toString(); };
+    module.exports._insertCss = function(options) { return insertCss(content, options) };
+    
+    // Hot Module Replacement
+    // https://webpack.github.io/docs/hot-module-replacement
+    // Only activated in browser context
+    if (false) {
+      var removeCss = function() {};
+      module.hot.accept("!!../../../../../node_modules/css-loader/index.js?modules&localIdentName=[name]_[local]_[hash:base64:3]!../../../../../node_modules/postcss-loader/index.js??ref--1-2!../../../../../node_modules/sass-loader/lib/loader.js!./atelier-estuary-light.css", function() {
+        content = require("!!../../../../../node_modules/css-loader/index.js?modules&localIdentName=[name]_[local]_[hash:base64:3]!../../../../../node_modules/postcss-loader/index.js??ref--1-2!../../../../../node_modules/sass-loader/lib/loader.js!./atelier-estuary-light.css");
+
+        if (typeof content === 'string') {
+          content = [[module.id, content, '']];
+        }
+
+        removeCss = insertCss(content, { replace: true });
+      });
+      module.hot.dispose(function() { removeCss(); });
+    }
+  
+
+/***/ }),
+/* 64 */
+/***/ (function(module, exports, __webpack_require__) {
+
+
+    var content = __webpack_require__(44);
+    var insertCss = __webpack_require__(1);
 
     if (typeof content === 'string') {
       content = [[module.i, content, '']];
@@ -4025,12 +4144,12 @@ exports.locals = {
   
 
 /***/ }),
-/* 63 */
+/* 65 */
 /***/ (function(module, exports, __webpack_require__) {
 
 
-    var content = __webpack_require__(44);
-    var insertCss = __webpack_require__(2);
+    var content = __webpack_require__(45);
+    var insertCss = __webpack_require__(1);
 
     if (typeof content === 'string') {
       content = [[module.i, content, '']];
@@ -4060,12 +4179,12 @@ exports.locals = {
   
 
 /***/ }),
-/* 64 */
+/* 66 */
 /***/ (function(module, exports, __webpack_require__) {
 
 
-    var content = __webpack_require__(45);
-    var insertCss = __webpack_require__(2);
+    var content = __webpack_require__(46);
+    var insertCss = __webpack_require__(1);
 
     if (typeof content === 'string') {
       content = [[module.i, content, '']];
@@ -4095,12 +4214,12 @@ exports.locals = {
   
 
 /***/ }),
-/* 65 */
+/* 67 */
 /***/ (function(module, exports, __webpack_require__) {
 
 
-    var content = __webpack_require__(46);
-    var insertCss = __webpack_require__(2);
+    var content = __webpack_require__(47);
+    var insertCss = __webpack_require__(1);
 
     if (typeof content === 'string') {
       content = [[module.i, content, '']];
@@ -4130,12 +4249,12 @@ exports.locals = {
   
 
 /***/ }),
-/* 66 */
+/* 68 */
 /***/ (function(module, exports, __webpack_require__) {
 
 
-    var content = __webpack_require__(47);
-    var insertCss = __webpack_require__(2);
+    var content = __webpack_require__(48);
+    var insertCss = __webpack_require__(1);
 
     if (typeof content === 'string') {
       content = [[module.i, content, '']];
@@ -4165,12 +4284,12 @@ exports.locals = {
   
 
 /***/ }),
-/* 67 */
+/* 69 */
 /***/ (function(module, exports, __webpack_require__) {
 
 
-    var content = __webpack_require__(48);
-    var insertCss = __webpack_require__(2);
+    var content = __webpack_require__(49);
+    var insertCss = __webpack_require__(1);
 
     if (typeof content === 'string') {
       content = [[module.i, content, '']];
@@ -4200,12 +4319,12 @@ exports.locals = {
   
 
 /***/ }),
-/* 68 */
+/* 70 */
 /***/ (function(module, exports, __webpack_require__) {
 
 
-    var content = __webpack_require__(49);
-    var insertCss = __webpack_require__(2);
+    var content = __webpack_require__(50);
+    var insertCss = __webpack_require__(1);
 
     if (typeof content === 'string') {
       content = [[module.i, content, '']];
@@ -4235,12 +4354,12 @@ exports.locals = {
   
 
 /***/ }),
-/* 69 */
+/* 71 */
 /***/ (function(module, exports, __webpack_require__) {
 
 
-    var content = __webpack_require__(50);
-    var insertCss = __webpack_require__(2);
+    var content = __webpack_require__(51);
+    var insertCss = __webpack_require__(1);
 
     if (typeof content === 'string') {
       content = [[module.i, content, '']];
@@ -4270,12 +4389,12 @@ exports.locals = {
   
 
 /***/ }),
-/* 70 */
+/* 72 */
 /***/ (function(module, exports, __webpack_require__) {
 
 
-    var content = __webpack_require__(51);
-    var insertCss = __webpack_require__(2);
+    var content = __webpack_require__(52);
+    var insertCss = __webpack_require__(1);
 
     if (typeof content === 'string') {
       content = [[module.i, content, '']];
@@ -4305,12 +4424,12 @@ exports.locals = {
   
 
 /***/ }),
-/* 71 */
+/* 73 */
 /***/ (function(module, exports, __webpack_require__) {
 
 
-    var content = __webpack_require__(52);
-    var insertCss = __webpack_require__(2);
+    var content = __webpack_require__(53);
+    var insertCss = __webpack_require__(1);
 
     if (typeof content === 'string') {
       content = [[module.i, content, '']];
@@ -4340,83 +4459,219 @@ exports.locals = {
   
 
 /***/ }),
-/* 72 */
+/* 74 */
 /***/ (function(module, exports) {
 
 module.exports = require("babel-runtime/core-js/get-iterator");
 
 /***/ }),
-/* 73 */
+/* 75 */
 /***/ (function(module, exports) {
 
 module.exports = require("babel-runtime/core-js/json/stringify");
 
 /***/ }),
-/* 74 */
+/* 76 */
 /***/ (function(module, exports) {
 
 module.exports = require("babel-runtime/helpers/slicedToArray");
 
 /***/ }),
-/* 75 */
+/* 77 */
 /***/ (function(module, exports) {
 
 module.exports = require("body-parser");
 
 /***/ }),
-/* 76 */
+/* 78 */
 /***/ (function(module, exports) {
 
 module.exports = require("contentful");
 
 /***/ }),
-/* 77 */
+/* 79 */
 /***/ (function(module, exports) {
 
 module.exports = require("dompurify");
 
 /***/ }),
-/* 78 */
+/* 80 */
 /***/ (function(module, exports) {
 
 module.exports = require("express");
 
 /***/ }),
-/* 79 */
+/* 81 */
 /***/ (function(module, exports) {
 
 module.exports = require("highlight.js");
 
 /***/ }),
-/* 80 */
+/* 82 */
 /***/ (function(module, exports) {
 
 module.exports = require("jsdom");
 
 /***/ }),
-/* 81 */
+/* 83 */
 /***/ (function(module, exports) {
 
 module.exports = require("marked");
 
 /***/ }),
-/* 82 */
+/* 84 */
 /***/ (function(module, exports) {
 
 module.exports = require("path");
 
 /***/ }),
-/* 83 */
+/* 85 */
 /***/ (function(module, exports) {
 
 module.exports = require("react-dom/server");
 
 /***/ }),
-/* 84 */
+/* 86 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports = __webpack_require__(10);
 
+
+/***/ }),
+/* 87 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__(2);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _withStyles = __webpack_require__(3);
+
+var _withStyles2 = _interopRequireDefault(_withStyles);
+
+var _mdcSwitch = __webpack_require__(54);
+
+var _mdcSwitch2 = _interopRequireDefault(_mdcSwitch);
+
+var _waterfallHeader = __webpack_require__(89);
+
+var _waterfallHeader2 = _interopRequireDefault(_waterfallHeader);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var WaterfallHeader = function (_React$Component) {
+  _inherits(WaterfallHeader, _React$Component);
+
+  function WaterfallHeader() {
+    _classCallCheck(this, WaterfallHeader);
+
+    return _possibleConstructorReturn(this, (WaterfallHeader.__proto__ || Object.getPrototypeOf(WaterfallHeader)).apply(this, arguments));
+  }
+
+  _createClass(WaterfallHeader, [{
+    key: 'render',
+    value: function render() {
+      var style = {
+        maxHeight: this.props.scrolled ? '0px' : '51px'
+      };
+      return _react2.default.createElement(
+        'div',
+        { className: _waterfallHeader2.default.header, style: style },
+        _react2.default.createElement(
+          'div',
+          { className: _waterfallHeader2.default['header-contentWrapper'] },
+          _react2.default.createElement(
+            'span',
+            null,
+            'Available Offline'
+          ),
+          _react2.default.createElement(
+            'div',
+            { className: _mdcSwitch2.default['mdc-switch'] },
+            _react2.default.createElement('input', { type: 'checkbox', id: 'basic-switch', className: _mdcSwitch2.default['mdc-switch__native-control'] }),
+            _react2.default.createElement(
+              'div',
+              { className: _mdcSwitch2.default['mdc-switch__background'] },
+              _react2.default.createElement('div', { className: _mdcSwitch2.default['mdc-switch__knob'] })
+            )
+          )
+        )
+      );
+    }
+  }]);
+
+  return WaterfallHeader;
+}(_react2.default.Component);
+
+exports.default = (0, _withStyles2.default)(_waterfallHeader2.default, _mdcSwitch2.default)(WaterfallHeader);
+
+/***/ }),
+/* 88 */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(0)();
+// imports
+
+
+// module
+exports.push([module.i, ":root {\n  --mdc-theme-primary: #00BFA5; }\n\n@-webkit-keyframes waterfall-header_fadeIn_3R7 {\n  from {\n    opacity: 0; }\n  to {\n    opacity: 1; } }\n\n@keyframes waterfall-header_fadeIn_3R7 {\n  from {\n    opacity: 0; }\n  to {\n    opacity: 1; } }\n\n.waterfall-header_header_OFd {\n  position: relative;\n  top: -1px;\n  z-index: 100;\n  width: 100%;\n  background-color: #28353e;\n  overflow: hidden;\n  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);\n  -webkit-transition: max-height 0.2s cubic-bezier(0.4, 0, 0.2, 1);\n  transition: max-height 0.2s cubic-bezier(0.4, 0, 0.2, 1); }\n\n.waterfall-header_header-contentWrapper_2lk {\n  color: #fff;\n  float: right;\n  padding: 16px; }\n  .waterfall-header_header-contentWrapper_2lk span {\n    margin-right: 16px; }\n", ""]);
+
+// exports
+exports.locals = {
+	"header": "waterfall-header_header_OFd",
+	"header-contentWrapper": "waterfall-header_header-contentWrapper_2lk",
+	"fadeIn": "waterfall-header_fadeIn_3R7"
+};
+
+/***/ }),
+/* 89 */
+/***/ (function(module, exports, __webpack_require__) {
+
+
+    var content = __webpack_require__(88);
+    var insertCss = __webpack_require__(1);
+
+    if (typeof content === 'string') {
+      content = [[module.i, content, '']];
+    }
+
+    module.exports = content.locals || {};
+    module.exports._getContent = function() { return content; };
+    module.exports._getCss = function() { return content.toString(); };
+    module.exports._insertCss = function(options) { return insertCss(content, options) };
+    
+    // Hot Module Replacement
+    // https://webpack.github.io/docs/hot-module-replacement
+    // Only activated in browser context
+    if (false) {
+      var removeCss = function() {};
+      module.hot.accept("!!../../../../node_modules/css-loader/index.js?modules&localIdentName=[name]_[local]_[hash:base64:3]!../../../../node_modules/postcss-loader/index.js??ref--1-2!../../../../node_modules/sass-loader/lib/loader.js!./waterfall-header.scss", function() {
+        content = require("!!../../../../node_modules/css-loader/index.js?modules&localIdentName=[name]_[local]_[hash:base64:3]!../../../../node_modules/postcss-loader/index.js??ref--1-2!../../../../node_modules/sass-loader/lib/loader.js!./waterfall-header.scss");
+
+        if (typeof content === 'string') {
+          content = [[module.id, content, '']];
+        }
+
+        removeCss = insertCss(content, { replace: true });
+      });
+      module.hot.dispose(function() { removeCss(); });
+    }
+  
 
 /***/ })
 /******/ ]);
