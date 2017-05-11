@@ -3,9 +3,9 @@
 .main {
   position: relative;
   flex: 1;
-  display: inline-block;
+  display: flex;
+  flex-direction: column;
   min-height: 100%;
-  // flex-direction: column;
   background-color: $body-bg;
   overflow: auto;
   -webkit-overflow-scrolling: touch;
@@ -23,13 +23,18 @@
   transition: width 0.2s $anim-easing;
 }
 .content-wrapper {
+  flex: 1;
   position: relative;
   z-index: 9;
   overflow-x: hidden;
   -webkit-overflow-scrolling: touch;
 
+  display: inline-block;
+}
+.flex-wrapper {
   display: flex;
   flex-direction: column;
+  width: 100%;
   min-height: 100%;
 }
 .footer {

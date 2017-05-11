@@ -32,13 +32,12 @@ class MainHeader extends React.Component {
           />
         </div>
         <span className={s.title}>
-          ECMASyntax &ndash;
-          {
-            this.props.activePage ?
-            ` ${this.props.activePage.fields.name}`
+          ECMASyntax <span dangerouslySetInnerHTML={{ 
+            __html: this.props.activePage ?
+            `&ndash; ${this.props.activePage.fields.name}`
             :
-            ' Home'
-          }
+            ''}
+            } />
         </span>
         {/*<div className={s['search-container']}>*/}
           <SearchInput 

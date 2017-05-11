@@ -1,5 +1,7 @@
-const PRECACHE = 'my-pwa-cache-v1';
-const RUNTIME = 'runtime';
+const VERSION_NO = 1;
+
+const PRECACHE = 'ecmasyntax-precache';
+const RUNTIME = 'ecmasyntax-runtime';
 
 const urlsToCache = [
   '/',
@@ -15,17 +17,17 @@ self.addEventListener('install', (event) => {
       .then(self.skipWaiting()));
 });
 
+// clear up old caches
 self.addEventListener('activate', event => {
   const currentCaches = [PRECACHE, RUNTIME];
   event.waitUntil(
     caches.keys().then(cacheNames => {
       return cacheNames.filter(cacheName => !currentCaches.includes(cacheName));
-    }).then(cachesToDelete => {
+    }).then((cachesToDelete) => {
       return Promise.all(cachesToDelete.map(cacheToDelete => {
         return caches.delete(cacheToDelete);
       }));
-    }).then(() => self.clients.claim())
-  );
+    }).then(() => self.clients.claim()));
 });
 
 self.addEventListener('fetch', (event) => {
@@ -33,7 +35,6 @@ self.addEventListener('fetch', (event) => {
   const url = event.request.url;
   const origin = location.origin;
   const relUrl = url.replace(origin, '');
-  // console.log(relUrl, relUrl.startsWith('/api/'));
 
   if (relUrl.startsWith('/pages/')) {
     event.respondWith(
@@ -47,25 +48,24 @@ self.addEventListener('fetch', (event) => {
           return cachedResponse;
         }
 
-        return caches.open(RUNTIME).then((cache) => {
-          return fetch(event.request).then((response) => {
-            return cache.put(event.request, response.clone()).then(() => {
-              return response;
-            });
-          });
-        });
+        return fetch(event.request);
+        // return caches.open(RUNTIME).then((cache) => {
+        //   return fetch(event.request).then((response) => {
+        //     return cache.put(event.request, response.clone()).then(() => {
+        //       return response;
+        //     });
+        //   });
+        // });
       }));
   } else {
     event.respondWith(
       caches.match(event.request)
-        .then(function(response) {
+        .then((response) => {
           // Cache hit - return response
           if (response) {
             return response;
           }
           return fetch(event.request);
-        }
-      )
-    );
+        }));
   }
 });

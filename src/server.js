@@ -122,6 +122,7 @@ class Server {
       `;
     res.send(response);
   }
+          // <link rel="stylesheet" href="/node_modules/@material/switch/dist/mdc.switch.css">
 
   static handle404(req, res) {
     res.status(404).send('404 Page');
@@ -134,7 +135,7 @@ class Server {
 
     this.router.get('/sw.js', (req, res) => {
       res.sendFile('sw.js', { root: this.__dirname });
-    })
+    });
 
     this.router.route('/pages/:specId/:catId/:pageId').get((req, res) => {
       this._handleRender(req, res);
@@ -186,6 +187,9 @@ class Server {
     this._setupAPIRoutes();
 
     this.app.use('/static', express.static(path.join(this.__dirname, 'static')));
+
+    // required for material-components-web
+    this.app.use('/node_modules', express.static(path.join('node_modules')));
 
     this.app.use('/api', this.APIRouter);
 
