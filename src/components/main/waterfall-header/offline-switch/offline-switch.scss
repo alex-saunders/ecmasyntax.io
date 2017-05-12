@@ -1,0 +1,20 @@
+@import '../../../../scss/theme';
+
+.switch-container {
+  display: inline-block;
+}
+
+.switch-label {
+  color: $drawer-subheading;
+  font-size: 14px;
+  font-weight: 500;
+  text-transform: uppercase;
+  margin-right: 16px;
+  transition: color .2s $anim-easing;
+}
+
+.switch-container.active {
+  .switch-label {
+    color: $primary-2;
+  }
+}

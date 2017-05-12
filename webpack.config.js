@@ -8,21 +8,18 @@ var clientPlugins = [
     'process.env': {
       'NODE_ENV': JSON.stringify(process.env.NODE_ENV)
     }
-  })
+  }),
 ]
-// if (process.env.NODE_ENV === 'production') {
-  clientPlugins.push(
-    new CompressionPlugin({
-      asset: "[path].gz[query]",
-      algorithm: "gzip",
-      test: /\.js$|\.css$|\.html$/,
-      threshold: 10240,
-      minRatio: 0.8
-    })
-  );
-// }
+clientPlugins.push(
+  new CompressionPlugin({
+    asset: "[path].gz[query]",
+    algorithm: "gzip",
+    test: /\.js$|\.css$|\.html$/,
+    threshold: 10240,
+    minRatio: 0.8,
+  }));
 
-var config = {
+var clientConfig = {
   entry: './src/client.jsx',
   devtool: 'cheap-module-source-map',
   output: {
@@ -129,4 +126,4 @@ var serverConfig = {
 
 process.traceDeprecation = false
 
-module.exports = [serverConfig, config];
+module.exports = [serverConfig, clientConfig];

@@ -35,8 +35,7 @@ class Main extends React.Component {
       <main className={s['main']} ref={(main) => { this.main = main; }}>
         {
           this.props.activePage 
-          && !this.props.searchOpen 
-          && !this.props.isLoading ? (<WaterfallHeader scrolled={this.state.scrolled} />) : ''
+          && !this.props.searchOpen ? (<WaterfallHeader scrolled={this.state.scrolled} activeRoute={this.props.activeRoute} />) : ''
         }
         <div className={s['content-wrapper']} onScroll={this.scrollHandler} ref={(div) => { this.contentWrapper = div; }}>
           <div className={s['flex-wrapper']}>

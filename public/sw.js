@@ -1,4 +1,4 @@
-const VERSION_NO = 1;
+const VERSION_NO = '1.0.0';
 
 const PRECACHE = 'ecmasyntax-precache';
 const RUNTIME = 'ecmasyntax-runtime';
@@ -6,6 +6,7 @@ const RUNTIME = 'ecmasyntax-runtime';
 const urlsToCache = [
   '/',
   '/static/app.js',
+  '/static/font-awesome-4.7.0/css/font-awesome.min.css',
 ];
 
 self.addEventListener('install', (event) => {
@@ -49,13 +50,6 @@ self.addEventListener('fetch', (event) => {
         }
 
         return fetch(event.request);
-        // return caches.open(RUNTIME).then((cache) => {
-        //   return fetch(event.request).then((response) => {
-        //     return cache.put(event.request, response.clone()).then(() => {
-        //       return response;
-        //     });
-        //   });
-        // });
       }));
   } else {
     event.respondWith(

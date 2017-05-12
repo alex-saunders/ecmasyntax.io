@@ -87,7 +87,7 @@ class Server {
     });
   }
 
-  _handleRender(req, res, state = this.preloadedState) {
+  _render(req, res, state = this.preloadedState) {
     const store = createStore(allReducers, state);
 
     const css = new Set(); // CSS for all rendered React components
@@ -122,7 +122,6 @@ class Server {
       `;
     res.send(response);
   }
-          // <link rel="stylesheet" href="/node_modules/@material/switch/dist/mdc.switch.css">
 
   static handle404(req, res) {
     res.status(404).send('404 Page');
@@ -138,11 +137,11 @@ class Server {
     });
 
     this.router.route('/pages/:specId/:catId/:pageId').get((req, res) => {
-      this._handleRender(req, res);
+      this._render(req, res);
     });
 
     this.router.get('/', (req, res) => {
-      this._handleRender(req, res);
+      this._render(req, res);
     });
 
     this.router.get('*', (req, res) => Server.handle404(req, res));
@@ -175,7 +174,7 @@ class Server {
   }
 
   _initCompression() {
-    this.app.get('app.js', (req, res, next) => {
+    this.app.get('/static/app.js', (req, res, next) => {
       req.url += '.gz';
       res.set('Content-Encoding', 'gzip');
       next();
@@ -230,7 +229,7 @@ class Server {
   }
 
   start() {
-    // this._initCompression();
+    this._initCompression();
     this._setupRouters();
 
     
