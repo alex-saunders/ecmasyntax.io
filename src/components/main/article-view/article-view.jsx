@@ -1,5 +1,6 @@
 import React from 'react';
 import CSSTransitionGroup from 'react-transition-group/CSSTransitionGroup';
+import LoadingView from './loading-view/loading-view';
 import MarkdownContainer from './markdown-container/markdown-container';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 
@@ -89,16 +90,17 @@ class ArticleView extends React.Component {
 
   render() {
     let content;
-    if (this.props.isLoading) {
-            
-      content = (
-        <div>Loading</div>
-      );
-    } else if (this.props.activePage) {
+    // if (this.props.isLoading) {     
+    //   content = (
+    //     <LoadingView />
+    //   );
+    // } else 
+    if (this.props.activePage) {
       content = (
         <MarkdownContainer content={ this.props.activePage.fields.blob } />
       );
     } else {
+      // no content - homepage
       content = (<div />);
     }
 

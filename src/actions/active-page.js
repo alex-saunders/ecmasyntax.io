@@ -39,7 +39,7 @@ export const fetchPage = (route) => {
 		dispatch(pageIsLoading(true));
 		dispatch(pageFetchError(false));
 		setTimeout(() => {
-			fetch(`/api/${route}`)
+			fetch(`/api${route}`)
 			.then((response) => {
 				if (!response.ok) {
 					throw Error(response.statusText);
@@ -58,6 +58,6 @@ export const fetchPage = (route) => {
 				document.title = 'nope fail';
 			});
 
-		}, 400);
+		}, 1000);
 	};
 }

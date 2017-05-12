@@ -3,6 +3,7 @@
 
 .markdown-wrapper {
   line-height: 1.5;
+  animation: fadeIn 0.6s 1;
 
   h1,
   h2,
@@ -29,7 +30,7 @@
   pre {
     background-color: #f6f8fa;
     padding: 8px 8px 8px 16px;
-    border-left: 4px solid $primary-1;
+    border-left: 4px solid $primary-2;
     border-radius: 0px 3px 3px 0px;
     white-space: pre-wrap;
 
