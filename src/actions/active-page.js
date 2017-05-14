@@ -1,63 +1,79 @@
+import { toggleDrawer, toggleSearch } from './utils';
+import { search } from './page-list';
+
 export const pageFetchError = (bool) => {
   return {
-		type: "PAGE_ERROR",
-		payload: bool
-	};
-}
+    type: 'PAGE_ERROR',
+    payload: bool,
+  };
+};
 
 export const pageIsLoading = (bool) => {
-	return {
-		type: "PAGE_LOADING",
-		payload: bool
-	};
-}
+  return {
+    type: 'PAGE_LOADING',
+    payload: bool,
+  };
+};
 
-export const pageFetchSuccess = (page) => {
-	return {
-		type: "PAGE_FETCH_SUCCESS",
-		payload: page
-	};
-}
-
-export const setActiveRoute  = (page) => {
-	return {
-		type: "ACTIVE_ROUTE",
-		payload: page
-	};
-}
+export const setActiveRoute = (route) => {
+  window.history.pushState(null, null, (route));
+  return {
+    type: 'ACTIVE_ROUTE',
+    payload: route,
+  };
+};
 
 export const setActivePage = (page) => {
-	return {
-		type: "ACTIVE_PAGE",
-		payload: page
-	}
-}
+  document.title = `ECMASyntax - ${page.fields.name}`;
+  return {
+    type: 'ACTIVE_PAGE',
+    payload: page,
+  };
+};
+
+export const pageFetchSuccess = (page) => {
+  return (dispatch) => {
+    dispatch(setActivePage(page));
+    dispatch(setActiveRoute(page.fields.route));
+    dispatch(pageIsLoading(false));
+  };
+};
 
 export const fetchPage = (route) => {
-	return (dispatch) => {
-		dispatch(setActiveRoute(route));
-		dispatch(pageIsLoading(true));
-		dispatch(pageFetchError(false));
-		setTimeout(() => {
-			fetch(`/api${route}`)
-			.then((response) => {
-				if (!response.ok) {
-					throw Error(response.statusText);
-				}
-				dispatch(pageIsLoading(false));
-				return response;
-			})
-			.then((response) => response.json())
-			.then((response) => {
-				dispatch(pageFetchSuccess(response));
-				document.title = `ECMASyntax - ${response.fields.name}`;
-			})
-			.catch((err) => {
-				console.log('ERROR', err);
-				dispatch(pageFetchError(true));
-				document.title = 'nope fail';
-			});
+  return (dispatch) => {
+    dispatch(pageIsLoading(true));
+    dispatch(pageFetchError(false));
 
-		}, 1000);
-	};
-}
+    dispatch(toggleDrawer(false));
+    dispatch(toggleSearch(false));
+    dispatch(search(''));
+
+    switch (true) {
+      case /\/$/.test(route):
+        dispatch(pageFetchSuccess({ fields: { name: 'Home', route: '/' } }));
+        break;
+      case /\/pages\/(.*)/.test(route):
+        setTimeout(() => {
+          fetch(`/api${route}`)
+          .then((response) => {
+            if (!response.ok) {
+              throw Error(response.statusText);
+            }
+            return response;
+          })
+          .then((response) => { return response.json(); })
+          .then((response) => {
+            dispatch(pageFetchSuccess(response));
+          })
+          .catch((err) => {
+            dispatch(pageFetchError(true));
+            throw err;
+          });
+        }, 400);
+        break;
+      default:
+        throw Error(`Invalid url: ${route}`);
+    }
+  };
+};
+

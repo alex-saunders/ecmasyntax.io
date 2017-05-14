@@ -4,6 +4,12 @@
   display: inline-block;
 }
 
+.button {
+  background: none;
+  border: none;
+  outline: none;
+}
+
 .switch-label {
   color: $drawer-subheading;
   font-size: 14px;

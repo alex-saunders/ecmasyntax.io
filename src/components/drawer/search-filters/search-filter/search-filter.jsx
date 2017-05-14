@@ -1,9 +1,8 @@
-import React from 'react';
-import Ripple from '../../../generic/ripple/ripple';
-import { connect } from 'react-redux';
+import React, { PropTypes } from 'react';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
-
 import s from './search-filter.scss';
+
+import Ripple from '../../../common/ripple/ripple';
 
 class ArticleFilter extends React.Component {
   constructor(props) {
@@ -11,8 +10,8 @@ class ArticleFilter extends React.Component {
 
     this.state = {
       active: (this.props.currFilters.indexOf(this.props.filter) > -1),
-    }
-  };
+    };
+  }
 
   handleClick = (e) => {
     if ((this.props.currFilters.indexOf(this.props.filter) > -1)) {
@@ -20,8 +19,7 @@ class ArticleFilter extends React.Component {
       this.setState({ active: false });
     } else {
       this.props.addFilter(this.props.filter);
-      console.log(`setting ${this.props.filter} to active`);
-      this.setState({ active: true })
+      this.setState({ active: true });
     }
     e.preventDefault();
   }
@@ -29,20 +27,26 @@ class ArticleFilter extends React.Component {
   render() {
     const active = (this.props.currFilters.indexOf(this.props.filter) > -1);
     return (
-      <a className={`${s["rkmd-checkbox"]}`} href="#" onClick={this.handleClick}>
-        <label htmlFor={`filter-${this.props.filter}`} className={s["label"]}>
+      <button className={`${s['rkmd-checkbox']}`} onClick={this.handleClick}>
+        <label htmlFor={`filter-${this.props.filter}`} className={s.label}>
           { this.props.filter }
           <Ripple />
         </label>
-        <label className={`${s["input-checkbox"]}`}>
-          <input type="checkbox" checked={active}  id={`filter-${this.props.filter}`}></input>
-          <span className={s["checkbox"]}></span>
+        <label className={`${s['input-checkbox']}`} htmlFor={`filter-${this.props.filter}`}>
+          <input type="checkbox" checked={active} id={`filter-${this.props.filter}`} />
+          <span className={s.checkbox} />
         </label>
-        {/*<Ripple />*/}
-      </a>
+        {/* <Ripple /> */}
+      </button>
     );
   }
-
 }
+
+ArticleFilter.propTypes = {
+  currFilters: PropTypes.array.isRequired,
+  filter: PropTypes.string.isRequired,
+  removeFilter: PropTypes.func.isRequired,
+  addFilter: PropTypes.func.isRequired,
+};
 
 export default withStyles(s)(ArticleFilter);

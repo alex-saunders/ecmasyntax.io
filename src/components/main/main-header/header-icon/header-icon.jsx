@@ -1,43 +1,48 @@
-import React from 'react';
+import React, { PropTypes } from 'react';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
-import Ripple from '../../../generic/ripple/ripple';
+import Ripple from '../../../common/ripple/ripple';
 import s from './header-icon.scss';
 
 class HeaderIcon extends React.Component {
-  constructor(props) {
-    super(props);
-  }
 
-  openDrawer = (evt) => {
+  openDrawer = () => {
     this.props.toggleDrawer(!this.props.drawerOpen);
   };
 
-  closeSearch = (evt) => {
+  closeSearch = () => {
     this.props.search('');
     this.props.toggleSearch(false);
   }
 
   render() {
     return (
-        <div className={s['header-icon']}>
-          <i 
-            className={`material-icons ${s.menuIcon} ${this.props.searchOpen ? s.searchOpen : ''}`}
-            onClick={this.openDrawer}>
+      <div className={s['header-icon']}>
+
+        <button onClick={this.openDrawer} className={`${s['icon-container']} ${s.menuIcon} ${this.props.searchOpen ? s.searchOpen : ''}`}>
+          <i className="material-icons">
             menu
-            <Ripple />
           </i>
+          <Ripple />
+        </button>
 
-          <i 
-            className={`material-icons ${s.backIcon} ${this.props.searchOpen ? s.searchOpen : ''}`}
-            onClick={this.closeSearch}>
+        <button onClick={this.closeSearch} className={`${s['icon-container']} ${s.backIcon} ${this.props.searchOpen ? s.searchOpen : ''}`}>
+          <i className="material-icons">
             keyboard_backspace
-            <Ripple />
           </i>
+          <Ripple />
+        </button>
 
-        </div>
+      </div>
     );
   }
-
 }
+
+HeaderIcon.propTypes = {
+  drawerOpen: PropTypes.bool.isRequired,
+  searchOpen: PropTypes.bool.isRequired,
+  toggleDrawer: PropTypes.func.isRequired,
+  toggleSearch: PropTypes.func.isRequired,
+  search: PropTypes.func.isRequired,
+};
 
 export default withStyles(s)(HeaderIcon);

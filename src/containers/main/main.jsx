@@ -1,11 +1,11 @@
-import React from 'react';
+import React, { PropTypes } from 'react';
 import CSSTransitionGroup from 'react-transition-group/CSSTransitionGroup';
 import { connect } from 'react-redux';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import { toggleDrawer } from '../../actions/utils';
 import WaterfallHeader from '../../components/main/waterfall-header/waterfall-header';
 import SearchResults from '../search-results/search-results';
-import ArticleView from '../../components/main/article-view/article-view';
+import ContentView from '../../components/main/content-view/content-view';
 import s from './main.scss';
 
 class Main extends React.Component {
@@ -17,30 +17,32 @@ class Main extends React.Component {
     };
   }
 
-  scrollHandler = (evt) => {
+  scrollHandler = () => {
     if (this.contentWrapper.scrollTop > 0 && !this.state.scrolled) {
+      this.props.scrolled(true);
       this.setState({
         scrolled: true,
-      })
+      });
     }
     if (this.contentWrapper.scrollTop < 1 && this.state.scrolled) {
+      this.props.scrolled(false);
       this.setState({
         scrolled: false,
-      })
+      });
     }
   }
 
   render() {
     return (
-      <main className={s['main']} ref={(main) => { this.main = main; }}>
-        {
-          this.props.activePage 
-          && !this.props.searchOpen ? (<WaterfallHeader scrolled={this.state.scrolled} activeRoute={this.props.activeRoute} />) : ''
-        }
+      <main className={s.main} ref={(main) => { this.main = main; }}>
+        <WaterfallHeader
+          visible={this.props.showWaterfallHeader}
+          activeRoute={this.props.activeRoute}
+        />
         <div className={s['content-wrapper']} onScroll={this.scrollHandler} ref={(div) => { this.contentWrapper = div; }}>
           <div className={s['flex-wrapper']}>
             <CSSTransitionGroup
-              transitionName={ {
+              transitionName={{
                 enter: s.enter,
                 enterActive: s.enterActive,
                 leave: s.leave,
@@ -51,32 +53,33 @@ class Main extends React.Component {
               component="div"
               className={s['transition-container']}
               transitionEnterTimeout={500}
-              transitionLeaveTimeout={300}>
-            {this.props.searchOpen ? 
-            <SearchResults 
-              selectRoute={this.props.selectRoute} key={1}/>
-            :
-            <ArticleView
-              activeRoute={this.props.activeRoute}
-              activePage={this.props.activePage}
-              hasErrored={this.props.hasErrored}
-              isLoading={this.props.isLoading} key={2}/>
-            }
+              transitionLeaveTimeout={300}
+            >
+              { this.props.searchOpen ?
+                <SearchResults />
+                :
+                <ContentView
+                  activeRoute={this.props.activeRoute}
+                  activePage={this.props.activePage}
+                  hasErrored={this.props.hasErrored}
+                  isLoading={this.props.isLoading} key={2}
+                />
+              }
             </CSSTransitionGroup>
-            {!this.props.searchOpen ? 
-              <footer className={s['footer']}>
+            {!this.props.searchOpen ?
+              <footer className={s.footer}>
                 <div className={s.section}>
                   <h1>
                     A free, open source project to help web developers
                   </h1>
                   <p>
-                    Created by <a href="https://twitter.com/AlexJRsaunders" rel="noopener">@alexjrsaunders</a>
+                    v1.0.0 | Created by <a href="https://twitter.com/AlexJRsaunders" rel="noopener">@alexjrsaunders</a>
                   </p>
                   <p>
-                    Design inspired by
-                    <a href="http://cssreference.io/" rel="noopener"> HTML/CSSReference.io</a>
-                    , created by
-                    <a href="https://twitter.com/jgthms" rel="noopener"> @jgthms</a>
+                    Released under the
+                    <a href="https://github.com/alex-saunders/ecmasyntax.io/blob/master/LICENSE.txt" rel="noopener">
+                      &nbsp;MIT license.
+                    </a>
                   </p>
                 </div>
                 <div className={s.section}>
@@ -84,10 +87,10 @@ class Main extends React.Component {
                   <p>
 
                     <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A//ecmasyntax.io" rel="noopener">
-                      <i className={`${s.facebook} fa fa-facebook-square`} aria-hidden="true"></i>
+                      <i className={`${s.facebook} fa fa-facebook-square`} aria-hidden="true" />
                     </a>
                     <a href="https://twitter.com/home?status=Javascript%20syntax%20reference%3A%20https%3A//ecmasyntax.io">
-                      <i className={`${s.twitter} fa fa-twitter-square`} aria-hidden="true"></i>
+                      <i className={`${s.twitter} fa fa-twitter-square`} aria-hidden="true" />
                     </a>
                   </p>
                   <iframe src="https://ghbtns.com/github-btn.html?user=alex-saunders&repo=ecmasyntax.io&type=star&count=true" frameBorder="0" scrolling="0" width="160px" height="30px" />
@@ -102,6 +105,23 @@ class Main extends React.Component {
     );
   }
 }
+
+Main.propTypes = {
+  activePage: PropTypes.object,
+  activeRoute: PropTypes.string,
+  searchOpen: PropTypes.bool.isRequired,
+  hasErrored: PropTypes.bool,
+  isLoading: PropTypes.bool,
+  showWaterfallHeader: PropTypes.bool.isRequired,
+  scrolled: PropTypes.func.isRequired,
+};
+
+Main.defaultProps = {
+  hasErrored: false,
+  isLoading: false,
+  activePage: null,
+  activeRoute: null,
+};
 
 function mapStateToProps(state) {
   return {

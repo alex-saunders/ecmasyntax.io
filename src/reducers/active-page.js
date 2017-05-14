@@ -21,7 +21,7 @@ export default function (state = initialState, action) {
         },
       );
     }
-    case 'PAGE_FETCH_SUCCESS': {
+    case 'ACTIVE_PAGE': {
       return Object.assign({}, state,
         {
           page: action.payload,

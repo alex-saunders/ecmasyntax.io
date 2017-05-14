@@ -1,21 +1,22 @@
-import React from 'react';
+import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import SearchResult from '../../components/main/search-results/search-result/search-result';
 import s from './search-results.scss';
 
 class SearchResults extends React.Component {
-  constructor(props) {
-    super(props);
-  };
 
   mapResults() {
     if (this.props.currQuery.length < 1) {
-      return;
+      return [];
     }
-    const results = this.props.activePages.map((page, index) => {
+    const results = this.props.activePages.map((page) => {
       return (
-        <SearchResult key={index} currQuery={this.props.currQuery} page={page} selectRoute={this.props.selectRoute} />
+        <SearchResult
+          key={page.sys.id}
+          currQuery={this.props.currQuery}
+          page={page}
+        />
       );
     });
     return results;
@@ -33,8 +34,12 @@ class SearchResults extends React.Component {
       </div>
     );
   }
-
 }
+
+SearchResults.propTypes = {
+  currQuery: PropTypes.string.isRequired,
+  activePages: PropTypes.array.isRequired,
+};
 
 function mapStateToProps(state) {
   return {

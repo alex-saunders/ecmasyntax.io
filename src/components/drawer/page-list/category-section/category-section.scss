@@ -1,7 +1,7 @@
 @import '../../../../scss/theme';
 
 .categorySection {
-  padding-bottom: 8px;
+  padding: 8px 0;
   border-bottom: 1px solid $border-color;
 }
 .categorySection-header {
@@ -41,4 +41,23 @@
   .categorySection-body {
     display: none;
   }
+}
+
+
+.pageList-item {
+  display: block;
+  position: relative;
+  text-decoration: none;
+  color: $drawer-text;
+  padding: 0px 8px 0px 32px;
+  cursor: pointer;
+  line-height: 40px;
+  @include ellipsis();
+
+  transition: all .1s linear;
+}
+
+.pageList-item.active {
+  font-weight: 500;
+  color: $primary-2;
 }

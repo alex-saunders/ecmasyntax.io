@@ -4,7 +4,7 @@ import { applyMiddleware, createStore } from 'redux';
 import allReducers from '../reducers';
 
 // Grab the state from a global variable injected into the server-generated HTML
-const preloadedState = window.__PRELOADED_STATE__
+const preloadedState = window.__PRELOADED_STATE__;
 
 // Allow the passed state to be garbage-collected
 delete window.__PRELOADED_STATE__;
@@ -14,9 +14,9 @@ if (process.env.NODE_ENV !== 'production') {
   const logger = createLogger({
     collapsed: true,
     duration: false,
-    diff: true
+    diff: true,
   });
-  middleware = [...middleware, /* logger */];
+  middleware = [...middleware, logger];
 }
 
 export default function configureStore() {

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { PropTypes } from 'react';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import s from './progress-indicator.scss';
 
@@ -14,7 +14,8 @@ class ProgressIndicator extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (!nextProps.isLoading && !nextProps.hasErrored && (nextProps.activePage !== this.props.activePage)) {
+    if ((!nextProps.isLoading)
+    && (!nextProps.hasErrored)) {
       // this.progressIndicator.addEventListener('transitionend', this._fadeout);
       this.setState({
         width: '100%',
@@ -23,7 +24,7 @@ class ProgressIndicator extends React.Component {
       });
     }
 
-    if (nextProps.isLoading && !this.props.isLoading) {
+    if ((nextProps.isLoading && !this.props.isLoading) || this.props.hasErrored) {
       this.setState({
         width: '0%',
         opacity: 0,
@@ -34,17 +35,15 @@ class ProgressIndicator extends React.Component {
       requestAnimationFrame(() => {
         requestAnimationFrame(() => {
           if (this.props.isLoading) {
-          this.setState({
-            width: '42%',
-            opacity: 1,
-            animatable: true,
-          });
+            this.setState({
+              width: '42%',
+              opacity: 1,
+              animatable: true,
+            });
           }
-        })
-      })
+        });
+      });
     }
-
-
     // if (!nextProps.isLoading) {
     //   this.setState({
     //     width: '50%',
@@ -52,7 +51,6 @@ class ProgressIndicator extends React.Component {
     //     animatable: true,
     //   });
     // }
-
   }
 
   _fadeout = () => {
@@ -85,11 +83,15 @@ class ProgressIndicator extends React.Component {
       <div
         ref={(div) => { this.progressIndicator = div; }}
         className={`${s.progressIndicator} ${this.state.animatable ? s.animatable : ''}`}
-        style={style} 
+        style={style}
       />
     );
   }
-
 }
+
+ProgressIndicator.propTypes = {
+  isLoading: PropTypes.bool.isRequired,
+  hasErrored: PropTypes.bool.isRequired,
+};
 
 export default withStyles(s)(ProgressIndicator);

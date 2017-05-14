@@ -8,7 +8,7 @@ const allReducers = combineReducers(
     utils: UtilReducer,
     pageList: PageListReducer,
     activePage: ActivePageReducer,
-  }
+  },
 );
 
 export default allReducers;

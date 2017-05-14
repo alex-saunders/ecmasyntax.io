@@ -43,7 +43,12 @@ class Server {
 
     this.preloadedState = {
       activePage: {
-        page: null,
+        page: {
+          fields: {
+            name: 'Home',
+            route: '/',
+          },
+        },
         route: null,
         pageIsLoading: false,
         pageHasErrored: false,
@@ -54,6 +59,8 @@ class Server {
       },
       pageList: {
         entries: [],
+        isLoading: true,
+        hasErrored: false,
         activePages: [],
         filters: [],
         query: '',
@@ -91,7 +98,9 @@ class Server {
     const store = createStore(allReducers, state);
 
     const css = new Set(); // CSS for all rendered React components
-    const context = { insertCss: (...styles) => { styles.forEach((style) => { css.add(style._getCss()); }); } };
+    const context = { insertCss: (...styles) => {
+      styles.forEach((style) => { css.add(style._getCss()); });
+    } };
     const html = renderToString(
       <Provider store={store}>
         <App context={context} />
@@ -106,7 +115,7 @@ class Server {
           <meta http-equiv="x-ua-compatible" content="ie=edge">
           <meta name="viewport" content="width=device-width, initial-scale=1">
           <title>${title}</title>
-          <style>
+          <style id="server-css">
             ${[...css].join('')}
           </style>
           <link rel="stylesheet" href="/static/font-awesome-4.7.0/css/font-awesome.min.css">
@@ -144,7 +153,7 @@ class Server {
       this._render(req, res);
     });
 
-    this.router.get('*', (req, res) => Server.handle404(req, res));
+    this.router.get('*', (req, res) => { Server.handle404(req, res); });
   }
 
   _setupAPIRoutes() {
@@ -159,7 +168,19 @@ class Server {
     });
 
     this.APIRouter.route('/pages/').get((req, res) => {
-      // TODO
+      const preloadedPageInfo = this.pages.map((page) => {
+        return {
+          fields: {
+            category: page.fields.category,
+            name: page.fields.name,
+            route: page.fields.route,
+          },
+          sys: {
+            id: page.sys.id,
+          },
+        };
+      });
+      res.status(200).json(preloadedPageInfo);
     });
 
     this.APIRouter.route('/pages/:specId/:catId/:pageId').get((req, res) => {
@@ -231,37 +252,11 @@ class Server {
   start() {
     this._initCompression();
     this._setupRouters();
-
-    
-    this._buildArticles().then((pages) => {
+    this._buildArticles()
+    .then((pages) => {
       this.pages = pages.items;
-
-      const preloadedPageInfo = this.pages.map((page) => {
-        return {
-          fields: {
-            category: page.fields.category,
-            name: page.fields.name,
-            route: page.fields.route,
-          },
-          sys: {
-            id: page.sys.id,
-          },
-        };
-      });
-      const initialLoadedState = {
-        pageList: {
-          entries: preloadedPageInfo,
-          filters: [],
-          query: '',
-          activePages: preloadedPageInfo,
-        },
-      };
-      this.preloadedState = Object.assign({}, this.preloadedState, initialLoadedState);
       this.app.listen(this.app.get('port'));
       console.log(`server listening on port ${this.app.get('port')} in ${process.env.NODE_ENV} mode`);
-    })
-    .catch((err) => {
-      throw err;
     });
   }
 }

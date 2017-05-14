@@ -91,7 +91,7 @@
   .section:nth-child(1) {
     @media (min-width: $screen-sm-max) {
       padding-right: 24px;
-      border-right: 1px solid rgba(0,0,0,0.1);
+      border-right: 1px solid $border-color;
     }
   }
   .section:nth-child(2) {

@@ -1,55 +1,54 @@
-import React from 'react';
+import React, { PropTypes } from 'react';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
-import s from './offline-switch.scss';
 import switchStyles from '@material/switch/dist/mdc.switch.css';
+import s from './offline-switch.scss';
 
 class OfflineSwitch extends React.Component {
   constructor(props) {
     super(props);
 
-    this.apiRequest = location.origin + '/api' + this.props.activeRoute;
     this.state = {
       checked: false,
     };
   }
 
   componentDidMount() {
-    this._update();
+    this._updateState(this.props.activeRoute);
   }
 
-  componentWillReceiveProps() {
-    this._update();
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.activeRoute !== this.props.activeRoute) {
+      this._updateState(nextProps.activeRoute);
+    }
   }
 
-
-  _update() {
-    this._checkCache().then((cached) => {
-      if (cached) {
-        this.setState({
-          checked: true,
-        });
-      } else {
-        this.setState({
-          checked: false,
-        });
-      }
+  _updateState = (activeRoute) => {
+    this._checkCache(activeRoute).then((cached) => {
+      this.setState({
+        checked: cached,
+      });
     });
   }
 
-  _checkCache = () => {
+  _checkCache = (activeRoute) => {
+    this.apiRequest = `${location.origin}/api${activeRoute}`;
     return new Promise((resolve, reject) => {
-      caches.match(this.apiRequest).then((cachedResponse) => {
+      caches.match(this.apiRequest)
+      .then((cachedResponse) => {
         if (cachedResponse) {
           resolve(true);
         } else {
           resolve(false);
         }
+      })
+      .catch((err) => {
+        reject(err);
       });
     });
   }
 
-  handleClick = (evt) => {
-    this._checkCache().then((cached) => {
+  handleClick = () => {
+    this._checkCache(this.props.activeRoute).then((cached) => {
       if (cached) {
         caches.open('ecmasyntax-runtime').then((cache) => {
           cache.delete(this.apiRequest).then(() => {
@@ -60,8 +59,10 @@ class OfflineSwitch extends React.Component {
         });
       } else {
         caches.open('ecmasyntax-runtime').then((cache) => {
+          document.body.style.cursor = 'wait';
           fetch(this.apiRequest).then((response) => {
             cache.put(this.apiRequest, response.clone()).then(() => {
+              document.body.style.cursor = '';
               this.setState({
                 checked: true,
               });
@@ -78,17 +79,26 @@ class OfflineSwitch extends React.Component {
         <span className={s['switch-label']}>
           Available Offline
         </span>
-        <div className={switchStyles['mdc-switch']} onClick={this.handleClick}>
-          <input type="checkbox" id="basic-switch" 
-            className={switchStyles['mdc-switch__native-control']} checked={this.state.checked} />
-          <div className={switchStyles['mdc-switch__background']}>
-            <div className={switchStyles['mdc-switch__knob']}></div>
+        <button className={`mdc-switch ${s.button}`} onClick={this.handleClick}>
+          <input
+            type="checkbox" id="basic-switch"
+            className="mdc-switch__native-control" checked={this.state.checked}
+          />
+          <div className="mdc-switch__background">
+            <div className="mdc-switch__knob" />
           </div>
-        </div>
+        </button>
       </div>
     );
   }
-
 }
+
+OfflineSwitch.propTypes = {
+  activeRoute: PropTypes.string,
+};
+
+OfflineSwitch.defaultProps = {
+  activeRoute: null,
+};
 
 export default withStyles(s, switchStyles)(OfflineSwitch);

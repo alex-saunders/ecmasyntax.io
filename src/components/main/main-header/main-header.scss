@@ -50,3 +50,9 @@
     }
 }
 
+.header.waterfallOpen {
+    @media (max-width: $screen-sm-max) {
+        box-shadow: none;
+    }
+}
+
