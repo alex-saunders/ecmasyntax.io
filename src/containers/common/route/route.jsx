@@ -10,6 +10,7 @@ class Route extends React.Component {
   clickHandler = (e) => {
     e.preventDefault();
     // console.info(`MANUAL SELECT %c${this.props.route}`, 'color: darkblue;');
+    window.history.pushState(null, null, (this.props.route));
     this.props.fetchPage(this.props.route);
   }
 

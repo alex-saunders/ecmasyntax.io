@@ -16,7 +16,6 @@ export const pageIsLoading = (bool) => {
 };
 
 export const setActiveRoute = (route) => {
-  window.history.pushState(null, null, (route));
   return {
     type: 'ACTIVE_ROUTE',
     payload: route,
@@ -69,7 +68,7 @@ export const fetchPage = (route) => {
             dispatch(pageFetchError(true));
             throw err;
           });
-        }, 400);
+        }, 0);
         break;
       default:
         throw Error(`Invalid url: ${route}`);

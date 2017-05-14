@@ -29,6 +29,17 @@ class AppRouter extends React.Component {
     if (location.pathname !== '/') {
       this.props.fetchPage(location.pathname);
     }
+
+    window.addEventListener('popstate', this.onPopState);
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('popstate', this.onPopState);
+  }
+
+  onPopState = () => {
+    console.log('POP STATE', location.pathname);
+    this.props.fetchPage(location.pathname);
   }
 
   scrolled = (bool) => {

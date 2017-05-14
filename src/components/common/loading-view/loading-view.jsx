@@ -30,7 +30,9 @@ class LoadingView extends React.Component {
     return (
       <div className={s['loading-container']}>
         { this.state.visible ?
-            <div className={s.loader} style={style} />
+          <svg className={s.spinner} width="65px" height="65px" viewBox="0 0 66 66" xmlns="http://www.w3.org/2000/svg">
+            <circle className={s.path} fill="none" strokeWidth="6" strokeLinecap="round" cx="33" cy="33" r="30"></circle>
+          </svg>
           :
           ''
         }

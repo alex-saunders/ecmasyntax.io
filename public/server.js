@@ -618,6 +618,7 @@ var Route = function (_React$Component) {
     return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = Route.__proto__ || Object.getPrototypeOf(Route)).call.apply(_ref, [this].concat(args))), _this), _this.clickHandler = function (e) {
       e.preventDefault();
       // console.info(`MANUAL SELECT %c${this.props.route}`, 'color: darkblue;');
+      window.history.pushState(null, null, _this.props.route);
       _this.props.fetchPage(_this.props.route);
     }, _temp), _possibleConstructorReturn(_this, _ret);
   }
@@ -695,7 +696,6 @@ var pageIsLoading = exports.pageIsLoading = function pageIsLoading(bool) {
 };
 
 var setActiveRoute = exports.setActiveRoute = function setActiveRoute(route) {
-  window.history.pushState(null, null, route);
   return {
     type: 'ACTIVE_ROUTE',
     payload: route
@@ -746,7 +746,7 @@ var fetchPage = exports.fetchPage = function fetchPage(route) {
             dispatch(pageFetchError(true));
             throw err;
           });
-        }, 400);
+        }, 0);
         break;
       default:
         throw Error('Invalid url: ' + route);
@@ -827,7 +827,11 @@ var LoadingView = function (_React$Component) {
       return _react2.default.createElement(
         'div',
         { className: _loadingView2.default['loading-container'] },
-        this.state.visible ? _react2.default.createElement('div', { className: _loadingView2.default.loader, style: style }) : ''
+        this.state.visible ? _react2.default.createElement(
+          'svg',
+          { className: _loadingView2.default.spinner, width: '65px', height: '65px', viewBox: '0 0 66 66', xmlns: 'http://www.w3.org/2000/svg' },
+          _react2.default.createElement('circle', { className: _loadingView2.default.path, fill: 'none', strokeWidth: '6', strokeLinecap: 'round', cx: '33', cy: '33', r: '30' })
+        ) : ''
       );
     }
   }]);
@@ -1021,7 +1025,7 @@ var Server = function () {
         _react2.default.createElement(_app2.default, { context: context })
       ));
       var title = state.activePage.page ? 'ECMASyntax - ' + state.activePage.page.fields.name : 'ECMASyntax';
-      var response = '\n      <!doctype html>\n      <html lang="en">\n        <head>\n          <meta charset="utf-8">\n          <meta http-equiv="x-ua-compatible" content="ie=edge">\n          <meta name="viewport" content="width=device-width, initial-scale=1">\n          <title>' + title + '</title>\n          <style id="server-css">\n            ' + [].concat(_toConsumableArray(css)).join('') + '\n          </style>\n          <link rel="stylesheet" href="/static/font-awesome-4.7.0/css/font-awesome.min.css">\n          <link rel="shortcut icon" href="/static/icons/favicon.ico">\n          <link rel="manifest" href="/manifest.json">\n          <meta name="theme-color" content="#28353e">\n        </head>\n        <body>\n          <div id="root">' + html + '</div>\n          <script>\n            window.__PRELOADED_STATE__ = ' + JSON.stringify(state).replace(/</g, '\\u003c') + '\n          </script>\n          <script src="/static/app.js" async></script>\n        </body>\n      </html>\n      ';
+      var response = '\n      <!doctype html>\n      <html lang="en">\n        <head>\n          <meta charset="utf-8">\n          <meta http-equiv="x-ua-compatible" content="ie=edge">\n          <meta name="viewport" content="width=device-width, initial-scale=1">\n          <title>' + title + '</title>\n          <style id="server-css">\n            ' + [].concat(_toConsumableArray(css)).join('') + '\n          </style>\n          <link rel="stylesheet" href="/static/font-awesome-4.7.0/css/font-awesome.min.css">\n          <link rel="shortcut icon" href="/static/icons/favicon.ico">\n          <link rel="manifest" href="/manifest.json">\n          <meta name="theme-color" content="#28353e">\n        </head>\n        <body>\n          <div id="root">' + html + '</div>\n          <script>\n            window.__PRELOADED_STATE__ = ' + JSON.stringify(state).replace(/</g, '\\u003c') + '\n          </script>\n          ' + ( false ? '<script>\n              (function(i,s,o,g,r,a,m){i[\'GoogleAnalyticsObject\']=r;i[r]=i[r]||function(){\n              (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),\n              m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)\n              })(window,document,\'script\',\'https://www.google-analytics.com/analytics.js\',\'ga\');\n\n              ga(\'create\', \'UA-91502214-2\', \'auto\');\n              ga(\'send\', \'pageview\');\n\n            </script>' : '') + '\n          <script src="/static/app.js" async></script>\n        </body>\n      </html>\n      ';
       res.send(response);
     }
   }, {
@@ -1858,7 +1862,7 @@ var HeaderIcon = function (_React$Component) {
           _react2.default.createElement(
             'i',
             { className: 'material-icons' },
-            'keyboard_backspace'
+            'arrow_back'
           ),
           _react2.default.createElement(_ripple2.default, null)
         )
@@ -2680,6 +2684,11 @@ var AppRouter = function (_React$Component) {
 
     var _this = _possibleConstructorReturn(this, (AppRouter.__proto__ || Object.getPrototypeOf(AppRouter)).call(this, props));
 
+    _this.onPopState = function () {
+      console.log('POP STATE', location.pathname);
+      _this.props.fetchPage(location.pathname);
+    };
+
     _this.scrolled = function (bool) {
       _this.setState({
         scrolled: bool
@@ -2702,6 +2711,13 @@ var AppRouter = function (_React$Component) {
       if (location.pathname !== '/') {
         this.props.fetchPage(location.pathname);
       }
+
+      window.addEventListener('popstate', this.onPopState);
+    }
+  }, {
+    key: 'componentWillUnmount',
+    value: function componentWillUnmount() {
+      window.removeEventListener('popstate', this.onPopState);
     }
   }, {
     key: 'render',
@@ -3707,16 +3723,18 @@ exports = module.exports = __webpack_require__(0)();
 
 
 // module
-exports.push([module.i, ":root {\n  --mdc-theme-primary: #00b4a2; }\n\n@-webkit-keyframes loading-view_fadeIn_QDE {\n  from {\n    opacity: 0; }\n  to {\n    opacity: 1; } }\n\n@keyframes loading-view_fadeIn_QDE {\n  from {\n    opacity: 0; }\n  to {\n    opacity: 1; } }\n\n.loading-view_loading-container_SLC {\n  width: 100%;\n  flex: 1;\n  display: flex;\n  align-items: center;\n  justify-content: center; }\n\n.loading-view_loading-wrapper_2l8 {\n  -webkit-animation: loading-view_fadeIn_QDE .6s 1;\n          animation: loading-view_fadeIn_QDE .6s 1; }\n\n.loading-view_loader_3IJ {\n  color: #ffffff;\n  font-size: 90px;\n  text-indent: -9999em;\n  overflow: hidden;\n  width: 1em;\n  height: 1em;\n  border-radius: 50%;\n  margin: 72px auto;\n  position: relative;\n  -webkit-transform: translateZ(0);\n  transform: translateZ(0);\n  -webkit-animation: loading-view_load6_3GT 1.7s infinite ease, loading-view_round_3fB 1.7s infinite ease;\n  animation: loading-view_load6_3GT 1.7s infinite ease, loading-view_round_3fB 1.7s infinite ease; }\n\n@-webkit-keyframes loading-view_load6_3GT {\n  0% {\n    box-shadow: 0 -0.83em 0 -0.4em, 0 -0.83em 0 -0.42em, 0 -0.83em 0 -0.44em, 0 -0.83em 0 -0.46em, 0 -0.83em 0 -0.477em; }\n  5%,\n  95% {\n    box-shadow: 0 -0.83em 0 -0.4em, 0 -0.83em 0 -0.42em, 0 -0.83em 0 -0.44em, 0 -0.83em 0 -0.46em, 0 -0.83em 0 -0.477em; }\n  10%,\n  59% {\n    box-shadow: 0 -0.83em 0 -0.4em, -0.087em -0.825em 0 -0.42em, -0.173em -0.812em 0 -0.44em, -0.256em -0.789em 0 -0.46em, -0.297em -0.775em 0 -0.477em; }\n  20% {\n    box-shadow: 0 -0.83em 0 -0.4em, -0.338em -0.758em 0 -0.42em, -0.555em -0.617em 0 -0.44em, -0.671em -0.488em 0 -0.46em, -0.749em -0.34em 0 -0.477em; }\n  38% {\n    box-shadow: 0 -0.83em 0 -0.4em, -0.377em -0.74em 0 -0.42em, -0.645em -0.522em 0 -0.44em, -0.775em -0.297em 0 -0.46em, -0.82em -0.09em 0 -0.477em; }\n  100% {\n    box-shadow: 0 -0.83em 0 -0.4em, 0 -0.83em 0 -0.42em, 0 -0.83em 0 -0.44em, 0 -0.83em 0 -0.46em, 0 -0.83em 0 -0.477em; } }\n\n@keyframes loading-view_load6_3GT {\n  0% {\n    box-shadow: 0 -0.83em 0 -0.4em, 0 -0.83em 0 -0.42em, 0 -0.83em 0 -0.44em, 0 -0.83em 0 -0.46em, 0 -0.83em 0 -0.477em; }\n  5%,\n  95% {\n    box-shadow: 0 -0.83em 0 -0.4em, 0 -0.83em 0 -0.42em, 0 -0.83em 0 -0.44em, 0 -0.83em 0 -0.46em, 0 -0.83em 0 -0.477em; }\n  10%,\n  59% {\n    box-shadow: 0 -0.83em 0 -0.4em, -0.087em -0.825em 0 -0.42em, -0.173em -0.812em 0 -0.44em, -0.256em -0.789em 0 -0.46em, -0.297em -0.775em 0 -0.477em; }\n  20% {\n    box-shadow: 0 -0.83em 0 -0.4em, -0.338em -0.758em 0 -0.42em, -0.555em -0.617em 0 -0.44em, -0.671em -0.488em 0 -0.46em, -0.749em -0.34em 0 -0.477em; }\n  38% {\n    box-shadow: 0 -0.83em 0 -0.4em, -0.377em -0.74em 0 -0.42em, -0.645em -0.522em 0 -0.44em, -0.775em -0.297em 0 -0.46em, -0.82em -0.09em 0 -0.477em; }\n  100% {\n    box-shadow: 0 -0.83em 0 -0.4em, 0 -0.83em 0 -0.42em, 0 -0.83em 0 -0.44em, 0 -0.83em 0 -0.46em, 0 -0.83em 0 -0.477em; } }\n\n@-webkit-keyframes loading-view_round_3fB {\n  0% {\n    -webkit-transform: rotate(0deg);\n    transform: rotate(0deg); }\n  100% {\n    -webkit-transform: rotate(360deg);\n    transform: rotate(360deg); } }\n\n@keyframes loading-view_round_3fB {\n  0% {\n    -webkit-transform: rotate(0deg);\n    transform: rotate(0deg); }\n  100% {\n    -webkit-transform: rotate(360deg);\n    transform: rotate(360deg); } }\n", ""]);
+exports.push([module.i, ":root {\n  --mdc-theme-primary: #00b4a2; }\n\n@-webkit-keyframes loading-view_fadeIn_QDE {\n  from {\n    opacity: 0; }\n  to {\n    opacity: 1; } }\n\n@keyframes loading-view_fadeIn_QDE {\n  from {\n    opacity: 0; }\n  to {\n    opacity: 1; } }\n\n.loading-view_loading-container_SLC {\n  width: 100%;\n  flex: 1;\n  display: flex;\n  align-items: center;\n  justify-content: center; }\n\n.loading-view_loading-wrapper_2l8 {\n  -webkit-animation: loading-view_fadeIn_QDE .6s 1;\n          animation: loading-view_fadeIn_QDE .6s 1; }\n\n.loading-view_spinner_11t {\n  -webkit-animation: loading-view_rotator_23I 1.4s linear infinite;\n          animation: loading-view_rotator_23I 1.4s linear infinite; }\n\n@-webkit-keyframes loading-view_rotator_23I {\n  0% {\n    -webkit-transform: rotate(0deg);\n            transform: rotate(0deg); }\n  100% {\n    -webkit-transform: rotate(270deg);\n            transform: rotate(270deg); } }\n\n@keyframes loading-view_rotator_23I {\n  0% {\n    -webkit-transform: rotate(0deg);\n            transform: rotate(0deg); }\n  100% {\n    -webkit-transform: rotate(270deg);\n            transform: rotate(270deg); } }\n\n.loading-view_path_1Du {\n  stroke-dasharray: 187;\n  stroke-dashoffset: 0;\n  -webkit-transform-origin: center;\n          transform-origin: center;\n  -webkit-animation: loading-view_dash_2r4 1.4s ease-in-out infinite, loading-view_colors_3q3 5.6s ease-in-out infinite;\n          animation: loading-view_dash_2r4 1.4s ease-in-out infinite, loading-view_colors_3q3 5.6s ease-in-out infinite; }\n\n@-webkit-keyframes loading-view_colors_3q3 {\n  0% {\n    stroke: #28353e; }\n  50% {\n    stroke: #00b4a2; }\n  100% {\n    stroke: #28353e; } }\n\n@keyframes loading-view_colors_3q3 {\n  0% {\n    stroke: #28353e; }\n  50% {\n    stroke: #00b4a2; }\n  100% {\n    stroke: #28353e; } }\n\n@-webkit-keyframes loading-view_dash_2r4 {\n  0% {\n    stroke-dashoffset: 187; }\n  50% {\n    stroke-dashoffset: 46.75;\n    -webkit-transform: rotate(135deg);\n            transform: rotate(135deg); }\n  100% {\n    stroke-dashoffset: 187;\n    -webkit-transform: rotate(450deg);\n            transform: rotate(450deg); } }\n\n@keyframes loading-view_dash_2r4 {\n  0% {\n    stroke-dashoffset: 187; }\n  50% {\n    stroke-dashoffset: 46.75;\n    -webkit-transform: rotate(135deg);\n            transform: rotate(135deg); }\n  100% {\n    stroke-dashoffset: 187;\n    -webkit-transform: rotate(450deg);\n            transform: rotate(450deg); } }\n", ""]);
 
 // exports
 exports.locals = {
 	"loading-container": "loading-view_loading-container_SLC",
 	"loading-wrapper": "loading-view_loading-wrapper_2l8",
 	"fadeIn": "loading-view_fadeIn_QDE",
-	"loader": "loading-view_loader_3IJ",
-	"load6": "loading-view_load6_3GT",
-	"round": "loading-view_round_3fB"
+	"spinner": "loading-view_spinner_11t",
+	"rotator": "loading-view_rotator_23I",
+	"path": "loading-view_path_1Du",
+	"dash": "loading-view_dash_2r4",
+	"colors": "loading-view_colors_3q3"
 };
 
 /***/ }),

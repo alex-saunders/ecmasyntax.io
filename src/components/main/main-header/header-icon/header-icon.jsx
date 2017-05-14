@@ -27,7 +27,7 @@ class HeaderIcon extends React.Component {
 
         <button onClick={this.closeSearch} className={`${s['icon-container']} ${s.backIcon} ${this.props.searchOpen ? s.searchOpen : ''}`}>
           <i className="material-icons">
-            keyboard_backspace
+            arrow_back
           </i>
           <Ripple />
         </button>
