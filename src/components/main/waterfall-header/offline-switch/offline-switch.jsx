@@ -82,15 +82,17 @@ class OfflineSwitch extends React.Component {
         <span className={s['switch-label']}>
           Available Offline
         </span>
-        <button className={`mdc-switch ${s.button}`} onClick={this.handleClick}>
-          <input
-            type="checkbox" id="basic-switch"
-            className="mdc-switch__native-control" checked={this.state.checked}
-          />
-          <div className="mdc-switch__background">
-            <div className="mdc-switch__knob" />
-          </div>
-        </button>
+        <label htmlFor="basic-switch">
+          <button className={`mdc-switch ${s.button}`} onClick={this.handleClick}>
+            <input
+              type="checkbox" id="basic-switch"
+              className="mdc-switch__native-control" checked={this.state.checked}
+            />
+            <div className="mdc-switch__background">
+              <div className="mdc-switch__knob" />
+            </div>
+          </button>
+        </label>
       </div>
     );
   }

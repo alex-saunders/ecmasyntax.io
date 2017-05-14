@@ -4,6 +4,7 @@ const CompressionPlugin = require('compression-webpack-plugin');
 const nodeExternals = require('webpack-node-externals');
 const autoprefixer = require('autoprefixer');
 
+const autoprefix = autoprefixer({ flexbox: false });
 const clientPlugins = [
   new webpack.DefinePlugin({
     'process.env': {
@@ -54,7 +55,7 @@ const clientConfig = {
             options: {
               plugins: () => {
                 return [
-                  autoprefixer,
+                  autoprefix,
                 ];
               },
             },
@@ -112,7 +113,7 @@ const serverConfig = {
             options: {
               plugins: () => {
                 return [
-                  autoprefixer,
+                  autoprefix,
                 ];
               },
             },
