@@ -119,6 +119,7 @@ class Server {
             ${[...css].join('')}
           </style>
           <link rel="stylesheet" href="/static/font-awesome-4.7.0/css/font-awesome.min.css">
+          <link rel="shortcut icon" href="/static/icons/favicon.ico">
           <link rel="manifest" href="/manifest.json">
           <meta name="theme-color" content="#28353e">
         </head>
