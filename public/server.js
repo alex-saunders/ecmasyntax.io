@@ -1591,7 +1591,6 @@ var MainHeader = function (_React$Component) {
   _createClass(MainHeader, [{
     key: 'render',
     value: function render() {
-
       return _react2.default.createElement(
         'div',
         {
@@ -2115,6 +2114,9 @@ var OfflineSwitch = function (_React$Component) {
     };
 
     _this.handleClick = function () {
+      if (!window.CacheStorage) {
+        alert('Sorry, this feature is not available in your browser!');
+      }
       _this._checkCache(_this.props.activeRoute).then(function (cached) {
         if (cached) {
           caches.open('ecmasyntax-runtime').then(function (cache) {
