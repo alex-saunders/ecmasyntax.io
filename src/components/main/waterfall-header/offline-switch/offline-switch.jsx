@@ -48,6 +48,9 @@ class OfflineSwitch extends React.Component {
   }
 
   handleClick = () => {
+    if (!window.CacheStorage) {
+      alert('Sorry, this feature is not available in your browser!');
+    }
     this._checkCache(this.props.activeRoute).then((cached) => {
       if (cached) {
         caches.open('ecmasyntax-runtime').then((cache) => {

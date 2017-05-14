@@ -20,7 +20,6 @@ class MainHeader extends React.Component {
   }
 
   render() {
-    
     return (
       <div
         className={`${s.header} 
