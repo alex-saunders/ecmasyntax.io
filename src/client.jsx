@@ -7,14 +7,15 @@ import App from './components/app';
 
 require('babel-polyfill');
 
-console.log(`RUNNING IN %c${process.env.NODE_ENV.toUpperCase()} %cMODE`, "color: red;", "");
+console.log(`RUNNING IN %c${process.env.NODE_ENV.toUpperCase()} %cMODE`, 'color: red;', '');
 
+// service worker initialisation
 if ('serviceWorker' in navigator) {
-  window.addEventListener('load', function() {
-    navigator.serviceWorker.register('/sw.js').then(function(registration) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('/sw.js').then((registration) => {
       // Registration was successful
       console.log('ServiceWorker registration successful with scope: ', registration.scope);
-    }, function(err) {
+    }, (err) => {
       // registration failed :(
       console.log('ServiceWorker registration failed: ', err);
     });
@@ -27,13 +28,23 @@ const context = {
   // Enables critical path CSS rendering
   // https://github.com/kriasoft/isomorphic-style-loader
   insertCss: (...styles) => {
-    const removeCss = styles.map(x => x._insertCss());
-    return () => { removeCss.forEach(f => f()); };
+    const removeCss = styles.map((x) => { return x._insertCss(); });
+    return () => { removeCss.forEach((f) => { f(); }); };
   },
 };
 
+let initialRendering = true;
 render(
   (<Provider store={store}>
-    <App context={context}/>
+    <App context={context} />
   </Provider>),
-  document.getElementById('root'));
+  document.getElementById('root'), () => {
+    // app is now loaded on client side - remove server generated css
+    if (initialRendering) {
+      const node = document.getElementById('server-css');
+      if (node) {
+        node.parentElement.removeChild(node);
+        initialRendering = false;
+      }
+    }
+  });

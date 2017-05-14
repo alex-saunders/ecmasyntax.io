@@ -8,26 +8,21 @@ const ContextType = {
 
 class App extends React.Component {
 
-	constructor(props) {
-		super(props);
-		
-	}
-
-	static propTypes = {
+  static propTypes = {
     context: PropTypes.shape(ContextType).isRequired,
   };
 
-	static childContextTypes = ContextType;
+  static childContextTypes = ContextType;
 
-	getChildContext() {
+  getChildContext() {
     return this.props.context;
   }
 
-	render() {
-		return (
-			<AppRouter />
-		)
-	}
+  render() {
+    return (
+      <AppRouter />
+    );
+  }
 }
 
 export default App;

@@ -137,8 +137,8 @@
 .pageList-wrapper {
   background-color: $drawer-bg;
   flex: 1;
-  padding: 8px 0px;
   overflow: auto;
+  display: flex;
 }
 .pageList {
   // min-height: 900px;

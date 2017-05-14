@@ -6,11 +6,11 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "webpackWatch": "NODE_ENV=development webpack --watch",
-    "webpackBuild": "NODE_ENV=production webpack --progress -p",
+    "webpack": "NODE_ENV=production webpack --progress -p",
     "devServer": "nodemon public/server.js --ignore src/",
     "server": "node public/server.js",
     "dev": "npm run webpackWatch",
-    "start": "npm run webpackBuild && npm run server"
+    "start": "npm run webpack && npm run server"
   },
   "author": "Alex Saunders",
   "license": "MIT",
@@ -48,6 +48,7 @@
     "babel": "^6.23.0",
     "babel-cli": "^6.23.0",
     "babel-core": "^6.23.1",
+    "babel-eslint": "^7.2.3",
     "babel-loader": "^6.3.2",
     "babel-preset-es2015": "^6.22.0",
     "compression-webpack-plugin": "^0.3.2",

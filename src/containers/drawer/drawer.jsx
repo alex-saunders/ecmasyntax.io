@@ -1,14 +1,14 @@
-import React from 'react';
+import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
-import { toggleDrawer } from '../../actions/utils';
-import { addFilter, removeFilter } from '../../actions/search';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import s from './drawer.scss';
 
-import Ripple from '../../components/generic/ripple/ripple';
-import SearchFilters from '../../components/drawer/search-filters/search-filters';
-import SearchResults from '../../components/drawer/search-results/search-results';
-import Ad from '../../components/drawer/adsense/adsense';
+import { toggleDrawer } from '../../actions/utils';
+import { addFilter, removeFilter } from '../../actions/page-list';
+
+import Route from '../common/route/route';
+import Ripple from '../../components/common/ripple/ripple';
+import PageList from '../../components/drawer/page-list/page-list';
 
 class Drawer extends React.Component {
   constructor(props) {
@@ -17,7 +17,7 @@ class Drawer extends React.Component {
     this.state = {
       startX: 0,
       currentX: 0,
-      touchingSideNav: false
+      touchingSideNav: false,
     };
 
     this.DRAG_THRESHOLD = -30;
@@ -27,63 +27,42 @@ class Drawer extends React.Component {
     this.addEventListeners();
   }
 
-  addEventListeners () {
-    this.drawerContainer.addEventListener('click', this.hideSideNav);
-
-    this.drawer.addEventListener('touchstart', this.onTouchStart, this.applyPassive());
-    this.drawer.addEventListener('touchmove', this.onTouchMove, this.applyPassive());
-    this.drawer.addEventListener('touchend', this.onTouchEnd);
-  }
-
-  applyPassive () {
-    if (this.supportsPassive !== undefined) {
-      return this.supportsPassive ? {passive: true} : false;
-    }
-    let isSupported = false;
-    try {
-      document.addEventListener('test', null, {get passive () {
-        isSupported = true;
-      }});
-    } catch (e) { }
-    this.supportsPassive = isSupported;
-    return this.applyPassive();
-  }
-
-
   onTouchStart = (evt) => {
-    if (!this.drawerContainer.classList.contains(s['active']))
+    if (!this.drawerContainer.classList.contains(s.active)) {
       return;
+    }
 
-    this.drawer.classList.add(s['draggable']);
+    this.drawer.classList.add(s.draggable);
 
     this.setState({
       startX: evt.touches[0].pageX,
       currentX: this.startX,
-      touchingSideNav: true
+      touchingSideNav: true,
     });
 
     requestAnimationFrame(this.update);
   }
 
   onTouchMove = (evt) => {
-
-    if (!this.state.touchingSideNav)
+    if (!this.state.touchingSideNav) {
       return;
+    }
 
     this.setState({
-      currentX: evt.touches[0].pageX
-    })
+      currentX: evt.touches[0].pageX,
+    });
   }
 
-  onTouchEnd = (evt) => {
-    if (!this.state.touchingSideNav)
+  onTouchEnd = () => {
+    if (!this.state.touchingSideNav) {
       return;
+    }
 
     this.setState({
-      touchingSideNav: false
+      touchingSideNav: false,
     });
-    
-    this.drawer.classList.remove(s['draggable']);
+
+    this.drawer.classList.remove(s.draggable);
 
     const translateX = Math.min(0, this.state.currentX - this.state.startX);
     this.drawer.style.transform = '';
@@ -93,9 +72,32 @@ class Drawer extends React.Component {
     }
   }
 
+  applyPassive() {
+    if (this.supportsPassive !== undefined) {
+      return this.supportsPassive ? { passive: true } : false;
+    }
+    let isSupported = false;
+    try {
+      document.addEventListener('test', null, { get passive() {
+        isSupported = true;
+      } });
+    } catch (e) { return () => {}; }
+    this.supportsPassive = isSupported;
+    return this.applyPassive();
+  }
+
+  addEventListeners() {
+    this.drawerContainer.addEventListener('click', this.hideSideNav);
+
+    this.drawer.addEventListener('touchstart', this.onTouchStart, this.applyPassive());
+    this.drawer.addEventListener('touchmove', this.onTouchMove, this.applyPassive());
+    this.drawer.addEventListener('touchend', this.onTouchEnd);
+  }
+
   update = () => {
-    if (!this.state.touchingSideNav)
+    if (!this.state.touchingSideNav) {
       return;
+    }
 
     requestAnimationFrame(this.update);
 
@@ -109,38 +111,37 @@ class Drawer extends React.Component {
     }
   }
 
-	render() {
-		return (
-      <div className={`${s['drawer-container']} ${this.props.drawerOpen ? s['active'] : ''}`} 
-        ref={(div) => { this.drawerContainer = div }}>
-        <aside className={s['drawer']} ref={(aside) => { this.drawer = aside }}>
-          <a className={s['drawer-logo']} href="/">
-            {/*<img src="/static/img/ecmasyntax-logo.png" alt="logo" />*/}
-          </a>
+  render() {
+    return (
+      <div
+        className={`${s['drawer-container']} ${this.props.drawerOpen ? s.active : ''}`}
+        ref={(div) => { this.drawerContainer = div; }}
+      >
+        <aside className={s.drawer} ref={(aside) => { this.drawer = aside; }}>
           <div className={s['drawer-homeContainer']}>
-            <a className={`${s['drawer-home']} ${this.props.activePage ? '' : s.active}`} href="/">
-              <i className='material-icons'>home</i>
-              <span>
-                Home
-              </span>
-              <Ripple />
-            </a>
+            <Route route={'/'}>
+              <div
+                className={`${s['drawer-home']} ${this.props.activePage && this.props.activePage.fields.name === 'Home' ? s.active : ''}`}
+              >
+                <i className="material-icons">home</i>
+                <span>
+                  Home
+                </span>
+                <Ripple />
+              </div>
+            </Route>
           </div>
-          {/*<div className={s['search-container']}>
-            
-          </div>*/}
-          {/*<div className={s['articleFilters-wrapper']}>
-            <SearchFilters 
-              entries={this.props.entries} 
+          {/* <div className={s['articleFilters-wrapper']}>
+            <SearchFilters
+              entries={this.props.entries}
               activePages={this.props.activePages}
-              currFilters={this.props.currFilters} 
+              currFilters={this.props.currFilters}
               addFilter={this.props.addFilter}
-              removeFilter={this.props.removeFilter} 
+              removeFilter={this.props.removeFilter}
             />
-          </div>*/}
+          </div> */}
           <div className={s['pageList-wrapper']}>
-            <SearchResults
-              selectRoute={(page) => this.props.selectRoute(page)} 
+            <PageList
               hasErrored={this.props.hasErrored}
               isLoading={this.props.isLoading}
               pages={this.props.entries}
@@ -149,34 +150,54 @@ class Drawer extends React.Component {
             />
           </div>
           <div className={s['drawer-footer']}>
-            {/*<Ad />*/}
+            {/* <Ad /> */}
           </div>
         </aside>
       </div>
-    )
-	}
+    );
+  }
 
 }
 
+Drawer.propTypes = {
+  hasErrored: PropTypes.bool,
+  isLoading: PropTypes.bool,
+  drawerOpen: PropTypes.bool.isRequired,
+  entries: PropTypes.array.isRequired,
+  activePages: PropTypes.array.isRequired,
+  activePage: PropTypes.object,
+  activeRoute: PropTypes.string,
+  toggleDrawer: PropTypes.func.isRequired,
+};
+
+Drawer.defaultProps = {
+  hasErrored: false,
+  isLoading: false,
+  activePage: null,
+  activeRoute: null,
+};
+
 function mapStateToProps(state) {
-	return {
-    hasErrored: state.pageList.pageListError,
-    isLoading: state.pageList.pageListLoading,
+  return {
+    hasErrored: state.pageList.hasErrored,
+    isLoading: state.pageList.isLoading,
     entries: state.pageList.entries,
     activePages: state.pageList.activePages,
     activePage: state.activePage.page,
     activeRoute: state.activePage.route,
     currFilters: state.pageList.filters,
     drawerOpen: state.utils.drawerOpen,
-	};
+  };
 }
 
 function matchDispatchToProps(dispatch) {
   return {
-    toggleDrawer: (open) => dispatch(toggleDrawer(open)),
-    addFilter: (filter) => dispatch(addFilter(filter)),
-    removeFilter: (filter) => dispatch(removeFilter(filter)),
-  }
+    fetchPage: (route) => { dispatch(fetchPage(route)); },
+    toggleDrawer: (open) => { dispatch(toggleDrawer(open)); },
+    updatePageList: (pages) => { dispatch(updatePageList(pages)); },
+    addFilter: (filter) => { dispatch(addFilter(filter)); },
+    removeFilter: (filter) => { dispatch(removeFilter(filter)); },
+  };
 }
 
 export default withStyles(s)(connect(mapStateToProps, matchDispatchToProps)(Drawer));

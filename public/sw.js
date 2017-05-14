@@ -15,20 +15,23 @@ self.addEventListener('install', (event) => {
       .then((cache) => {
         cache.addAll(urlsToCache);
       })
-      .then(self.skipWaiting()));
+      .then(() => {
+        self.skipWaiting();
+        console.info(`ECMASyntax Version @ ${VERSION_NO}`);
+      }));
 });
 
 // clear up old caches
-self.addEventListener('activate', event => {
+self.addEventListener('activate', (event) => {
   const currentCaches = [PRECACHE, RUNTIME];
   event.waitUntil(
-    caches.keys().then(cacheNames => {
-      return cacheNames.filter(cacheName => !currentCaches.includes(cacheName));
+    caches.keys().then((cacheNames) => {
+      return cacheNames.filter((cacheName) => { return !currentCaches.includes(cacheName); });
     }).then((cachesToDelete) => {
-      return Promise.all(cachesToDelete.map(cacheToDelete => {
+      return Promise.all(cachesToDelete.map((cacheToDelete) => {
         return caches.delete(cacheToDelete);
       }));
-    }).then(() => self.clients.claim()));
+    }).then(() => { self.clients.claim(); }));
 });
 
 self.addEventListener('fetch', (event) => {
@@ -37,12 +40,28 @@ self.addEventListener('fetch', (event) => {
   const origin = location.origin;
   const relUrl = url.replace(origin, '');
 
-  if (relUrl.startsWith('/pages/')) {
+  if (relUrl.match(/^\/pages\//)) {
     event.respondWith(
       caches.match(location.origin).then((response) => {
         return response || fetch(location.origin);
       }));
-  } else if (relUrl.startsWith('/api/')) {
+  } else if (relUrl.match(/^\/api\/pages$/)) {
+    // cache pagelist reponse
+    event.respondWith(
+      caches.match(event.request).then((cachedResponse) => {
+        if (cachedResponse) {
+          return cachedResponse;
+        }
+
+        return caches.open(RUNTIME).then((cache) => {
+          return fetch(event.request).then((response) => {
+            return cache.put(event.request, response.clone()).then(() => {
+              return response;
+            });
+          });
+        });
+      }));
+  } else if (relUrl.match(/^\/api\//)) {
     event.respondWith(
       caches.match(event.request).then((cachedResponse) => {
         if (cachedResponse) {

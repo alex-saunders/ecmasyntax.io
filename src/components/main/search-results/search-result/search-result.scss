@@ -1,11 +1,13 @@
 @import '../../../../scss/theme';
 
 .result {
+  display: block;
   position: relative;
   overflow: hidden;
   padding: 4px 0 25px 0;
   border-bottom: 1px solid $border-color;
   cursor: pointer;
+  text-decoration: none;
 
   @media (max-width: $screen-sm-max) {
     padding: 0px 8px 0px 48px;

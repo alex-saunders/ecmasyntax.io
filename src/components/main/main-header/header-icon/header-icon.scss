@@ -24,7 +24,15 @@
     background: none;
     border: none;
 }
-.header-icon i {
+.icon-container {
+    -webkit-appearance: none;
+    background: none;
+    border: none;
+    outline: none;
+    padding: 0;
+    cursor: pointer;
+}
+.icon-container i {
     text-decoration: none;
     font-size: 24px;
     padding: 8px;

@@ -25,3 +25,7 @@
 .ripple-origin.animatable {
   transition: transform 0.3s ease-in, opacity 0.6s ease-in;
 }
+
+.ripple-origin.out {
+  opacity: 0;
+}
