@@ -4,7 +4,7 @@
   position: relative;
   display: flex;
   flex-direction: row;
-  width: 20px;
+  width: 24px;
   overflow: hidden;
   transition: all 0.1s $anim-easing;
 }
@@ -18,8 +18,8 @@
   color: $primary-1-text;
 }
 .search-icon {
-  height: 20px;
-  width: 20px;
+  height: 24px;
+  width: 24px;
   transition: all 0.2s $anim-easing
 }
 .search-closeIcon {
@@ -48,7 +48,7 @@
   content: '';
   position: absolute;
   bottom: -1px;
-  // left: 20px;
+  // left: 24px;
   left: 0px;
   height: 2px;
   background-color: $primary-1-text;

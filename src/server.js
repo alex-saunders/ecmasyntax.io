@@ -109,7 +109,7 @@ class Server {
     const title = state.activePage.page ? `ECMASyntax - ${state.activePage.page.fields.name}` : 'ECMASyntax';
     const response = `
       <!doctype html>
-      <html>
+      <html lang="en">
         <head>
           <meta charset="utf-8">
           <meta http-equiv="x-ua-compatible" content="ie=edge">
@@ -119,6 +119,8 @@ class Server {
             ${[...css].join('')}
           </style>
           <link rel="stylesheet" href="/static/font-awesome-4.7.0/css/font-awesome.min.css">
+          <link rel="manifest" href="/manifest.json">
+          <meta name="theme-color" content="#28353e">
         </head>
         <body>
           <div id="root">${html}</div>
@@ -143,6 +145,10 @@ class Server {
 
     this.router.get('/sw.js', (req, res) => {
       res.sendFile('sw.js', { root: this.__dirname });
+    });
+
+    this.router.get('/manifest.json', (req, res) => {
+      res.sendFile('manifest.json', { root: this.__dirname });
     });
 
     this.router.route('/pages/:specId/:catId/:pageId').get((req, res) => {

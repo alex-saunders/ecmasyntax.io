@@ -1,9 +1,9 @@
 $primary-1: #28353e;
 $primary-1-text: #fff;
 
-$primary-2: #009688;
+$primary-2: #00b4a2;
 
-$accent-1: #00BFA5;
+$accent-1: #007468;
 
 $body-bg: #fff;
 $body-text: #373737;
@@ -17,7 +17,7 @@ $border-color: rgb(50, 64, 71);
 $anim-easing: cubic-bezier(0.4, 0, 0.2, 1);
 
 :root {
-  --mdc-theme-primary: $accent-1;
+  --mdc-theme-primary: $primary-2;
 }
 
 @keyframes fadeIn {
