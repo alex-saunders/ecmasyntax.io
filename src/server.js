@@ -109,7 +109,7 @@ class Server {
     const title = state.activePage.page ? `ECMASyntax - ${state.activePage.page.fields.name}` : 'ECMASyntax';
     const response = `
       <!doctype html>
-      <html>
+      <html lang="en">
         <head>
           <meta charset="utf-8">
           <meta http-equiv="x-ua-compatible" content="ie=edge">
