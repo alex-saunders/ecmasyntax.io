@@ -19,7 +19,10 @@ class AppRouter extends React.Component {
     this.state = {
       activeRoute: this.props.activeRoute,
       scrolled: false,
+      cacheStorage: false,
     };
+
+    this.caches = false;
   }
 
   componentDidMount() {
@@ -30,6 +33,7 @@ class AppRouter extends React.Component {
       this.props.fetchPage(location.pathname);
     }
 
+    this.caches = window.caches;
     window.addEventListener('popstate', this.onPopState);
   }
 
@@ -50,7 +54,8 @@ class AppRouter extends React.Component {
 
   render() {
     const showWaterfallHeader =
-      this.props.activePage
+      this.caches
+      && this.props.activePage
       && new RegExp(/^\/pages\//).test(this.props.activePage.fields.route)
       && !this.props.searchOpen
       && !this.props.isLoading

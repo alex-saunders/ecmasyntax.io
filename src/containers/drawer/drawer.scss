@@ -93,9 +93,9 @@
   display: flex;
   align-items: center;
 
-  i {
+  svg {
     margin-right: 27px;
-    color: $drawer-text;
+    fill: $drawer-text;
   } 
   span {
     color: $drawer-text;

@@ -7,7 +7,8 @@
   flex-direction: column;
   min-height: 100%;
   background-color: $body-bg;
-  overflow: auto;
+  overflow-y: scroll;
+  overflow-x: hidden;
   -webkit-overflow-scrolling: touch;
 }
 .progressBar {
@@ -27,6 +28,7 @@
   position: relative;
   z-index: 9;
   overflow-x: hidden;
+  overflow-y: scroll;
   -webkit-overflow-scrolling: touch;
 
   display: inline-block;

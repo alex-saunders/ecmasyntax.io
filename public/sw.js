@@ -5,6 +5,7 @@ const RUNTIME = 'ecmasyntax-runtime';
 
 const urlsToCache = [
   '/',
+  '/api/pages',
   '/static/app.js',
   '/static/font-awesome-4.7.0/css/font-awesome.min.css',
 ];
@@ -44,22 +45,6 @@ self.addEventListener('fetch', (event) => {
     event.respondWith(
       caches.match(location.origin).then((response) => {
         return response || fetch(location.origin);
-      }));
-  } else if (relUrl.match(/^\/api\/pages$/)) {
-    // cache pagelist reponse
-    event.respondWith(
-      caches.match(event.request).then((cachedResponse) => {
-        if (cachedResponse) {
-          return cachedResponse;
-        }
-
-        return caches.open(RUNTIME).then((cache) => {
-          return fetch(event.request).then((response) => {
-            return cache.put(event.request, response.clone()).then(() => {
-              return response;
-            });
-          });
-        });
       }));
   } else if (relUrl.match(/^\/api\//)) {
     event.respondWith(
