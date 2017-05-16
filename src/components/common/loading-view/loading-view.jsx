@@ -15,7 +15,7 @@ class LoadingView extends React.Component {
       this.setState({
         visible: true,
       });
-    }, 200);
+    }, 0);
   }
 
   componentWillUnmount() {

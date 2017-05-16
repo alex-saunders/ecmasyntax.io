@@ -50,8 +50,8 @@ class Server {
           },
         },
         route: null,
-        pageIsLoading: false,
-        pageHasErrored: false,
+        isLoading: true,
+        hasErrored: false,
       },
       utils: {
         drawerOpen: false,
@@ -95,6 +95,7 @@ class Server {
   }
 
   _render(req, res, state = this.preloadedState) {
+    console.log(state);
     const store = createStore(allReducers, state);
 
     const css = new Set(); // CSS for all rendered React components

@@ -137,13 +137,15 @@
 .pageList-wrapper {
   background-color: $drawer-bg;
   flex: 1;
-  overflow: auto;
+  overflow-x: hidden;
+  overflow-y: scroll;
+  -webkit-overflow-scrolling: touch;
   display: flex;
 }
 .pageList {
   // min-height: 900px;
 }
 .drawer-footer {
-  height: 33%;
+  height: 0px;
   background-color: $drawer-bg;
 }

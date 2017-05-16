@@ -28,12 +28,11 @@ class AppRouter extends React.Component {
   componentDidMount() {
     // async fetch pagelist
     this.props.fetchPageList();
-
-    if (location.pathname !== '/') {
-      this.props.fetchPage(location.pathname);
-    }
-
+    // async fetch routed page
+    this.props.fetchPage(location.pathname);
+    // check service worker functionality is available
     this.caches = window.caches;
+
     window.addEventListener('popstate', this.onPopState);
   }
 

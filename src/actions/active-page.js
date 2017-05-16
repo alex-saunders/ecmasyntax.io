@@ -33,13 +33,13 @@ export const setActivePage = (page) => {
 export const pageFetchSuccess = (page) => {
   return (dispatch) => {
     dispatch(setActivePage(page));
-    dispatch(setActiveRoute(page.fields.route));
     dispatch(pageIsLoading(false));
   };
 };
 
 export const fetchPage = (route) => {
   return (dispatch) => {
+    dispatch(setActiveRoute(route));
     dispatch(pageIsLoading(true));
     dispatch(pageFetchError(false));
 
@@ -49,6 +49,7 @@ export const fetchPage = (route) => {
 
     switch (true) {
       case /\/$/.test(route):
+        dispatch(pageIsLoading(false));
         dispatch(pageFetchSuccess({ fields: { name: 'Home', route: '/' } }));
         break;
       case /\/pages\/(.*)/.test(route):

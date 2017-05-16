@@ -102,6 +102,11 @@ class Drawer extends React.Component {
     requestAnimationFrame(this.update);
 
     const translateX = Math.min(0, this.state.currentX - this.state.startX);
+
+    if (Math.abs(translateX) < 15) {
+      return;
+    }
+    
     this.drawer.style.transform = `translateX(${translateX}px)`;
   }
 
