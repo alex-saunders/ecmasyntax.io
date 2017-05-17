@@ -1,3 +1,5 @@
+import { TAGGED_IN } from '../constants';
+
 const initialState = {
   entries: [],
   isLoading: false,
@@ -11,7 +13,7 @@ const filterPages = (filters, pages) => {
   let filteredPages = pages;
   if (filters.length > 0) {
     filteredPages = pages.filter((page) => {
-      return filters.includes(page.fields.category.fields.specification[0].fields.name);
+      return filters.includes(page.fields.category.fields.specification.fields.name);
     });
   }
   return filteredPages;
@@ -21,12 +23,27 @@ const queryPages = (query, pages) => {
   const syntaxEntries = pages;
   let matchedEntries = syntaxEntries;
   if (query.length > 0) {
-    matchedEntries = syntaxEntries.filter((entry) => {
-      return ((entry.fields.name.trim().toLowerCase().match(query.toLowerCase()))); // ||
-        // (entry.fields.category.fields.name.trim().toLowerCase().match(query)));
-    });
+    const regex = `^${TAGGED_IN}:([^ ]*)`;
+    const regexp = new RegExp(regex, 'g');
+    const match = regexp.exec(query);
+    if (match && match[1]) {
+      matchedEntries = syntaxEntries.filter((entry) => {
+        if (!entry.fields.tags) {
+          return false;
+        }
+        return (entry.fields.tags.filter((tag) => {
+          return tag.fields.name.trim().toLowerCase().match(match[1]);
+        }).length > 0);
+      });
+      return matchedEntries;
+    } else {
+      matchedEntries = syntaxEntries.filter((entry) => {
+        return ((entry.fields.name.trim().toLowerCase().match(query.toLowerCase()))); // ||
+      });
+      return matchedEntries;
+    }
   }
-  return matchedEntries;
+  return [];
 };
 
 export default function (state = initialState, action) {

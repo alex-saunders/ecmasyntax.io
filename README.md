@@ -1,7 +1,7 @@
 # ecmasytax.io
 [![CircleCI](https://circleci.com/gh/alex-saunders/ecmasyntax.io.svg?style=shield)](https://circleci.com/gh/alex-saunders/ecmasyntax.io)
 
-PWA for ECMAScript syntax reference
+An offline-first PWA for ECMAScript syntax reference
 
 Made using React & React-Redux. Features React Server side rendering w/ critical path CSS.
 

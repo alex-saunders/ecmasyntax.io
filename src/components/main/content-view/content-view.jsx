@@ -98,7 +98,11 @@ class ContentView extends React.Component {
     } else
     if (this.props.activePage.fields.name !== 'Home') {
       content = (
-        <MarkdownContainer content={this.props.activePage.fields.blob} />
+        <MarkdownContainer
+          content={this.props.activePage.fields.blob}
+          references={this.props.activePage.fields.references}
+          tags={this.props.activePage.fields.tags}
+        />
       );
     } else {
       // no content - homepage

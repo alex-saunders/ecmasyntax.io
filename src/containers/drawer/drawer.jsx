@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import s from './drawer.scss';
 
+import { INITIATE_DRAGGING_THRESHOLD, DRAWER_CLOSE_THRESHOLD } from '../../constants';
 import { toggleDrawer } from '../../actions/utils';
 import { addFilter, removeFilter } from '../../actions/page-list';
 
@@ -18,9 +19,8 @@ class Drawer extends React.Component {
       startX: 0,
       currentX: 0,
       touchingSideNav: false,
+      initialisedDragging: false,
     };
-
-    this.DRAG_THRESHOLD = -30;
   }
 
   componentDidMount() {
@@ -60,6 +60,7 @@ class Drawer extends React.Component {
 
     this.setState({
       touchingSideNav: false,
+      initialisedDragging: false,
     });
 
     this.drawer.classList.remove(s.draggable);
@@ -67,7 +68,7 @@ class Drawer extends React.Component {
     const translateX = Math.min(0, this.state.currentX - this.state.startX);
     this.drawer.style.transform = '';
 
-    if (translateX < this.DRAG_THRESHOLD) {
+    if (translateX < DRAWER_CLOSE_THRESHOLD) {
       this.props.toggleDrawer(false);
     }
   }
@@ -103,10 +104,16 @@ class Drawer extends React.Component {
 
     const translateX = Math.min(0, this.state.currentX - this.state.startX);
 
-    if (Math.abs(translateX) < 15) {
+    if (!this.state.initialisedDragging && Math.abs(translateX) < INITIATE_DRAGGING_THRESHOLD) {
       return;
     }
-    
+
+    if (!this.state.initialisedDragging) {
+      this.setState({
+        initialisedDragging: true,
+      });
+    }
+
     this.drawer.style.transform = `translateX(${translateX}px)`;
   }
 
@@ -200,9 +207,7 @@ function mapStateToProps(state) {
 
 function matchDispatchToProps(dispatch) {
   return {
-    fetchPage: (route) => { dispatch(fetchPage(route)); },
     toggleDrawer: (open) => { dispatch(toggleDrawer(open)); },
-    updatePageList: (pages) => { dispatch(updatePageList(pages)); },
     addFilter: (filter) => { dispatch(addFilter(filter)); },
     removeFilter: (filter) => { dispatch(removeFilter(filter)); },
   };

@@ -73,11 +73,11 @@ class Main extends React.Component {
                     A free, open source project to help web developers
                   </h1>
                   <p>
-                    v1.0.0 | Created by <a href="https://twitter.com/AlexJRsaunders" rel="noopener">@alexjrsaunders</a>
+                    v1.0.0 | Created by <a href="https://twitter.com/AlexJRsaunders" target="_blank" rel="noopener noreferrer">@alexjrsaunders</a>
                   </p>
                   <p>
                     Released under the
-                    <a href="https://github.com/alex-saunders/ecmasyntax.io/blob/master/LICENSE.txt" rel="noopener">
+                    <a href="https://github.com/alex-saunders/ecmasyntax.io/blob/master/LICENSE.txt" target="_blank" rel="noopener noreferrer">
                       &nbsp;MIT license.
                     </a>
                   </p>
@@ -86,7 +86,7 @@ class Main extends React.Component {
                   <h1>Share</h1>
                   <p>
 
-                    <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A//ecmasyntax.io" rel="noopener">
+                    <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A//ecmasyntax.io" target="_blank" rel="noopener noreferrer">
                       <i className={`${s.facebook} fa fa-facebook-square`} aria-hidden="true" />
                     </a>
                     <a href="https://twitter.com/home?status=Javascript%20syntax%20reference%3A%20https%3A//ecmasyntax.io">

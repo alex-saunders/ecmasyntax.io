@@ -1,7 +1,20 @@
 @import '../../../../scss/theme';
 @import url('https://fonts.googleapis.com/css?family=Inconsolata');
 
+.footer-container {
+  margin-top: 24px;
+  border-top: 1px solid #eaecef;
+}
+
+.references-container {
+  li {
+    font-size: 16px;
+  }
+}
+
+
 .markdown-wrapper {
+
   line-height: 1.5;
   animation: fadeIn 0.6s 1;
 
@@ -33,6 +46,7 @@
     border-left: 4px solid $primary-2;
     border-radius: 0px 3px 3px 0px;
     white-space: pre-wrap;
+    box-shadow: 0px 2px 4px rgba(0,0,0,0.1);
 
     code {
       font-family: 'Inconsolata', monospace;

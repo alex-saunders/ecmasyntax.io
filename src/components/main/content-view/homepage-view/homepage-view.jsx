@@ -11,17 +11,17 @@ const Homepage = () => {
       <p className={s.subtitle}>
         A free ECMAScript (JavaScript) syntax reference
       </p>
-      <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A//ecmasyntax.io" rel="noopener" className={s.share}>
+      <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A//ecmasyntax.io" target="_blank" rel="noopener noreferrer" className={s.share}>
         <i className={`${s.facebook} fa fa-facebook-square`} aria-hidden="true" />
       </a>
-      <a href="https://twitter.com/home?status=Javascript%20syntax%20reference%3A%20https%3A//ecmasyntax.io" rel="noopener" className={s.share}>
+      <a href="https://twitter.com/home?status=Javascript%20syntax%20reference%3A%20https%3A//ecmasyntax.io" target="_blank" rel="noopener noreferrer" className={s.share}>
         <i className={`${s.twitter} fa fa-twitter-square`} aria-hidden="true" />
       </a>
       <p>
         Design inspired by
-        <a href="http://cssreference.io/" rel="noopener"> HTML/CSSReference.io</a>
+        <a href="http://cssreference.io/" target="_blank" rel="noopener noreferrer"> HTML/CSSReference.io</a>
         , created by
-        <a href="https://twitter.com/jgthms" rel="noopener"> @jgthms</a>
+        <a href="https://twitter.com/jgthms" target="_blank" rel="noopener noreferrer"> @jgthms</a>
       </p>
     </div>
   );

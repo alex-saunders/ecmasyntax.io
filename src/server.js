@@ -80,7 +80,7 @@ class Server {
     return new Promise((resolve, reject) => {
       const index = this.pages.findIndex((page) => {
         const category = page.fields.category;
-        const specification = category.fields.specification[0];
+        const specification = category.fields.specification;
 
         return ((page.fields.name === pageName) &&
                 (category.fields.name === cat) &&
@@ -95,7 +95,6 @@ class Server {
   }
 
   _render(req, res, state = this.preloadedState) {
-    console.log(state);
     const store = createStore(allReducers, state);
 
     const css = new Set(); // CSS for all rendered React components
@@ -129,7 +128,7 @@ class Server {
           <script>
             window.__PRELOADED_STATE__ = ${JSON.stringify(state).replace(/</g, '\\u003c')}
           </script>
-          ${ process.env.NODE_ENV === 'production' ?
+          ${process.env.NODE_ENV === 'production' ?
             `<script>
               (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
               (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
@@ -196,11 +195,16 @@ class Server {
             category: page.fields.category,
             name: page.fields.name,
             route: page.fields.route,
+            tags: page.fields.tags,
           },
           sys: {
             id: page.sys.id,
           },
         };
+      });
+      preloadedPageInfo.sort((a, b) => {
+        return a.fields.category.fields.name.charCodeAt(0) -
+                b.fields.category.fields.name.charCodeAt(0);
       });
       res.status(200).json(preloadedPageInfo);
     });
@@ -251,7 +255,7 @@ class Server {
         entries.items.forEach((item, index) => {
           // create url for each page
           const category = item.fields.category;
-          const specification = category.fields.specification[0];
+          const specification = category.fields.specification;
           const route = `/pages/${specification.fields.name}/${category.fields.name}/${item.fields.name}`;
 
           markedEntries.items[index].fields.route = encodeURI(route);

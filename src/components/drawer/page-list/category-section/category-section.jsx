@@ -9,7 +9,11 @@ class CategorySection extends React.Component {
 
   mapLinks() {
     // active={(this.props.activeRoute ? this.props.activeRoute : null) === page.route}
-    return this.props.category.entries.map((entry) => {
+    const entries = this.props.category.entries;
+    entries.sort((a, b) => {
+      return a.fields.name.charCodeAt(0) - b.fields.name.charCodeAt(0);
+    });
+    return entries.map((entry) => {
       return (
         <Route
           route={entry.fields.route}

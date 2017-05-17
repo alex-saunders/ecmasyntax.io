@@ -10,7 +10,7 @@ class SearchFilters extends React.Component {
   static generateFilters(pages) {
     const specifications = [];
     pages.forEach((page) => {
-      const specification = page.fields.category.fields.specification[0].fields.name;
+      const specification = page.fields.category.fields.specification.fields.name;
       if (specifications.indexOf(specification) < 0) {
         specifications.push(specification);
       }

@@ -8,7 +8,7 @@ class SearchResult extends React.Component {
   render() {
     const page = this.props.page;
     const category = page.fields.category;
-    const specification = category.fields.specification[0];
+    const specification = category.fields.specification;
 
     const reg = new RegExp(this.props.currQuery, 'gi');
 
