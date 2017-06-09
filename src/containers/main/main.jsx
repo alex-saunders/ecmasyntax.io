@@ -2,7 +2,8 @@ import React, { PropTypes } from 'react';
 import CSSTransitionGroup from 'react-transition-group/CSSTransitionGroup';
 import { connect } from 'react-redux';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
-import { toggleDrawer } from '../../actions/utils';
+import { search } from '../../actions/page-list';
+import { toggleDrawer, toggleSearch } from '../../actions/utils';
 import WaterfallHeader from '../../components/main/waterfall-header/waterfall-header';
 import SearchResults from '../search-results/search-results';
 import ContentView from '../../components/main/content-view/content-view';
@@ -59,6 +60,8 @@ class Main extends React.Component {
                 <SearchResults />
                 :
                 <ContentView
+                  search={this.props.search}
+                  toggleSearch={this.props.toggleSearch}
                   activeRoute={this.props.activeRoute}
                   activePage={this.props.activePage}
                   hasErrored={this.props.hasErrored}
@@ -114,6 +117,8 @@ Main.propTypes = {
   isLoading: PropTypes.bool,
   showWaterfallHeader: PropTypes.bool.isRequired,
   scrolled: PropTypes.func.isRequired,
+  search: PropTypes.func.isRequired,
+  toggleSearch: PropTypes.func.isRequired,
 };
 
 Main.defaultProps = {
@@ -138,6 +143,8 @@ function mapStateToProps(state) {
 function matchDispatchToProps(dispatch) {
   return {
     toggleDrawer: (open) => { dispatch(toggleDrawer(open)); },
+    search: (query) => { dispatch(search(query)); },
+    toggleSearch: (open) => { dispatch(toggleSearch(open)); },
   };
 }
 

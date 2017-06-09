@@ -14,14 +14,13 @@ module.exports = {
         "arrow-body-style": ["error", "always"],
     },
     "globals": {
-        "caches": true,
         "document": true,
         "location": true,
-        "self": true,
         "window": true,
     },
     "env": {
         "browser": true,
         "node": true,
+        "serviceworker": true,
     },
 };

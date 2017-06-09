@@ -7,8 +7,6 @@ import App from './components/app';
 
 require('babel-polyfill');
 
-console.log(`RUNNING IN %c${process.env.NODE_ENV.toUpperCase()} %cMODE`, 'color: red;', '');
-
 // service worker initialisation
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {

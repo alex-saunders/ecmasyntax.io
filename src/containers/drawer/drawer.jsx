@@ -36,7 +36,7 @@ class Drawer extends React.Component {
 
     this.setState({
       startX: evt.touches[0].pageX,
-      currentX: this.startX,
+      currentX: evt.touches[0].pageX,
       touchingSideNav: true,
     });
 
@@ -68,7 +68,7 @@ class Drawer extends React.Component {
     const translateX = Math.min(0, this.state.currentX - this.state.startX);
     this.drawer.style.transform = '';
 
-    if (translateX < DRAWER_CLOSE_THRESHOLD) {
+    if (translateX < -DRAWER_CLOSE_THRESHOLD) {
       this.props.toggleDrawer(false);
     }
   }
@@ -104,7 +104,7 @@ class Drawer extends React.Component {
 
     const translateX = Math.min(0, this.state.currentX - this.state.startX);
 
-    if (!this.state.initialisedDragging && Math.abs(translateX) < INITIATE_DRAGGING_THRESHOLD) {
+    if (!this.state.initialisedDragging && (translateX > -INITIATE_DRAGGING_THRESHOLD)) {
       return;
     }
 

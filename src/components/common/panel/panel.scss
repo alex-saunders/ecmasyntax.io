@@ -1,3 +1,4 @@
+@import '../../../scss/theme';
 
 .panel {
   border: 1px solid #eaeaea;
@@ -18,30 +19,36 @@
   text-transform: uppercase;
   font-size: 14px;
   background: rgb(246, 248, 250);
+  color: $primary-1;
 
   padding: 8px;
   margin: 0;
 
-  .icon {
-    height: 16px;
-    margin-right: 4px;
-  }
   .filler {
     flex: 1;
+  }
+  .expand {
+    fill: $primary-1;
   }
   .expand.closed {
     transform: rotate(180deg);
   }
 }
 
-.panel-body {
-  padding: 16px;
+.panel-body--wrapper {
   border-top: 1px solid #eaeaea;
+  overflow: hidden;
+  opacity: 1;
+  transition: max-height 0.4s $anim-easing, opacity 0.3s $anim-easing;
+}
+.panel-body--wrapper.closed {
+  opacity: 0;
+}
+
+.panel-body--content {
+  padding: 16px;
 
   p, ol {
     margin: 0;
   }
-}
-.panel-body.closed {
-  display: none;
 }

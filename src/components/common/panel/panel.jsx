@@ -8,8 +8,28 @@ class Panel extends React.Component {
     super(props);
 
     this.state = {
-      closed: this.props.closed,
+      closed: false,
+      maxHeight: '',
     };
+
+    this.maxHeight = 'none';
+  }
+
+  componentDidMount() {
+    this._calcHeight();
+
+    // yep this is horrible. TODO: Make this better.
+    window.addEventListener('resize', this._calcHeight);
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('resize', this._calcHeight);
+  }
+
+  _calcHeight = () => {
+    this.setState({
+      maxHeight: this.bodyContent.getBoundingClientRect().height,
+    });
   }
 
   _handleClick = () => {
@@ -21,24 +41,33 @@ class Panel extends React.Component {
   }
 
   render() {
+    const style = {
+      maxHeight: this.state.closed ? '0px' : this.state.maxHeight,
+    };
     return (
       <div className={s.panel}>
         <button className={s['panel-title']} onClick={this._handleClick}>
-          <svg fill="#000000" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg" className={s.icon}>
-            {this.props.icon}
-          </svg>
           {this.props.title}
           <div className={s.filler} />
           <svg
-            fill="#000000" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"
             className={`${s.expand} ${this.state.closed ? s.closed : ''}`}
           >
             <path d="M16.59 8.59L12 13.17 7.41 8.59 6 10l6 6 6-6z" />
             <path d="M0 0h24v24H0z" fill="none" />
           </svg>
         </button>
-        <div className={`${s['panel-body']} ${this.state.closed ? s.closed : ''}`}>
-          {this.props.body}
+        <div
+          className={`${s['panel-body--wrapper']} ${this.state.closed ? s.closed : ''}`}
+          ref={(div) => { this.body = div; }}
+          style={style}
+        >
+          <div
+            className={s['panel-body--content']}
+            ref={(div) => { this.bodyContent = div; }}
+          >
+            {this.props.body}
+          </div>
         </div>
       </div>
     );
@@ -46,14 +75,8 @@ class Panel extends React.Component {
 }
 
 Panel.propTypes = {
-  icon: PropTypes.element.isRequired,
   title: PropTypes.string.isRequired,
   body: PropTypes.any.isRequired,
-  closed: PropTypes.bool,
-};
-
-Panel.defaultProps = {
-  closed: false,
 };
 
 export default withStyles(s)(Panel);

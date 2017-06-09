@@ -23,9 +23,10 @@ const queryPages = (query, pages) => {
   const syntaxEntries = pages;
   let matchedEntries = syntaxEntries;
   if (query.length > 0) {
+    const formattedQuery = query.toLowerCase();
     const regex = `^${TAGGED_IN}:([^ ]*)`;
     const regexp = new RegExp(regex, 'g');
-    const match = regexp.exec(query);
+    const match = regexp.exec(formattedQuery);
     if (match && match[1]) {
       matchedEntries = syntaxEntries.filter((entry) => {
         if (!entry.fields.tags) {
@@ -38,7 +39,7 @@ const queryPages = (query, pages) => {
       return matchedEntries;
     } else {
       matchedEntries = syntaxEntries.filter((entry) => {
-        return ((entry.fields.name.trim().toLowerCase().match(query.toLowerCase()))); // ||
+        return ((entry.fields.name.trim().toLowerCase().match(formattedQuery.toLowerCase()))); // ||
       });
       return matchedEntries;
     }

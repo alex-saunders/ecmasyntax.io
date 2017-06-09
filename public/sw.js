@@ -1,13 +1,11 @@
-const VERSION_NO = '1.0.0';
+const VERSION_NO = '1.0.2';
 
 const PRECACHE = 'ecmasyntax-precache';
 const RUNTIME = 'ecmasyntax-runtime';
 
 const urlsToCache = [
   '/',
-  '/api/pages',
-  '/static/app.js',
-  '/static/font-awesome-4.7.0/css/font-awesome.min.css',
+  '/api/pages/',
 ];
 
 self.addEventListener('install', (event) => {

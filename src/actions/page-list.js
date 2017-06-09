@@ -34,7 +34,6 @@ export const pageListError = (bool) => {
 };
 
 export const pageListFetchSuccess = (entries) => {
-  console.log(entries);
   return {
     type: 'PAGELIST_FETCH_SUCCESS',
     payload: entries,

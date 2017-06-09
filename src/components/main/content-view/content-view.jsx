@@ -99,6 +99,8 @@ class ContentView extends React.Component {
     if (this.props.activePage.fields.name !== 'Home') {
       content = (
         <MarkdownContainer
+          search={this.props.search}
+          toggleSearch={this.props.toggleSearch}
           content={this.props.activePage.fields.blob}
           references={this.props.activePage.fields.references}
           tags={this.props.activePage.fields.tags}
@@ -120,6 +122,8 @@ class ContentView extends React.Component {
 ContentView.propTypes = {
   isLoading: PropTypes.bool.isRequired,
   activePage: PropTypes.object,
+  search: PropTypes.func.isRequired,
+  toggleSearch: PropTypes.func.isRequired,
 };
 
 ContentView.defaultProps = {

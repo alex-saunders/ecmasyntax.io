@@ -1,4 +1,5 @@
 import path from 'path';
+import fs from 'fs';
 import express from 'express';
 import bodyParser from 'body-parser';
 import React from 'react';
@@ -94,6 +95,11 @@ class Server {
     });
   }
 
+  _getBundlePath = () => {
+    const stats = JSON.parse(fs.readFileSync(path.join('src', 'stats.json'), 'utf8'));
+    this.bundlePath = stats.assetsByChunkName.main[0];
+  }
+
   _render(req, res, state = this.preloadedState) {
     const store = createStore(allReducers, state);
 
@@ -106,6 +112,7 @@ class Server {
         <App context={context} />
       </Provider>,
     );
+
     const title = state.activePage.page ? `ECMASyntax - ${state.activePage.page.fields.name}` : 'ECMASyntax';
     const response = `
       <!doctype html>
@@ -115,13 +122,15 @@ class Server {
           <meta http-equiv="x-ua-compatible" content="ie=edge">
           <meta name="viewport" content="width=device-width, initial-scale=1">
           <title>${title}</title>
-          <style id="server-css">
-            ${[...css].join('')}
-          </style>
+          <link rel="preload" href="https://fonts.googleapis.com/css?family=Roboto:400,500" as="font" crossorigin>
           <link rel="stylesheet" href="/static/font-awesome-4.7.0/css/font-awesome.min.css">
           <link rel="shortcut icon" href="/static/icons/favicon.ico">
           <link rel="manifest" href="/manifest.json">
           <meta name="theme-color" content="#28353e">
+
+          <style id="server-css">
+            ${[...css].join('')}
+          </style>
         </head>
         <body>
           <div id="root">${html}</div>
@@ -142,7 +151,7 @@ class Server {
             :
             ''
           }
-          <script src="/static/app.js" async></script>
+          <script src="/static/output/${this.bundlePath}" async></script>
         </body>
       </html>
       `;
@@ -221,9 +230,10 @@ class Server {
   }
 
   _initCompression() {
-    this.app.get('/static/app.js', (req, res, next) => {
+    this.app.get(`/static/output/${this.bundlePath}`, (req, res, next) => {
       req.url += '.gz';
       res.set('Content-Encoding', 'gzip');
+      res.setHeader('Cache-Control', 'max-age=31536000');
       next();
     });
   }
@@ -276,6 +286,7 @@ class Server {
   }
 
   start() {
+    this._getBundlePath();
     this._initCompression();
     this._setupRouters();
     this._buildArticles()

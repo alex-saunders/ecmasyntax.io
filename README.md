@@ -11,7 +11,7 @@ Made using React & React-Redux. Features React Server side rendering w/ critical
 ## Dev
 
 1. In one tab run `npm run dev`
-2. In another, run `npm run server`
+2. In another, run `npm run devServer`
 2. Navigate to [localhost:5000](http://localhost:5000/)
 
 ## Build

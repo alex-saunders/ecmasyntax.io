@@ -69,7 +69,7 @@ export const fetchPage = (route) => {
             dispatch(pageFetchError(true));
             throw err;
           });
-        }, 0);
+        }, 400);
         break;
       default:
         throw Error(`Invalid url: ${route}`);

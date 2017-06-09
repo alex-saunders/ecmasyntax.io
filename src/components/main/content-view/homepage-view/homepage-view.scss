@@ -1,13 +1,8 @@
 @import '../../../../scss/theme';
+@import '../markdown-container/markdown-container';
 
 .homepage-container {
   animation: fadeIn .6s 1;
-
-  .subtitle {
-    font-weight: 500;
-    padding-bottom: 8px;
-    border-bottom: 1px solid rgba(0,0,0,0.1);
-  }
 
   .share {
     display: inline-block;
@@ -27,10 +22,4 @@
       color: #4099FF;
     }
   }
-
-  a {
-    text-decoration: none;
-    color: $accent-1;
-  }
-
 }
