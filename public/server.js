@@ -895,6 +895,10 @@ var _express = __webpack_require__(89);
 
 var _express2 = _interopRequireDefault(_express);
 
+var _http = __webpack_require__(99);
+
+var _http2 = _interopRequireDefault(_http);
+
 var _expressSslify = __webpack_require__(90);
 
 var _expressSslify2 = _interopRequireDefault(_expressSslify);
@@ -1014,7 +1018,9 @@ var Server = function () {
   _createClass(Server, [{
     key: '_enforceHTTPS',
     value: function _enforceHTTPS() {
-      this.app.use(_expressSslify2.default.HTTPS({ trustProtoHeader: true }));
+      if (false) {
+        this.app.use(_expressSslify2.default.HTTPS({ trustProtoHeader: true }));
+      }
     }
   }, {
     key: '_fetchPage',
@@ -1204,13 +1210,13 @@ var Server = function () {
     value: function start() {
       var _this6 = this;
 
+      this._enforceHTTPS();
       this._getBundlePath();
       this._initCompression();
       this._setupRouters();
-      this._enforceHTTPS();
       this._buildArticles().then(function (pages) {
         _this6.pages = pages.items;
-        _this6.app.listen(_this6.app.get('port'));
+        _http2.default.createServer(_this6.app).listen(_this6.app.get('port'));
         console.log('server listening on port ' + _this6.app.get('port') + ' in ' + 'development' + ' mode');
       });
     }
@@ -5595,6 +5601,12 @@ module.exports = require("react-transition-group/CSSTransitionGroup");
 
 module.exports = __webpack_require__(13);
 
+
+/***/ }),
+/* 99 */
+/***/ (function(module, exports) {
+
+module.exports = require("http");
 
 /***/ })
 /******/ ]);

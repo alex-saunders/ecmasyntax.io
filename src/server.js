@@ -1,6 +1,7 @@
 import path from 'path';
 import fs from 'fs';
 import express from 'express';
+import http from 'http';
 import enforce from 'express-sslify';
 import bodyParser from 'body-parser';
 import React from 'react';
@@ -75,7 +76,9 @@ class Server {
   }
 
   _enforceHTTPS() {
-    this.app.use(enforce.HTTPS({ trustProtoHeader: true }));
+    if (process.env.NODE_ENV === 'production') {
+      this.app.use(enforce.HTTPS({ trustProtoHeader: true }));
+    }
   }
 
   _fetchPage(req) {
@@ -291,14 +294,14 @@ class Server {
   }
 
   start() {
+    this._enforceHTTPS();
     this._getBundlePath();
     this._initCompression();
     this._setupRouters();
-    this._enforceHTTPS();
     this._buildArticles()
     .then((pages) => {
       this.pages = pages.items;
-      this.app.listen(this.app.get('port'));
+      http.createServer(this.app).listen(this.app.get('port'));
       console.log(`server listening on port ${this.app.get('port')} in ${process.env.NODE_ENV} mode`);
     });
   }
