@@ -1014,7 +1014,7 @@ var Server = function () {
   _createClass(Server, [{
     key: '_enforceHTTPS',
     value: function _enforceHTTPS() {
-      this.app.use(_expressSslify2.default.HTTPS());
+      this.app.use(_expressSslify2.default.HTTPS({ trustProtoHeader: true }));
     }
   }, {
     key: '_fetchPage',

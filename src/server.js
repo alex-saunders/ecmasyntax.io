@@ -75,7 +75,7 @@ class Server {
   }
 
   _enforceHTTPS() {
-    this.app.use(enforce.HTTPS());
+    this.app.use(enforce.HTTPS({ trustProtoHeader: true }));
   }
 
   _fetchPage(req) {
