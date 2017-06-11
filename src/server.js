@@ -1,6 +1,7 @@
 import path from 'path';
 import fs from 'fs';
 import express from 'express';
+import enforce from 'express-sslify';
 import bodyParser from 'body-parser';
 import React from 'react';
 import { createStore } from 'redux';
@@ -71,6 +72,10 @@ class Server {
     this.app.set('port', (process.env.PORT || 5000));
     this.app.use(bodyParser.urlencoded({ extended: true }));
     this.app.use(bodyParser.json());
+  }
+
+  _enforceHTTPS() {
+    this.app.use(enforce.HTTPS());
   }
 
   _fetchPage(req) {
@@ -289,6 +294,7 @@ class Server {
     this._getBundlePath();
     this._initCompression();
     this._setupRouters();
+    this._enforceHTTPS();
     this._buildArticles()
     .then((pages) => {
       this.pages = pages.items;

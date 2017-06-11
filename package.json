@@ -25,6 +25,7 @@
     "contentful": "^4.1.2",
     "dompurify": "^0.8.5",
     "express": "^4.14.1",
+    "express-sslify": "^1.2.0",
     "front-matter": "^2.1.2",
     "highlight.js": "^9.10.0",
     "isomorphic-style-loader": "^1.1.0",

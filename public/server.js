@@ -63,7 +63,7 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 97);
+/******/ 	return __webpack_require__(__webpack_require__.s = 98);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -883,17 +883,21 @@ module.exports = require("redux");
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _path = __webpack_require__(94);
+var _path = __webpack_require__(95);
 
 var _path2 = _interopRequireDefault(_path);
 
-var _fs = __webpack_require__(90);
+var _fs = __webpack_require__(91);
 
 var _fs2 = _interopRequireDefault(_fs);
 
 var _express = __webpack_require__(89);
 
 var _express2 = _interopRequireDefault(_express);
+
+var _expressSslify = __webpack_require__(90);
+
+var _expressSslify2 = _interopRequireDefault(_expressSslify);
 
 var _bodyParser = __webpack_require__(86);
 
@@ -905,11 +909,11 @@ var _react2 = _interopRequireDefault(_react);
 
 var _redux = __webpack_require__(12);
 
-var _server = __webpack_require__(95);
+var _server = __webpack_require__(96);
 
 var _reactRedux = __webpack_require__(4);
 
-var _marked = __webpack_require__(93);
+var _marked = __webpack_require__(94);
 
 var _marked2 = _interopRequireDefault(_marked);
 
@@ -917,7 +921,7 @@ var _dompurify = __webpack_require__(88);
 
 var _dompurify2 = _interopRequireDefault(_dompurify);
 
-var _jsdom = __webpack_require__(92);
+var _jsdom = __webpack_require__(93);
 
 var _jsdom2 = _interopRequireDefault(_jsdom);
 
@@ -936,7 +940,7 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 var contentful = __webpack_require__(87);
-var highlightjs = __webpack_require__(91);
+var highlightjs = __webpack_require__(92);
 
 var Server = function () {
   function Server() {
@@ -1008,6 +1012,11 @@ var Server = function () {
   }
 
   _createClass(Server, [{
+    key: '_enforceHTTPS',
+    value: function _enforceHTTPS() {
+      this.app.use(_expressSslify2.default.HTTPS());
+    }
+  }, {
     key: '_fetchPage',
     value: function _fetchPage(req) {
       var _this2 = this;
@@ -1198,6 +1207,7 @@ var Server = function () {
       this._getBundlePath();
       this._initCompression();
       this._setupRouters();
+      this._enforceHTTPS();
       this._buildArticles().then(function (pages) {
         _this6.pages = pages.items;
         _this6.app.listen(_this6.app.get('port'));
@@ -3622,7 +3632,7 @@ var _react = __webpack_require__(2);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _CSSTransitionGroup = __webpack_require__(96);
+var _CSSTransitionGroup = __webpack_require__(97);
 
 var _CSSTransitionGroup2 = _interopRequireDefault(_CSSTransitionGroup);
 
@@ -5535,46 +5545,52 @@ module.exports = require("express");
 /* 90 */
 /***/ (function(module, exports) {
 
-module.exports = require("fs");
+module.exports = require("express-sslify");
 
 /***/ }),
 /* 91 */
 /***/ (function(module, exports) {
 
-module.exports = require("highlight.js");
+module.exports = require("fs");
 
 /***/ }),
 /* 92 */
 /***/ (function(module, exports) {
 
-module.exports = require("jsdom");
+module.exports = require("highlight.js");
 
 /***/ }),
 /* 93 */
 /***/ (function(module, exports) {
 
-module.exports = require("marked");
+module.exports = require("jsdom");
 
 /***/ }),
 /* 94 */
 /***/ (function(module, exports) {
 
-module.exports = require("path");
+module.exports = require("marked");
 
 /***/ }),
 /* 95 */
 /***/ (function(module, exports) {
 
-module.exports = require("react-dom/server");
+module.exports = require("path");
 
 /***/ }),
 /* 96 */
 /***/ (function(module, exports) {
 
-module.exports = require("react-transition-group/CSSTransitionGroup");
+module.exports = require("react-dom/server");
 
 /***/ }),
 /* 97 */
+/***/ (function(module, exports) {
+
+module.exports = require("react-transition-group/CSSTransitionGroup");
+
+/***/ }),
+/* 98 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports = __webpack_require__(13);
