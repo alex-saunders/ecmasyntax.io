@@ -3,7 +3,7 @@ import CSSTransitionGroup from 'react-transition-group/CSSTransitionGroup';
 import { connect } from 'react-redux';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import { search } from '../../actions/page-list';
-import { toggleDrawer, toggleSearch } from '../../actions/utils';
+import { toggleDrawer, toggleSearch, pushToast } from '../../actions/utils';
 import WaterfallHeader from '../../components/main/waterfall-header/waterfall-header';
 import SearchResults from '../search-results/search-results';
 import ContentView from '../../components/main/content-view/content-view';
@@ -39,6 +39,7 @@ class Main extends React.Component {
         <WaterfallHeader
           visible={this.props.showWaterfallHeader}
           activeRoute={this.props.activeRoute}
+          pushToast={this.props.pushToast}
         />
         <div className={s['content-wrapper']} onScroll={this.scrollHandler} ref={(div) => { this.contentWrapper = div; }}>
           <div className={s['flex-wrapper']}>
@@ -119,6 +120,7 @@ Main.propTypes = {
   scrolled: PropTypes.func.isRequired,
   search: PropTypes.func.isRequired,
   toggleSearch: PropTypes.func.isRequired,
+  pushToast: PropTypes.func.isRequired,
 };
 
 Main.defaultProps = {
@@ -145,6 +147,7 @@ function matchDispatchToProps(dispatch) {
     toggleDrawer: (open) => { dispatch(toggleDrawer(open)); },
     search: (query) => { dispatch(search(query)); },
     toggleSearch: (open) => { dispatch(toggleSearch(open)); },
+    pushToast: (message, action, timeout, callback) => { dispatch(pushToast(message, action, timeout, callback)); },
   };
 }
 

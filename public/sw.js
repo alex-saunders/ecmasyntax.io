@@ -5,7 +5,7 @@ const RUNTIME = 'ecmasyntax-runtime';
 
 const urlsToCache = [
   '/',
-  '/api/pages/',
+  '/api/pages',
 ];
 
 self.addEventListener('install', (event) => {

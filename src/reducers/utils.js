@@ -1,6 +1,7 @@
 const initialState = {
   drawerOpen: false,
   searchOpen: false,
+  toasts: [],
 };
 
 export default function (state = initialState, action) {
@@ -16,6 +17,22 @@ export default function (state = initialState, action) {
       return Object.assign({}, state,
         {
           searchOpen: action.payload,
+        },
+      );
+    }
+    case 'PUSH_TOAST': {
+      return Object.assign({}, state,
+        {
+          toasts: [...state.toasts, action.payload],
+        },
+      );
+    }
+    case 'POP_TOAST': {
+      const arr = [...state.toasts];
+      arr.shift();
+      return Object.assign({}, state,
+        {
+          toasts: arr,
         },
       );
     }

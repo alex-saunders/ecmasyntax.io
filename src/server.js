@@ -59,6 +59,7 @@ class Server {
       utils: {
         drawerOpen: false,
         searchOpen: false,
+        toasts: [],
       },
       pageList: {
         entries: [],
@@ -130,8 +131,7 @@ class Server {
           <meta http-equiv="x-ua-compatible" content="ie=edge">
           <meta name="viewport" content="width=device-width, initial-scale=1">
           <title>${title}</title>
-          <link rel="preload" href="https://fonts.googleapis.com/css?family=Roboto:400,500" as="font" crossorigin>
-          <link rel="stylesheet" href="/static/font-awesome-4.7.0/css/font-awesome.min.css">
+
           <link rel="shortcut icon" href="/static/icons/favicon.ico">
           <link rel="manifest" href="/manifest.json">
           <meta name="theme-color" content="#28353e">
@@ -139,6 +139,7 @@ class Server {
           <style id="server-css">
             ${[...css].join('')}
           </style>
+          
         </head>
         <body>
           <div id="root">${html}</div>
@@ -160,6 +161,8 @@ class Server {
             ''
           }
           <script src="/static/output/${this.bundlePath}" async></script>
+          <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:400,500" as="font" crossorigin>
+          <link rel="stylesheet" href="/static/font-awesome-4.7.0/css/font-awesome.min.css">
         </body>
       </html>
       `;

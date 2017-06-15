@@ -16,7 +16,7 @@ if (process.env.NODE_ENV !== 'production') {
     duration: false,
     diff: true,
   });
-  middleware = [...middleware, logger];
+  // middleware = [...middleware, logger];
 }
 
 export default function configureStore() {

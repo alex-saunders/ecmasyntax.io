@@ -1,4 +1,4 @@
-import { TAGGED_IN } from '../constants';
+import { TAGGED_IN } from '../utils/constants';
 
 const initialState = {
   entries: [],

@@ -11,6 +11,7 @@ import ProgressIndicator from '../../components/main/progress-indicator/progress
 import MainHeader from '../../components/main/main-header/main-header';
 import Drawer from '../drawer/drawer';
 import Main from '../main/main';
+import ToastManager from '../toast-manager/toast-manager';
 
 class AppRouter extends React.Component {
   constructor(props) {
@@ -57,8 +58,8 @@ class AppRouter extends React.Component {
       && this.props.activePage
       && new RegExp(/^\/pages\//).test(this.props.activePage.fields.route)
       && !this.props.searchOpen
-      && !this.props.isLoading
       && !this.state.scrolled;
+      // && !this.props.isLoading;
 
     return (
       <div className={s['app-container']}>
@@ -84,6 +85,7 @@ class AppRouter extends React.Component {
             scrolled={this.scrolled}
             showWaterfallHeader={showWaterfallHeader}
           />
+          <ToastManager />
         </div>
       </div>
     );

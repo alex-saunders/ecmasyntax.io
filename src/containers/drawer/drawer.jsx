@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import s from './drawer.scss';
 
-import { INITIATE_DRAGGING_THRESHOLD, DRAWER_CLOSE_THRESHOLD } from '../../constants';
+import { INITIATE_DRAGGING_THRESHOLD, DRAWER_CLOSE_THRESHOLD } from '../../utils/constants';
 import { toggleDrawer } from '../../actions/utils';
 import { addFilter, removeFilter } from '../../actions/page-list';
 
