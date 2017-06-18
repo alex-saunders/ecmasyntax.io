@@ -23,10 +23,17 @@ export const setActiveRoute = (route) => {
 };
 
 export const setActivePage = (page) => {
-  document.title = `ECMASyntax - ${page.fields.name}`;
   return {
     type: 'ACTIVE_PAGE',
     payload: page,
+  };
+};
+
+export const setActivePageTitle = (title) => {
+  document.title = `ECMASyntax - ${title}`;
+  return {
+    type: 'ACTIVE_PAGE_TITLE',
+    payload: title,
   };
 };
 
@@ -48,11 +55,7 @@ export const fetchPage = (route) => {
     dispatch(search(''));
 
     switch (true) {
-      case /\/$/.test(route):
-        dispatch(pageIsLoading(false));
-        dispatch(pageFetchSuccess({ fields: { name: 'Home', route: '/' } }));
-        break;
-      case /\/pages\/(.*)/.test(route):
+      case /^\/pages\/(.*)$/.test(route):
         setTimeout(() => {
           fetch(`/api${route}`)
           .then((response) => {
@@ -72,7 +75,8 @@ export const fetchPage = (route) => {
         }, 400);
         break;
       default:
-        throw Error(`Invalid url: ${route}`);
+        dispatch(pageIsLoading(false));
+        dispatch(pageFetchSuccess({ fields: { name: route.substring(1), route } }));
     }
   };
 };

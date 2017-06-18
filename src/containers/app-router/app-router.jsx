@@ -42,7 +42,6 @@ class AppRouter extends React.Component {
   }
 
   onPopState = () => {
-    console.log('POP STATE', location.pathname);
     this.props.fetchPage(location.pathname);
   }
 
@@ -70,7 +69,7 @@ class AppRouter extends React.Component {
           isLoading={this.props.isLoading}
         />
         <MainHeader
-          activePage={this.props.activePage}
+          activePageTitle={this.props.activePageTitle}
           drawerOpen={this.props.drawerOpen}
           searchOpen={this.props.searchOpen}
           toggleDrawer={this.props.toggleDrawer}
@@ -96,6 +95,7 @@ AppRouter.propTypes = {
   activeRoute: PropTypes.string,
   currQuery: PropTypes.string.isRequired,
   activePage: PropTypes.object,
+  activePageTitle: PropTypes.string,
   hasErrored: PropTypes.bool,
   isLoading: PropTypes.bool,
   drawerOpen: PropTypes.bool,
@@ -114,11 +114,13 @@ AppRouter.defaultProps = {
   searchOpen: false,
   activeRoute: null,
   activePage: null,
+  activePageTitle: null,
 };
 
 function mapStateToProps(state) {
   return {
     activePage: state.activePage.page,
+    activePageTitle: state.activePage.title,
     activeRoute: state.activePage.route,
     hasErrored: state.activePage.hasErrored,
     isLoading: state.activePage.isLoading,

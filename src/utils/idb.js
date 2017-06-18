@@ -1,4 +1,4 @@
-import { IDB_VERSION_NO, AUTO_DOWNLOAD_EXPIRY } from './constants';
+import { IDB_VERSION_NO } from './constants';
 
 export const openDB = () => {
   return new Promise((resolve, reject) => {

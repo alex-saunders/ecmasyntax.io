@@ -1,4 +1,4 @@
-@import '../../../../scss/theme';
+@import '../../../scss/theme';
 @import url('https://fonts.googleapis.com/css?family=Roboto+Mono');
 
 .footer-container {
@@ -29,6 +29,7 @@
 
   strong {
     color: #333;
+    font-weight: 500;
   }
 
   h1 {

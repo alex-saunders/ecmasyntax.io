@@ -1,10 +1,10 @@
 import React, { PropTypes } from 'react';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
-import s from './markdown-container.scss';
+import s from './article-view.scss';
 import highlight from './atelier-estuary-light.css';
 
 import Tag from './tag/tag';
-import Panel from '../../../common/panel/panel';
+import Panel from '../../common/panel/panel';
 
 class MarkdownContainer extends React.Component {
 
@@ -78,7 +78,7 @@ class MarkdownContainer extends React.Component {
 }
 
 MarkdownContainer.propTypes = {
-  content: PropTypes.string.isRequired,
+  content: PropTypes.string,
   references: PropTypes.array,
   tags: PropTypes.array,
   search: PropTypes.func.isRequired,
@@ -86,7 +86,8 @@ MarkdownContainer.propTypes = {
 };
 
 MarkdownContainer.defaultProps = {
-  references: null,
+  content: '',
+  references: [],
   tags: [],
 };
 

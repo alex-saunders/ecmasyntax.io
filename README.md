@@ -1,5 +1,4 @@
 # ecmasytax.io
-[![CircleCI](https://circleci.com/gh/alex-saunders/ecmasyntax.io.svg?style=shield)](https://circleci.com/gh/alex-saunders/ecmasyntax.io)
 
 An offline-first PWA for ECMAScript syntax reference
 

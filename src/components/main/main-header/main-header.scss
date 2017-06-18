@@ -34,11 +34,15 @@
 .title {
     display: block;
     flex: 1;
-    padding-right: 16px;
+    padding-right: 8px;
     color: $primary-1-text;
     font-size: 18px;
     transition: all 0.2s linear;
     @include ellipsis();
+
+    .title-detail {
+        text-transform: capitalize;
+    }
 }
 
 .header.searchOpen {

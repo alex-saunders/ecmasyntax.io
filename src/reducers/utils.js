@@ -2,6 +2,7 @@ const initialState = {
   drawerOpen: false,
   searchOpen: false,
   toasts: [],
+  autoDownload: null,
 };
 
 export default function (state = initialState, action) {
@@ -33,6 +34,13 @@ export default function (state = initialState, action) {
       return Object.assign({}, state,
         {
           toasts: arr,
+        },
+      );
+    }
+    case 'AUTO_DOWNLOAD': {
+      return Object.assign({}, state,
+        {
+          autoDownload: action.payload,
         },
       );
     }

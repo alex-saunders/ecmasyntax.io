@@ -39,9 +39,10 @@ class MainHeader extends React.Component {
         <span className={s.title}>
           ECMASyntax
           <span
+            className={s['title-detail']}
             dangerouslySetInnerHTML={{
-              __html: this.props.activePage ?
-              ` &ndash; ${this.props.activePage.fields.name}`
+              __html: this.props.activePageTitle ?
+              ` &ndash; ${this.props.activePageTitle}`
               :
               '' }}
           />
@@ -64,14 +65,14 @@ MainHeader.propTypes = {
   showWaterfallHeader: PropTypes.bool.isRequired,
   searchOpen: PropTypes.bool.isRequired,
   currQuery: PropTypes.string.isRequired,
-  activePage: PropTypes.object,
+  activePageTitle: PropTypes.string,
   toggleDrawer: PropTypes.func.isRequired,
   toggleSearch: PropTypes.func.isRequired,
   search: PropTypes.func.isRequired,
 };
 
 MainHeader.defaultProps = {
-  activePage: null,
+  setActivePageTitle: null,
 };
 
 export default withStyles(s)(MainHeader);

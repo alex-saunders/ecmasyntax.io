@@ -2,11 +2,15 @@ import React, { PropTypes } from 'react';
 import CSSTransitionGroup from 'react-transition-group/CSSTransitionGroup';
 import { connect } from 'react-redux';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
+
 import { search } from '../../actions/page-list';
-import { toggleDrawer, toggleSearch, pushToast } from '../../actions/utils';
+import { toggleDrawer, toggleSearch, pushToast, setAutoDownload } from '../../actions/utils';
+import { getAutoDownload } from '../../utils/offline-cache';
+
 import WaterfallHeader from '../../components/main/waterfall-header/waterfall-header';
 import SearchResults from '../search-results/search-results';
-import ContentView from '../../components/main/content-view/content-view';
+import RouteHandler from '../route-handler/route-handler';
+
 import s from './main.scss';
 
 class Main extends React.Component {
@@ -16,6 +20,12 @@ class Main extends React.Component {
     this.state = {
       scrolled: false,
     };
+  }
+
+  componentDidMount() {
+    getAutoDownload().then((result) => {
+      this.props.setAutoDownload(result);
+    });
   }
 
   scrollHandler = () => {
@@ -40,6 +50,8 @@ class Main extends React.Component {
           visible={this.props.showWaterfallHeader}
           activeRoute={this.props.activeRoute}
           pushToast={this.props.pushToast}
+          autoDownload={this.props.autoDownload}
+          setAutoDownload={this.props.setAutoDownload}
         />
         <div className={s['content-wrapper']} onScroll={this.scrollHandler} ref={(div) => { this.contentWrapper = div; }}>
           <div className={s['flex-wrapper']}>
@@ -60,14 +72,7 @@ class Main extends React.Component {
               { this.props.searchOpen ?
                 <SearchResults />
                 :
-                <ContentView
-                  search={this.props.search}
-                  toggleSearch={this.props.toggleSearch}
-                  activeRoute={this.props.activeRoute}
-                  activePage={this.props.activePage}
-                  hasErrored={this.props.hasErrored}
-                  isLoading={this.props.isLoading} key={2}
-                />
+                <RouteHandler key={2} />
               }
             </CSSTransitionGroup>
             {!this.props.searchOpen ?
@@ -121,6 +126,8 @@ Main.propTypes = {
   search: PropTypes.func.isRequired,
   toggleSearch: PropTypes.func.isRequired,
   pushToast: PropTypes.func.isRequired,
+  autoDownload: PropTypes.bool,
+  setAutoDownload: PropTypes.func.isRequired,
 };
 
 Main.defaultProps = {
@@ -128,6 +135,7 @@ Main.defaultProps = {
   isLoading: false,
   activePage: null,
   activeRoute: null,
+  autoDownload: null,
 };
 
 function mapStateToProps(state) {
@@ -138,6 +146,7 @@ function mapStateToProps(state) {
     isLoading: state.activePage.isLoading,
     drawerOpen: state.utils.drawerOpen,
     searchOpen: state.utils.searchOpen,
+    autoDownload: state.utils.autoDownload,
     currQuery: state.pageList.query,
   };
 }
@@ -148,6 +157,7 @@ function matchDispatchToProps(dispatch) {
     search: (query) => { dispatch(search(query)); },
     toggleSearch: (open) => { dispatch(toggleSearch(open)); },
     pushToast: (message, action, timeout, callback) => { dispatch(pushToast(message, action, timeout, callback)); },
+    setAutoDownload: (bool) => { dispatch(setAutoDownload(bool)); },
   };
 }
 

@@ -1,0 +1,59 @@
+@import '../../../scss/theme';
+@import '../article-view/article-view';
+
+.about-container {
+  animation: fadeIn .6s 1;
+
+  .share {
+    display: inline-block;
+    height: 28px;
+    width: 28px;
+
+    i {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      font-size: 28px;
+    }
+    .facebook {
+      color: #3B5998;
+    }
+    .twitter {
+      color: #4099FF;
+    }
+  }
+}
+
+.settings {
+  .settings-row {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+
+    .row-descriptor {
+      padding: 0;
+
+      .descriptor-title {
+        padding: 0;
+        margin: 0;
+        font-size: 16px;
+      }
+      .descriptor-detail {
+        padding: 0;
+        margin: 0;
+        font-size: 14px;
+        color: grey;
+      }
+    }
+    .row-action {
+      margin-left: 8px;
+    }
+  }
+  .row-label {
+    cursor: pointer;
+  }
+}
+.switch-button {
+  background: none;
+  border: none;
+}

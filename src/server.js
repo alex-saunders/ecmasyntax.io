@@ -48,11 +48,12 @@ class Server {
       activePage: {
         page: {
           fields: {
-            name: 'Home',
-            route: '/',
+            name: null,
+            route: null,
           },
         },
         route: null,
+        title: null,
         isLoading: true,
         hasErrored: false,
       },
@@ -60,6 +61,7 @@ class Server {
         drawerOpen: false,
         searchOpen: false,
         toasts: [],
+        autoDownload: null,
       },
       pageList: {
         entries: [],
@@ -122,7 +124,7 @@ class Server {
       </Provider>,
     );
 
-    const title = state.activePage.page ? `ECMASyntax - ${state.activePage.page.fields.name}` : 'ECMASyntax';
+    const title = state.activePage.page.fields.name ? `ECMASyntax - ${state.activePage.page.fields.name}` : 'ECMASyntax';
     const response = `
       <!doctype html>
       <html lang="en">
@@ -131,6 +133,9 @@ class Server {
           <meta http-equiv="x-ua-compatible" content="ie=edge">
           <meta name="viewport" content="width=device-width, initial-scale=1">
           <title>${title}</title>
+
+          <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500" as="font" crossorigin>
+          <link rel="stylesheet" href="/static/font-awesome-4.7.0/css/font-awesome.min.css">
 
           <link rel="shortcut icon" href="/static/icons/favicon.ico">
           <link rel="manifest" href="/manifest.json">
@@ -161,8 +166,6 @@ class Server {
             ''
           }
           <script src="/static/output/${this.bundlePath}" async></script>
-          <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:400,500" as="font" crossorigin>
-          <link rel="stylesheet" href="/static/font-awesome-4.7.0/css/font-awesome.min.css">
         </body>
       </html>
       `;
@@ -186,15 +189,20 @@ class Server {
       res.sendFile('manifest.json', { root: this.__dirname });
     });
 
-    this.router.route('/pages/:specId/:catId/:pageId').get((req, res) => {
-      this._render(req, res);
-    });
-
     this.router.get('/', (req, res) => {
+      // redirect to first content page
+      res.redirect(this.pages[0].fields.route);
+    });
+
+    // this.router.route('/pages/:specId/:catId/:pageId').get((req, res) => {
+    //   this._render(req, res);
+    // });
+
+    this.router.get('*', (req, res) => {
       this._render(req, res);
     });
 
-    this.router.get('*', (req, res) => { Server.handle404(req, res); });
+    // this.router.get('*', (req, res) => { Server.handle404(req, res); });
   }
 
   _setupAPIRoutes() {
@@ -221,10 +229,6 @@ class Server {
             id: page.sys.id,
           },
         };
-      });
-      preloadedPageInfo.sort((a, b) => {
-        return a.fields.category.fields.name.charCodeAt(0) -
-                b.fields.category.fields.name.charCodeAt(0);
       });
       res.status(200).json(preloadedPageInfo);
     });
@@ -287,6 +291,10 @@ class Server {
           } else {
             markedEntries.items[index].fields.blob = '';
           }
+        });
+        markedEntries.items.sort((a, b) => {
+          return a.fields.category.fields.name.charCodeAt(0) -
+                b.fields.category.fields.name.charCodeAt(0);
         });
         resolve(markedEntries);
       })

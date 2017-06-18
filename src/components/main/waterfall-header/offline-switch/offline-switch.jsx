@@ -3,10 +3,9 @@ import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import switchStyles from '@material/switch/dist/mdc.switch.css';
 import s from './offline-switch.scss';
 
-import { AUTO_DOWNLOAD_EXPIRY } from '../../../../utils/constants';
-import { getObjectStore, getKeyVal, putKeyVal } from '../../../../utils/idb';
-
 import Dialog from '../../../common/dialog/dialog';
+
+import { checkCache, cacheResponse, uncacheResponse } from '../../../../utils/offline-cache';
 
 class OfflineSwitch extends React.Component {
   constructor(props) {
@@ -38,92 +37,40 @@ class OfflineSwitch extends React.Component {
 
     const request = this._generateRequest(activeRoute);
 
-    this._getAutoDownload()
-    .then((autoDownload) => {
-      // if user has chosen to auto download all content
-      if (autoDownload && autoDownload.value) {
-        this._checkCache(request)
-        .then((cached) => {
-          // and the content is not already cached
-          if (!cached) {
-            // cache the response
-            this._cacheResponse(request)
-            .then(() => {
-              this.setState({
-                checked: true,
-              });
-            });
-          } else {
-            // else if the content is already cached, update state
+    // if user has chosen to auto download all content
+    if (this.props.autoDownload) {
+      checkCache(request)
+      .then((cached) => {
+        // and the content is not already cached
+        if (!cached) {
+          // cache the response
+          cacheResponse(request)
+          .then(() => {
             this.setState({
               checked: true,
             });
-          }
-        });
-      } else {
-        // else if the user has not chosen to auto download all content
-        this._checkCache(request).then((cached) => {
-          // set the state dependent on whether the content is already cached or not
-          this.setState({
-            checked: cached,
-            activeRoute,
           });
+        } else {
+          // else if the content is already cached, update state
+          this.setState({
+            checked: true,
+          });
+        }
+      });
+    } else {
+      // else if the user has not chosen to auto download all content
+      checkCache(request).then((cached) => {
+        // set the state dependent on whether the content is already cached or not
+        this.setState({
+          checked: cached,
+          activeRoute,
         });
-      }
-    });
+      });
+    }
   }
 
   _generateRequest = (route) => {
     return `${location.origin}/api${route}`;
-  }
-
-  _checkCache = (request) => {
-    return new Promise((resolve, reject) => {
-      caches.match(request)
-      .then((cachedResponse) => {
-        if (cachedResponse) {
-          resolve(true);
-        } else {
-          resolve(false);
-        }
-      })
-      .catch((err) => {
-        reject(err);
-      });
-    });
-  }
-
-  _uncacheResponse = (request) => {
-    return new Promise((resolve, reject) => {
-      caches.open('ecmasyntax-runtime').then((cache) => {
-        cache.delete(request).then(() => {
-          resolve();
-          // this.props.pushToast('Content removed from offline use', 'OK', 3000);
-        });
-      })
-      .catch((err) => {
-        reject();
-        throw new Error(err);
-      });
-    });
-  }
-
-  _cacheResponse = (request) => {
-    return new Promise((resolve, reject) => {
-      caches.open('ecmasyntax-runtime').then((cache) => {
-        document.body.style.cursor = 'wait';
-        fetch(request).then((response) => {
-          cache.put(request, response.clone()).then(() => {
-            document.body.style.cursor = '';
-            resolve();
-          });
-        })
-        .catch((err) => {
-          reject();
-          throw new Error(err);
-        });
-      });
-    });
   }
 
   handleClick = () => {
@@ -132,16 +79,16 @@ class OfflineSwitch extends React.Component {
       });
     }
     const request = this._generateRequest(this.props.activeRoute);
-    this._checkCache(request).then((cached) => {
+    checkCache(request).then((cached) => {
       if (cached) {
-        this._uncacheResponse(request).then(() => {
+        uncacheResponse(request).then(() => {
           this.setState({
             checked: false,
           });
         });
       } else {
         this._autoDownloadDialog();
-        this._cacheResponse(request).then(() => {
+        cacheResponse(request).then(() => {
           this.setState({
             checked: true,
           });
@@ -166,43 +113,17 @@ class OfflineSwitch extends React.Component {
       return;
     }
 
-    this._getAutoDownload()
-    .then((result) => {
-      if (!result || (result.expiration < Date.now())) {
-        this.setState({
-          dialogActive: true,
-        });
-      }
-    });
-  }
-
-  _getAutoDownload = () => {
-    return new Promise((resolve, reject) => {
-      getObjectStore('Settings')
-      .then((store) => {
-        getKeyVal(store, 'auto-download-content')
-        .then((result) => {
-          resolve(result);
-        })
-        .catch((err) => {
-          reject(err);
-          throw new Error(err);
-        });
+    // user has not confirmed whether or not to auto download content
+    if (this.props.autoDownload === null) {
+      this.setState({
+        dialogActive: true,
       });
-    });
+    }
   }
 
   _setAutoDownload = (bool) => {
     this._closeDialog();
-
-    getObjectStore('Settings')
-    .then((store) => {
-      putKeyVal(store, {
-        setting: 'auto-download-content',
-        value: bool,
-        expiration: (Date.now() + AUTO_DOWNLOAD_EXPIRY),
-      });
-    });
+    this.props.setAutoDownload(bool);
   }
 
   _showToast = (message, actionText, timeout, action) => {
@@ -229,7 +150,7 @@ class OfflineSwitch extends React.Component {
         <Dialog
           active={this.state.dialogActive}
           title="Automatically download content"
-          message="Would you like to automatically download all content you visit for offline use?"
+          message="Would you like to automatically download all content you visit for offline use? (this setting can be changed in the About page)"
           cancelText="No"
           confirmText="Yes"
           cancelAction={() => { this.setState({ dialogActive: false }); }}
@@ -244,9 +165,12 @@ class OfflineSwitch extends React.Component {
 OfflineSwitch.propTypes = {
   activeRoute: PropTypes.string,
   pushToast: PropTypes.func.isRequired,
+  autoDownload: PropTypes.bool,
+  setAutoDownload: PropTypes.func.isRequired,
 };
 
 OfflineSwitch.defaultProps = {
+  autoDownload: null,
   activeRoute: null,
 };
 

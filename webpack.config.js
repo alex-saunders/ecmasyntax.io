@@ -8,7 +8,6 @@ const autoprefixer = require('autoprefixer');
 
 const autoprefix = autoprefixer({ flexbox: true });
 const clientPlugins = [
-  new CleanWebpackPlugin([path.join(__dirname, 'public', 'static', 'output')]),
   new webpack.DefinePlugin({
     'process.env': {
       NODE_ENV: JSON.stringify(process.env.NODE_ENV),
@@ -28,6 +27,9 @@ const clientPlugins = [
         JSON.stringify(stats.toJson()));
     });
   },
+  new CleanWebpackPlugin([path.join(__dirname, 'public', 'static', 'output')], {
+    watch: true,
+  }),
 ];
 
 const clientConfig = {

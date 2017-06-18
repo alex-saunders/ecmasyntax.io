@@ -1,6 +1,7 @@
 const initialState = {
   page: null,
   route: null,
+  title: null,
   isLoading: false,
   hasErrored: false,
 };
@@ -32,6 +33,13 @@ export default function (state = initialState, action) {
       return Object.assign({}, state,
         {
           route: action.payload,
+        },
+      );
+    }
+    case 'ACTIVE_PAGE_TITLE': {
+      return Object.assign({}, state,
+        {
+          title: action.payload,
         },
       );
     }

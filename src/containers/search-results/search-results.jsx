@@ -1,7 +1,7 @@
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
-import SearchResult from '../../components/main/search-results/search-result/search-result';
+import SearchResult from '../../components/views/search-view/search-result/search-result';
 import s from './search-results.scss';
 
 class SearchResults extends React.Component {
