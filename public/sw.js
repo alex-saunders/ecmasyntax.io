@@ -1,4 +1,4 @@
-const VERSION_NO = '1.0.1';
+const VERSION_NO = '1.0.5';
 
 const PRECACHE = 'ecmasyntax-precache';
 const RUNTIME = 'ecmasyntax-runtime';
@@ -15,7 +15,7 @@ self.addEventListener('install', (event) => {
         cache.addAll(urlsToCache);
       })
       .then(() => {
-        self.skipWaiting();
+        // self.skipWaiting();
         console.info(`ECMASyntax Version @ ${VERSION_NO}`);
       }));
 });

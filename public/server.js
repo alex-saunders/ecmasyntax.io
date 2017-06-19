@@ -374,6 +374,17 @@ var setAutoDownload = exports.setAutoDownload = function setAutoDownload(bool) {
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+var _redirectUser = function _redirectUser(response) {
+  if (window.location.pathname !== '/') {
+    return;
+  }
+  if (response) {
+    window.location.pathname = response[0].fields.route;
+  } else {
+    window.location.pathname = 'about';
+  }
+};
+
 var search = exports.search = function search(query) {
   return {
     type: 'SEARCH_QUERY',
@@ -432,8 +443,10 @@ var fetchPageList = exports.fetchPageList = function fetchPageList() {
       }).then(function (response) {
         dispatch(pageListLoading(false));
         dispatch(pageListFetchSuccess(response));
+        _redirectUser(response);
       }).catch(function (err) {
         dispatch(pageListFetchSuccess(true));
+        _redirectUser();
         throw err;
       });
     }, 0);
@@ -1251,10 +1264,11 @@ var Server = function () {
         res.sendFile('manifest.json', { root: _this3.__dirname });
       });
 
-      this.router.get('/', function (req, res) {
-        // redirect to first content page
-        res.redirect(_this3.pages[0].fields.route);
-      });
+      // this.router.get('/', (req, res) => {
+      //   // redirect to first content page
+      //   this._render(req, res);
+      //   // res.redirect(this.pages[0].fields.route);
+      // });
 
       // this.router.route('/pages/:specId/:catId/:pageId').get((req, res) => {
       //   this._render(req, res);
@@ -3522,6 +3536,19 @@ var AppRouter = function (_React$Component) {
   _createClass(AppRouter, [{
     key: 'componentDidMount',
     value: function componentDidMount() {
+      // service worker initialisation
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', function () {
+          navigator.serviceWorker.register('/sw.js').then(function (registration) {
+            // Registration was successful
+            console.log('ServiceWorker registration successful with scope: ', registration.scope);
+          }, function (err) {
+            // registration failed :(
+            console.log('ServiceWorker registration failed: ', err);
+          });
+        });
+      }
+
       // async fetch pagelist
       this.props.fetchPageList();
       // async fetch routed page
@@ -3587,6 +3614,7 @@ AppRouter.propTypes = {
   isLoading: _react.PropTypes.bool,
   drawerOpen: _react.PropTypes.bool,
   searchOpen: _react.PropTypes.bool,
+  pageList: _react.PropTypes.array,
   fetchPageList: _react.PropTypes.func.isRequired,
   fetchPage: _react.PropTypes.func.isRequired,
   toggleDrawer: _react.PropTypes.func.isRequired,
@@ -3599,6 +3627,7 @@ AppRouter.defaultProps = {
   isLoading: false,
   drawerOpen: false,
   searchOpen: false,
+  pageList: [],
   activeRoute: null,
   activePage: null,
   activePageTitle: null
@@ -3611,6 +3640,7 @@ function mapStateToProps(state) {
     activeRoute: state.activePage.route,
     hasErrored: state.activePage.hasErrored,
     isLoading: state.activePage.isLoading,
+    pageList: state.pageList.entries,
     currQuery: state.pageList.query,
     drawerOpen: state.utils.drawerOpen,
     searchOpen: state.utils.searchOpen
@@ -4272,7 +4302,7 @@ var RouteHandler = function (_React$Component) {
       var routes = this._setupRoutes(props);
 
       var content = void 0;
-      if (props.isLoading) {
+      if (props.isLoading || window.location.pathname === '/') {
         content = _react2.default.createElement(_loadingView2.default, { color: '#28353e', size: '45px' });
       } else {
         var matchingRoute = routes.find(function (route) {

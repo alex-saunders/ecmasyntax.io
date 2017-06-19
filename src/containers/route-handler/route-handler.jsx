@@ -61,7 +61,7 @@ class RouteHandler extends React.Component {
     const routes = this._setupRoutes(props);
 
     let content;
-    if (props.isLoading) {
+    if (props.isLoading || (window.location.pathname === '/')) {
       content = (
         <LoadingView color="#28353e" size="45px" />
       );

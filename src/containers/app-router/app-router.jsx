@@ -27,6 +27,19 @@ class AppRouter extends React.Component {
   }
 
   componentDidMount() {
+    // service worker initialisation
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/sw.js').then((registration) => {
+          // Registration was successful
+          console.log('ServiceWorker registration successful with scope: ', registration.scope);
+        }, (err) => {
+          // registration failed :(
+          console.log('ServiceWorker registration failed: ', err);
+        });
+      });
+    }
+
     // async fetch pagelist
     this.props.fetchPageList();
     // async fetch routed page
@@ -100,6 +113,7 @@ AppRouter.propTypes = {
   isLoading: PropTypes.bool,
   drawerOpen: PropTypes.bool,
   searchOpen: PropTypes.bool,
+  pageList: PropTypes.array,
   fetchPageList: PropTypes.func.isRequired,
   fetchPage: PropTypes.func.isRequired,
   toggleDrawer: PropTypes.func.isRequired,
@@ -112,6 +126,7 @@ AppRouter.defaultProps = {
   isLoading: false,
   drawerOpen: false,
   searchOpen: false,
+  pageList: [],
   activeRoute: null,
   activePage: null,
   activePageTitle: null,
@@ -124,6 +139,7 @@ function mapStateToProps(state) {
     activeRoute: state.activePage.route,
     hasErrored: state.activePage.hasErrored,
     isLoading: state.activePage.isLoading,
+    pageList: state.pageList.entries,
     currQuery: state.pageList.query,
     drawerOpen: state.utils.drawerOpen,
     searchOpen: state.utils.searchOpen,

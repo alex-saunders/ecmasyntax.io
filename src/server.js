@@ -189,10 +189,11 @@ class Server {
       res.sendFile('manifest.json', { root: this.__dirname });
     });
 
-    this.router.get('/', (req, res) => {
-      // redirect to first content page
-      res.redirect(this.pages[0].fields.route);
-    });
+    // this.router.get('/', (req, res) => {
+    //   // redirect to first content page
+    //   this._render(req, res);
+    //   // res.redirect(this.pages[0].fields.route);
+    // });
 
     // this.router.route('/pages/:specId/:catId/:pageId').get((req, res) => {
     //   this._render(req, res);

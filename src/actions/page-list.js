@@ -1,3 +1,14 @@
+const _redirectUser = (response) => {
+  if (window.location.pathname !== '/') {
+    return;
+  }
+  if (response) {
+    window.location.pathname = response[0].fields.route;
+  } else {
+    window.location.pathname = 'about';
+  }
+};
+
 export const search = (query) => {
   return {
     type: 'SEARCH_QUERY',
@@ -57,9 +68,11 @@ export const fetchPageList = () => {
       .then((response) => {
         dispatch(pageListLoading(false));
         dispatch(pageListFetchSuccess(response));
+        _redirectUser(response);
       })
       .catch((err) => {
         dispatch(pageListFetchSuccess(true));
+        _redirectUser();
         throw err;
       });
     }, 0);
