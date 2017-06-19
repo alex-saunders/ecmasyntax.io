@@ -2,8 +2,14 @@
 
 Offline-first PWA for ECMAScript syntax reference
 
-Made using React & React-Redux. Features server side rendering w/ critical path CSS.
+## Features
 
+- React 
+- Redux
+- Server side rendering
+- critical path CSS
+- RESTful API, powered by Express
+ 
 ## Install
 1. `npm i`
 
