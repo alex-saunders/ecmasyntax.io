@@ -1,8 +1,8 @@
 # ecmasytax.io
 
-An offline-first PWA for ECMAScript syntax reference
+Offline-first PWA for ECMAScript syntax reference
 
-Made using React & React-Redux. Features React Server side rendering w/ critical path CSS.
+Made using React & React-Redux. Features server side rendering w/ critical path CSS.
 
 ## Install
 1. `npm i`
