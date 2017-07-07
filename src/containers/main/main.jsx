@@ -82,7 +82,7 @@ class Main extends React.Component {
                     A free, open source project to help web developers
                   </h1>
                   <p>
-                    v1.0.0 | Created by <a href="https://twitter.com/AlexJRsaunders" target="_blank" rel="noopener noreferrer">@alexjrsaunders</a>
+                    v1.1.0 | Created by <a href="https://twitter.com/AlexJRsaunders" target="_blank" rel="noopener noreferrer">@alexjrsaunders</a>
                   </p>
                   <p>
                     Released under the

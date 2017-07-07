@@ -1,4 +1,4 @@
-const VERSION_NO = '1.0.5';
+const VERSION_NO = '1.1.0';
 
 const PRECACHE = 'ecmasyntax-precache';
 const RUNTIME = 'ecmasyntax-runtime';
