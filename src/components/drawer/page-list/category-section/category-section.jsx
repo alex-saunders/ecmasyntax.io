@@ -1,7 +1,7 @@
 import React, { PropTypes } from 'react';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import Ripple from '../../../common/ripple/ripple';
-import Route from '../../../../containers/common/route/route';
+import Link from '../../../../containers/route-handler/link/link';
 
 import s from './category-section.scss';
 
@@ -15,7 +15,7 @@ class CategorySection extends React.Component {
     });
     return entries.map((entry) => {
       return (
-        <Route
+        <Link
           route={entry.fields.route}
           key={entry.sys.id}
         >
@@ -30,7 +30,7 @@ class CategorySection extends React.Component {
             <Ripple />
             {entry.fields.name}
           </div>
-        </Route>
+        </Link>
       );
     });
   }

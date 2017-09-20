@@ -8,6 +8,10 @@ import Panel from '../../common/panel/panel';
 
 class MarkdownContainer extends React.Component {
 
+  componentDidMount() {
+    console.log('hi', this.props)
+  }
+
   mapReferences() {
     const references = this.props.references.map((reference) => {
       let referenceText;

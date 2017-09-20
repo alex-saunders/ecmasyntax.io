@@ -1,5 +1,5 @@
 import React, { PropTypes } from 'react';
-import AppRouter from '../containers/app-router/app-router';
+import AppShell from './containers/app-shell/app-shell';
 
 const ContextType = {
   // Enables critical path CSS rendering
@@ -20,7 +20,7 @@ class App extends React.Component {
 
   render() {
     return (
-      <AppRouter />
+      <AppShell />
     );
   }
 }

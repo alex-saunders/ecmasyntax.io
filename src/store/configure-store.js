@@ -11,12 +11,12 @@ delete window.__PRELOADED_STATE__;
 
 let middleware = [thunk];
 if (process.env.NODE_ENV !== 'production') {
-  const logger = createLogger({
-    collapsed: true,
-    duration: false,
-    diff: true,
-  });
-  middleware = [...middleware, logger];
+  // const logger = createLogger({
+  //   collapsed: true,
+  //   duration: false,
+  //   diff: true,
+  // });
+  // middleware = [...middleware, logger];
 }
 
 export default function configureStore() {

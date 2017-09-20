@@ -3,7 +3,7 @@ import { render } from 'react-dom';
 import { Provider } from 'react-redux';
 
 import configureStore from './store/configure-store';
-import App from './components/app';
+import App from './app';
 
 require('babel-polyfill');
 

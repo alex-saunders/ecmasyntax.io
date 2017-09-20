@@ -8,7 +8,8 @@ import { toggleDrawer, toggleSearch, pushToast, setAutoDownload } from '../../ac
 import { getAutoDownload } from '../../utils/offline-cache';
 
 import WaterfallHeader from '../../components/main/waterfall-header/waterfall-header';
-import SearchResults from '../search-results/search-results';
+import Bundle from '../route-handler/bundle';
+import Route from '../route-handler/route';
 import RouteHandler from '../route-handler/route-handler';
 
 import s from './main.scss';
@@ -44,6 +45,51 @@ class Main extends React.Component {
   }
 
   render() {
+
+    const About = (props) => {
+      return (
+        <Bundle load={() => import(/* webpackChunkName: "about" */ '../../components/views/about-view/about-view')}>
+          {(About) => <About
+                        {...props}
+                        autoDownload={this.props.autoDownload}
+                        setAutoDownload={this.props.setAutoDownload}/>}
+        </Bundle>
+      );
+    }
+    
+    const Article = (props) => (
+      <Bundle load={() => import(/* webpackChunkName: "article" */ '../../components/views/article-view/article-view')}>
+        {(Article) => <Article
+                        {...props} 
+                        search={this.props.search} 
+                        toggleSearch={this.props.toggleSearch}
+                        content={this.props.activePage.fields.blob}
+                        references={this.props.activePage.fields.references}
+                        tags={this.props.activePage.fields.tags}/>}
+      </Bundle>
+    );
+    
+    const Search = (props) => (
+      <Bundle load={() => import(/* webpackChunkName: "search" */ '../search-results/search-results')}>
+        {(Search) => <Search {...props}/>}
+      </Bundle>
+    )
+    
+    const Loading = (props) => (
+      <Bundle load={() => import(/* webpackChunkName: "loading" */ '../../components/views/loading-view/loading-view')}>
+        {(Loading) => <Loading
+                        {...props}
+                        color="#28353e"
+                        size="45px"/>}
+      </Bundle>
+    );
+    
+    const NoPage = (props) => (
+      <Bundle load={() => import(/* webpackChunkName: "404" */ '../../components/views/404-view/404-view')}>
+        {(NoPage) => <NoPage {...props}/>}
+      </Bundle>
+    );
+
     return (
       <main className={s.main} ref={(main) => { this.main = main; }}>
         <WaterfallHeader
@@ -55,26 +101,30 @@ class Main extends React.Component {
         />
         <div className={s['content-wrapper']} onScroll={this.scrollHandler} ref={(div) => { this.contentWrapper = div; }}>
           <div className={s['flex-wrapper']}>
-            <CSSTransitionGroup
-              transitionName={{
-                enter: s.enter,
-                enterActive: s.enterActive,
-                leave: s.leave,
-                leaveActive: s.leaveActive,
-                appear: s.appear,
-                appearActive: s.appearActive,
-              }}
-              component="div"
-              className={s['transition-container']}
-              transitionEnterTimeout={500}
-              transitionLeaveTimeout={300}
-            >
-              { this.props.searchOpen ?
-                <SearchResults />
-                :
-                <RouteHandler key={2} />
-              }
-            </CSSTransitionGroup>
+            
+          <CSSTransitionGroup
+            transitionName={{
+              enter: s.enter,
+              enterActive: s.enterActive,
+              leave: s.leave,
+              leaveActive: s.leaveActive,
+              appear: s.appear,
+              appearActive: s.appearActive,
+            }}
+            component="div"
+            className={s['transition-container']}
+            transitionEnterTimeout={500}
+            transitionLeaveTimeout={300}
+          >
+            <RouteHandler key={2}>
+              <Route exact path="^\/about\/?$" component={About}/>
+              <Route exact path="^\/pages\/(.*)$" component={Article}/>
+              <Route exact path="^\/search\/?$" component={Search}/>
+              <Route exact path="^\/loading\/?$" component={Loading}/>
+              <Route notfound component={NoPage}/>
+            </RouteHandler>
+          </CSSTransitionGroup>
+
             {!this.props.searchOpen ?
               <footer className={s.footer}>
                 <div className={s.section}>

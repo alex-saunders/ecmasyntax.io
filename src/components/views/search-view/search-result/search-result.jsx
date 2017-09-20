@@ -1,6 +1,6 @@
 import React, { PropTypes } from 'react';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
-import Route from '../../../../containers/common/route/route';
+import Link from '../../../../containers/route-handler/link/link';
 import Ripple from '../../../common/ripple/ripple';
 import s from './search-result.scss';
 

@@ -66,7 +66,7 @@ export default function (state = initialState, action) {
     case 'PAGELIST_FETCH_SUCCESS': {
       return Object.assign({}, state,
         {
-          entries: action.payload,
+          entries: Object.values(action.payload)
         },
       );
     }

@@ -28,17 +28,17 @@ class AppRouter extends React.Component {
 
   componentDidMount() {
     // service worker initialisation
-    if ('serviceWorker' in navigator) {
-      window.addEventListener('load', () => {
-        navigator.serviceWorker.register('/sw.js').then((registration) => {
-          // Registration was successful
-          console.log('ServiceWorker registration successful with scope: ', registration.scope);
-        }, (err) => {
-          // registration failed :(
-          console.log('ServiceWorker registration failed: ', err);
-        });
-      });
-    }
+    // if ('serviceWorker' in navigator) {
+    //   window.addEventListener('load', () => {
+    //     navigator.serviceWorker.register('/sw.js').then((registration) => {
+    //       // Registration was successful
+    //       console.log('ServiceWorker registration successful with scope: ', registration.scope);
+    //     }, (err) => {
+    //       // registration failed :(
+    //       console.log('ServiceWorker registration failed: ', err);
+    //     });
+    //   });
+    // }
 
     // async fetch pagelist
     this.props.fetchPageList();
@@ -47,15 +47,6 @@ class AppRouter extends React.Component {
     // check service worker functionality is available
     this.caches = window.caches;
 
-    window.addEventListener('popstate', this.onPopState);
-  }
-
-  componentWillUnmount() {
-    window.removeEventListener('popstate', this.onPopState);
-  }
-
-  onPopState = () => {
-    this.props.fetchPage(location.pathname);
   }
 
   scrolled = (bool) => {

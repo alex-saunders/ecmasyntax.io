@@ -68,7 +68,8 @@ export const fetchPageList = () => {
       .then((response) => {
         dispatch(pageListLoading(false));
         dispatch(pageListFetchSuccess(response));
-        _redirectUser(response);
+        // _redirectUser(response);
+        
       })
       .catch((err) => {
         dispatch(pageListFetchSuccess(true));

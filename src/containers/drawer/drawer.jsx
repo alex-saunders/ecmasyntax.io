@@ -7,7 +7,7 @@ import { INITIATE_DRAGGING_THRESHOLD, DRAWER_CLOSE_THRESHOLD } from '../../utils
 import { toggleDrawer } from '../../actions/utils';
 import { addFilter, removeFilter } from '../../actions/page-list';
 
-import Route from '../common/route/route';
+import Link from '../route-handler/link/link';
 import Ripple from '../../components/common/ripple/ripple';
 import PageList from '../../components/drawer/page-list/page-list';
 
@@ -131,7 +131,7 @@ class Drawer extends React.Component {
       >
         <aside className={s.drawer} ref={(aside) => { this.drawer = aside; }}>
           <div className={s['drawer-homeContainer']}>
-            <Route route={'/about'}>
+            <Link route={'/about'}>
               <div
                 className={`${s['drawer-home']} 
                 ${this.props.activePage && this.props.activePage.fields.route === '/about' ? s.active : ''}`}
@@ -145,7 +145,7 @@ class Drawer extends React.Component {
                 </span>
                 <Ripple />
               </div>
-            </Route>
+            </Link>
           </div>
           {/* <div className={s['articleFilters-wrapper']}>
             <SearchFilters

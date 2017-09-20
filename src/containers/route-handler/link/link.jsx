@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import { fetchPage } from '../../../actions/active-page';
 
-import s from './route.scss';
+import s from './link.scss';
 
 class Route extends React.Component {
 
@@ -11,7 +11,8 @@ class Route extends React.Component {
     e.preventDefault();
     // console.info(`MANUAL SELECT %c${this.props.route}`, 'color: darkblue;');
     window.history.pushState(null, null, (this.props.route));
-    this.props.fetchPage(this.props.route);
+    window.dispatchEvent(new Event('popstate'));
+    // this.props.fetchPage(this.props.route);
   }
 
   render() {

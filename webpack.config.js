@@ -27,7 +27,7 @@ const clientPlugins = [
         JSON.stringify(stats.toJson()));
     });
   },
-  new CleanWebpackPlugin([path.join(__dirname, 'public', 'static', 'output')], {
+  new CleanWebpackPlugin([path.join(__dirname, 'public', 'static', 'js')], {
     watch: true,
   }),
 ];
@@ -36,10 +36,10 @@ const clientConfig = {
   entry: './src/client.jsx',
   devtool: 'cheap-module-source-map',
   output: {
-    path: path.join(__dirname, 'public', 'static', 'output'),
-    publicPath: 'public/static/output',
-    filename: 'app.[hash].js',
-    chunkFilename: '[id].app.[hash].js',
+    path: path.resolve(__dirname, 'public', 'static'),
+    publicPath: '/static/',
+    filename: '[name].bundle.js',
+    chunkFilename: '[name].chunk.js',
   },
   resolve: {
     extensions: ['.js', '.jsx', '.json', '.scss', '.css'],
@@ -53,7 +53,7 @@ const clientConfig = {
           {
             loader: 'babel-loader',
             query: {
-              presets: ['es2015', 'react', 'stage-0'],
+              presets: ['env', 'react', 'stage-0'],
             },
           },
         ],
@@ -153,4 +153,4 @@ const serverConfig = {
 
 process.traceDeprecation = false;
 
-module.exports = [serverConfig, clientConfig];
+module.exports = clientConfig;

@@ -2,10 +2,6 @@ import React /* , { PropTypes } */ from 'react';
 import { connect } from 'react-redux';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 
-import AboutView from '../../components/views/about-view/about-view';
-import ArticleView from '../../components/views/article-view/article-view';
-import LoadingView from '../../components/views/loading-view/loading-view';
-
 import { search } from '../../actions/page-list';
 import { setActivePageTitle } from '../../actions/active-page';
 import { toggleSearch, setAutoDownload } from '../../actions/utils';
@@ -17,93 +13,68 @@ class RouteHandler extends React.Component {
     super(props);
 
     this.state = {
-      content: null,
+      location: '/',
+      validRoutes: [],
+      notFoundRoute: <div>404</div>,
     };
   }
 
   componentDidMount() {
-    this._setActiveContent(this.props);
-  }
-
-  componentWillReceiveProps(nextProps) {
-    this._setActiveContent(nextProps);
-  }
-
-  _setupRoutes = (props) => {
-    return [
-      {
-        route: '^/about/?$',
-        title: 'About',
-        content: (
-          <AboutView
-            autoDownload={props.autoDownload}
-            setAutoDownload={props.setAutoDownload}
-          />
-        ),
-      },
-      {
-        route: '^/pages/(.*)$',
-        title: props.activePage.fields.name,
-        content: (
-          <ArticleView
-            search={props.search}
-            toggleSearch={props.toggleSearch}
-            content={props.activePage.fields.blob}
-            references={props.activePage.fields.references}
-            tags={props.activePage.fields.tags}
-          />
-        ),
-      },
-    ];
-  }
-
-  _setActiveContent(props) {
-    const routes = this._setupRoutes(props);
-
-    let content;
-    if (props.isLoading || (window.location.pathname === '/')) {
-      content = (
-        <LoadingView color="#28353e" size="45px" />
-      );
-    } else {
-      const matchingRoute = routes.find((route) => {
-        return (props.activePage.fields.route.match(new RegExp(route.route)));
-      });
-      if (matchingRoute) {
-        content = (
-          <div key={matchingRoute.route}>
-            { matchingRoute.content }
-          </div>
-        );
-        props.setActivePageTitle(matchingRoute.title);
+    window.addEventListener('popstate', this.onPopState);  
+    
+    let validRoutes = [];
+    React.Children.forEach(this.props.children, (child) => {
+      if (child.props.hasOwnProperty('notfound')) {
+        this.setState({ notFoundRoute: child })
       } else {
-        content = (
-          <div>404</div>
-        );
+        validRoutes.push(child);
       }
-    }
+    });
 
     this.setState({
-      content,
+      validRoutes
+    });
+
+    this.onPopState();
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('popstate', this.onPopState);
+  }
+
+  onPopState = () => {
+    console.log('POP STATE');
+    this.chooseActiveRoute();
+  }
+
+  chooseActiveRoute = () => {  
+    let content;  
+    for (let validRoute of this.state.validRoutes) {
+      const regex = new RegExp(validRoute.props.path)
+      if (regex.test(location.pathname)) {
+        content = validRoute;
+        break;
+      }
+    };
+    content = content || this.state.notFoundRoute;
+    this.setState({
+      content: React.cloneElement(
+        content,
+        { location: location.pathname }
+      )
     });
   }
 
+
   render() {
+
     return (
-      <div className={s['page-view']} ref={(div) => { this.pageContainer = div; }}>
+      <div>
         {this.state.content}
       </div>
     );
   }
 }
-
-// RouteHandler.propTypes = {
-//   search: PropTypes.func.isRequired,
-//   toggleSearch: PropTypes.func.isRequired,
-//   setActivePageTitle: PropTypes.func.isRequired,
-//   isLoading: PropTypes.bool.isRequired,
-//   activePage: PropTypes.object,
-// };
 
 RouteHandler.defaultProps = {
   activePage: null,
