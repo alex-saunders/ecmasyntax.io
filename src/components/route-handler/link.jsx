@@ -1,7 +1,6 @@
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
-import { fetchPage } from '../../../actions/active-page';
 
 import s from './link.scss';
 
@@ -9,11 +8,22 @@ class Route extends React.Component {
 
   clickHandler = (e) => {
     e.preventDefault();
-    // console.info(`MANUAL SELECT %c${this.props.route}`, 'color: darkblue;');
-    window.history.pushState(null, null, (this.props.route));
+    console.log('LINK CLICK HANDLER');
+
+
+    if (this.props.disabled) return;
+
+    if (this.props.route.startsWith('?')) {
+      location.search = this.props.route;
+    } else {
+      window.history.pushState(null, null, (this.props.route));
+    }
+
     window.dispatchEvent(new Event('popstate'));
-    // this.props.fetchPage(this.props.route);
+
+    if (this.props.handleClick) this.props.handleClick(e);
   }
+    
 
   render() {
     return (
@@ -31,12 +41,14 @@ class Route extends React.Component {
 
 Route.propTypes = {
   route: PropTypes.string.isRequired,
+  disabled: PropTypes.bool,
   children: PropTypes.element,
-  fetchPage: PropTypes.func.isRequired,
+  handleClick: PropTypes.func
 };
 
 Route.defaultProps = {
   children: null,
+  disabled: false,
 };
 
 function mapStateToProps() {
@@ -44,11 +56,4 @@ function mapStateToProps() {
   };
 }
 
-function matchDispatchToProps(dispatch) {
-  return {
-    fetchPage: (url) => { dispatch(fetchPage(url)); },
-  };
-}
-
-
-export default withStyles(s)(connect(mapStateToProps, matchDispatchToProps)(Route));
+export default withStyles(s)(connect(mapStateToProps)(Route));

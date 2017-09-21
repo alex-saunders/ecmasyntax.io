@@ -1,8 +1,10 @@
 const initialState = {
   drawerOpen: false,
   searchOpen: false,
+  waterfallHeaderOpen: false,
   toasts: [],
   autoDownload: null,
+  progress: 0,
 };
 
 export default function (state = initialState, action) {
@@ -18,6 +20,15 @@ export default function (state = initialState, action) {
       return Object.assign({}, state,
         {
           searchOpen: action.payload,
+        },
+      );
+    }
+    case 'TOGGLE_WATERFALL_HEADER': {
+      if (action.payload && navigator.serviceWorker) action.payload = true;  
+      
+      return Object.assign({}, state,
+        {
+          waterfallHeaderOpen: action.payload,
         },
       );
     }
@@ -43,6 +54,13 @@ export default function (state = initialState, action) {
           autoDownload: action.payload,
         },
       );
+    }
+    case 'PROGRESS_UPDATE': {
+      return Object.assign({}, state, 
+        {
+          progress: action.payload,
+        }
+      )
     }
     default: {
       return state;

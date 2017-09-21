@@ -1,6 +1,6 @@
 webpackJsonp([2],{
 
-/***/ 738:
+/***/ 739:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -12,19 +12,25 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _react = __webpack_require__(6);
+var _react = __webpack_require__(5);
 
 var _react2 = _interopRequireDefault(_react);
+
+var _reactRedux = __webpack_require__(26);
 
 var _withStyles = __webpack_require__(18);
 
 var _withStyles2 = _interopRequireDefault(_withStyles);
 
-var _mdcSwitch = __webpack_require__(285);
+var _mdcSwitch = __webpack_require__(286);
 
 var _mdcSwitch2 = _interopRequireDefault(_mdcSwitch);
 
-var _aboutView = __webpack_require__(753);
+var _activePage = __webpack_require__(285);
+
+var _utils = __webpack_require__(52);
+
+var _aboutView = __webpack_require__(754);
 
 var _aboutView2 = _interopRequireDefault(_aboutView);
 
@@ -56,6 +62,14 @@ var AboutView = function (_React$Component) {
   }
 
   _createClass(AboutView, [{
+    key: 'componentDidMount',
+    value: function componentDidMount() {
+      this.props.setActivePageTitle('About');
+      this.props.setActiveRoute('/about');
+      this.props.toggleWaterfallHeader(false);
+      this.props.progressUpdate(100);
+    }
+  }, {
     key: 'render',
     value: function render() {
       return _react2.default.createElement(
@@ -204,11 +218,32 @@ AboutView.defaultProps = {
   autoDownload: null
 };
 
-exports.default = (0, _withStyles2.default)(_aboutView2.default, _mdcSwitch2.default)(AboutView);
+function mapStateToProps(state) {
+  return {};
+}
+
+function matchDispatchToProps(dispatch) {
+  return {
+    setActivePageTitle: function setActivePageTitle(title) {
+      dispatch((0, _activePage.setActivePageTitle)(title));
+    },
+    setActiveRoute: function setActiveRoute(route) {
+      dispatch((0, _activePage.setActiveRoute)(route));
+    },
+    progressUpdate: function progressUpdate(percentage) {
+      dispatch((0, _utils.progressUpdate)(percentage));
+    },
+    toggleWaterfallHeader: function toggleWaterfallHeader(visible) {
+      dispatch((0, _utils.toggleWaterfallHeader)(visible));
+    }
+  };
+}
+
+exports.default = (0, _withStyles2.default)(_aboutView2.default, _mdcSwitch2.default)((0, _reactRedux.connect)(mapStateToProps, matchDispatchToProps)(AboutView));
 
 /***/ }),
 
-/***/ 746:
+/***/ 747:
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(15)();
@@ -216,7 +251,7 @@ exports = module.exports = __webpack_require__(15)();
 exports.push([module.i, "@import url(https://fonts.googleapis.com/css?family=Roboto+Mono);", ""]);
 
 // module
-exports.push([module.i, ":root {\n  --mdc-theme-primary: #00b4a2; }\n\n@-webkit-keyframes about-view_fadeIn_1Uk {\n  from {\n    opacity: 0; }\n  to {\n    opacity: 1; } }\n\n@keyframes about-view_fadeIn_1Uk {\n  from {\n    opacity: 0; }\n  to {\n    opacity: 1; } }\n\n:root {\n  --mdc-theme-primary: #00b4a2; }\n\n@keyframes about-view_fadeIn_1Uk {\n  from {\n    opacity: 0; }\n  to {\n    opacity: 1; } }\n\n.about-view_footer-container_gHc {\n  margin-top: 24px;\n  border-top: 1px solid #eaecef; }\n\n.about-view_references-container_3t2 li {\n  font-size: 16px; }\n\n.about-view_markdown-wrapper_2bk {\n  color: #212121;\n  line-height: 1.5;\n  -webkit-animation: about-view_fadeIn_1Uk 0.6s 1;\n          animation: about-view_fadeIn_1Uk 0.6s 1; }\n  .about-view_markdown-wrapper_2bk h1,\n  .about-view_markdown-wrapper_2bk h2 {\n    font-weight: 300; }\n  .about-view_markdown-wrapper_2bk h3 {\n    font-weight: 400; }\n  .about-view_markdown-wrapper_2bk strong {\n    color: #333;\n    font-weight: 500; }\n  .about-view_markdown-wrapper_2bk h1 {\n    padding-bottom: 0.3em;\n    font-size: 2em; }\n  .about-view_markdown-wrapper_2bk h2 {\n    font-size: 1.5em;\n    margin: 20px 0 20px;\n    border-bottom: 1px solid #eaecef; }\n  .about-view_markdown-wrapper_2bk h3 {\n    margin: 32px 0 16px; }\n  .about-view_markdown-wrapper_2bk p {\n    color: #373737; }\n  .about-view_markdown-wrapper_2bk pre {\n    background-color: #f6f8fa;\n    padding: 8px 8px 8px 16px;\n    border-left: 4px solid #00b4a2;\n    border-radius: 0px 3px 3px 0px;\n    white-space: pre-wrap; }\n    .about-view_markdown-wrapper_2bk pre code {\n      font-family: 'Roboto Mono', monospace;\n      font-size: 14px;\n      -moz-tab-size: 2;\n        -o-tab-size: 2;\n           tab-size: 2; }\n  .about-view_markdown-wrapper_2bk table {\n    border-spacing: 0;\n    border-collapse: collapse; }\n    .about-view_markdown-wrapper_2bk table tr {\n      background-color: #fff; }\n      .about-view_markdown-wrapper_2bk table tr th, .about-view_markdown-wrapper_2bk table tr td {\n        padding: 8px 16px;\n        border: 1px solid #dfe2e5; }\n      .about-view_markdown-wrapper_2bk table tr th {\n        font-weight: 500; }\n  .about-view_markdown-wrapper_2bk hr {\n    border-width: 3px;\n    border-bottom: none;\n    border-right: none;\n    border-left: none;\n    border-color: rgba(0, 0, 0, 0.1); }\n  .about-view_markdown-wrapper_2bk a {\n    text-decoration: none;\n    color: #007468; }\n  .about-view_markdown-wrapper_2bk img {\n    max-width: 100%; }\n\n.about-view_about-container_2Pn {\n  -webkit-animation: about-view_fadeIn_1Uk .6s 1;\n          animation: about-view_fadeIn_1Uk .6s 1; }\n  .about-view_about-container_2Pn .about-view_share_2W0 {\n    display: inline-block;\n    height: 28px;\n    width: 28px; }\n    .about-view_about-container_2Pn .about-view_share_2W0 i {\n      position: relative;\n      width: 100%;\n      height: 100%;\n      font-size: 28px; }\n    .about-view_about-container_2Pn .about-view_share_2W0 .about-view_facebook_3YI {\n      color: #3B5998; }\n    .about-view_about-container_2Pn .about-view_share_2W0 .about-view_twitter_14x {\n      color: #4099FF; }\n\n.about-view_settings__9O .about-view_settings-row_3y6 {\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-orient: horizontal;\n  -webkit-box-direction: normal;\n      -ms-flex-direction: row;\n          flex-direction: row;\n  -webkit-box-pack: justify;\n      -ms-flex-pack: justify;\n          justify-content: space-between; }\n  .about-view_settings__9O .about-view_settings-row_3y6 .about-view_row-descriptor_1pJ {\n    padding: 0; }\n    .about-view_settings__9O .about-view_settings-row_3y6 .about-view_row-descriptor_1pJ .about-view_descriptor-title_34s {\n      padding: 0;\n      margin: 0;\n      font-size: 16px; }\n    .about-view_settings__9O .about-view_settings-row_3y6 .about-view_row-descriptor_1pJ .about-view_descriptor-detail_1B0 {\n      padding: 0;\n      margin: 0;\n      font-size: 14px;\n      color: grey; }\n  .about-view_settings__9O .about-view_settings-row_3y6 .about-view_row-action_nmd {\n    margin-left: 8px; }\n\n.about-view_settings__9O .about-view_row-label_Non {\n  cursor: pointer; }\n\n.about-view_switch-button_1Zn {\n  background: none;\n  border: none; }\n", ""]);
+exports.push([module.i, ":root {\n  --mdc-theme-primary: #00b4a2; }\n\n@-webkit-keyframes about-view_fadeIn_1Uk {\n  from {\n    opacity: 0; }\n  to {\n    opacity: 1; } }\n\n@keyframes about-view_fadeIn_1Uk {\n  from {\n    opacity: 0; }\n  to {\n    opacity: 1; } }\n\n:root {\n  --mdc-theme-primary: #00b4a2; }\n\n@keyframes about-view_fadeIn_1Uk {\n  from {\n    opacity: 0; }\n  to {\n    opacity: 1; } }\n\n.about-view_footer-container_gHc {\n  margin-top: 24px;\n  border-top: 1px solid #eaecef; }\n\n.about-view_references-container_3t2 li {\n  font-size: 16px; }\n\n.about-view_markdown-wrapper_2bk {\n  color: #212121;\n  line-height: 1.5;\n  -webkit-animation: about-view_fadeIn_1Uk 0.6s 1;\n          animation: about-view_fadeIn_1Uk 0.6s 1;\n  padding: 16px 32px 16px 32px; }\n  @media (max-width: 500px) {\n    .about-view_markdown-wrapper_2bk {\n      padding: 16px; } }\n  .about-view_markdown-wrapper_2bk h1,\n  .about-view_markdown-wrapper_2bk h2 {\n    font-weight: 300; }\n  .about-view_markdown-wrapper_2bk h3 {\n    font-weight: 400; }\n  .about-view_markdown-wrapper_2bk strong {\n    color: #333;\n    font-weight: 500; }\n  .about-view_markdown-wrapper_2bk h1 {\n    padding-bottom: 0.3em;\n    font-size: 2em; }\n  .about-view_markdown-wrapper_2bk h2 {\n    font-size: 1.5em;\n    margin: 20px 0 20px;\n    border-bottom: 1px solid #eaecef; }\n  .about-view_markdown-wrapper_2bk h3 {\n    margin: 32px 0 16px; }\n  .about-view_markdown-wrapper_2bk p {\n    color: #373737; }\n  .about-view_markdown-wrapper_2bk pre {\n    background-color: #f6f8fa;\n    padding: 8px 8px 8px 16px;\n    border-left: 4px solid #00b4a2;\n    border-radius: 0px 3px 3px 0px;\n    white-space: pre-wrap; }\n    .about-view_markdown-wrapper_2bk pre code {\n      font-family: 'Roboto Mono', monospace;\n      font-size: 14px;\n      -moz-tab-size: 2;\n        -o-tab-size: 2;\n           tab-size: 2; }\n  .about-view_markdown-wrapper_2bk table {\n    border-spacing: 0;\n    border-collapse: collapse; }\n    .about-view_markdown-wrapper_2bk table tr {\n      background-color: #fff; }\n      .about-view_markdown-wrapper_2bk table tr th, .about-view_markdown-wrapper_2bk table tr td {\n        padding: 8px 16px;\n        border: 1px solid #dfe2e5; }\n      .about-view_markdown-wrapper_2bk table tr th {\n        font-weight: 500; }\n  .about-view_markdown-wrapper_2bk hr {\n    border-width: 3px;\n    border-bottom: none;\n    border-right: none;\n    border-left: none;\n    border-color: rgba(0, 0, 0, 0.1); }\n  .about-view_markdown-wrapper_2bk a {\n    text-decoration: none;\n    color: #007468; }\n  .about-view_markdown-wrapper_2bk img {\n    max-width: 100%; }\n\n.about-view_about-container_2Pn {\n  -webkit-animation: about-view_fadeIn_1Uk .6s 1;\n          animation: about-view_fadeIn_1Uk .6s 1; }\n  .about-view_about-container_2Pn .about-view_share_2W0 {\n    display: inline-block;\n    height: 28px;\n    width: 28px; }\n    .about-view_about-container_2Pn .about-view_share_2W0 i {\n      position: relative;\n      width: 100%;\n      height: 100%;\n      font-size: 28px; }\n    .about-view_about-container_2Pn .about-view_share_2W0 .about-view_facebook_3YI {\n      color: #3B5998; }\n    .about-view_about-container_2Pn .about-view_share_2W0 .about-view_twitter_14x {\n      color: #4099FF; }\n\n.about-view_settings__9O .about-view_settings-row_3y6 {\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-orient: horizontal;\n  -webkit-box-direction: normal;\n      -ms-flex-direction: row;\n          flex-direction: row;\n  -webkit-box-pack: justify;\n      -ms-flex-pack: justify;\n          justify-content: space-between; }\n  .about-view_settings__9O .about-view_settings-row_3y6 .about-view_row-descriptor_1pJ {\n    padding: 0; }\n    .about-view_settings__9O .about-view_settings-row_3y6 .about-view_row-descriptor_1pJ .about-view_descriptor-title_34s {\n      padding: 0;\n      margin: 0;\n      font-size: 16px; }\n    .about-view_settings__9O .about-view_settings-row_3y6 .about-view_row-descriptor_1pJ .about-view_descriptor-detail_1B0 {\n      padding: 0;\n      margin: 0;\n      font-size: 14px;\n      color: grey; }\n  .about-view_settings__9O .about-view_settings-row_3y6 .about-view_row-action_nmd {\n    margin-left: 8px; }\n\n.about-view_settings__9O .about-view_row-label_Non {\n  cursor: pointer; }\n\n.about-view_switch-button_1Zn {\n  background: none;\n  border: none; }\n", ""]);
 
 // exports
 exports.locals = {
@@ -240,11 +275,11 @@ exports.locals = {
 
 /***/ }),
 
-/***/ 753:
+/***/ 754:
 /***/ (function(module, exports, __webpack_require__) {
 
 
-    var content = __webpack_require__(746);
+    var content = __webpack_require__(747);
     var insertCss = __webpack_require__(16);
 
     if (typeof content === 'string') {

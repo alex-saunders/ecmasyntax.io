@@ -1,6 +1,9 @@
 import React, { PropTypes } from 'react';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
-import Ripple from '../../../common/ripple/ripple';
+import Ripple from '../../common/ripple/ripple';
+
+import RouteHandler from '../../route-handler/route-handler';
+
 import s from './header-icon.scss';
 
 class HeaderIcon extends React.Component {
@@ -10,8 +13,8 @@ class HeaderIcon extends React.Component {
   };
 
   closeSearch = () => {
-    this.props.search('');
-    this.props.toggleSearch(false);
+    // this.props.search('');
+    RouteHandler.UpdateRoute(location.pathname);
   }
 
   render() {
@@ -43,8 +46,6 @@ HeaderIcon.propTypes = {
   drawerOpen: PropTypes.bool.isRequired,
   searchOpen: PropTypes.bool.isRequired,
   toggleDrawer: PropTypes.func.isRequired,
-  toggleSearch: PropTypes.func.isRequired,
-  search: PropTypes.func.isRequired,
 };
 
 export default withStyles(s)(HeaderIcon);

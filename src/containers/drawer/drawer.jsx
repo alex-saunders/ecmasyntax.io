@@ -7,7 +7,7 @@ import { INITIATE_DRAGGING_THRESHOLD, DRAWER_CLOSE_THRESHOLD } from '../../utils
 import { toggleDrawer } from '../../actions/utils';
 import { addFilter, removeFilter } from '../../actions/page-list';
 
-import Link from '../route-handler/link/link';
+import Link from '../../components/route-handler/link/link';
 import Ripple from '../../components/common/ripple/ripple';
 import PageList from '../../components/drawer/page-list/page-list';
 
@@ -134,7 +134,7 @@ class Drawer extends React.Component {
             <Link route={'/about'}>
               <div
                 className={`${s['drawer-home']} 
-                ${this.props.activePage && this.props.activePage.fields.route === '/about' ? s.active : ''}`}
+                ${this.props.activeRoute === '/about' ? s.active : ''}`}
               >
                 <svg height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
                   <path d="M0 0h24v24H0z" fill="none" />
@@ -147,15 +147,6 @@ class Drawer extends React.Component {
               </div>
             </Link>
           </div>
-          {/* <div className={s['articleFilters-wrapper']}>
-            <SearchFilters
-              entries={this.props.entries}
-              activePages={this.props.activePages}
-              currFilters={this.props.currFilters}
-              addFilter={this.props.addFilter}
-              removeFilter={this.props.removeFilter}
-            />
-          </div> */}
           <div className={s['pageList-wrapper']}>
             <PageList
               hasErrored={this.props.hasErrored}

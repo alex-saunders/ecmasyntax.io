@@ -1,17 +1,5 @@
 @import '../../scss/theme';
 
-.page-view {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  padding: 16px 32px 16px 32px;
-  overflow-x: hidden;
-
-  @media (max-width: $screen-sm-max) { 
-    padding: 16px;
-  }
-}
-
 .transition-container {
   flex: 1;
   display: flex;

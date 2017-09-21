@@ -4,13 +4,13 @@ import { connect } from 'react-redux';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 
 import { search } from '../../actions/page-list';
-import { toggleDrawer, toggleSearch, pushToast, setAutoDownload } from '../../actions/utils';
+import { toggleSearch, pushToast, setAutoDownload, progressUpdate, toggleWaterfallHeader } from '../../actions/utils';
 import { getAutoDownload } from '../../utils/offline-cache';
 
-import WaterfallHeader from '../../components/main/waterfall-header/waterfall-header';
-import Bundle from '../route-handler/bundle';
-import Route from '../route-handler/route';
-import RouteHandler from '../route-handler/route-handler';
+import WaterfallHeader from '../waterfall-header/waterfall-header';
+import Bundle from '../../components/route-handler/bundle';
+import Route from '../../components/route-handler/route';
+import RouteHandler from '../../components/route-handler/route-handler';
 
 import s from './main.scss';
 
@@ -19,7 +19,7 @@ class Main extends React.Component {
     super(props);
 
     this.state = {
-      scrolled: false,
+      scrollDistance: 0,
     };
   }
 
@@ -30,25 +30,28 @@ class Main extends React.Component {
   }
 
   scrollHandler = () => {
-    if (this.contentWrapper.scrollTop > 0 && !this.state.scrolled) {
-      this.props.scrolled(true);
-      this.setState({
-        scrolled: true,
-      });
-    }
-    if (this.contentWrapper.scrollTop < 1 && this.state.scrolled) {
-      this.props.scrolled(false);
-      this.setState({
-        scrolled: false,
-      });
+    if (this.props.activePageType === 'article' && !this.props.searchOpen && this.main) {
+      if (this.main.scrollTop > 0 && this.props.waterfallHeaderOpen) {
+        this.props.toggleWaterfallHeader(false);
+      }
+      if (this.main.scrollTop < 1 && !this.props.waterfallHeaderOpen) {
+        this.props.toggleWaterfallHeader(true);
+      }
     }
   }
 
   render() {
+    // const showWaterfallHeader =
+    //   this.caches
+    //   && this.props.activePage
+    //   && new RegExp(/^\/pages\//).test(this.props.activePage.fields.route)
+    //   && !this.props.searchOpen
+    //   && !this.state.scrolled;
+    //   // && !this.props.isLoading;
 
     const About = (props) => {
       return (
-        <Bundle load={() => import(/* webpackChunkName: "about" */ '../../components/views/about-view/about-view')}>
+        <Bundle scrollDistance={this.state.scrollDistance} load={() => import(/* webpackChunkName: "about" */ '../../components/views/about-view/about-view')}>
           {(About) => <About
                         {...props}
                         autoDownload={this.props.autoDownload}
@@ -60,17 +63,13 @@ class Main extends React.Component {
     const Article = (props) => (
       <Bundle load={() => import(/* webpackChunkName: "article" */ '../../components/views/article-view/article-view')}>
         {(Article) => <Article
-                        {...props} 
-                        search={this.props.search} 
-                        toggleSearch={this.props.toggleSearch}
-                        content={this.props.activePage.fields.blob}
-                        references={this.props.activePage.fields.references}
-                        tags={this.props.activePage.fields.tags}/>}
+                        {...props}
+                        triggerScrollHandler={this.scrollHandler}/>}
       </Bundle>
     );
     
     const Search = (props) => (
-      <Bundle load={() => import(/* webpackChunkName: "search" */ '../search-results/search-results')}>
+      <Bundle load={() => import(/* webpackChunkName: "search" */ '../../components/views/search-view/search-view')}>
         {(Search) => <Search {...props}/>}
       </Bundle>
     )
@@ -90,43 +89,23 @@ class Main extends React.Component {
       </Bundle>
     );
 
+
     return (
-      <main className={s.main} ref={(main) => { this.main = main; }}>
-        <WaterfallHeader
-          visible={this.props.showWaterfallHeader}
-          activeRoute={this.props.activeRoute}
-          pushToast={this.props.pushToast}
-          autoDownload={this.props.autoDownload}
-          setAutoDownload={this.props.setAutoDownload}
-        />
-        <div className={s['content-wrapper']} onScroll={this.scrollHandler} ref={(div) => { this.contentWrapper = div; }}>
-          <div className={s['flex-wrapper']}>
-            
-          <CSSTransitionGroup
-            transitionName={{
-              enter: s.enter,
-              enterActive: s.enterActive,
-              leave: s.leave,
-              leaveActive: s.leaveActive,
-              appear: s.appear,
-              appearActive: s.appearActive,
-            }}
-            component="div"
-            className={s['transition-container']}
-            transitionEnterTimeout={500}
-            transitionLeaveTimeout={300}
-          >
-            <RouteHandler key={2}>
+      <main className={s.main} ref={(main) => { this.main = main; }} onScroll={this.scrollHandler}>
+        <WaterfallHeader />
+        {/* <div className={s['content-wrapper']}  ref={(div) => { this.contentWrapper = div; }}> */}
+          <div className={`${s['page-view']} ${this.props.isLoading ? s['loading-view'] : ''}`}>
+            <RouteHandler key={2} progressUpdate={this.props.progressUpdate}>
               <Route exact path="^\/about\/?$" component={About}/>
               <Route exact path="^\/pages\/(.*)$" component={Article}/>
-              <Route exact path="^\/search\/?$" component={Search}/>
+              <Route exact query path="^(.*)\?search=?(.*)$" component={Search}/>
               <Route exact path="^\/loading\/?$" component={Loading}/>
               <Route notfound component={NoPage}/>
             </RouteHandler>
-          </CSSTransitionGroup>
+          </div>
 
             {!this.props.searchOpen ?
-              <footer className={s.footer}>
+              <footer className={`${s.footer} ${this.props.isLoading ? s.hidden : ''}`}>
                 <div className={s.section}>
                   <h1>
                     A free, open source project to help web developers
@@ -158,8 +137,7 @@ class Main extends React.Component {
             :
               ''
             }
-          </div>
-        </div>
+        {/* </div> */}
       </main>
     );
   }
@@ -171,7 +149,6 @@ Main.propTypes = {
   searchOpen: PropTypes.bool.isRequired,
   hasErrored: PropTypes.bool,
   isLoading: PropTypes.bool,
-  showWaterfallHeader: PropTypes.bool.isRequired,
   scrolled: PropTypes.func.isRequired,
   search: PropTypes.func.isRequired,
   toggleSearch: PropTypes.func.isRequired,
@@ -192,10 +169,12 @@ function mapStateToProps(state) {
   return {
     activeRoute: state.activePage.route,
     activePage: state.activePage.page,
+    activePageType: state.activePage.type,
     hasErrored: state.activePage.hasErrored,
     isLoading: state.activePage.isLoading,
     drawerOpen: state.utils.drawerOpen,
     searchOpen: state.utils.searchOpen,
+    waterfallHeaderOpen: state.utils.waterfallHeaderOpen,
     autoDownload: state.utils.autoDownload,
     currQuery: state.pageList.query,
   };
@@ -206,6 +185,8 @@ function matchDispatchToProps(dispatch) {
     toggleDrawer: (open) => { dispatch(toggleDrawer(open)); },
     search: (query) => { dispatch(search(query)); },
     toggleSearch: (open) => { dispatch(toggleSearch(open)); },
+    toggleWaterfallHeader: (visible) => { dispatch(toggleWaterfallHeader(visible)); },
+    progressUpdate: (percentage) => { dispatch(progressUpdate(percentage)); },
     pushToast: (message, action, timeout, callback) => { dispatch(pushToast(message, action, timeout, callback)); },
     setAutoDownload: (bool) => { dispatch(setAutoDownload(bool)); },
   };

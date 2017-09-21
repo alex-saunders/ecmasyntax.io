@@ -1,6 +1,6 @@
 import React, { PropTypes } from 'react';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
-import Link from '../../../../containers/route-handler/link/link';
+import Link from '../../../route-handler/link/link';
 import Ripple from '../../../common/ripple/ripple';
 import s from './search-result.scss';
 
@@ -17,16 +17,18 @@ class SearchResult extends React.Component {
     const formattedSpec = specification.fields.name.replace(reg, (str) => { return `<b>${str}</b>`; });
 
     return (
-      <Route route={this.props.page.fields.route}>
-        <div className={s.result}>
-          <p className={s['result-title']} dangerouslySetInnerHTML={{ __html: formattedName }} />
-          <p className={s['result-url']}>{ page.fields.route }</p>
-          <p className={s['result-route']} dangerouslySetInnerHTML={{ __html: `${formattedSpec} > ${formattedCat} > ${formattedName}` }} />
-          <div className={s.ripple}>
-            <Ripple />
+      <div className={s['result-container']}>
+        <Link route={this.props.page.fields.route}>
+          <div className={s.result}>
+            <p className={s['result-title']} dangerouslySetInnerHTML={{ __html: formattedName }} />
+            <p className={s['result-url']}>{ page.fields.route }</p>
+            <p className={s['result-route']} dangerouslySetInnerHTML={{ __html: `${formattedSpec} > ${formattedCat} > ${formattedName}` }} />
+            <div className={s.ripple}>
+              <Ripple />
+            </div>
           </div>
-        </div>
-      </Route>
+        </Link>
+      </div>
     );
   }
 }

@@ -1,9 +1,21 @@
 import React, { PropTypes } from 'react';
+import { connect } from 'react-redux';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import switchStyles from '@material/switch/dist/mdc.switch.css';
+
+import { setActivePageTitle, setActiveRoute } from '../../../actions/active-page';
+import { progressUpdate, toggleWaterfallHeader } from '../../../actions/utils';
+
 import s from './about-view.scss';
 
 class AboutView extends React.Component {
+
+  componentDidMount() {
+    this.props.setActivePageTitle('About');
+    this.props.setActiveRoute('/about');
+    this.props.toggleWaterfallHeader(false);
+    this.props.progressUpdate(100);
+  }
 
   _setAutoDownload = () => {
     this.props.setAutoDownload(!this.props.autoDownload);
@@ -95,4 +107,17 @@ AboutView.defaultProps = {
   autoDownload: null,
 };
 
-export default withStyles(s, switchStyles)(AboutView);
+function mapStateToProps(state) {
+  return {};
+}
+
+function matchDispatchToProps(dispatch) {
+  return {
+    setActivePageTitle: (title) => { dispatch(setActivePageTitle(title)); },
+    setActiveRoute: (route) => { dispatch(setActiveRoute(route)); },
+    progressUpdate: (percentage) => { dispatch(progressUpdate(percentage)); },
+    toggleWaterfallHeader: (visible) => { dispatch(toggleWaterfallHeader(visible)); },
+  };
+}
+
+export default withStyles(s, switchStyles)(connect(mapStateToProps, matchDispatchToProps)(AboutView));

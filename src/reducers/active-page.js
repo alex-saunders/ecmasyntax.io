@@ -2,6 +2,7 @@ const initialState = {
   page: null,
   route: null,
   title: null,
+  type: null,
   isLoading: false,
   hasErrored: false,
 };
@@ -40,6 +41,13 @@ export default function (state = initialState, action) {
       return Object.assign({}, state,
         {
           title: action.payload,
+        },
+      );
+    }
+    case 'ACTIVE_PAGE_TYPE': {
+      return Object.assign({}, state,
+        {
+          type: action.payload,
         },
       );
     }

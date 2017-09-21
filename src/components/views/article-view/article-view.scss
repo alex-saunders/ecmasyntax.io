@@ -12,11 +12,16 @@
   }
 }
 
-
 .markdown-wrapper {
   color: #212121;
   line-height: 1.5;
   animation: fadeIn 0.6s 1;
+
+  padding: 16px 32px 16px 32px;
+  
+  @media (max-width: $screen-sm-max) { 
+    padding: 16px;
+  }
 
   h1, 
   h2, {

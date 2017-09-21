@@ -15,6 +15,20 @@ export const toggleSearch = (bool) => {
   };
 };
 
+export const toggleWaterfallHeader = (bool) => {
+  return {
+    type: 'TOGGLE_WATERFALL_HEADER',
+    payload: bool,
+  };
+};
+
+export const progressUpdate = (percentage) => {
+  return {
+    type: 'PROGRESS_UPDATE',
+    payload: percentage,
+  };
+};
+
 export const pushToast = (messageText, actionText, timeout, callback) => {
   return {
     type: 'PUSH_TOAST',

@@ -6,8 +6,8 @@
   display: flex;
   flex-direction: column;
   min-height: 100%;
+  overflow: auto;
   background-color: $body-bg;
-  overflow-x: hidden;
   -webkit-overflow-scrolling: touch;
 }
 .progressBar {
@@ -23,21 +23,26 @@
   transition: width 0.2s $anim-easing;
 }
 .content-wrapper {
+  // display: flex;
+  // flex-direction: column;
+  // justify-content: space-between;
   flex: 1;
   position: relative;
   z-index: 9;
   overflow-x: hidden;
   overflow-y: scroll;
   -webkit-overflow-scrolling: touch;
+}
+.page-view {
+  flex: 1;
 
-  display: inline-block;
+  &.loading-view {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
 }
-.flex-wrapper {
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  min-height: 100%;
-}
+
 .footer {
   position: relative;
   z-index: 10;
@@ -46,6 +51,12 @@
   background: $drawer-bg;
   color: $primary-1-text;
   box-shadow: 0 0 0.5rem rgba(0,0,0,0.2);
+
+  &.hidden {
+    @media (max-width: $screen-sm-max) {
+      display: none;
+    }
+  }
 
   .section {
     display: inline-block;

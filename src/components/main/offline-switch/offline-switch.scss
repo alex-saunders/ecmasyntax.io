@@ -1,4 +1,4 @@
-@import '../../../../scss/theme';
+@import '../../../scss/theme';
 
 .switch-container {
   display: inline-block;
@@ -15,12 +15,16 @@
 }
 
 .switch-label {
+  cursor: pointer;    
   color: $drawer-subheading;
   font-size: 14px;
   font-weight: 500;
   text-transform: uppercase;
-  margin-right: 16px;
   transition: color .2s $anim-easing;
+
+  > span {
+    margin-right: 16px;
+  }
 }
 
 .switch-container.active {

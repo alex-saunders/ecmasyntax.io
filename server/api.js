@@ -1,5 +1,6 @@
 const express = require('express');
 const contentful = require('contentful');
+const marked = require('marked');
 
 const contentfulClient = contentful.createClient({
   space: 'ygp49j9ncoqn',
@@ -52,10 +53,15 @@ async function fetchPage (req) {
   })
 
   const entry = entries.items[0];
+  entry.fields.blob = marked(entry.fields.blob)
   return entry;
 }
 
 const apiRouter = express.Router();
+
+apiRouter.get('/', (req, res) => {
+  res.send('ecmasyntax.io API');
+})
 
 apiRouter.get('/pages', async (req, res) => {
   const pages = await loadArticles();

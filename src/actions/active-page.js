@@ -1,4 +1,4 @@
-import { toggleDrawer, toggleSearch } from './utils';
+import { toggleDrawer, toggleSearch, progressUpdate } from './utils';
 import { search } from './page-list';
 
 export const pageFetchError = (bool) => {
@@ -29,6 +29,13 @@ export const setActivePage = (page) => {
   };
 };
 
+export const setActivePageType = (type) => {
+  return {
+    type: 'ACTIVE_PAGE_TYPE',
+    payload: type,
+  }
+}
+
 export const setActivePageTitle = (title) => {
   document.title = `ECMASyntax - ${title}`;
   return {
@@ -47,32 +54,40 @@ export const pageFetchSuccess = (page) => {
 export const fetchPage = (route) => {
   return (dispatch) => {
     dispatch(setActiveRoute(route));
+    dispatch(progressUpdate(0));
     dispatch(pageIsLoading(true));
     dispatch(pageFetchError(false));
 
     dispatch(toggleDrawer(false));
-    dispatch(toggleSearch(false));
-    dispatch(search(''));
 
     switch (true) {
       case /^\/pages\/(.*)$/.test(route):
         setTimeout(() => {
+          dispatch(progressUpdate(50));          
           fetch(`/api${route}`)
           .then((response) => {
             if (!response.ok) {
               throw Error(response.statusText);
+              dispatch(progressUpdate(0));              
             }
             return response;
           })
-          .then((response) => { return response.json(); })
+          .then((response) => { 
+            dispatch(progressUpdate(75));
+            return response.json(); 
+          })
           .then((response) => {
+            dispatch(progressUpdate(100));
+            dispatch(setActivePageType('article'));
             dispatch(pageFetchSuccess(response));
+            dispatch(setActivePageTitle(response.fields.name));
           })
           .catch((err) => {
+            dispatch(progressUpdate(0));
             dispatch(pageFetchError(true));
             throw err;
           });
-        }, 400);
+        }, 0);
         break;
       default:
         dispatch(pageIsLoading(false));

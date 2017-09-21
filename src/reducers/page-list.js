@@ -71,6 +71,7 @@ export default function (state = initialState, action) {
       );
     }
     case 'SEARCH_QUERY': {
+      // while (state.entries.length < 1) { }
       const activePages = filterPages(state.filters, state.entries);
       return Object.assign({}, state,
         {

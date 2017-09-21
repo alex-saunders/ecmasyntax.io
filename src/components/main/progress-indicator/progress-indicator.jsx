@@ -7,76 +7,15 @@ class ProgressIndicator extends React.Component {
     super(props);
 
     this.state = {
-      width: '100%',
+      width: '0%',
       opacity: 1,
-      animatable: false,
+      animatable: true,
     };
-  }
-
-  componentWillReceiveProps(nextProps) {
-    if ((!nextProps.isLoading)
-    && (!nextProps.hasErrored)) {
-      // this.progressIndicator.addEventListener('transitionend', this._fadeout);
-      this.setState({
-        width: '100%',
-        opacity: 1,
-        animatable: true,
-      });
-    }
-
-    if ((nextProps.isLoading && !this.props.isLoading) || this.props.hasErrored) {
-      this.setState({
-        width: '0%',
-        opacity: 0,
-        animatable: false,
-      });
-
-      // Hacky and horrible, TODO: Improve this (extra action creator?)
-      requestAnimationFrame(() => {
-        requestAnimationFrame(() => {
-          if (this.props.isLoading) {
-            this.setState({
-              width: '42%',
-              opacity: 1,
-              animatable: true,
-            });
-          }
-        });
-      });
-    }
-    // if (!nextProps.isLoading) {
-    //   this.setState({
-    //     width: '50%',
-    //     opacity: 1,
-    //     animatable: true,
-    //   });
-    // }
-  }
-
-  _fadeout = () => {
-    this.progressIndicator.removeEventListener('transitionend', this._fadeout);
-    this.setState({
-      opacity: 0,
-    });
-    this.progressIndicator.addEventListener('transitionend', this._reset);
-  }
-
-  _reset = (evt) => {
-    if (evt.propertyName === 'opacity') {
-      this.progressIndicator.removeEventListener('transitionend', this._reset);
-
-      this.setState({
-        width: '0%',
-        opacity: 1,
-        animatable: false,
-      });
-    }
   }
 
   render() {
     const style = {
-      width: this.state.width,
-      opacity: this.state.opacity,
+      width: `${this.props.progress}%`,
     };
 
     return (
@@ -90,8 +29,7 @@ class ProgressIndicator extends React.Component {
 }
 
 ProgressIndicator.propTypes = {
-  isLoading: PropTypes.bool.isRequired,
-  hasErrored: PropTypes.bool.isRequired,
+  progress: PropTypes.number.isRequired
 };
 
 export default withStyles(s)(ProgressIndicator);

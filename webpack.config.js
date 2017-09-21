@@ -1,6 +1,7 @@
 const webpack = require('webpack');
 const path = require('path');
 const fs = require('fs');
+const StatsWriterPlugin = require('webpack-stats-plugin').StatsWriterPlugin;
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 const CompressionPlugin = require('compression-webpack-plugin');
 const nodeExternals = require('webpack-node-externals');
@@ -8,6 +9,10 @@ const autoprefixer = require('autoprefixer');
 
 const autoprefix = autoprefixer({ flexbox: true });
 const clientPlugins = [
+  new webpack.optimize.CommonsChunkPlugin({
+    name: 'vendor',
+    minChunks: Infinity
+  }),
   new webpack.DefinePlugin({
     'process.env': {
       NODE_ENV: JSON.stringify(process.env.NODE_ENV),
@@ -33,7 +38,10 @@ const clientPlugins = [
 ];
 
 const clientConfig = {
-  entry: './src/client.jsx',
+  entry: {
+    vendor: ["react", "react-redux", "react-dom"],
+    app: './src/client.jsx',
+  },
   devtool: 'cheap-module-source-map',
   output: {
     path: path.resolve(__dirname, 'public', 'static'),

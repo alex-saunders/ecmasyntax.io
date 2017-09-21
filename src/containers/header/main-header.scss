@@ -1,4 +1,4 @@
-@import '../../../scss/theme';
+@import '../../scss/theme';
 
 .header {
     position: relative;
@@ -9,6 +9,7 @@
     display: flex;
     flex-direction: row;
     align-items: center;
+    justify-content: space-between;
     @include headerShadow();
 
     @media (max-width: $screen-sm-max) {
@@ -50,6 +51,18 @@
         @media (max-width: $screen-sm-max) {
             opacity: 0;
             padding: 0;
+        }
+    }
+
+    .title-container {
+        @media (max-width: $screen-sm-max) {
+            width: 0;
+        }
+    }
+
+    .search-container {
+        @media (max-width: $screen-sm-max) {
+            flex: 1;
         }
     }
 }

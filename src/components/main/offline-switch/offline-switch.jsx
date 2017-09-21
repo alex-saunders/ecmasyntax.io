@@ -3,9 +3,9 @@ import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import switchStyles from '@material/switch/dist/mdc.switch.css';
 import s from './offline-switch.scss';
 
-import Dialog from '../../../common/dialog/dialog';
+import Dialog from '../../common/dialog/dialog';
 
-import { checkCache, cacheResponse, uncacheResponse } from '../../../../utils/offline-cache';
+import { checkCache, cacheResponse, uncacheResponse } from '../../../utils/offline-cache';
 
 class OfflineSwitch extends React.Component {
   constructor(props) {
@@ -133,10 +133,10 @@ class OfflineSwitch extends React.Component {
   render() {
     return (
       <div className={`${s['switch-container']} ${this.state.checked ? s.active : ''}`}>
-        <span className={s['switch-label']}>
-          Available Offline
-        </span>
-        <label htmlFor="basic-switch">
+        <label htmlFor="basic-switch" className={s['switch-label']}>
+          <span>
+            Available Offline
+          </span>
           <button className={`mdc-switch ${s.button}`} onClick={this.handleClick}>
             <input
               type="checkbox" id="basic-switch"

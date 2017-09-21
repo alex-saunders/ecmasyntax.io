@@ -2,10 +2,6 @@ import React /* , { PropTypes } */ from 'react';
 import { connect } from 'react-redux';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 
-import { search } from '../../actions/page-list';
-import { setActivePageTitle } from '../../actions/active-page';
-import { toggleSearch, setAutoDownload } from '../../actions/utils';
-
 import s from './route-handler.scss';
 
 class RouteHandler extends React.Component {
@@ -13,13 +9,12 @@ class RouteHandler extends React.Component {
     super(props);
 
     this.state = {
-      location: '/',
       validRoutes: [],
       notFoundRoute: <div>404</div>,
     };
   }
 
-  componentDidMount() {
+  componentWillMount() {
     window.addEventListener('popstate', this.onPopState);  
     
     let validRoutes = [];
@@ -31,11 +26,19 @@ class RouteHandler extends React.Component {
       }
     });
 
+    this.validRoutes = validRoutes;
+
     this.setState({
-      validRoutes
-    });
+      location: location.href,
+    })
 
     this.onPopState();
+  }
+  
+
+  static UpdateRoute(route) {
+    window.history.pushState(null, null, route);
+    window.dispatchEvent(new Event('popstate'));
   }
 
   componentWillUnmount() {
@@ -43,33 +46,53 @@ class RouteHandler extends React.Component {
   }
 
   onPopState = () => {
-    console.log('POP STATE');
+    this.props.progressUpdate(0);
     this.chooseActiveRoute();
   }
 
   chooseActiveRoute = () => {  
+
+
     let content;  
-    for (let validRoute of this.state.validRoutes) {
-      const regex = new RegExp(validRoute.props.path)
-      if (regex.test(location.pathname)) {
-        content = validRoute;
-        break;
+
+    if (location.search) {
+      for (let validRoute of this.validRoutes) {
+        if (validRoute.props.query) {
+          const regex = new RegExp(validRoute.props.path)
+          if (regex.test(location.search)) {
+            content = validRoute;
+            break;
+          }
+        }
+      }
+    } 
+
+    if (!content) {
+      for (let validRoute of this.validRoutes) {
+        const regex = new RegExp(validRoute.props.path)
+        if (regex.test(location.pathname)) {
+          content = validRoute;
+          break;
+        }
       }
     };
+    if (content) {
+      this.props.progressUpdate(50);
+    }
     content = content || this.state.notFoundRoute;
+
     this.setState({
       content: React.cloneElement(
         content,
-        { location: location.pathname }
+        { location: `${location.href}` }
       )
     });
   }
 
 
   render() {
-
     return (
-      <div>
+      <div className={s['page-view']}>
         {this.state.content}
       </div>
     );
@@ -80,21 +103,4 @@ RouteHandler.defaultProps = {
   activePage: null,
 };
 
-function mapStateToProps(state) {
-  return {
-    activePage: state.activePage.page,
-    isLoading: state.activePage.isLoading,
-    autoDownload: state.utils.autoDownload,
-  };
-}
-
-function matchDispatchToProps(dispatch) {
-  return {
-    search: (query) => { dispatch(search(query)); },
-    toggleSearch: (open) => { dispatch(toggleSearch(open)); },
-    setActivePageTitle: (title) => { dispatch(setActivePageTitle(title)); },
-    setAutoDownload: (bool) => { dispatch(setAutoDownload(bool)); },
-  };
-}
-
-export default withStyles(s)(connect(mapStateToProps, matchDispatchToProps)(RouteHandler));
+export default withStyles(s)(RouteHandler);

@@ -1,19 +1,38 @@
 import React, { PropTypes } from 'react';
+import { connect } from 'react-redux';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import s from './article-view.scss';
 import highlight from './atelier-estuary-light.css';
 
+import { fetchPage } from '../../../actions/active-page';
+import { toggleWaterfallHeader } from '../../../actions/utils';
+ 
+import LoadingView from '../loading-view/loading-view';
 import Tag from './tag/tag';
 import Panel from '../../common/panel/panel';
 
-class MarkdownContainer extends React.Component {
+class ArticleView extends React.Component {
+
+  constructor(props) {
+    super(props);
+  }
 
   componentDidMount() {
-    console.log('hi', this.props)
+    this.fetchArticle();
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.page) {
+      this.props.triggerScrollHandler();
+    }
+  }
+
+  async fetchArticle() {
+    this.props.fetchPage(window.location.pathname);
   }
 
   mapReferences() {
-    const references = this.props.references.map((reference) => {
+    const references = this.props.page.fields.references.map((reference) => {
       let referenceText;
       switch (reference.fields.type) {
         case 'MDN':
@@ -47,7 +66,7 @@ class MarkdownContainer extends React.Component {
   }
 
   mapTags() {
-    const tags = this.props.tags.map((tag, index) => {
+    const tags = this.props.page.fields.tags.map((tag, index) => {
       return (
         <Tag
           key={tag.sys.id}
@@ -62,37 +81,48 @@ class MarkdownContainer extends React.Component {
   }
 
   render() {
-    return (
-      <div className={s['markdown-wrapper']}>
-        <div dangerouslySetInnerHTML={{ __html: this.props.content }} />
-        <div className={s['footer-container']}>
-          <Panel
-            title="Tags"
-            body={this.mapTags()}
-          />
+    if (this.props.isLoading) {
+      return <LoadingView />;
+    }
+    if (this.props.page) {
+      return (
+        <div className={s['markdown-wrapper']}>          
+            <div dangerouslySetInnerHTML={{ __html: this.props.page.fields.blob }} />
+            <div className={s['footer-container']}>
+              <Panel
+                title="Tags"
+                body={this.mapTags()}
+              />
 
-          <Panel
-            title="References"
-            body={<ol>{this.mapReferences()}</ol>}
-          />
+              <Panel
+                title="References"
+                body={<ol>{this.mapReferences()}</ol>}
+              />
+            </div>
         </div>
-      </div>
-    );
+      );
+    } else {
+      return (
+        <div>{ this.props.location }</div>
+      )
+    }
   }
 }
 
-MarkdownContainer.propTypes = {
-  content: PropTypes.string,
-  references: PropTypes.array,
-  tags: PropTypes.array,
-  search: PropTypes.func.isRequired,
-  toggleSearch: PropTypes.func.isRequired,
-};
+function mapStateToProps(state) {
+  return {
+    hasErrored: state.activePage.hasErrored,
+    isLoading: state.activePage.isLoading,
+    page: state.activePage.page,
+    waterfallHeaderOpen: state.utils.waterfallHeaderOpen,
+  };
+}
 
-MarkdownContainer.defaultProps = {
-  content: '',
-  references: [],
-  tags: [],
-};
+function matchDispatchToProps(dispatch) {
+  return {
+    fetchPage: (route) => { dispatch(fetchPage(route)); },
+    toggleWaterfallHeader: (visible) => { dispatch(toggleWaterfallHeader(visible)); },
+  };
+}
 
-export default withStyles(s, highlight)(MarkdownContainer);
+export default withStyles(s, highlight)(connect(mapStateToProps, matchDispatchToProps)(ArticleView));

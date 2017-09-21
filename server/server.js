@@ -1,6 +1,5 @@
 const path = require('path');
 const express = require('express');
-const marked = require('marked');
 
 const apiRouter = require('./api');
 
@@ -12,11 +11,13 @@ app.use('/api', apiRouter)
 
 app.use(express.static(path.join(__dirname, '../', 'public')));
 
-app.get('/about', (req, res) => {
+app.use((req, res) => {
+  console.log('here');
   res.sendFile('index.html', {
-    root: path.join(__dirname, 'public')
+    root: path.join(__dirname, '../', 'public')
   });
 })
+
 
 app.listen(port, () => {
   console.log(`server listening on port ${port}`)

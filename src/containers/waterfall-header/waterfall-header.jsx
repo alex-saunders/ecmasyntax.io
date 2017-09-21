@@ -1,9 +1,14 @@
 import React, { PropTypes } from 'react';
+import { connect } from 'react-redux';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
-import OfflineSwitch from './offline-switch/offline-switch';
+
+import { pushToast, setAutoDownload } from '../../actions/utils';
+
+import OfflineSwitch from '../../components/main/offline-switch/offline-switch';
+
 import s from './waterfall-header.scss';
 
-const WaterfallHeader = ({ visible, activeRoute, pushToast, autoDownload, setAutoDownload }) => {
+const WaterfallHeader = ({ activeRoute, pushToast, autoDownload, visible, setAutoDownload }) => {
   const style = {
     maxHeight: visible ? '57px' : '0px',
   };
@@ -34,4 +39,19 @@ WaterfallHeader.defaultProps = {
   activeRoute: null,
 };
 
-export default withStyles(s)(WaterfallHeader);
+function mapStateToProps(state) {
+  return {
+    activeRoute: state.activePage.route,
+    autoDownload: state.utils.autoDownload,
+    visible: state.utils.waterfallHeaderOpen,
+  };
+}
+
+function matchDispatchToProps(dispatch) {
+  return {
+    pushToast: (message, action, timeout, callback) => { dispatch(pushToast(message, action, timeout, callback)); },
+    setAutoDownload: (bool) => { dispatch(setAutoDownload(bool)); },
+  };
+}
+
+export default withStyles(s)(connect(mapStateToProps, matchDispatchToProps)(WaterfallHeader));

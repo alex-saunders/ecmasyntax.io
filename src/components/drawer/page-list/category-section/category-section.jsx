@@ -1,7 +1,7 @@
 import React, { PropTypes } from 'react';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import Ripple from '../../../common/ripple/ripple';
-import Link from '../../../../containers/route-handler/link/link';
+import Link from '../../../route-handler/link/link';
 
 import s from './category-section.scss';
 
@@ -15,22 +15,25 @@ class CategorySection extends React.Component {
     });
     return entries.map((entry) => {
       return (
-        <Link
-          route={entry.fields.route}
+        <div 
+          className={
+            ((this.props.activeRoute) && (this.props.activeRoute === entry.fields.route))
+            ?
+            (`${s['pageList-item']} ${s.active}`)
+            :
+            s['pageList-item']
+          }
           key={entry.sys.id}
         >
-          <div
-            className={
-              ((this.props.activeRoute) && (this.props.activeRoute === entry.fields.route))
-              ?
-              (`${s['pageList-item']} ${s.active}`)
-              :
-              s['pageList-item']}
-          >
+        <Link
+          route={entry.fields.route}
+        >
+          <div>
             <Ripple />
             {entry.fields.name}
           </div>
         </Link>
+        </div>
       );
     });
   }
