@@ -1,4 +1,3 @@
-import { getObjectStore, putKeyVal } from '../utils/idb';
 import { AUTO_DOWNLOAD_EXPIRY } from '../utils/constants';
 
 export const toggleDrawer = (bool) => {
@@ -56,17 +55,8 @@ export const setAutoDownloadResult = (bool) => {
 
 export const setAutoDownload = (bool) => {
   return (dispatch) => {
-    getObjectStore('Settings')
-    .then((store) => {
-      putKeyVal(store, {
-        setting: 'auto-download-content',
-        value: bool,
-      });
-      dispatch(setAutoDownloadResult(bool));
-    })
-    .catch(() => {
-      dispatch(pushToast('Feature not avaliable', 'OK', 3000));
-    });
+
+    dispatch(setAutoDownloadResult(bool));
   };
 };
 

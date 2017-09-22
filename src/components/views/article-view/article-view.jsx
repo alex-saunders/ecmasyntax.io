@@ -21,8 +21,9 @@ class ArticleView extends React.Component {
     this.fetchArticle();
   }
 
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.page) {
+  componentDidUpdate(prevProps) {
+    // page has been retrieved
+    if (this.props.page && !this.props.isLoading && prevProps.isLoading) {
       this.props.triggerScrollHandler();
     }
   }

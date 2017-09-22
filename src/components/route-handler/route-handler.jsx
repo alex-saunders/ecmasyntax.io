@@ -41,6 +41,11 @@ class RouteHandler extends React.Component {
     window.dispatchEvent(new Event('popstate'));
   }
 
+  static ReplaceRoute(route) {
+    window.history.replaceState(null, null, route);
+    window.dispatchEvent(new Event('popstate'));
+  }
+
   componentWillUnmount() {
     window.removeEventListener('popstate', this.onPopState);
   }
@@ -51,8 +56,6 @@ class RouteHandler extends React.Component {
   }
 
   chooseActiveRoute = () => {  
-
-
     let content;  
 
     if (location.search) {

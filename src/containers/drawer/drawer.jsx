@@ -7,6 +7,7 @@ import { INITIATE_DRAGGING_THRESHOLD, DRAWER_CLOSE_THRESHOLD } from '../../utils
 import { toggleDrawer } from '../../actions/utils';
 import { addFilter, removeFilter } from '../../actions/page-list';
 
+import RouteHandler from '../../components/route-handler/route-handler';
 import Link from '../../components/route-handler/link/link';
 import Ripple from '../../components/common/ripple/ripple';
 import PageList from '../../components/drawer/page-list/page-list';
@@ -25,6 +26,17 @@ class Drawer extends React.Component {
 
   componentDidMount() {
     this.addEventListeners();
+  }
+
+  componentDidUpdate(prevProps) {
+    // got page list
+    if (prevProps.entries.length < 1 && this.props.entries.length > 0) {
+      if (window.location.pathname !== '/') {
+        return;
+      }
+      console.log('replacing state');
+      RouteHandler.ReplaceRoute(this.props.entries[0].fields.route);
+    }
   }
 
   onTouchStart = (evt) => {

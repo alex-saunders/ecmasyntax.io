@@ -3,7 +3,6 @@ const initialState = {
   searchOpen: false,
   waterfallHeaderOpen: false,
   toasts: [],
-  autoDownload: null,
   progress: 0,
 };
 
@@ -45,13 +44,6 @@ export default function (state = initialState, action) {
       return Object.assign({}, state,
         {
           toasts: arr,
-        },
-      );
-    }
-    case 'AUTO_DOWNLOAD': {
-      return Object.assign({}, state,
-        {
-          autoDownload: action.payload,
         },
       );
     }

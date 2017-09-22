@@ -1,52 +1,72 @@
-import { getObjectStore, getKeyVal } from './idb';
+import idb from 'idb';
 
-export const getAutoDownload = () => {
-  return new Promise((resolve, reject) => {
-    getObjectStore('Settings')
-    .then((store) => {
-      getKeyVal(store, 'auto-download-content')
-      .then((result) => {
-        resolve(result.value);
-      })
-      .catch(() => {
-        resolve(null);
-      });
-    });
+const sendMessageToServiceWorker = (msg) => {
+  return new Promise(function(resolve, reject){
+      var msg_chan = new MessageChannel();
+
+      // Handler for recieving message reply from service worker
+      msg_chan.port1.onmessage = function(event){
+          if(event.data.error){
+              reject(event.data.error);
+          }else{
+              resolve(event.data);
+          }
+      };
+
+      // Send message to service worker along with port for reply
+      navigator.serviceWorker.controller.postMessage(msg, [msg_chan.port2]);
   });
-};
+}
 
-export const cacheResponse = (request) => {
-  return new Promise((resolve, reject) => {
-    caches.open('ecmasyntax-runtime').then((cache) => {
-      document.body.style.cursor = 'wait';
-      fetch(request).then((response) => {
-        cache.put(request, response.clone()).then(() => {
-          document.body.style.cursor = '';
-          resolve();
-        });
-      })
-      .catch((err) => {
-        reject();
-        throw new Error(err);
-      });
-    });
-  });
-};
+const dbPromise = idb.open('ecmasyntax-db', 4, (upgradeDb) => {
+  const settingsStore = upgradeDb.createObjectStore('settings');
+  settingsStore.put(false, 'autodownload-set');
+  settingsStore.put(false, 'autodownload-val');
+});
 
-export const uncacheResponse = (request) => {
+export const getAutoDownloadSet = () => {
   return new Promise((resolve, reject) => {
-    caches.open('ecmasyntax-runtime').then((cache) => {
-      cache.delete(request).then(() => {
-        resolve();
-        // this.props.pushToast('Content removed from offline use', 'OK', 3000);
-      });
+    dbPromise.then((db) => {
+      const tx = db.transaction('settings', 'readwrite');
+      const keyValStore = tx.objectStore('settings');
+      return keyValStore.get('autodownload-set');
+    }).then((val) => {
+      resolve(val);
+    }).catch((err) => {
+      reject(err);
     })
-    .catch((err) => {
-      reject();
-      throw new Error(err);
-    });
   });
 };
+
+export const getAutoDownloadVal = () => {
+  return new Promise((resolve, reject) => {
+    dbPromise.then((db) => {
+      const tx = db.transaction('settings', 'readwrite');
+      const keyValStore = tx.objectStore('settings');
+      return keyValStore.get('autodownload-val');
+    }).then((val) => {
+      resolve(val);
+    }).catch((err) => {
+      reject(err);
+    })
+  });
+}
+
+export const setAutoDownload = (bool) => {
+  return new Promise((resolve, reject) => {
+    dbPromise.then((db) => {
+      const tx = db.transaction('settings', 'readwrite');
+      const keyValStore = tx.objectStore('settings');
+      keyValStore.put(true, 'autodownload-set');
+      keyValStore.put(bool, 'autodownload-val');
+      return tx.complete;
+    }).then(() => {
+      resolve();
+    }).catch((err) => {
+      reject(err);
+    })
+  });
+}
 
 export const checkCache = (request) => {
   return new Promise((resolve, reject) => {
@@ -62,4 +82,39 @@ export const checkCache = (request) => {
       reject(err);
     });
   });
+};
+
+export const cacheResponse = (request) => {
+  return new Promise((resolve, reject) => {
+    sendMessageToServiceWorker({
+      type: 'cacheResponse',
+      data: request
+    }).then((response) => {
+      if (response) {
+        resolve();
+      } else {
+        reject();
+      }
+    }).catch((err) => {
+      reject(err);
+    })
+  })
+  
+};
+
+export const uncacheResponse = (request) => {
+  return new Promise((resolve, reject) => {
+    sendMessageToServiceWorker({
+      type: 'uncacheResponse',
+      data: request
+    }).then((response) => {
+      if (response) {
+        resolve();
+      } else {
+        reject();
+      }
+    }).catch((err) => {
+      reject(err);
+    })
+  })
 };

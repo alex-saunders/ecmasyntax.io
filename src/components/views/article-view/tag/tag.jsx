@@ -9,12 +9,14 @@ class Tag extends React.Component {
 
   render() {
     return (
+      <div className={s['tag-wrapper']}>
       <Link className={s.tag} route={`?search=taggedin:${this.props.tag.fields.name}`}>
         <span>
           {this.props.index > 0 ? ', ' : ''}
           {this.props.tag.fields.name}
         </span>
       </Link>
+      </div>
     );
   }
 }

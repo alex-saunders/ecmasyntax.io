@@ -1,189 +1,6 @@
-exports.ids = [0];
-exports.modules = {
+webpackJsonp([0],{
 
-/***/ 101:
-/***/ (function(module, exports, __webpack_require__) {
-
-exports = module.exports = __webpack_require__(1)();
-// imports
-exports.push([module.i, "@import url(https://fonts.googleapis.com/css?family=Roboto+Mono);", ""]);
-
-// module
-exports.push([module.i, ":root {\n  --mdc-theme-primary: #00b4a2; }\n\n@-webkit-keyframes article-view_fadeIn_akX {\n  from {\n    opacity: 0; }\n  to {\n    opacity: 1; } }\n\n@keyframes article-view_fadeIn_akX {\n  from {\n    opacity: 0; }\n  to {\n    opacity: 1; } }\n\n.article-view_footer-container_1iK {\n  margin-top: 24px;\n  border-top: 1px solid #eaecef; }\n\n.article-view_references-container_2OD li {\n  font-size: 16px; }\n\n.article-view_markdown-wrapper_2aX {\n  color: #212121;\n  line-height: 1.5;\n  -webkit-animation: article-view_fadeIn_akX 0.6s 1;\n          animation: article-view_fadeIn_akX 0.6s 1; }\n  .article-view_markdown-wrapper_2aX h1,\n  .article-view_markdown-wrapper_2aX h2 {\n    font-weight: 300; }\n  .article-view_markdown-wrapper_2aX h3 {\n    font-weight: 400; }\n  .article-view_markdown-wrapper_2aX strong {\n    color: #333;\n    font-weight: 500; }\n  .article-view_markdown-wrapper_2aX h1 {\n    padding-bottom: 0.3em;\n    font-size: 2em; }\n  .article-view_markdown-wrapper_2aX h2 {\n    font-size: 1.5em;\n    margin: 20px 0 20px;\n    border-bottom: 1px solid #eaecef; }\n  .article-view_markdown-wrapper_2aX h3 {\n    margin: 32px 0 16px; }\n  .article-view_markdown-wrapper_2aX p {\n    color: #373737; }\n  .article-view_markdown-wrapper_2aX pre {\n    background-color: #f6f8fa;\n    padding: 8px 8px 8px 16px;\n    border-left: 4px solid #00b4a2;\n    border-radius: 0px 3px 3px 0px;\n    white-space: pre-wrap; }\n    .article-view_markdown-wrapper_2aX pre code {\n      font-family: 'Roboto Mono', monospace;\n      font-size: 14px;\n      -moz-tab-size: 2;\n        -o-tab-size: 2;\n           tab-size: 2; }\n  .article-view_markdown-wrapper_2aX table {\n    border-spacing: 0;\n    border-collapse: collapse; }\n    .article-view_markdown-wrapper_2aX table tr {\n      background-color: #fff; }\n      .article-view_markdown-wrapper_2aX table tr th, .article-view_markdown-wrapper_2aX table tr td {\n        padding: 8px 16px;\n        border: 1px solid #dfe2e5; }\n      .article-view_markdown-wrapper_2aX table tr th {\n        font-weight: 500; }\n  .article-view_markdown-wrapper_2aX hr {\n    border-width: 3px;\n    border-bottom: none;\n    border-right: none;\n    border-left: none;\n    border-color: rgba(0, 0, 0, 0.1); }\n  .article-view_markdown-wrapper_2aX a {\n    text-decoration: none;\n    color: #007468; }\n  .article-view_markdown-wrapper_2aX img {\n    max-width: 100%; }\n", ""]);
-
-// exports
-exports.locals = {
-	"footer-container": "article-view_footer-container_1iK",
-	"references-container": "article-view_references-container_2OD",
-	"markdown-wrapper": "article-view_markdown-wrapper_2aX",
-	"fadeIn": "article-view_fadeIn_akX"
-};
-
-/***/ }),
-
-/***/ 102:
-/***/ (function(module, exports, __webpack_require__) {
-
-exports = module.exports = __webpack_require__(1)();
-// imports
-
-
-// module
-exports.push([module.i, ":root {\n  --mdc-theme-primary: #00b4a2; }\n\n@-webkit-keyframes tag_fadeIn_2Q7 {\n  from {\n    opacity: 0; }\n  to {\n    opacity: 1; } }\n\n@keyframes tag_fadeIn_2Q7 {\n  from {\n    opacity: 0; }\n  to {\n    opacity: 1; } }\n\n.tag_tag_o8_ {\n  color: #007468;\n  text-decoration: none; }\n", ""]);
-
-// exports
-exports.locals = {
-	"tag": "tag_tag_o8_",
-	"fadeIn": "tag_fadeIn_2Q7"
-};
-
-/***/ }),
-
-/***/ 105:
-/***/ (function(module, exports, __webpack_require__) {
-
-
-    var content = __webpack_require__(98);
-    var insertCss = __webpack_require__(2);
-
-    if (typeof content === 'string') {
-      content = [[module.i, content, '']];
-    }
-
-    module.exports = content.locals || {};
-    module.exports._getContent = function() { return content; };
-    module.exports._getCss = function() { return content.toString(); };
-    module.exports._insertCss = function(options) { return insertCss(content, options) };
-    
-    // Hot Module Replacement
-    // https://webpack.github.io/docs/hot-module-replacement
-    // Only activated in browser context
-    if (false) {
-      var removeCss = function() {};
-      module.hot.accept("!!../../../../node_modules/css-loader/index.js!./atelier-estuary-light.css", function() {
-        content = require("!!../../../../node_modules/css-loader/index.js!./atelier-estuary-light.css");
-
-        if (typeof content === 'string') {
-          content = [[module.id, content, '']];
-        }
-
-        removeCss = insertCss(content, { replace: true });
-      });
-      module.hot.dispose(function() { removeCss(); });
-    }
-  
-
-/***/ }),
-
-/***/ 106:
-/***/ (function(module, exports, __webpack_require__) {
-
-
-    var content = __webpack_require__(99);
-    var insertCss = __webpack_require__(2);
-
-    if (typeof content === 'string') {
-      content = [[module.i, content, '']];
-    }
-
-    module.exports = content.locals || {};
-    module.exports._getContent = function() { return content; };
-    module.exports._getCss = function() { return content.toString(); };
-    module.exports._insertCss = function(options) { return insertCss(content, options) };
-    
-    // Hot Module Replacement
-    // https://webpack.github.io/docs/hot-module-replacement
-    // Only activated in browser context
-    if (false) {
-      var removeCss = function() {};
-      module.hot.accept("!!../../../../node_modules/css-loader/index.js?modules&localIdentName=[name]_[local]_[hash:base64:3]!../../../../node_modules/postcss-loader/index.js??ref--1-2!../../../../node_modules/sass-loader/lib/loader.js!./panel.scss", function() {
-        content = require("!!../../../../node_modules/css-loader/index.js?modules&localIdentName=[name]_[local]_[hash:base64:3]!../../../../node_modules/postcss-loader/index.js??ref--1-2!../../../../node_modules/sass-loader/lib/loader.js!./panel.scss");
-
-        if (typeof content === 'string') {
-          content = [[module.id, content, '']];
-        }
-
-        removeCss = insertCss(content, { replace: true });
-      });
-      module.hot.dispose(function() { removeCss(); });
-    }
-  
-
-/***/ }),
-
-/***/ 108:
-/***/ (function(module, exports, __webpack_require__) {
-
-
-    var content = __webpack_require__(101);
-    var insertCss = __webpack_require__(2);
-
-    if (typeof content === 'string') {
-      content = [[module.i, content, '']];
-    }
-
-    module.exports = content.locals || {};
-    module.exports._getContent = function() { return content; };
-    module.exports._getCss = function() { return content.toString(); };
-    module.exports._insertCss = function(options) { return insertCss(content, options) };
-    
-    // Hot Module Replacement
-    // https://webpack.github.io/docs/hot-module-replacement
-    // Only activated in browser context
-    if (false) {
-      var removeCss = function() {};
-      module.hot.accept("!!../../../../node_modules/css-loader/index.js?modules&localIdentName=[name]_[local]_[hash:base64:3]!../../../../node_modules/postcss-loader/index.js??ref--1-2!../../../../node_modules/sass-loader/lib/loader.js!./article-view.scss", function() {
-        content = require("!!../../../../node_modules/css-loader/index.js?modules&localIdentName=[name]_[local]_[hash:base64:3]!../../../../node_modules/postcss-loader/index.js??ref--1-2!../../../../node_modules/sass-loader/lib/loader.js!./article-view.scss");
-
-        if (typeof content === 'string') {
-          content = [[module.id, content, '']];
-        }
-
-        removeCss = insertCss(content, { replace: true });
-      });
-      module.hot.dispose(function() { removeCss(); });
-    }
-  
-
-/***/ }),
-
-/***/ 109:
-/***/ (function(module, exports, __webpack_require__) {
-
-
-    var content = __webpack_require__(102);
-    var insertCss = __webpack_require__(2);
-
-    if (typeof content === 'string') {
-      content = [[module.i, content, '']];
-    }
-
-    module.exports = content.locals || {};
-    module.exports._getContent = function() { return content; };
-    module.exports._getCss = function() { return content.toString(); };
-    module.exports._insertCss = function(options) { return insertCss(content, options) };
-    
-    // Hot Module Replacement
-    // https://webpack.github.io/docs/hot-module-replacement
-    // Only activated in browser context
-    if (false) {
-      var removeCss = function() {};
-      module.hot.accept("!!../../../../../node_modules/css-loader/index.js?modules&localIdentName=[name]_[local]_[hash:base64:3]!../../../../../node_modules/postcss-loader/index.js??ref--1-2!../../../../../node_modules/sass-loader/lib/loader.js!./tag.scss", function() {
-        content = require("!!../../../../../node_modules/css-loader/index.js?modules&localIdentName=[name]_[local]_[hash:base64:3]!../../../../../node_modules/postcss-loader/index.js??ref--1-2!../../../../../node_modules/sass-loader/lib/loader.js!./tag.scss");
-
-        if (typeof content === 'string') {
-          content = [[module.id, content, '']];
-        }
-
-        removeCss = insertCss(content, { replace: true });
-      });
-      module.hot.dispose(function() { removeCss(); });
-    }
-  
-
-/***/ }),
-
-/***/ 93:
+/***/ 735:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -195,31 +12,43 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _react = __webpack_require__(0);
+var _react = __webpack_require__(6);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _withStyles = __webpack_require__(3);
+var _reactRedux = __webpack_require__(26);
+
+var _withStyles = __webpack_require__(19);
 
 var _withStyles2 = _interopRequireDefault(_withStyles);
 
-var _articleView = __webpack_require__(108);
+var _articleView = __webpack_require__(750);
 
 var _articleView2 = _interopRequireDefault(_articleView);
 
-var _atelierEstuaryLight = __webpack_require__(105);
+var _atelierEstuaryLight = __webpack_require__(747);
 
 var _atelierEstuaryLight2 = _interopRequireDefault(_atelierEstuaryLight);
 
-var _tag = __webpack_require__(96);
+var _activePage = __webpack_require__(283);
+
+var _utils = __webpack_require__(48);
+
+var _loadingView = __webpack_require__(185);
+
+var _loadingView2 = _interopRequireDefault(_loadingView);
+
+var _tag = __webpack_require__(738);
 
 var _tag2 = _interopRequireDefault(_tag);
 
-var _panel = __webpack_require__(95);
+var _panel = __webpack_require__(737);
 
 var _panel2 = _interopRequireDefault(_panel);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step("next", value); }, function (err) { step("throw", err); }); } } return step("next"); }); }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -227,19 +56,56 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var MarkdownContainer = function (_React$Component) {
-  _inherits(MarkdownContainer, _React$Component);
+var ArticleView = function (_React$Component) {
+  _inherits(ArticleView, _React$Component);
 
-  function MarkdownContainer() {
-    _classCallCheck(this, MarkdownContainer);
+  function ArticleView(props) {
+    _classCallCheck(this, ArticleView);
 
-    return _possibleConstructorReturn(this, (MarkdownContainer.__proto__ || Object.getPrototypeOf(MarkdownContainer)).apply(this, arguments));
+    return _possibleConstructorReturn(this, (ArticleView.__proto__ || Object.getPrototypeOf(ArticleView)).call(this, props));
   }
 
-  _createClass(MarkdownContainer, [{
+  _createClass(ArticleView, [{
+    key: 'componentDidMount',
+    value: function componentDidMount() {
+      this.fetchArticle();
+    }
+  }, {
+    key: 'componentDidUpdate',
+    value: function componentDidUpdate(prevProps) {
+      // page has been retrieved
+      if (this.props.page && !this.props.isLoading && prevProps.isLoading) {
+        this.props.triggerScrollHandler();
+      }
+    }
+  }, {
+    key: 'fetchArticle',
+    value: function () {
+      var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
+        return regeneratorRuntime.wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                this.props.fetchPage(window.location.pathname);
+
+              case 1:
+              case 'end':
+                return _context.stop();
+            }
+          }
+        }, _callee, this);
+      }));
+
+      function fetchArticle() {
+        return _ref.apply(this, arguments);
+      }
+
+      return fetchArticle;
+    }()
+  }, {
     key: 'mapReferences',
     value: function mapReferences() {
-      var references = this.props.references.map(function (reference) {
+      var references = this.props.page.fields.references.map(function (reference) {
         var referenceText = void 0;
         switch (reference.fields.type) {
           case 'MDN':
@@ -315,7 +181,7 @@ var MarkdownContainer = function (_React$Component) {
     value: function mapTags() {
       var _this2 = this;
 
-      var tags = this.props.tags.map(function (tag, index) {
+      var tags = this.props.page.fields.tags.map(function (tag, index) {
         return _react2.default.createElement(_tag2.default, {
           key: tag.sys.id,
           tag: tag,
@@ -329,52 +195,69 @@ var MarkdownContainer = function (_React$Component) {
   }, {
     key: 'render',
     value: function render() {
-      return _react2.default.createElement(
-        'div',
-        { className: _articleView2.default['markdown-wrapper'] },
-        _react2.default.createElement('div', { dangerouslySetInnerHTML: { __html: this.props.content } }),
-        _react2.default.createElement(
+      if (this.props.isLoading) {
+        return _react2.default.createElement(_loadingView2.default, null);
+      }
+      if (this.props.page) {
+        return _react2.default.createElement(
           'div',
-          { className: _articleView2.default['footer-container'] },
-          _react2.default.createElement(_panel2.default, {
-            title: 'Tags',
-            body: this.mapTags()
-          }),
-          _react2.default.createElement(_panel2.default, {
-            title: 'References',
-            body: _react2.default.createElement(
-              'ol',
-              null,
-              this.mapReferences()
-            )
-          })
-        )
-      );
+          { className: _articleView2.default['markdown-wrapper'] },
+          _react2.default.createElement('div', { dangerouslySetInnerHTML: { __html: this.props.page.fields.blob } }),
+          _react2.default.createElement(
+            'div',
+            { className: _articleView2.default['footer-container'] },
+            _react2.default.createElement(_panel2.default, {
+              title: 'Tags',
+              body: this.mapTags()
+            }),
+            _react2.default.createElement(_panel2.default, {
+              title: 'References',
+              body: _react2.default.createElement(
+                'ol',
+                null,
+                this.mapReferences()
+              )
+            })
+          )
+        );
+      } else {
+        return _react2.default.createElement(
+          'div',
+          null,
+          this.props.location
+        );
+      }
     }
   }]);
 
-  return MarkdownContainer;
+  return ArticleView;
 }(_react2.default.Component);
 
-MarkdownContainer.propTypes = {
-  content: _react.PropTypes.string,
-  references: _react.PropTypes.array,
-  tags: _react.PropTypes.array,
-  search: _react.PropTypes.func.isRequired,
-  toggleSearch: _react.PropTypes.func.isRequired
-};
+function mapStateToProps(state) {
+  return {
+    hasErrored: state.activePage.hasErrored,
+    isLoading: state.activePage.isLoading,
+    page: state.activePage.page,
+    waterfallHeaderOpen: state.utils.waterfallHeaderOpen
+  };
+}
 
-MarkdownContainer.defaultProps = {
-  content: '',
-  references: [],
-  tags: []
-};
+function matchDispatchToProps(dispatch) {
+  return {
+    fetchPage: function fetchPage(route) {
+      dispatch((0, _activePage.fetchPage)(route));
+    },
+    toggleWaterfallHeader: function toggleWaterfallHeader(visible) {
+      dispatch((0, _utils.toggleWaterfallHeader)(visible));
+    }
+  };
+}
 
-exports.default = (0, _withStyles2.default)(_articleView2.default, _atelierEstuaryLight2.default)(MarkdownContainer);
+exports.default = (0, _withStyles2.default)(_articleView2.default, _atelierEstuaryLight2.default)((0, _reactRedux.connect)(mapStateToProps, matchDispatchToProps)(ArticleView));
 
 /***/ }),
 
-/***/ 95:
+/***/ 737:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -386,15 +269,15 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _react = __webpack_require__(0);
+var _react = __webpack_require__(6);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _withStyles = __webpack_require__(3);
+var _withStyles = __webpack_require__(19);
 
 var _withStyles2 = _interopRequireDefault(_withStyles);
 
-var _panel = __webpack_require__(106);
+var _panel = __webpack_require__(748);
 
 var _panel2 = _interopRequireDefault(_panel);
 
@@ -512,7 +395,7 @@ exports.default = (0, _withStyles2.default)(_panel2.default)(Panel);
 
 /***/ }),
 
-/***/ 96:
+/***/ 738:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -524,15 +407,19 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _react = __webpack_require__(0);
+var _react = __webpack_require__(6);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _withStyles = __webpack_require__(3);
+var _withStyles = __webpack_require__(19);
 
 var _withStyles2 = _interopRequireDefault(_withStyles);
 
-var _tag = __webpack_require__(109);
+var _link = __webpack_require__(184);
+
+var _link2 = _interopRequireDefault(_link);
+
+var _tag = __webpack_require__(751);
 
 var _tag2 = _interopRequireDefault(_tag);
 
@@ -548,32 +435,27 @@ var Tag = function (_React$Component) {
   _inherits(Tag, _React$Component);
 
   function Tag() {
-    var _ref;
-
-    var _temp, _this, _ret;
-
     _classCallCheck(this, Tag);
 
-    for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
-      args[_key] = arguments[_key];
-    }
-
-    return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = Tag.__proto__ || Object.getPrototypeOf(Tag)).call.apply(_ref, [this].concat(args))), _this), _this._handleClick = function (evt) {
-      _this.props.toggleSearch(true);
-      _this.props.search('taggedin:' + _this.props.tag.fields.name);
-
-      evt.preventDefault();
-    }, _temp), _possibleConstructorReturn(_this, _ret);
+    return _possibleConstructorReturn(this, (Tag.__proto__ || Object.getPrototypeOf(Tag)).apply(this, arguments));
   }
 
   _createClass(Tag, [{
     key: 'render',
     value: function render() {
       return _react2.default.createElement(
-        'a',
-        { className: _tag2.default.tag, onClick: this._handleClick, href: '#' },
-        this.props.index > 0 ? ', ' : '',
-        this.props.tag.fields.name
+        'div',
+        { className: _tag2.default['tag-wrapper'] },
+        _react2.default.createElement(
+          _link2.default,
+          { className: _tag2.default.tag, route: '?search=taggedin:' + this.props.tag.fields.name },
+          _react2.default.createElement(
+            'span',
+            null,
+            this.props.index > 0 ? ', ' : '',
+            this.props.tag.fields.name
+          )
+        )
       );
     }
   }]);
@@ -583,19 +465,17 @@ var Tag = function (_React$Component) {
 
 Tag.propTypes = {
   index: _react.PropTypes.number.isRequired,
-  tag: _react.PropTypes.object.isRequired,
-  search: _react.PropTypes.func.isRequired,
-  toggleSearch: _react.PropTypes.func.isRequired
+  tag: _react.PropTypes.object.isRequired
 };
 
 exports.default = (0, _withStyles2.default)(_tag2.default)(Tag);
 
 /***/ }),
 
-/***/ 98:
+/***/ 740:
 /***/ (function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__(1)();
+exports = module.exports = __webpack_require__(17)();
 // imports
 
 
@@ -607,10 +487,10 @@ exports.push([module.i, ".hljs-comment,\n.hljs-quote {\n    color: #6c6b5a\n}\n.
 
 /***/ }),
 
-/***/ 99:
+/***/ 741:
 /***/ (function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__(1)();
+exports = module.exports = __webpack_require__(17)();
 // imports
 
 
@@ -629,7 +509,190 @@ exports.locals = {
 	"fadeIn": "panel_fadeIn_7f_"
 };
 
+/***/ }),
+
+/***/ 743:
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(17)();
+// imports
+exports.push([module.i, "@import url(https://fonts.googleapis.com/css?family=Roboto+Mono);", ""]);
+
+// module
+exports.push([module.i, ":root {\n  --mdc-theme-primary: #00b4a2; }\n\n@-webkit-keyframes article-view_fadeIn_akX {\n  from {\n    opacity: 0; }\n  to {\n    opacity: 1; } }\n\n@keyframes article-view_fadeIn_akX {\n  from {\n    opacity: 0; }\n  to {\n    opacity: 1; } }\n\n.article-view_footer-container_1iK {\n  margin-top: 24px;\n  border-top: 1px solid #eaecef; }\n\n.article-view_references-container_2OD li {\n  font-size: 16px; }\n\n.article-view_markdown-wrapper_2aX {\n  color: #212121;\n  line-height: 1.5;\n  -webkit-animation: article-view_fadeIn_akX 0.6s 1;\n          animation: article-view_fadeIn_akX 0.6s 1;\n  padding: 16px 32px 16px 32px; }\n  @media (max-width: 500px) {\n    .article-view_markdown-wrapper_2aX {\n      padding: 16px; } }\n  .article-view_markdown-wrapper_2aX h1,\n  .article-view_markdown-wrapper_2aX h2 {\n    font-weight: 300; }\n  .article-view_markdown-wrapper_2aX h3 {\n    font-weight: 400; }\n  .article-view_markdown-wrapper_2aX strong {\n    color: #333;\n    font-weight: 500; }\n  .article-view_markdown-wrapper_2aX h1 {\n    padding-bottom: 0.3em;\n    font-size: 2em; }\n  .article-view_markdown-wrapper_2aX h2 {\n    font-size: 1.5em;\n    margin: 20px 0 20px;\n    border-bottom: 1px solid #eaecef; }\n  .article-view_markdown-wrapper_2aX h3 {\n    margin: 32px 0 16px; }\n  .article-view_markdown-wrapper_2aX p {\n    color: #373737; }\n  .article-view_markdown-wrapper_2aX pre {\n    background-color: #f6f8fa;\n    padding: 8px 8px 8px 16px;\n    border-left: 4px solid #00b4a2;\n    border-radius: 0px 3px 3px 0px;\n    white-space: pre-wrap; }\n    .article-view_markdown-wrapper_2aX pre code {\n      font-family: 'Roboto Mono', monospace;\n      font-size: 14px;\n      -moz-tab-size: 2;\n        -o-tab-size: 2;\n           tab-size: 2; }\n  .article-view_markdown-wrapper_2aX table {\n    border-spacing: 0;\n    border-collapse: collapse; }\n    .article-view_markdown-wrapper_2aX table tr {\n      background-color: #fff; }\n      .article-view_markdown-wrapper_2aX table tr th, .article-view_markdown-wrapper_2aX table tr td {\n        padding: 8px 16px;\n        border: 1px solid #dfe2e5; }\n      .article-view_markdown-wrapper_2aX table tr th {\n        font-weight: 500; }\n  .article-view_markdown-wrapper_2aX hr {\n    border-width: 3px;\n    border-bottom: none;\n    border-right: none;\n    border-left: none;\n    border-color: rgba(0, 0, 0, 0.1); }\n  .article-view_markdown-wrapper_2aX a {\n    text-decoration: none;\n    color: #007468; }\n  .article-view_markdown-wrapper_2aX img {\n    max-width: 100%; }\n", ""]);
+
+// exports
+exports.locals = {
+	"footer-container": "article-view_footer-container_1iK",
+	"references-container": "article-view_references-container_2OD",
+	"markdown-wrapper": "article-view_markdown-wrapper_2aX",
+	"fadeIn": "article-view_fadeIn_akX"
+};
+
+/***/ }),
+
+/***/ 744:
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(17)();
+// imports
+
+
+// module
+exports.push([module.i, ":root {\n  --mdc-theme-primary: #00b4a2; }\n\n@-webkit-keyframes tag_fadeIn_2Q7 {\n  from {\n    opacity: 0; }\n  to {\n    opacity: 1; } }\n\n@keyframes tag_fadeIn_2Q7 {\n  from {\n    opacity: 0; }\n  to {\n    opacity: 1; } }\n\n.tag_tag-wrapper_rjL {\n  display: inline-block; }\n\n.tag_tag_o8_ {\n  color: #007468;\n  text-decoration: none; }\n", ""]);
+
+// exports
+exports.locals = {
+	"tag-wrapper": "tag_tag-wrapper_rjL",
+	"tag": "tag_tag_o8_",
+	"fadeIn": "tag_fadeIn_2Q7"
+};
+
+/***/ }),
+
+/***/ 747:
+/***/ (function(module, exports, __webpack_require__) {
+
+
+    var content = __webpack_require__(740);
+    var insertCss = __webpack_require__(18);
+
+    if (typeof content === 'string') {
+      content = [[module.i, content, '']];
+    }
+
+    module.exports = content.locals || {};
+    module.exports._getContent = function() { return content; };
+    module.exports._getCss = function() { return content.toString(); };
+    module.exports._insertCss = function(options) { return insertCss(content, options) };
+    
+    // Hot Module Replacement
+    // https://webpack.github.io/docs/hot-module-replacement
+    // Only activated in browser context
+    if (false) {
+      var removeCss = function() {};
+      module.hot.accept("!!../../../../node_modules/css-loader/index.js!./atelier-estuary-light.css", function() {
+        content = require("!!../../../../node_modules/css-loader/index.js!./atelier-estuary-light.css");
+
+        if (typeof content === 'string') {
+          content = [[module.id, content, '']];
+        }
+
+        removeCss = insertCss(content, { replace: true });
+      });
+      module.hot.dispose(function() { removeCss(); });
+    }
+  
+
+/***/ }),
+
+/***/ 748:
+/***/ (function(module, exports, __webpack_require__) {
+
+
+    var content = __webpack_require__(741);
+    var insertCss = __webpack_require__(18);
+
+    if (typeof content === 'string') {
+      content = [[module.i, content, '']];
+    }
+
+    module.exports = content.locals || {};
+    module.exports._getContent = function() { return content; };
+    module.exports._getCss = function() { return content.toString(); };
+    module.exports._insertCss = function(options) { return insertCss(content, options) };
+    
+    // Hot Module Replacement
+    // https://webpack.github.io/docs/hot-module-replacement
+    // Only activated in browser context
+    if (false) {
+      var removeCss = function() {};
+      module.hot.accept("!!../../../../node_modules/css-loader/index.js?modules&localIdentName=[name]_[local]_[hash:base64:3]!../../../../node_modules/postcss-loader/index.js??ref--1-2!../../../../node_modules/sass-loader/lib/loader.js!./panel.scss", function() {
+        content = require("!!../../../../node_modules/css-loader/index.js?modules&localIdentName=[name]_[local]_[hash:base64:3]!../../../../node_modules/postcss-loader/index.js??ref--1-2!../../../../node_modules/sass-loader/lib/loader.js!./panel.scss");
+
+        if (typeof content === 'string') {
+          content = [[module.id, content, '']];
+        }
+
+        removeCss = insertCss(content, { replace: true });
+      });
+      module.hot.dispose(function() { removeCss(); });
+    }
+  
+
+/***/ }),
+
+/***/ 750:
+/***/ (function(module, exports, __webpack_require__) {
+
+
+    var content = __webpack_require__(743);
+    var insertCss = __webpack_require__(18);
+
+    if (typeof content === 'string') {
+      content = [[module.i, content, '']];
+    }
+
+    module.exports = content.locals || {};
+    module.exports._getContent = function() { return content; };
+    module.exports._getCss = function() { return content.toString(); };
+    module.exports._insertCss = function(options) { return insertCss(content, options) };
+    
+    // Hot Module Replacement
+    // https://webpack.github.io/docs/hot-module-replacement
+    // Only activated in browser context
+    if (false) {
+      var removeCss = function() {};
+      module.hot.accept("!!../../../../node_modules/css-loader/index.js?modules&localIdentName=[name]_[local]_[hash:base64:3]!../../../../node_modules/postcss-loader/index.js??ref--1-2!../../../../node_modules/sass-loader/lib/loader.js!./article-view.scss", function() {
+        content = require("!!../../../../node_modules/css-loader/index.js?modules&localIdentName=[name]_[local]_[hash:base64:3]!../../../../node_modules/postcss-loader/index.js??ref--1-2!../../../../node_modules/sass-loader/lib/loader.js!./article-view.scss");
+
+        if (typeof content === 'string') {
+          content = [[module.id, content, '']];
+        }
+
+        removeCss = insertCss(content, { replace: true });
+      });
+      module.hot.dispose(function() { removeCss(); });
+    }
+  
+
+/***/ }),
+
+/***/ 751:
+/***/ (function(module, exports, __webpack_require__) {
+
+
+    var content = __webpack_require__(744);
+    var insertCss = __webpack_require__(18);
+
+    if (typeof content === 'string') {
+      content = [[module.i, content, '']];
+    }
+
+    module.exports = content.locals || {};
+    module.exports._getContent = function() { return content; };
+    module.exports._getCss = function() { return content.toString(); };
+    module.exports._insertCss = function(options) { return insertCss(content, options) };
+    
+    // Hot Module Replacement
+    // https://webpack.github.io/docs/hot-module-replacement
+    // Only activated in browser context
+    if (false) {
+      var removeCss = function() {};
+      module.hot.accept("!!../../../../../node_modules/css-loader/index.js?modules&localIdentName=[name]_[local]_[hash:base64:3]!../../../../../node_modules/postcss-loader/index.js??ref--1-2!../../../../../node_modules/sass-loader/lib/loader.js!./tag.scss", function() {
+        content = require("!!../../../../../node_modules/css-loader/index.js?modules&localIdentName=[name]_[local]_[hash:base64:3]!../../../../../node_modules/postcss-loader/index.js??ref--1-2!../../../../../node_modules/sass-loader/lib/loader.js!./tag.scss");
+
+        if (typeof content === 'string') {
+          content = [[module.id, content, '']];
+        }
+
+        removeCss = insertCss(content, { replace: true });
+      });
+      module.hot.dispose(function() { removeCss(); });
+    }
+  
+
 /***/ })
 
-};;
-//# sourceMappingURL=0.server.js.map
+});
+//# sourceMappingURL=article.chunk.js.map

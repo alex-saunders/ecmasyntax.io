@@ -1,5 +1,9 @@
 @import '../../../../scss/theme';
 
+.tag-wrapper {
+  display: inline-block;
+}
+
 .tag {
   color: $accent-1;
   text-decoration: none;

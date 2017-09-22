@@ -5,8 +5,8 @@ import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import { toggleDrawer, toggleSearch } from '../../actions/utils';
 import { search } from '../../actions/page-list';
 
-import HeaderIcon from '../../components/main-header/header-icon/header-icon';
-import SearchInput from '../../components/main-header/search-input/search-input';
+import HeaderIcon from '../../components/header/header-icon/header-icon';
+import SearchInput from '../../components/header/search-input/search-input';
 
 import s from './main-header.scss';
 

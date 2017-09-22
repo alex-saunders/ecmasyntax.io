@@ -5,9 +5,9 @@ import withStyles from 'isomorphic-style-loader/lib/withStyles';
 
 import { search } from '../../actions/page-list';
 import { toggleSearch, pushToast, setAutoDownload, progressUpdate, toggleWaterfallHeader } from '../../actions/utils';
-import { getAutoDownload } from '../../utils/offline-cache';
 
 import WaterfallHeader from '../waterfall-header/waterfall-header';
+import Footer from '../../components/footer/footer';
 import Bundle from '../../components/route-handler/bundle';
 import Route from '../../components/route-handler/route';
 import RouteHandler from '../../components/route-handler/route-handler';
@@ -21,12 +21,6 @@ class Main extends React.Component {
     this.state = {
       scrollDistance: 0,
     };
-  }
-
-  componentDidMount() {
-    getAutoDownload().then((result) => {
-      this.props.setAutoDownload(result);
-    });
   }
 
   scrollHandler = () => {
@@ -93,9 +87,9 @@ class Main extends React.Component {
     return (
       <main className={s.main} ref={(main) => { this.main = main; }} onScroll={this.scrollHandler}>
         <WaterfallHeader />
-        {/* <div className={s['content-wrapper']}  ref={(div) => { this.contentWrapper = div; }}> */}
-          <div className={`${s['page-view']} ${this.props.isLoading ? s['loading-view'] : ''}`}>
+          <div className={`${s['page-view']} ${this.props.isLoading || this.props.pageListIsLoading ? s['loading-view'] : ''}`}>
             <RouteHandler key={2} progressUpdate={this.props.progressUpdate}>
+              <Route exact path="^\/$" component={Loading}/>
               <Route exact path="^\/about\/?$" component={About}/>
               <Route exact path="^\/pages\/(.*)$" component={Article}/>
               <Route exact query path="^(.*)\?search=?(.*)$" component={Search}/>
@@ -103,41 +97,7 @@ class Main extends React.Component {
               <Route notfound component={NoPage}/>
             </RouteHandler>
           </div>
-
-            {!this.props.searchOpen ?
-              <footer className={`${s.footer} ${this.props.isLoading ? s.hidden : ''}`}>
-                <div className={s.section}>
-                  <h1>
-                    A free, open source project to help web developers
-                  </h1>
-                  <p>
-                    v1.1.0 | Created by <a href="https://twitter.com/AlexJRsaunders" target="_blank" rel="noopener noreferrer">@alexjrsaunders</a>
-                  </p>
-                  <p>
-                    Released under the
-                    <a href="https://github.com/alex-saunders/ecmasyntax.io/blob/master/LICENSE.txt" target="_blank" rel="noopener noreferrer">
-                      &nbsp;MIT license.
-                    </a>
-                  </p>
-                </div>
-                <div className={s.section}>
-                  <h1>Share</h1>
-                  <p>
-
-                    <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A//ecmasyntax.io" target="_blank" rel="noopener noreferrer">
-                      <i className={`${s.facebook} fa fa-facebook-square`} aria-hidden="true" />
-                    </a>
-                    <a href="https://twitter.com/home?status=Javascript%20syntax%20reference%3A%20https%3A//ecmasyntax.io">
-                      <i className={`${s.twitter} fa fa-twitter-square`} aria-hidden="true" />
-                    </a>
-                  </p>
-                  <iframe src="https://ghbtns.com/github-btn.html?user=alex-saunders&repo=ecmasyntax.io&type=star&count=true" frameBorder="0" scrolling="0" width="160px" height="30px" />
-                </div>
-              </footer>
-            :
-              ''
-            }
-        {/* </div> */}
+          <Footer hidden={this.props.isLoading || this.props.searchOpen}/>
       </main>
     );
   }
@@ -172,6 +132,7 @@ function mapStateToProps(state) {
     activePageType: state.activePage.type,
     hasErrored: state.activePage.hasErrored,
     isLoading: state.activePage.isLoading,
+    pageListIsLoading: state.pageList.isLoading,
     drawerOpen: state.utils.drawerOpen,
     searchOpen: state.utils.searchOpen,
     waterfallHeaderOpen: state.utils.waterfallHeaderOpen,

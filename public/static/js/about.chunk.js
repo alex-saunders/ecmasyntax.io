@@ -1,6 +1,6 @@
 webpackJsonp([2],{
 
-/***/ 739:
+/***/ 734:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -12,25 +12,27 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _react = __webpack_require__(5);
+var _react = __webpack_require__(6);
 
 var _react2 = _interopRequireDefault(_react);
 
 var _reactRedux = __webpack_require__(26);
 
-var _withStyles = __webpack_require__(18);
+var _withStyles = __webpack_require__(19);
 
 var _withStyles2 = _interopRequireDefault(_withStyles);
 
-var _mdcSwitch = __webpack_require__(286);
+var _mdcSwitch = __webpack_require__(285);
 
 var _mdcSwitch2 = _interopRequireDefault(_mdcSwitch);
 
-var _activePage = __webpack_require__(285);
+var _activePage = __webpack_require__(283);
 
-var _utils = __webpack_require__(52);
+var _utils = __webpack_require__(48);
 
-var _aboutView = __webpack_require__(754);
+var _offlineCache = __webpack_require__(284);
+
+var _aboutView = __webpack_require__(749);
 
 var _aboutView2 = _interopRequireDefault(_aboutView);
 
@@ -45,29 +47,41 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 var AboutView = function (_React$Component) {
   _inherits(AboutView, _React$Component);
 
-  function AboutView() {
-    var _ref;
-
-    var _temp, _this, _ret;
-
+  function AboutView(props) {
     _classCallCheck(this, AboutView);
 
-    for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
-      args[_key] = arguments[_key];
-    }
+    var _this = _possibleConstructorReturn(this, (AboutView.__proto__ || Object.getPrototypeOf(AboutView)).call(this, props));
 
-    return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = AboutView.__proto__ || Object.getPrototypeOf(AboutView)).call.apply(_ref, [this].concat(args))), _this), _this._setAutoDownload = function () {
-      _this.props.setAutoDownload(!_this.props.autoDownload);
-    }, _temp), _possibleConstructorReturn(_this, _ret);
+    _this._setAutoDownload = function () {
+      (0, _offlineCache.setAutoDownload)(!_this.state.autoDownload).then(function () {
+        _this.setState({
+          autoDownload: !_this.state.autoDownload
+        });
+      });
+    };
+
+    _this.state = {
+      autoDownload: false
+    };
+    return _this;
   }
 
   _createClass(AboutView, [{
     key: 'componentDidMount',
     value: function componentDidMount() {
+      var _this2 = this;
+
       this.props.setActivePageTitle('About');
       this.props.setActiveRoute('/about');
       this.props.toggleWaterfallHeader(false);
+
       this.props.progressUpdate(100);
+
+      (0, _offlineCache.getAutoDownloadVal)().then(function (autoDownloadVal) {
+        _this2.setState({
+          autoDownload: autoDownloadVal
+        });
+      });
     }
   }, {
     key: 'render',
@@ -189,7 +203,7 @@ var AboutView = function (_React$Component) {
                   _react2.default.createElement('input', {
                     type: 'checkbox', id: 'auto-download-switch',
                     className: 'mdc-switch__native-control ' + _aboutView2.default.input,
-                    checked: this.props.autoDownload === true,
+                    checked: this.state.autoDownload,
                     onChange: this._setAutoDownload
                   }),
                   _react2.default.createElement(
@@ -243,10 +257,10 @@ exports.default = (0, _withStyles2.default)(_aboutView2.default, _mdcSwitch2.def
 
 /***/ }),
 
-/***/ 747:
+/***/ 742:
 /***/ (function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__(15)();
+exports = module.exports = __webpack_require__(17)();
 // imports
 exports.push([module.i, "@import url(https://fonts.googleapis.com/css?family=Roboto+Mono);", ""]);
 
@@ -275,12 +289,12 @@ exports.locals = {
 
 /***/ }),
 
-/***/ 754:
+/***/ 749:
 /***/ (function(module, exports, __webpack_require__) {
 
 
-    var content = __webpack_require__(747);
-    var insertCss = __webpack_require__(16);
+    var content = __webpack_require__(742);
+    var insertCss = __webpack_require__(18);
 
     if (typeof content === 'string') {
       content = [[module.i, content, '']];

@@ -1,6 +1,7 @@
 const webpack = require('webpack');
 const path = require('path');
 const fs = require('fs');
+const ManifestPlugin = require('webpack-manifest-plugin');
 const StatsWriterPlugin = require('webpack-stats-plugin').StatsWriterPlugin;
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 const CompressionPlugin = require('compression-webpack-plugin');
@@ -9,6 +10,9 @@ const autoprefixer = require('autoprefixer');
 
 const autoprefix = autoprefixer({ flexbox: true });
 const clientPlugins = [
+  // new CleanWebpackPlugin([path.join(__dirname, 'public', 'static', 'js')], {
+  //   watch: true,
+  // }),
   new webpack.optimize.CommonsChunkPlugin({
     name: 'vendor',
     minChunks: Infinity
@@ -18,13 +22,13 @@ const clientPlugins = [
       NODE_ENV: JSON.stringify(process.env.NODE_ENV),
     },
   }),
-  new CompressionPlugin({
-    asset: '[path].gz[query]',
-    algorithm: 'gzip',
-    test: /\.js$|\.css$|\.html$/,
-    threshold: 10240,
-    minRatio: 0.8,
-  }),
+  // new CompressionPlugin({
+  //   asset: '[path].gz[query]',
+  //   algorithm: 'gzip',
+  //   test: /\.js$|\.css$|\.html$/,
+  //   threshold: 10240,
+  //   minRatio: 0.8,
+  // }),
   function () {
     this.plugin('done', (stats) => {
       fs.writeFileSync(
@@ -32,9 +36,9 @@ const clientPlugins = [
         JSON.stringify(stats.toJson()));
     });
   },
-  new CleanWebpackPlugin([path.join(__dirname, 'public', 'static', 'js')], {
-    watch: true,
-  }),
+  new ManifestPlugin({
+    publicPath: '/static/js/'
+  })
 ];
 
 const clientConfig = {
@@ -44,8 +48,10 @@ const clientConfig = {
   },
   devtool: 'cheap-module-source-map',
   output: {
-    path: path.resolve(__dirname, 'public', 'static'),
-    publicPath: '/static/',
+    path: path.resolve(__dirname, 'public', 'static', 'js'),
+    publicPath: '/static/js/',
+    // filename: '[name].[chunkhash].bundle.js',
+    // chunkFilename: '[name].[chunkhash].chunk.js',
     filename: '[name].bundle.js',
     chunkFilename: '[name].chunk.js',
   },

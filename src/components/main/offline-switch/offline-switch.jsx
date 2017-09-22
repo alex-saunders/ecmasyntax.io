@@ -5,7 +5,9 @@ import s from './offline-switch.scss';
 
 import Dialog from '../../common/dialog/dialog';
 
-import { checkCache, cacheResponse, uncacheResponse } from '../../../utils/offline-cache';
+import { getAutoDownloadVal, getAutoDownloadSet, 
+          setAutoDownload, checkCache, cacheResponse, 
+          uncacheResponse } from '../../../utils/offline-cache';
 
 class OfflineSwitch extends React.Component {
   constructor(props) {
@@ -19,7 +21,6 @@ class OfflineSwitch extends React.Component {
   }
 
   componentDidMount() {
-    this._updateState(this.props.activeRoute);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -30,43 +31,19 @@ class OfflineSwitch extends React.Component {
 
   // this function gets called upon mount & subsequent route changes
   _updateState = (activeRoute) => {
-    // if no change in route, get out of here
-    if (activeRoute === this.state.activeRoute) {
-      return;
-    }
+    const apiRequest = this._generateRequest(activeRoute);
 
-    const request = this._generateRequest(activeRoute);
+    checkCache(apiRequest).then((cached) => {
+      this.setState({
+        checked: cached
+      })
+    });
 
-    // if user has chosen to auto download all content
-    if (this.props.autoDownload) {
-      checkCache(request)
-      .then((cached) => {
-        // and the content is not already cached
-        if (!cached) {
-          // cache the response
-          cacheResponse(request)
-          .then(() => {
-            this.setState({
-              checked: true,
-            });
-          });
-        } else {
-          // else if the content is already cached, update state
-          this.setState({
-            checked: true,
-          });
-        }
-      });
-    } else {
-      // else if the user has not chosen to auto download all content
-      checkCache(request).then((cached) => {
-        // set the state dependent on whether the content is already cached or not
-        this.setState({
-          checked: cached,
-          activeRoute,
-        });
-      });
-    }
+    getAutoDownloadVal().then((autoDownloadVal) => {
+      if (autoDownloadVal) {
+        this._cacheResponse(apiRequest);
+      }
+    })
   }
 
   _generateRequest = (route) => {
@@ -75,28 +52,50 @@ class OfflineSwitch extends React.Component {
 
   handleClick = () => {
     if (!window.CacheStorage) {
-      this._showToast('Sorry, this feature is not available in your browser!', 'OK', 3000, () => {
+      this.props.pushToast('Sorry, this feature is not available in your browser!', 'OK', 3000, () => {
       });
+      return;
     }
-    const request = this._generateRequest(this.props.activeRoute);
-    checkCache(request).then((cached) => {
-      if (cached) {
-        uncacheResponse(request).then(() => {
-          this.setState({
-            checked: false,
-          });
+
+    const apiRequest = this._generateRequest(this.props.activeRoute)
+    if (!this.state.checked) {
+      this._cacheResponse(apiRequest).then(() => {
+        this.props.pushToast('Content available offline', 'OK', 3000, () => {
         });
-      } else {
-        this._autoDownloadDialog();
-        cacheResponse(request).then(() => {
-          this.setState({
-            checked: true,
-          });
-          this._showToast('Content avaliable offline', 'OK', 3000, () => {
-          });
+      })
+    } else {
+      this._uncacheResponse(apiRequest);
+    }
+  }
+
+  _cacheResponse(apiRequest) {
+    return new Promise((resolve, reject) => {
+      cacheResponse(apiRequest).then(() => {
+        this.setState({
+          checked: true,
         });
-      }
+
+        getAutoDownloadSet().then((autoDownloadSet) => {
+          if (!autoDownloadSet) {
+            this.setState({
+              dialogActive: true,
+            });
+          }
+        });
+
+        resolve();
+      }).catch((err) => {
+        reject(err);
+      })
     });
+  }
+
+  _uncacheResponse(apiRequest) {
+    uncacheResponse(apiRequest).then(() => {
+      this.setState({
+        checked: false,
+      })
+    })
   }
 
   _closeDialog = () => {
@@ -105,29 +104,9 @@ class OfflineSwitch extends React.Component {
     });
   }
 
-  // checks IDB for whether user has decided whether or not to
-  // download all content automatically
-  _autoDownloadDialog() {
-    // at the moment, if indexedDB not avaliable, no alternative.
-    if (!window.indexedDB) {
-      return;
-    }
-
-    // user has not confirmed whether or not to auto download content
-    if (this.props.autoDownload === null) {
-      this.setState({
-        dialogActive: true,
-      });
-    }
-  }
-
   _setAutoDownload = (bool) => {
     this._closeDialog();
-    this.props.setAutoDownload(bool);
-  }
-
-  _showToast = (message, actionText, timeout, action) => {
-    this.props.pushToast(message, actionText, timeout, action);
+    setAutoDownload(true);
   }
 
   render() {

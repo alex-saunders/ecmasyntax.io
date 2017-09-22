@@ -6,19 +6,42 @@ import switchStyles from '@material/switch/dist/mdc.switch.css';
 import { setActivePageTitle, setActiveRoute } from '../../../actions/active-page';
 import { progressUpdate, toggleWaterfallHeader } from '../../../actions/utils';
 
+import { getAutoDownloadVal, setAutoDownload } from '../../../utils/offline-cache';
+
 import s from './about-view.scss';
 
 class AboutView extends React.Component {
+
+  constructor(props) {
+    super(props);
+
+    
+
+    this.state = {
+      autoDownload: false,
+    }
+  }
 
   componentDidMount() {
     this.props.setActivePageTitle('About');
     this.props.setActiveRoute('/about');
     this.props.toggleWaterfallHeader(false);
+    
     this.props.progressUpdate(100);
+
+    getAutoDownloadVal().then((autoDownloadVal) => {
+      this.setState({
+        autoDownload: autoDownloadVal
+      })
+    })
   }
 
   _setAutoDownload = () => {
-    this.props.setAutoDownload(!this.props.autoDownload);
+    setAutoDownload(!this.state.autoDownload).then(() => {
+      this.setState({
+        autoDownload: !this.state.autoDownload
+      })
+    })
   }
 
   render() {
@@ -82,7 +105,7 @@ class AboutView extends React.Component {
                   <input
                     type="checkbox" id="auto-download-switch"
                     className={`mdc-switch__native-control ${s.input}`}
-                    checked={(this.props.autoDownload === true)}
+                    checked={(this.state.autoDownload)}
                     onChange={this._setAutoDownload}
                   />
                   <div className="mdc-switch__background">

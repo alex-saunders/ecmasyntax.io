@@ -1,4 +1,4 @@
-import { toggleDrawer, toggleSearch, progressUpdate } from './utils';
+import { toggleDrawer, toggleSearch, progressUpdate, pushToast } from './utils';
 import { search } from './page-list';
 
 export const pageFetchError = (bool) => {
@@ -46,13 +46,16 @@ export const setActivePageTitle = (title) => {
 
 export const pageFetchSuccess = (page) => {
   return (dispatch) => {
-    dispatch(setActivePage(page));
+    dispatch(setActivePage(page));    
     dispatch(pageIsLoading(false));
   };
 };
 
 export const fetchPage = (route) => {
   return (dispatch) => {
+    let networkDataRecieved = false;
+    let cacheDataRecieved = false;
+
     dispatch(setActiveRoute(route));
     dispatch(progressUpdate(0));
     dispatch(pageIsLoading(true));
@@ -62,33 +65,72 @@ export const fetchPage = (route) => {
 
     switch (true) {
       case /^\/pages\/(.*)$/.test(route):
-        setTimeout(() => {
-          dispatch(progressUpdate(50));          
-          fetch(`/api${route}`)
-          .then((response) => {
-            if (!response.ok) {
-              throw Error(response.statusText);
-              dispatch(progressUpdate(0));              
-            }
-            return response;
-          })
-          .then((response) => { 
-            dispatch(progressUpdate(75));
-            return response.json(); 
-          })
-          .then((response) => {
+        // here we make two requests, one to the cache, one to the network. 
+        // The idea is to show the cached data first, 
+        // then inform the user when/if the network data arrives and the
+        // content is newer than the cached response.
+
+        dispatch(progressUpdate(50)); 
+        
+        // fetch fresh data
+        const networkUpdate = fetch(`/api${route}`)
+        .then((response) => {
+          if (!response.ok) {
+            throw Error(response.statusText);
+            if (!cacheDataRecieved) dispatch(progressUpdate(0));
+          }
+          return response;
+        })
+        .then((response) => { 
+          if (!cacheDataRecieved) dispatch(progressUpdate(75));
+          return response.json(); 
+        })
+        .then((response) => {
+          networkDataRecieved = true;
+          if (!cacheDataRecieved) {
+            // we have used the data from the network request as the response here
             dispatch(progressUpdate(100));
             dispatch(setActivePageType('article'));
             dispatch(pageFetchSuccess(response));
             dispatch(setActivePageTitle(response.fields.name));
-          })
-          .catch((err) => {
-            dispatch(progressUpdate(0));
-            dispatch(pageFetchError(true));
-            throw err;
-          });
-        }, 0);
-        break;
+          }
+          if (cacheDataRecieved) {
+            if (cacheDataRecieved.sys.updatedAt !== response.sys.updatedAt) {
+              // the network request response has newer content than the cached response
+              dispatch(pushToast('Newer content is available, reload to update', 'reload', false, () => {
+                location.reload();            
+              }));
+            } else {
+              // the cached content is up to date
+            }
+          }
+        })
+        .catch((err) => {
+          dispatch(progressUpdate(0));
+          dispatch(pageFetchError(true));
+          throw err;
+        });
+
+        // fetch cached data
+        caches.match(`/api${route}`).then((response) => {
+          if (!response) throw Error("No data");
+          return response.json();
+        }).then((data) => {
+          cacheDataRecieved = data;
+          
+          if (!networkDataRecieved) {
+            // we have used the data from the cache as the response here
+            dispatch(progressUpdate(100));
+            dispatch(setActivePageType('article'));
+            dispatch(pageFetchSuccess(data));
+            dispatch(setActivePageTitle(data.fields.name));
+          }
+        }).catch(() => {
+          return networkUpdate;
+        }).catch((err) => {
+          console.log(err);
+        });
+      break;
       default:
         dispatch(pageIsLoading(false));
         dispatch(pageFetchSuccess({ fields: { name: route.substring(1), route } }));
