@@ -23,7 +23,9 @@ class RouteHandler extends React.Component {
       if (child.props.hasOwnProperty('notfound')) {
         this.setState({ notFoundRoute: child })
       } else {
-        validRoutes.push(child);
+        if (child.props.hasOwnProperty('path')) {
+          validRoutes.push(child);
+        }
       }
     });
 

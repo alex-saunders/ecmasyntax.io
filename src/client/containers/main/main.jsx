@@ -1,11 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import CSSTransitionGroup from 'react-transition-group/CSSTransitionGroup';
 import { connect } from 'react-redux';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 
 import { search } from '../../actions/page-list';
-import { toggleSearch, pushToast, setAutoDownload, progressUpdate, toggleWaterfallHeader } from '../../actions/utils';
+import { setAutoDownload, progressUpdate, toggleWaterfallHeader } from '../../actions/utils';
 
 import WaterfallHeader from '../waterfall-header/waterfall-header';
 import Footer from '../../components/footer/footer';
@@ -36,21 +35,16 @@ class Main extends React.Component {
   }
 
   render() {
-    // const showWaterfallHeader =
-    //   this.caches
-    //   && this.props.activePage
-    //   && new RegExp(/^\/pages\//).test(this.props.activePage.fields.route)
-    //   && !this.props.searchOpen
-    //   && !this.state.scrolled;
-    //   // && !this.props.isLoading;
-
     const About = (props) => {
       return (
         <Bundle scrollDistance={this.state.scrollDistance} load={() => import(/* webpackChunkName: "about" */ '../../components/views/about-view/about-view')}>
-          {(About) => <About
-                        {...props}
-                        autoDownload={this.props.autoDownload}
-                        setAutoDownload={this.props.setAutoDownload}/>}
+          {(About) => (
+              <About
+                {...props}
+                autoDownload={this.props.autoDownload}
+                setAutoDownload={this.props.setAutoDownload}/>
+            )
+          }
         </Bundle>
       );
     }
@@ -94,7 +88,6 @@ class Main extends React.Component {
               <Route exact path="^\/about\/?$" component={About}/>
               <Route exact path="^\/pages\/(.*)$" component={Article}/>
               <Route exact query path="^(.*)\?search=?(.*)$" component={Search}/>
-              <Route exact path="^\/loading\/?$" component={Loading}/>
               <Route notfound component={NoPage}/>
             </RouteHandler>
           </div>
@@ -105,14 +98,8 @@ class Main extends React.Component {
 }
 
 Main.propTypes = {
-  activePage: PropTypes.object,
-  activeRoute: PropTypes.string,
   searchOpen: PropTypes.bool.isRequired,
-  hasErrored: PropTypes.bool,
   isLoading: PropTypes.bool,
-  search: PropTypes.func.isRequired,
-  toggleSearch: PropTypes.func.isRequired,
-  pushToast: PropTypes.func.isRequired,
   autoDownload: PropTypes.bool,
   setAutoDownload: PropTypes.func.isRequired,
 };
@@ -127,28 +114,20 @@ Main.defaultProps = {
 
 function mapStateToProps(state) {
   return {
-    activeRoute: state.activePage.route,
-    activePage: state.activePage.page,
     activePageType: state.activePage.type,
-    hasErrored: state.activePage.hasErrored,
     isLoading: state.activePage.isLoading,
     pageListIsLoading: state.pageList.isLoading,
-    drawerOpen: state.utils.drawerOpen,
     searchOpen: state.utils.searchOpen,
     waterfallHeaderOpen: state.utils.waterfallHeaderOpen,
     autoDownload: state.utils.autoDownload,
-    currQuery: state.pageList.query,
   };
 }
 
 function matchDispatchToProps(dispatch) {
   return {
-    toggleDrawer: (open) => { dispatch(toggleDrawer(open)); },
     search: (query) => { dispatch(search(query)); },
-    toggleSearch: (open) => { dispatch(toggleSearch(open)); },
     toggleWaterfallHeader: (visible) => { dispatch(toggleWaterfallHeader(visible)); },
     progressUpdate: (percentage) => { dispatch(progressUpdate(percentage)); },
-    pushToast: (message, action, timeout, callback) => { dispatch(pushToast(message, action, timeout, callback)); },
     setAutoDownload: (bool) => { dispatch(setAutoDownload(bool)); },
   };
 }

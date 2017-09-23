@@ -29,14 +29,14 @@ const WaterfallHeader = ({ activeRoute, pushToast, autoDownload, visible, setAut
 
 WaterfallHeader.propTypes = {
   visible: PropTypes.bool.isRequired,
-  activeRoute: PropTypes.string,
   pushToast: PropTypes.func.isRequired,
-  autoDownload: PropTypes.bool,
   setAutoDownload: PropTypes.func.isRequired,
+  autoDownload: PropTypes.bool,
+  activeRoute: PropTypes.string,
 };
 
 WaterfallHeader.defaultProps = {
-  autoDownload: null,
+  autoDownload: false,
   activeRoute: null,
 };
 

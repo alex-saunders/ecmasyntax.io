@@ -15,7 +15,11 @@ class Route extends Component {
   }
 
   render() {
-    return <div>{this.props.component({ ...this.props })}</div>
+    return (
+      <div>
+        {this.props.component({ ...this.props })}
+      </div>
+    );
   }
 }
 

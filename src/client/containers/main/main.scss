@@ -23,9 +23,6 @@
   transition: width 0.2s $anim-easing;
 }
 .content-wrapper {
-  // display: flex;
-  // flex-direction: column;
-  // justify-content: space-between;
   flex: 1;
   position: relative;
   z-index: 9;
@@ -47,32 +44,4 @@
   flex: 1;
   display: flex;
   flex-direction: column;
-}
-
-.enter {
-  opacity: 0.01;
-}
-
-.enter.enterActive {
-  opacity: 1;
-  transition: opacity 0.3s $anim-easing, transform 0.3s $anim-easing;
-}
-
-.leave {
-  opacity: 0;
-  position: absolute;
-}
-
-.leave.leaveActive {
-  opacity: 0.01;
-  transition: transform 0.3s $anim-easing, opacity 0.2s $anim-easing;
-}
-
-.appear {
-  opacity: 0.01;
-}
-
-.appear.appearActive {
-  opacity: 1;
-  transition: opacity 0.5s $anim-easing;
 }

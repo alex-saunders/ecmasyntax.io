@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
+import { CSSTransitionGroup } from 'react-transition-group'
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import s from './dialog.scss';
 
@@ -14,7 +14,7 @@ class Dialog extends React.Component {
 
   render() {
     return (
-      <ReactCSSTransitionGroup
+      <CSSTransitionGroup
         transitionName={{
           enter: s.enter,
           enterActive: s.enterActive,
@@ -60,7 +60,7 @@ class Dialog extends React.Component {
           ''
         }
 
-      </ReactCSSTransitionGroup>
+      </CSSTransitionGroup>
     );
   }
 }

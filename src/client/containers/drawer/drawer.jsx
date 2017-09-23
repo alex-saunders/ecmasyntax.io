@@ -6,7 +6,6 @@ import s from './drawer.scss';
 
 import { INITIATE_DRAGGING_THRESHOLD, DRAWER_CLOSE_THRESHOLD } from '../../utils/constants';
 import { toggleDrawer } from '../../actions/utils';
-import { addFilter, removeFilter } from '../../actions/page-list';
 
 import RouteHandler from '../../components/route-handler/route-handler';
 import Link from '../../components/route-handler/link/link';
@@ -180,14 +179,14 @@ class Drawer extends React.Component {
 }
 
 Drawer.propTypes = {
-  hasErrored: PropTypes.bool,
-  isLoading: PropTypes.bool,
   drawerOpen: PropTypes.bool.isRequired,
   entries: PropTypes.array.isRequired,
   activePages: PropTypes.array.isRequired,
+  toggleDrawer: PropTypes.func.isRequired,
+  hasErrored: PropTypes.bool,
+  isLoading: PropTypes.bool,
   activePage: PropTypes.object,
   activeRoute: PropTypes.string,
-  toggleDrawer: PropTypes.func.isRequired,
 };
 
 Drawer.defaultProps = {
@@ -213,8 +212,6 @@ function mapStateToProps(state) {
 function matchDispatchToProps(dispatch) {
   return {
     toggleDrawer: (open) => { dispatch(toggleDrawer(open)); },
-    addFilter: (filter) => { dispatch(addFilter(filter)); },
-    removeFilter: (filter) => { dispatch(removeFilter(filter)); },
   };
 }
 

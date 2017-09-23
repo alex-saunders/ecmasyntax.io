@@ -88,24 +88,24 @@ class ArticleView extends React.Component {
     }
     if (this.props.page) {
       return (
-        <div className={s['markdown-wrapper']}>          
-            <div dangerouslySetInnerHTML={{ __html: this.props.page.fields.blob }} />
-            <div className={s['footer-container']}>
-              <Panel
-                title="Tags"
-                body={this.mapTags()}
-              />
+        <div className={s['markdown-wrapper']} key={location.href}>          
+          <div dangerouslySetInnerHTML={{ __html: this.props.page.fields.blob }} />
+          <div className={s['footer-container']}>
+            <Panel
+              title="Tags"
+              body={this.mapTags()}
+            />
 
-              <Panel
-                title="References"
-                body={<ol>{this.mapReferences()}</ol>}
-              />
-            </div>
+            <Panel
+              title="References"
+              body={<ol>{this.mapReferences()}</ol>}
+            />
+          </div>
         </div>
       );
     } else {
       return (
-        <div>{ this.props.location }</div>
+        <div>Error loading article</div>
       )
     }
   }

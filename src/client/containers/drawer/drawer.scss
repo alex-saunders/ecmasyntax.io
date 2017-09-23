@@ -85,6 +85,7 @@
   background-color: $drawer-bg;
 }
 .drawer-home {
+  animation: flyInFromLeft 0.6s 1;
   position: relative;
   overflow: hidden;
   padding: 0 24px;
