@@ -1,0 +1,34 @@
+$primary-1: #28353e;
+$primary-1-text: #fff;
+
+$primary-2: #00b4a2;
+
+$accent-1: #007468;
+
+$body-bg: #fff;
+$body-text: #373737;
+
+$drawer-bg: #1e2b32;
+$drawer-text: #fff;
+$drawer-subheading: rgb(192, 192, 192);
+
+$border-color: rgb(50, 64, 71);
+
+$anim-easing: cubic-bezier(0.4, 0, 0.2, 1);
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+$screen-sm-max: 500px;
+
+@mixin ellipsis() {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+@mixin headerShadow() {
+    box-shadow: 0px 2px 4px rgba(0,0,0,0.3);
+}
