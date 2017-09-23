@@ -1,0 +1,19 @@
+@import '../../scss/theme';
+
+.header {
+  position: relative;
+  flex-shrink: 0;
+  top: -1px;
+  z-index: 100;
+  width: 100%;
+  background-color: $primary-1;
+  overflow: hidden;
+  @include headerShadow();
+
+  transition: max-height 0.2s cubic-bezier(.4,0,.2,1);
+}
+
+.header-contentWrapper {
+  float: right;
+  padding: 20px;
+}
