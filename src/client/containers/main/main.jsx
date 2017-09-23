@@ -34,6 +34,10 @@ class Main extends React.Component {
     }
   }
 
+  scrollTo = (scrollY) => {
+    this.main.scrollTop = scrollY;
+  }
+
   render() {
     const About = (props) => {
       return (
@@ -53,6 +57,7 @@ class Main extends React.Component {
       <Bundle load={() => import(/* webpackChunkName: "article" */ '../../components/views/article-view/article-view')}>
         {(Article) => <Article
                         {...props}
+                        scrollTo={this.scrollTo}
                         triggerScrollHandler={this.scrollHandler}/>}
       </Bundle>
     );

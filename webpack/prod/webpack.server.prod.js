@@ -5,5 +5,6 @@ const CommonConfig = require('../common/webpack.server.common.js');
 module.exports = Merge(CommonConfig, {
   devtool: 'inline-source-map',
   plugins: [
+    new webpack.optimize.UglifyJsPlugin(),    
   ] 
 });

@@ -26,6 +26,13 @@ class ArticleView extends React.Component {
     // page has been retrieved
     if (this.props.page && !this.props.isLoading && prevProps.isLoading) {
       this.props.triggerScrollHandler();
+      if (location.hash) {
+        const heading = this.content.querySelector(location.hash);
+        console.log(heading);
+        if (heading) {
+          this.props.scrollTo(heading.offsetTop);
+        }
+      }
     }
   }
 
@@ -88,19 +95,32 @@ class ArticleView extends React.Component {
     }
     if (this.props.page) {
       return (
-        <div className={s['markdown-wrapper']} key={location.href}>          
-          <div dangerouslySetInnerHTML={{ __html: this.props.page.fields.blob }} />
-          <div className={s['footer-container']}>
-            <Panel
-              title="Tags"
-              body={this.mapTags()}
-            />
+        <div className={s['article-wrapper']} key={location.href}>    
+          <div className={s['markdown-wrapper']}>
+            <div
+              ref={(div) => { this.content = div; }}
+              dangerouslySetInnerHTML={{ __html: this.props.page.fields.blob }}/>
+            <div className={s['footer-container']}>
+              <Panel
+                title="Tags"
+                body={this.mapTags()}
+              />
 
-            <Panel
-              title="References"
-              body={<ol>{this.mapReferences()}</ol>}
-            />
+              <Panel
+                title="References"
+                body={<ol>{this.mapReferences()}</ol>}
+              />
+            </div>
           </div>
+          <Panel
+            className={s['article-contents']}
+            title="Contents"
+            body={<div dangerouslySetInnerHTML={{ __html: this.props.page.fields.contents }}/>}
+          />
+          {/* <div className={s['article-contents']}>
+            <h1 className={s.title}>Contents</h1>
+            <div dangerouslySetInnerHTML={{ __html: this.props.page.fields.contents }}/>
+          </div> */}
         </div>
       );
     } else {
@@ -110,6 +130,10 @@ class ArticleView extends React.Component {
     }
   }
 }
+
+ArticleView.propTypes = {
+  scrollTo: PropTypes.func.isRequired
+};
 
 function mapStateToProps(state) {
   return {

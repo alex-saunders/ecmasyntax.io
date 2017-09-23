@@ -31,10 +31,6 @@ class RouteHandler extends React.Component {
 
     this.validRoutes = validRoutes;
 
-    this.setState({
-      location: location.href,
-    })
-
     this.onPopState();
   }
   
@@ -54,11 +50,17 @@ class RouteHandler extends React.Component {
   }
 
   onPopState = () => {
+    if (`${location.pathname}${location.search}` === this.state.location) return;
+    
+    this.setState({
+      location: `${location.pathname}${location.search}` ,
+    });
     this.props.progressUpdate(0);
     this.chooseActiveRoute();
   }
 
   chooseActiveRoute = () => {  
+    console.log('choosing route');
     let content;  
 
     if (location.search) {

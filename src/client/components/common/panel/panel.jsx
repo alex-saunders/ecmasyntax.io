@@ -46,7 +46,7 @@ class Panel extends React.Component {
       maxHeight: this.state.closed ? '0px' : this.state.maxHeight,
     };
     return (
-      <div className={s.panel}>
+      <div className={`${s.panel} ${this.props.className}`}>
         <button className={s['panel-title']} onClick={this._handleClick}>
           {this.props.title}
           <div className={s.filler} />
@@ -76,8 +76,13 @@ class Panel extends React.Component {
 }
 
 Panel.propTypes = {
+  className: PropTypes.string,
   title: PropTypes.string.isRequired,
   body: PropTypes.any.isRequired,
+};
+
+Panel.defaultProps = {
+  className: ''
 };
 
 export default withStyles(s)(Panel);

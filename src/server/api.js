@@ -2,12 +2,23 @@ import express                from 'express';
 import * as contentful        from 'contentful';
 import crypto                 from 'crypto';
 import marked                 from 'marked';
+import toc                    from 'markdown-toc';
 import { space, accessToken } from '../../credentials';
 
 const contentfulClient = contentful.createClient({
-  space,
-  accessToken,
+  space: space || process.env.CONTENTFUL_SPACE,
+  accessToken: accessToken || process.env.CONTENTFUL_TOKEN
 });
+
+const renderer = new marked.Renderer();
+
+renderer.heading = (text, level) => {
+  var escapedText = text.toLowerCase().replace(/[^\w]+/g, '-');
+ 
+  return `<h${level} id="${escapedText}">
+            <a name="${escapedText}" href="#${escapedText}">${text}</a>
+          </h${level}>`;
+};
 
 const loadArticles = async () => {
  try {
@@ -58,7 +69,12 @@ const fetchPage = async (req) => {
  })
 
  const entry = entries.items[0];
- entry.fields.blob = marked(entry.fields.blob)
+ const contents = marked(toc(entry.fields.blob).content);
+ const blob = marked(entry.fields.blob, { renderer: renderer });
+ 
+ entry.fields.contents = contents;
+ entry.fields.blob = blob;
+
  return entry;
 }
 

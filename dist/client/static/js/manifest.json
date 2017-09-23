@@ -1,8 +1,8 @@
 {
-  "404.js": "/static/js/404.chunk.js",
-  "about.js": "/static/js/about.chunk.js",
-  "app.js": "/static/js/app.bundle.js",
-  "article.js": "/static/js/article.chunk.js",
-  "search.js": "/static/js/search.chunk.js",
-  "vendor.js": "/static/js/vendor.bundle.js"
+  "404.js": "/static/js/404.4d19fac7e1dce440d11c.chunk.js",
+  "about.js": "/static/js/about.8c9a00c75f2d8f5cb408.chunk.js",
+  "app.js": "/static/js/app.474698af81b2b5d7695e.bundle.js",
+  "article.js": "/static/js/article.60a71a899ac682901dc5.chunk.js",
+  "search.js": "/static/js/search.3023fb16db54148caece.chunk.js",
+  "vendor.js": "/static/js/vendor.44e3421be252442ea758.bundle.js"
 }

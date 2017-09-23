@@ -32,6 +32,11 @@
 }
 .page-view {
   flex: 1;
+  padding: 16px 64px;
+
+  @media (max-width: $screen-sm-max) {
+    padding: 8px;
+  }
 
   &.loading-view {
     display: flex;
