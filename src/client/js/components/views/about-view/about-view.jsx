@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import switchStyles from '@material/switch/dist/mdc.switch.css';
 
-import { setActivePageTitle, setActiveRoute } from '../../../actions/active-page';
+import { setActivePageTitle, setActivePageType, setActiveRoute } from '../../../actions/active-page';
 import { progressUpdate, toggleWaterfallHeader } from '../../../actions/utils';
 
 import { getAutoDownloadVal, setAutoDownload } from '../../../utils/offline-cache';
@@ -16,8 +16,6 @@ class AboutView extends React.Component {
   constructor(props) {
     super(props);
 
-    
-
     this.state = {
       autoDownload: false,
     }
@@ -25,6 +23,7 @@ class AboutView extends React.Component {
 
   componentDidMount() {
     this.props.setActivePageTitle('About');
+    this.props.setActivePageType('About');
     this.props.setActiveRoute('/about');
     this.props.toggleWaterfallHeader(false);
     
@@ -138,6 +137,7 @@ function mapStateToProps(state) {
 function matchDispatchToProps(dispatch) {
   return {
     setActivePageTitle: (title) => { dispatch(setActivePageTitle(title)); },
+    setActivePageType: (type) => { dispatch(setActivePageType(type)); },
     setActiveRoute: (route) => { dispatch(setActiveRoute(route)); },
     progressUpdate: (percentage) => { dispatch(progressUpdate(percentage)); },
     toggleWaterfallHeader: (visible) => { dispatch(toggleWaterfallHeader(visible)); },
