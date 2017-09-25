@@ -45,7 +45,7 @@ function renderFullPage(res, html = false, css = false, preloadedState = false) 
       <head>
         <meta charset="utf-8">
         <meta http-equiv="x-ua-compatible" content="ie=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
         <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500" rel="preload" as="style" crossorigin onload="this.rel='stylesheet'">
         <link rel="shortcut icon" href="${manifest['icons/favicon.ico']}">
