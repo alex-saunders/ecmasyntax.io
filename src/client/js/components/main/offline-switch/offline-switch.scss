@@ -1,4 +1,5 @@
 @import '../../../scss/theme';
+@import '../../../scss/typography';
 
 .switch-container {
   display: inline-block;
@@ -15,11 +16,11 @@
 }
 
 .switch-label {
+  display: flex;
+  align-items: center;
+  @include subheading();  
   cursor: pointer;    
   color: $drawer-subheading;
-  font-size: 14px;
-  font-weight: 500;
-  text-transform: uppercase;
   transition: color .2s $anim-easing;
 
   > span {
@@ -29,6 +30,6 @@
 
 .switch-container.active {
   .switch-label {
-    color: $primary-2;
+    color: $primary-light;
   }
 }

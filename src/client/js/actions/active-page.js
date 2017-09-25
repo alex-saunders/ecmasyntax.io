@@ -91,8 +91,8 @@ export const fetchPage = (route) => {
             // we have used the data from the network request as the response here
             dispatch(progressUpdate(100));
             dispatch(setActivePageType('article'));
-            dispatch(pageFetchSuccess(response));
             dispatch(setActivePageTitle(response.fields.name));
+            dispatch(pageFetchSuccess(response));
           }
           if (cacheDataRecieved) {
             if (cacheDataRecieved.sys.updatedAt !== response.sys.updatedAt) {

@@ -1,8 +1,11 @@
 @import '../../../scss/theme';
+@import '../../../scss/typography';
 @import '../article-view/article-view';
 
 .about-container {
   animation: fadeIn 0.4s 1;
+  @include light-14();
+  line-height: 28px;
   
   .share {
     display: inline-block;

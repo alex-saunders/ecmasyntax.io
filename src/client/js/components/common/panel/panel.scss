@@ -1,10 +1,11 @@
 @import '../../../scss/theme';
+@import '../../../scss/typography';
 
 .panel {
   border-radius: 0px;
   margin-top: 16px;
   margin-bottom: 16px;
-  box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.4);
+  box-shadow: 0 0 .5rem rgba(0, 0, 0, .1)
 }
 
 .panel-title {
@@ -15,11 +16,9 @@
   border: none;
   align-items: center;
 
-  font-weight: 500;
-  text-transform: uppercase;
-  font-size: 14px;
   background: #fff;
-  color: $primary-1;
+  color: $primary-dark;
+  @include subheading();
 
   padding: 16px;
   margin: 0;
@@ -28,7 +27,7 @@
     flex: 1;
   }
   .expand {
-    fill: $primary-1;
+    fill: $primary-dark;
     transform: rotate(180deg);
   }
   .expand.closed {
@@ -40,6 +39,10 @@
   overflow: hidden;
   opacity: 1;
   transition: max-height 0.4s $anim-easing, opacity 0.3s $anim-easing;
+
+  * {
+    user-select: none; 
+  }
 }
 .panel-body--wrapper.closed {
   opacity: 0;

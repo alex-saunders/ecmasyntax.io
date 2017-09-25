@@ -9,7 +9,6 @@ import { toggleDrawer } from '../../actions/utils';
 
 import RouteHandler from '../../components/route-handler/route-handler';
 import Link from '../../components/route-handler/link/link';
-import Ripple from '../../components/common/ripple/ripple';
 import PageList from '../../components/drawer/page-list/page-list';
 
 class Drawer extends React.Component {
@@ -138,25 +137,14 @@ class Drawer extends React.Component {
   render() {
     return (
       <div
-        className={`${s['drawer-container']} ${this.props.drawerOpen ? s.active : ''}`}
+        className={`${s['drawer-wrapper']} ${this.props.drawerOpen ? s.active : ''}`}
         ref={(div) => { this.drawerContainer = div; }}
       >
         <aside className={s.drawer} ref={(aside) => { this.drawer = aside; }}>
-          <div className={s['drawer-homeContainer']}>
-            <Link route={'/about'}>
-              <div
-                className={`${s['drawer-home']} 
-                ${this.props.activeRoute === '/about' ? s.active : ''}`}
-              >
-                <svg height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M0 0h24v24H0z" fill="none" />
-                  <path d="M11 17h2v-6h-2v6zm1-15C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zM11 9h2V7h-2v2z" />
-                </svg>
-                <span>
-                  About
-                </span>
-                <Ripple />
-              </div>
+          <div className={s['drawer-section']}>
+            <Link ripple route={'/about'} className={`${s['drawer-subheading']} 
+                ${this.props.activeRoute === '/about' ? s.active : ''}`}>
+              <span>About</span>
             </Link>
           </div>
           <div className={s['pageList-wrapper']}>

@@ -1,5 +1,6 @@
 import express                from 'express';
 import * as contentful        from 'contentful';
+import moment                 from 'moment';
 import crypto                 from 'crypto';
 import marked                 from 'marked';
 import toc                    from 'markdown-toc';
@@ -41,7 +42,7 @@ const loadArticles = async () => {
     
    const hash = crypto.createHash('md5');
    Object.keys(linkedEntries).forEach((key) => {
-     const entry = linkedEntries[key];
+     const entry = objectAssignDeep({}, linkedEntries[key]);
      linkEntry(includes, entry, 'category');
      linkEntry(includes, entry.fields.category, 'specification');
 
@@ -50,6 +51,9 @@ const loadArticles = async () => {
      const route = `/pages/${specification.fields.name}/${category.fields.name}/${entry.fields.name}`;
 
      entry.fields.route = encodeURI(route);
+     entry.sys.updatedAt = moment(entry.sys.updatedAt).format("dddd, MMMM Do YYYY, h:mm:ss a")
+
+     linkedEntries[key] = entry;
      hash.update(entry.sys.id);
    })
 
@@ -74,18 +78,29 @@ const fetchPage = async (req) => {
  const entries = await contentfulClient.getEntries({
    content_type: 'syntaxEntry',
    'fields.name': pageName,
+   include: 2,
  })
 
  const entry = entries.items[0];
  const contents = marked(toc(entry.fields.blob).content);
  const blob = marked(entry.fields.blob, { renderer: renderer });
 
- return objectAssignDeep({}, entry, {
+ // strip out unnecessary fields to reduce network load
+ const minReturnObj = objectAssignDeep({}, {
+   sys: {
+     updatedAt: moment(entry.sys.updatedAt).format("MMMM Do YYYY, HH:mm")
+   },
    fields: {
+     name: entry.fields.name,
+     tags: entry.fields.tags,
+     references: entry.fields.references,
      contents,
      blob,
+     category: entry.fields.category,
    }
  });
+
+ return minReturnObj;
 }
 
 const linkEntry = (includes, entry, param) => {

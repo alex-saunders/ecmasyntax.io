@@ -1,0 +1,36 @@
+@import '../../../scss/theme';
+@import '../../../scss/typography';
+
+.contents {
+  
+    @media (min-width: 960px) { 
+      position: sticky;
+      top: 64px;
+      margin-left: 16px;    
+      width: 200px;   
+    }
+  
+    @media (max-width: 960px) {
+      width: 100%;
+    }
+  
+    animation: flyInFromRight 0.3s 1;
+  
+  
+    ul {
+      list-style: none;
+      padding: 0 0 0 8px;
+      margin: 0;
+  
+      li {
+        margin: 0;
+  
+        a {
+          display: inline-block;
+          padding: 4px 0;
+          @include link();
+          @include light-14();        
+        }
+      }
+    }
+  }

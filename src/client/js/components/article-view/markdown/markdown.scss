@@ -1,0 +1,79 @@
+@import '../../../scss/theme';
+@import '../../../scss/typography';
+
+.markdown {
+  h1 {
+    @include heading-1();
+  }
+
+  h2 {
+    @include heading-2();
+    border-bottom: 1px solid $border-color;    
+  }
+
+  h3 {
+    @include heading-3();
+  }
+
+  h4 {
+    @include heading-4();
+  }
+
+  p {
+    color: $body-text;
+  }
+
+  pre {
+    background-color: #f6f8fa;
+    padding: 8px 8px 8px 16px;
+    border-left: 4px solid $primary-light;
+    border-radius: 0px 3px 3px 0px;
+    white-space: pre-wrap;
+    // box-shadow: 0px 2px 4px rgba(0,0,0,0.1);
+
+    code {
+      font-family: 'Roboto Mono', monospace;
+      @include regular-12();  
+      @include body-text();
+      tab-size: 2;
+    }
+  }
+
+  table {
+    width: 100%;
+    border-spacing: 0;
+    border-collapse: collapse;
+
+    tr {
+      background-color: #fff;
+
+      th, td {
+        padding: 8px 16px;
+        border: 1px solid #dfe2e5;
+      }
+      th {
+        @include regular-14();
+      }
+      td {
+        @include light-14();
+      }
+    }
+  }
+
+  hr {
+    border-width: 3px;
+    border-bottom: none;
+    border-right: none;
+    border-left: none;
+    border-color: rgba(0,0,0,0.1);
+  }
+
+  a {
+    @include link();
+  }
+
+  img {
+    max-width: 100%;
+  }
+
+}

@@ -5,6 +5,7 @@ import withStyles from 'isomorphic-style-loader/lib/withStyles';
 
 import URLSearchParams from 'url-search-params';
 
+import Ripple from '../../common/ripple/ripple';
 import s from './link.scss';
 
 class Route extends React.Component {
@@ -33,8 +34,9 @@ class Route extends React.Component {
       <a
         href={this.props.route}
         onClick={this.clickHandler}
-        className={s.route}
+        className={`${s.route} ${this.props.className}`}
       >
+        { this.props.ripple ? <Ripple /> : '' }
         {this.props.children}
       </a>
     );
@@ -46,12 +48,14 @@ Route.propTypes = {
   route: PropTypes.string.isRequired,
   disabled: PropTypes.bool,
   children: PropTypes.element,
-  handleClick: PropTypes.func
+  handleClick: PropTypes.func,
+  className: PropTypes.string,
 };
 
 Route.defaultProps = {
   children: null,
   disabled: false,
+  className: ''
 };
 
 function mapStateToProps() {

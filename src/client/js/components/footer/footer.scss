@@ -1,5 +1,6 @@
 
 @import '../../scss/theme';
+@import '../../scss/typography';
 
 .footer {
   position: relative;
@@ -7,10 +8,14 @@
   padding: 16px;
   width: 100%;
   background: $drawer-bg;
-  color: $primary-1-text;
+  color: $body-text;
   box-shadow: 0 0 0.5rem rgba(0,0,0,0.2);
 
-  &.hidden {
+  &.isLoading {
+    display: none;
+  }
+
+  &.searchOpen {
     @media (max-width: $screen-sm-max) {
       display: none;
     }
@@ -28,10 +33,10 @@
     }
 
     p {
-      color: $primary-1-text;
+      @include light-14();
 
       a {
-        color: $primary-2;
+        color: $primary-light;
         text-decoration: none;
       }
 
@@ -57,7 +62,7 @@
     }
 
     h1 {
-      font-size: 16px;
+      @include regular-14();
     }
   }
 

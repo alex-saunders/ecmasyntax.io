@@ -1,10 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
-import Ripple from '../../../common/ripple/ripple';
 import Link from '../../../route-handler/link/link';
 
-import s from './category-section.scss';
+import drawer from '../../../../containers/drawer/drawer.scss';
 
 class CategorySection extends React.Component {
 
@@ -16,36 +15,31 @@ class CategorySection extends React.Component {
     });
     return entries.map((entry) => {
       return (
-        <div 
+        <Link
+          route={entry.fields.route}
+          ripple
           className={
             ((this.props.activeRoute) && (this.props.activeRoute === entry.fields.route))
             ?
-            (`${s['pageList-item']} ${s.active}`)
+            (`${drawer['drawer-item']} ${drawer.active}`)
             :
-            s['pageList-item']
+            drawer['drawer-item']
           }
           key={entry.sys.id}
         >
-        <Link
-          route={entry.fields.route}
-        >
-          <div>
-            <Ripple />
-            {entry.fields.name}
-          </div>
+          <span>{entry.fields.name}</span>
         </Link>
-        </div>
       );
     });
   }
 
   render() {
     return (
-      <div className={s.categorySection} ref={(div) => { this.container = div; }}>
-        <div className={s['categorySection-header']} href="#">
+      <div className={drawer['drawer-section']} ref={(div) => { this.container = div; }}>
+        <div className={drawer['drawer-subheading']} href="#">
           {this.props.category.fields.name}
         </div>
-        <div className={s['categorySection-body']} ref={(div) => { this.linksContainer = div; }}>
+        <div ref={(div) => { this.linksContainer = div; }}>
           { this.mapLinks() }
         </div>
       </div>
@@ -62,4 +56,4 @@ CategorySection.defaultProps = {
   activeRoute: null,
 };
 
-export default withStyles(s)(CategorySection);
+export default withStyles(drawer)(CategorySection);

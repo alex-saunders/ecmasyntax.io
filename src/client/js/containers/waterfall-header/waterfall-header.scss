@@ -6,9 +6,8 @@
   top: -1px;
   z-index: 100;
   width: 100%;
-  background-color: $primary-1;
+  background: none;
   overflow: hidden;
-  @include headerShadow();
 
   transition: max-height 0.2s cubic-bezier(.4,0,.2,1);
 }

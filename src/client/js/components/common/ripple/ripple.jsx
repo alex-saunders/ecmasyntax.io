@@ -107,7 +107,7 @@ class Ripple extends React.Component {
   render() {
     return (
       <div
-        className={s['ripple-container']}
+        className={`${s['ripple-container']} ${this.props.className}`}
         onMouseDown={this.onMouseDown} onMouseUp={this.onMouseUp}
         onMouseLeave={this.onMouseLeave}
         ref={(div) => { this.container = div; }}
@@ -120,10 +120,12 @@ class Ripple extends React.Component {
 
 Ripple.propTypes = {
   children: PropTypes.element,
+  className: PropTypes.string,
 };
 
 Ripple.defaultProps = {
   children: null,
+  className: '',
 };
 
 export default withStyles(s)(Ripple);

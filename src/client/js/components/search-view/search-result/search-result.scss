@@ -1,7 +1,9 @@
-@import '../../../../scss/theme';
+@import '../../../scss/theme';
+@import '../../../scss/typography';
 
 .result-container {
   width: 100%;
+  position: relative;
 }
 
 .result {
@@ -9,44 +11,39 @@
   position: relative;
   overflow: hidden;
   padding: 4px 0 25px 0;
-  border-bottom: 1px solid $border-color;
   cursor: pointer;
   text-decoration: none;
 
   @media (max-width: $screen-sm-max) {
-    padding: 0px 8px 0px 48px;
+    padding: 0px 16px 0px 64px;
     border-bottom: none;
   }
 
+  b {
+    font-weight: 400;
+  }
 }
 
 .ripple {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  overflow: hidden;
-
   @media (min-width: $screen-sm-max) {
     display: none;
   }
 }
 
 .result-title {
-  color: $primary-2;
-  font-size: 24px;
+  @include heading-2();
+  color: $primary-light;
 
   @media (max-width: $screen-sm-max) {
+    @include regular-14();
     color: $body-text;
-    font-size: 16px;
-    margin: 16px 0;
+    margin: 8px 0;
   }
 }
 
 .result-url {
-  font-size: 13px;
-  color: $accent-1;
+  @include regular-14();
+  color: $accent;
   @include ellipsis();
 
   @media (max-width: $screen-sm-max) {
@@ -55,9 +52,8 @@
 }
 
 .result-route {
+  @include light-14();
   color: $body-text;
-  font-size: 13px;
-  line-height: 24px;
 
   @media (max-width: $screen-sm-max) {
     display: none;

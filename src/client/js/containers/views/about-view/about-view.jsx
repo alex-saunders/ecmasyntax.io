@@ -10,6 +10,7 @@ import { progressUpdate, toggleWaterfallHeader } from '../../../actions/utils';
 import { getAutoDownloadVal, setAutoDownload } from '../../../utils/offline-cache';
 
 import s from './about-view.scss';
+import markdownStyles from '../../../components/article-view/markdown/markdown.scss';
 
 class AboutView extends React.Component {
 
@@ -47,7 +48,7 @@ class AboutView extends React.Component {
   render() {
     return (
       <div className={s['about-container']}>
-        <div className={s['markdown-wrapper']}>
+        <div className={markdownStyles['markdown']}>
           <h1>
             ECMASyntax.io
           </h1>
@@ -56,8 +57,7 @@ class AboutView extends React.Component {
           </h2>
           <p>
             ECMASyntax is an offline-first PWA designed for developers.
-            It aims to provide a reference for JavaScript syntax,
-            detailing what pieces of syntax do, and how to use them.
+            It aims to provide a reference for JavaScript/ECMAScript syntax.
             Currently, only the newest features of the JavaScript specification are given,
             but the content will hopefully be updated over time
             to include more legacy additions.
@@ -70,13 +70,13 @@ class AboutView extends React.Component {
           </p>
           <p>
             To get started, select one of the items in the menu
-            (and don&#39;t forget to add to your homescreen!)
+            (and don&#39;t forget to add to homescreen!)
           </p>
           <h2>Credits</h2>
           <p>
             The design for this site was inspired by
             <a href="http://cssreference.io/" target="_blank" rel="noopener noreferrer"> HTML/CSSReference.io </a>
-            (2 very awesome sites, go check em out!), created by
+            (2 very awesome sites, go check them out!), created by
             <a href="https://twitter.com/jgthms" target="_blank" rel="noopener noreferrer"> @jgthms</a>
           </p>
           <p>
@@ -144,4 +144,4 @@ function matchDispatchToProps(dispatch) {
   };
 }
 
-export default withStyles(s, switchStyles)(connect(mapStateToProps, matchDispatchToProps)(AboutView));
+export default withStyles(s, switchStyles, markdownStyles)(connect(mapStateToProps, matchDispatchToProps)(AboutView));

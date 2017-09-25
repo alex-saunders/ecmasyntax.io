@@ -8,7 +8,8 @@ import Ripple from '../ripple/ripple';
 
 class Dialog extends React.Component {
 
-  _bgClick = () => {
+  _bgClick = (evt) => {
+    if (this.dialog.contains(evt.target)) return;
     this.props.cancelAction();
   }
 

@@ -1,0 +1,36 @@
+@import '../../../scss/theme';
+@import '../../../scss/typography';
+@import url('https://fonts.googleapis.com/css?family=Roboto+Mono');
+
+.article-wrapper {
+  @include light-14();  
+  @include body-text();
+  display: flex;
+  align-items: flex-start;
+  margin: 0 auto;
+
+  @media (max-width: 960px) { 
+    flex-direction: column-reverse;
+  }
+}
+
+.article-content {
+  width: 100%;
+  animation: fadeIn 0.4s 1;
+  color: $primary-dark;
+
+  @media (min-width: $screen-sm-max) { 
+    flex: 1;    
+  }
+}
+
+.footer-container {
+  margin-top: 24px;
+  border-top: 1px solid #eaecef;
+
+  time {
+    float: right;
+    opacity: 0.5;
+    @include light-14();
+  }
+}

@@ -4,7 +4,7 @@ import withStyles from 'isomorphic-style-loader/lib/withStyles';
 
 import s from './page-list.scss';
 
-import LoadingView from '../../views/loading-view/loading-view';
+import LoadingView from '../../../containers/views/loading-view/loading-view';
 import CategorySection from './category-section/category-section';
 
 class PageList extends React.Component {
@@ -64,7 +64,7 @@ class PageList extends React.Component {
     }
 
     return (
-      <div className={s['pagelist-wrapper']}>
+      <div className={s['pagelist']}>
         { this.mapPages() }
       </div>
     );

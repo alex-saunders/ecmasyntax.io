@@ -34,9 +34,9 @@ $duration: 1.4s;
 }
 
 @keyframes colors {
-	0% { stroke: $primary-1; }
-	50% { stroke: $primary-2; }
-  100% { stroke: $primary-1; }
+	0% { stroke: $primary-dark; }
+	50% { stroke: $primary-light; }
+  100% { stroke: $primary-dark; }
 }
 
 @keyframes dash {

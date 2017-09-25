@@ -7,7 +7,6 @@ import { search } from '../../actions/page-list';
 import { setAutoDownload, progressUpdate, toggleWaterfallHeader } from '../../actions/utils';
 
 import WaterfallHeader from '../waterfall-header/waterfall-header';
-import Footer from '../../components/footer/footer';
 import Bundle from '../../components/route-handler/bundle';
 import Route from '../../components/route-handler/route';
 import RouteHandler from '../../components/route-handler/route-handler';
@@ -17,31 +16,12 @@ import s from './main.scss';
 class Main extends React.Component {
   constructor(props) {
     super(props);
-
-    this.state = {
-      scrollDistance: 0,
-    };
-  }
-
-  scrollHandler = () => {
-    if (this.props.activePageType === 'article' && !this.props.searchOpen && this.main) {
-      if (this.main.scrollTop > 0 && this.props.waterfallHeaderOpen) {
-        this.props.toggleWaterfallHeader(false);
-      }
-      if (this.main.scrollTop < 1 && !this.props.waterfallHeaderOpen) {
-        this.props.toggleWaterfallHeader(true);
-      }
-    }
-  }
-
-  scrollTo = (scrollY) => {
-    this.main.scrollTop = scrollY;
   }
 
   render() {
     const About = (props) => {
       return (
-        <Bundle scrollDistance={this.state.scrollDistance} load={() => import(/* webpackChunkName: "about" */ '../../components/views/about-view/about-view')}>
+        <Bundle load={() => import(/* webpackChunkName: "about" */ '../views/about-view/about-view')}>
           {(About) => (
               <About
                 {...props}
@@ -54,22 +34,22 @@ class Main extends React.Component {
     }
     
     const Article = (props) => (
-      <Bundle load={() => import(/* webpackChunkName: "article" */ '../../components/views/article-view/article-view')}>
+      <Bundle load={() => import(/* webpackChunkName: "article" */ '../views/article-view/article-view')}>
         {(Article) => <Article
                         {...props}
-                        scrollTo={this.scrollTo}
-                        triggerScrollHandler={this.scrollHandler}/>}
+                        scrollTo={this.props.scrollTo}
+                        triggerScrollHandler={this.props.triggerScrollHandler}/>}
       </Bundle>
     );
     
     const Search = (props) => (
-      <Bundle load={() => import(/* webpackChunkName: "search" */ '../../components/views/search-view/search-view')}>
+      <Bundle load={() => import(/* webpackChunkName: "search" */ '../views/search-view/search-view')}>
         {(Search) => <Search {...props}/>}
       </Bundle>
     )
     
     const Loading = (props) => (
-      <Bundle load={() => import(/* webpackChunkName: "loading" */ '../../components/views/loading-view/loading-view')}>
+      <Bundle load={() => import(/* webpackChunkName: "loading" */ '../views/loading-view/loading-view')}>
         {(Loading) => <Loading
                         {...props}
                         color="#28353e"
@@ -78,16 +58,16 @@ class Main extends React.Component {
     );
     
     const NoPage = (props) => (
-      <Bundle load={() => import(/* webpackChunkName: "404" */ '../../components/views/404-view/404-view')}>
+      <Bundle load={() => import(/* webpackChunkName: "404" */ '../views/404-view/404-view')}>
         {(NoPage) => <NoPage {...props}/>}
       </Bundle>
     );
 
 
     return (
-      <main className={s.main} ref={(main) => { this.main = main; }} onScroll={this.scrollHandler}>
+      <main className={s.main} ref={(main) => { this.main = main; }}>
         <WaterfallHeader />
-          <div className={`${s['page-view']} ${this.props.isLoading || this.props.pageListIsLoading ? s['loading-view'] : ''}`}>
+          <div className={`${s['main-content']} ${this.props.isLoading || this.props.pageListIsLoading ? s['loading-view'] : ''}`}>
             <RouteHandler key={2} progressUpdate={this.props.progressUpdate}>
               <Route exact path="^\/$" component={Loading}/>
               <Route exact path="^\/about\/?$" component={About}/>
@@ -96,7 +76,6 @@ class Main extends React.Component {
               <Route notfound component={NoPage}/>
             </RouteHandler>
           </div>
-          <Footer hidden={this.props.isLoading || this.props.searchOpen}/>
       </main>
     );
   }

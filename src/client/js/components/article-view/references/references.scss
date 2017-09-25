@@ -1,0 +1,9 @@
+@import '../../../scss/theme';
+@import '../../../scss/typography';
+
+.reference {
+
+  a {
+    @include link();
+  }
+}

@@ -1,0 +1,37 @@
+@import '../../../scss/theme';
+@import '../../../scss/typography';
+
+.search-container {
+  width: 100%;
+  padding: 0;
+  margin: 0;
+}
+
+.search-results {
+  padding: 16px;
+
+  @media (max-width: $screen-sm-max) {
+    padding: 0;
+    margin-left: -16px;
+    width: calc(100% + 32px)
+  }
+}
+
+.search-title {
+  @include heading-1();
+
+  @media (max-width: $screen-sm-max) {
+    display: none;
+  }
+}
+
+.search-query {
+  color: $primary-light;
+  @include ellipsis();
+}
+
+.search-result + .search-result {
+  @media (min-width: $screen-sm-max) {
+    border-top: 1px solid $border-color;  
+  }
+}

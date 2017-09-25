@@ -1,4 +1,4 @@
-import { TAGGED_IN } from '../utils/constants';
+import { TAGGED_IN, CATEGORY_SEARCH, SPECIFICATION_SEARCH } from '../utils/constants';
 
 const initialState = {
   entries: [],
@@ -23,21 +23,50 @@ const queryPages = (query, pages) => {
   const syntaxEntries = pages;
   let matchedEntries = syntaxEntries;
   if (query.length > 0) {
-    const formattedQuery = query.toLowerCase();
-    const regex = `^${TAGGED_IN}:([^ ]*)`;
-    const regexp = new RegExp(regex, 'g');
-    const match = regexp.exec(formattedQuery);
-    if (match && match[1]) {
+    const formattedQuery = query.trim().toLowerCase().replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');;
+
+    let regexp
+    const taggedIn = `^${TAGGED_IN}:([^ ]*)`;
+    regexp = new RegExp(taggedIn, 'g');
+    const taggedInMatch = regexp.exec(formattedQuery);
+
+    const category = `^${CATEGORY_SEARCH}:([^ ]*)`;
+    regexp = new RegExp(category, 'g');
+    const categoryMatch = regexp.exec(formattedQuery);
+
+    const specification = `^${SPECIFICATION_SEARCH}:([^ ]*)`;
+    regexp = new RegExp(specification, 'g');
+    const specificationMatch = regexp.exec(formattedQuery);
+
+
+
+    if (taggedInMatch && taggedInMatch[1]) {
       matchedEntries = syntaxEntries.filter((entry) => {
         if (!entry.fields.tags) {
           return false;
         }
         return (entry.fields.tags.filter((tag) => {
-          return tag.fields.name.trim().toLowerCase().match(match[1]);
+          return tag.fields.name.trim().toLowerCase().match(taggedInMatch[1]);
         }).length > 0);
       });
       return matchedEntries;
-    } else {
+    } 
+    
+    else if (categoryMatch && categoryMatch[1]) {
+      matchedEntries = syntaxEntries.filter((entry) => {
+        return (entry.fields.category.fields.name.trim().toLowerCase().match(categoryMatch[1]))
+      });
+      return matchedEntries;
+    }
+
+    else if (specificationMatch && specificationMatch[1]) {
+      matchedEntries = syntaxEntries.filter((entry) => {
+        return (entry.fields.category.fields.specification.fields.name.trim().toLowerCase().match(specificationMatch[1]))
+      });
+      return matchedEntries;
+    }
+
+    else {
       matchedEntries = syntaxEntries.filter((entry) => {
         return ((entry.fields.name.trim().toLowerCase().match(formattedQuery.toLowerCase()))); // ||
       });

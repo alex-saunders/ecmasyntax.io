@@ -11,41 +11,16 @@
     }
 }
 
-.header-icon {
-    display: flex;
-    position: relative;
-    z-index: 98;
-    text-decoration: none;
-    cursor: pointer;
-    border-radius: 50%;
-    overflow: hidden;
-    user-select: none;
-    -webkit-tap-highlight-color: rgba(0,0,0,0);
-    background: none;
-    border: none;
-}
-.icon-container {
-    -webkit-appearance: none;
-    background: none;
-    border: none;
-    outline: none;
-    padding: 8px;
-    cursor: pointer;
-}
-
-.menuIcon {
-
-}
-.menuIcon.searchOpen {
+.searchOpen .icon--menu {
     @media (max-width: $screen-sm-max) {
         display: none;
     }
 }
 
-.backIcon {
+.icon--back {
     display: none;
 }
-.backIcon.searchOpen {
+.searchOpen .icon--back {
     animation: grow 0.2s 1;
     -webkit-animation-timing-function: $anim-easing;
 

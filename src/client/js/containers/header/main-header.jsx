@@ -1,3 +1,4 @@
+
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
@@ -30,31 +31,16 @@ class MainHeader extends React.Component {
     return (
       <div
         className={`${s.header} 
-        ${this.props.searchOpen ? s.searchOpen : ''}
-        ${this.props.showWaterfallHeader ? s.waterfallOpen : ''}
-        `}
+        ${this.props.searchOpen ? s.searchOpen : ''}`}
       >
-        <div className={s['title-container']}>
-          <div className={s['toggle-container']}>
-            <HeaderIcon
-              drawerOpen={this.props.drawerOpen}
-              searchOpen={this.props.searchOpen}
-              toggleDrawer={this.props.toggleDrawer}
-            />
-          </div>
-          <span className={s.title}>
-            ECMASyntax
-            <span
-              className={s['title-detail']}
-              dangerouslySetInnerHTML={{
-                __html: this.props.activePageTitle ?
-                ` &ndash; ${this.props.activePageTitle}`
-                :
-                '' }}
-            />
-          </span>
+        <div className={s['header-section']}>
+          <HeaderIcon
+            drawerOpen={this.props.drawerOpen}
+            searchOpen={this.props.searchOpen}
+            toggleDrawer={this.props.toggleDrawer}
+          />
         </div>
-        <div className={s['search-container']}>
+        <div className={s['header-section']}>
         {/* <div className={s['search-container']}> */}
         <SearchInput
           currQuery={this.props.currQuery}

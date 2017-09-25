@@ -1,0 +1,44 @@
+@import '../../scss/theme';
+
+html, body {
+  height:100%;
+	width: 100%;
+	overflow: hidden;
+  margin: 0;
+  padding: 0;
+  font-family: 'Roboto', sans-serif;
+}
+* {
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
+}
+
+:root {
+    --mdc-theme-primary: $primary-light;
+} 
+
+.app-wrapper {
+  display: flex;
+  flex-direction: row;
+  height: 100vh;
+  width: 100vw;
+}
+
+.main-wrapper {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: auto;
+  position: relative;
+  height: 100vh;
+  max-width: 100%;
+}
+
+.content-wrapper {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  overflow-y: scroll;
+  -webkit-overflow-scrolling: touch;
+}

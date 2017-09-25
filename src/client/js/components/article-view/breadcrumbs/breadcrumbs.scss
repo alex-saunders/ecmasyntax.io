@@ -1,0 +1,26 @@
+@import '../../../scss/theme';
+@import '../../../scss/typography';
+
+.breadcrumbs {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  list-style: none;
+  max-width: 100%;
+  margin: 0;
+  padding: 0;
+
+  li {
+    height: 28px;    
+    opacity: 0.6;
+    padding-right: 8px;
+    @include light-14();
+    @include ellipsis();
+  }
+
+  li + li:before {
+    display: inline;
+    content: '/';
+    padding-right: 8px;
+  }
+}

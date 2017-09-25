@@ -1,100 +1,72 @@
 @import '../../../scss/theme';
+@import '../../../scss/typography';
 
-.search-label {
+.label {
   position: relative;
   display: flex;
   flex-direction: row;
-  width: 24px;
+  width: 40px;
   overflow: hidden;
   transition: all 0.1s $anim-easing;
 }
-.icon-container {
-  background: none;
-  border: none;
-  margin: 0;
-  padding: 0;
-  cursor: pointer;
-  outline: none;
-  color: $primary-1-text;
-}
-.search-icon {
-  height: 24px;
-  width: 24px;
-  transition: all 0.2s $anim-easing
-}
-.search-closeIcon {
-  position: absolute;
-  right: 0;
-  top: 0;
-  height: 100%;
-  opacity: 0;
-  transition: all 0.2s $anim-easing;
-  display: flex;
-  align-items: center;
 
-  i {
-    padding: 0px;
-    font-size: 20px;
+.input-wrapper {
+  position: relative;
+  width: 100%;
+
+  &:after {
+    display: block;
+    content: '';
+    position: absolute;
+    bottom: -1px;
+    left: 0px;
+    height: 3px;
+    background-color: $primary-light;
+    width: 10px;
+    visibility: hidden;
+  
+    transition: all .2s $anim-easing;
   }
 }
-.search-input--container {
-  border-bottom: 1px solid $border-color;
+.input {
   position: relative;
-  flex: 1;
-  margin-left: 8px;
-}
-.search-input--container::after {
-  display: block;
-  content: '';
-  position: absolute;
-  bottom: -1px;
-  // left: 24px;
-  left: 0px;
-  height: 2px;
-  background-color: $primary-1-text;
-  width: 10px;
-  visibility: hidden;
-
-  transition: all .2s $anim-easing;
-}
-.search-input {
-  position: relative;
-  height: 30px;
+  height: 40px;
   width: 100%;
-  outline: 0;
-  border: none;
-  padding: 4px 28px 4px 4px;
+  padding: 8px 28px 8px 8px; 
+  border: none; 
+  outline: none;  
+  background: none;  
+  color: $primary-dark;  
+  border-bottom: 1px solid $border-color;
   overflow: hidden;
-  font-size: 16px;
-  background: none;
-  color: $primary-1-text;
+  @include regular-14();;  
 }
 
-.search-label.opened {
-    width: 360px;
+.label.opened {
+  width: 360px;
 
   @media (max-width: $screen-sm-max) {
       width: 100%;
   }
   
-  .search-input--container {
+  .input-wrapper {
     @media (max-width: $screen-sm-max) {
       margin-left: 0;
     }
   }
 
-  .search-closeIcon {
+  .icon--close {
     opacity: 1;
   }
-  .search-searchIcon {
+  .icon--search {
     @media (max-width: $screen-sm-max) {
       display: none;
     }  
   }
 }
 
-.search-label.focused {
-  .search-input--container::after {
+.label.focused {
+  .input-wrapper::after {
     visibility: visible;
     width: 100%;
   }

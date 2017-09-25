@@ -1,11 +1,13 @@
 @import '../../scss/theme';
+@import '../../scss/typography';
 
-.drawer-container {
+.drawer-wrapper {
   position: relative;
   z-index: 99;
   height: 100%;
   width: 40%;
   max-width: 300px;
+  flex-shrink: 0;
 
   @media (max-width: $screen-sm-max) {
     position: fixed;
@@ -19,7 +21,7 @@
     pointer-events: none;
   }
 }
-.drawer-container::after {
+.drawer-wrapper::after {
   @media (max-width: $screen-sm-max) {
     display: block;
     content: '';
@@ -36,7 +38,7 @@
     transition: opacity 0.4s $anim-easing;
   }
 }
-.drawer-container.active {
+.drawer-wrapper.active {
   @media (min-width: $screen-sm-max) {
     display: none;
   }
@@ -44,7 +46,7 @@
     pointer-events: auto; 
   }
 }
-.drawer-container.active::after {  
+.drawer-wrapper.active::after {  
   @media (max-width: $screen-sm-max) {
       opacity: 1;
   }
@@ -55,12 +57,10 @@
   position: relative;
   height: 100%;
   width: 100%;
+  background: $drawer-bg;
   transition: transform 0.4s $anim-easing;
+  box-shadow: 0 0 1rem rgba(0,0,0,0.1);
 
-  @media (min-width: $screen-sm-max) {
-    // border-right: 1px solid $border-color;
-    // box-shadow: 0px 2px 4px rgba(0,0,0,0.4);
-  }
   @media (max-width: $screen-sm-max) {
     box-shadow: 2px 0 12px rgba(0,0,0,0.4);
     left: 0;
@@ -74,79 +74,51 @@
 .drawer.draggable {
   transition: transform 0.13s cubic-bezier(0,0,0.3,1);
 }
-.drawer-container.active .drawer {
+.drawer-wrapper.active .drawer {
   @media (max-width: $screen-sm-max) {
     transform: translateX(0px);
   }
 }
-.drawer-homeContainer {
+
+
+.drawer-section {
   padding: 8px 0;
   border-bottom: 1px solid $border-color;
-  background-color: $drawer-bg;
 }
-.drawer-home {
+
+.drawer-subheading {
   animation: flyInFromLeft 0.6s 1;
-  position: relative;
-  overflow: hidden;
+  width: 100%;
   padding: 0 24px;
+  color: $drawer-subheading;
+  @include subheading();
+}
+
+.drawer-item {
+  padding: 0 32px;
+  color: $primary-dark;
+  @include light-14();  
+  animation: flyInFromLeft 0.4s 1;
+}
+
+.drawer-subheading, .drawer-item {
+  position: relative;
+  line-height: 40px;
   height: 40px;
-  text-decoration: none;
-  display: flex;
-  align-items: center;
+  @include ellipsis();
+  transition: all 0.2s linear;
 
-  svg {
-    margin-right: 27px;
-    fill: $drawer-text;
-  } 
-  span {
-    color: $drawer-text;
+  &.active {
+    color: $primary-light;
+    border-left: 4px solid $primary-light;
   }
-}
-.drawer-home.active {
-  i {
-    color: $primary-2;
-  }
-  span {
-    font-weight: 500;
-    color: $primary-2;
-  }
-}
-.drawer-logo {
-  display: none;
-  background-color: $drawer-bg;
-
-  img {
-    width: 100%;
-  }
-}
-.drawer-divider {
-  border: 1px solid $border-color;
-  border-bottom: none;
-  margin: 0;
-}
-.search-container {
-  padding: 16px;
-  background-color: $border-color;
-  border-bottom: 1px solid $border-color;
-}
-.drawer-scrollWrapper {
   
 }
-.articleFilters-wrapper {
-  background-color: $drawer-bg;
-}
+
 .pageList-wrapper {
-  background-color: $drawer-bg;
   flex: 1;
   overflow-x: hidden;
   overflow-y: scroll;
   -webkit-overflow-scrolling: touch;
   display: flex;
-}
-.pageList {
-  // min-height: 900px;
-}
-.drawer-footer {
-  height: 0px;
-  background-color: $drawer-bg;
 }

@@ -1,9 +1,10 @@
 @import '../../../scss/theme';
 
 .progressIndicator {
+  flex: none;
   position: relative;
   z-index: 101;
-  background-color: $primary-2;
+  background-color: $primary-light;
   height: 4px;
 }
 

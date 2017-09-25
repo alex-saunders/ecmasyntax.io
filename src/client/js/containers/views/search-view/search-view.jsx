@@ -7,7 +7,7 @@ import URLSearchParams from 'url-search-params';
 import { toggleSearch, toggleWaterfallHeader, progressUpdate } from '../../../actions/utils';
 import { search } from '../../../actions/page-list';
 
-import SearchResult from './search-result/search-result';
+import SearchResult from '../../../components/search-view/search-result/search-result';
 
 import s from './search-view.scss';
 
@@ -73,6 +73,7 @@ class SearchResults extends React.Component {
         <SearchResult
           key={page.sys.id}
           currQuery={this.state.currQuery}
+          className={s['search-result']}
           page={page}
         />
       );
@@ -85,7 +86,7 @@ class SearchResults extends React.Component {
       <div className={s['search-container']}>
         <div className={s['search-results']}>
           <h1 className={s['search-title']}>
-            Results for <span className={s['search-query']}>{this.state.currQuery}</span>
+            Results for <span className={s['search-query']}>"{this.state.currQuery}"</span>
           </h1>
           {this.mapResults()}
         </div>

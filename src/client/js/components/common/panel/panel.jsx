@@ -10,7 +10,7 @@ class Panel extends React.Component {
 
     this.state = {
       closed: false,
-      maxHeight: '',
+      maxHeight: '99999px',
     };
 
     this.maxHeight = 'none';

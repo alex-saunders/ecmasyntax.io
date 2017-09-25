@@ -1,79 +1,54 @@
 @import '../../scss/theme';
 
 .header {
-    position: relative;
-    padding: 16px 24px 16px 72px;
-    z-index: 100;
-    width: 100%;
-    background-color: $primary-1;
+    flex: none;    
     display: flex;
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
-    @include headerShadow();
-
-    @media (max-width: $screen-sm-max) {
-        padding: 16px 24px 16px 48px;
-    }
-}
-
-.title-container {
-    overflow: hidden;
-}
-
-.toggle-container {
     position: absolute;
-    display: flex;
-    align-items: center;
-    justify-content: center;
     top: 0;
     left: 0;
-    height: 100%;
-    width: 48px;
+    width: 100%;    
+    padding: 16px;
+    background: none;
+    z-index: 100;
 
-    @media (min-width: $screen-sm-max) {
-        left: 16px;
+    &:before {
+        display: block;
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        @include header();
+        opacity: 0.2;        
     }
 }
 
-.title {
-    display: block;
+.header-section:nth-child(2) {
     flex: 1;
-    padding-right: 8px;
-    color: $primary-1-text;
-    font-size: 18px;
-    transition: all 0.2s linear;
-    @include ellipsis();
-
-    .title-detail {
-        text-transform: capitalize;
-    }
+    display: flex;
+    justify-content: flex-end;
 }
 
-.header.searchOpen {
-    .title {
-        @media (max-width: $screen-sm-max) {
-            opacity: 0;
-            padding: 0;
-        }
-    }
+.header-icon {
+    position: relative;
+    flex-shrink: 0;
+    width: 40px;
+    padding: 8px;
+    text-decoration: none;
+    cursor: pointer;
+    border-radius: 50%;
+    overflow: hidden;
+    user-select: none;
+    outline: none;
+    background: none;
+    border: none;
+    z-index: 98;    
 
-    .title-container {
-        @media (max-width: $screen-sm-max) {
-            width: 0;
-        }
-    }
-
-    .search-container {
-        @media (max-width: $screen-sm-max) {
-            flex: 1;
-        }
-    }
-}
-
-.header.waterfallOpen {
-    @media (max-width: $screen-sm-max) {
-        box-shadow: none;
+    svg {
+        fill: $primary-dark;
     }
 }
-
