@@ -14,12 +14,12 @@ ECMASyntax.io features an api accessible at `/api` which currently features 2 en
 ## Running the site locally
 
 1. Clone the repo
-2. cd ecmasyntax.io
-3. npm install
+2. `cd ecmasyntax.io`
+3. `npm install`
 
 ### Setting up some secrets
 
-The content for ECMASyntax is fetched from [contentful](https://www.contentful.com/) and in order to run the site locally you'll need to edit credentials.js, into which you will need to update the `space` and `accessToken` properties using your respective contentful space values. You can use these values which correspond to a demo contentful space with the correct content model and some sample data (although as this is publically avaliable it will obviously be subject to change):
+The content for ECMASyntax is fetched from [contentful](https://www.contentful.com/) and in order to run the site locally you'll need to edit `credentials.js`, into which you will need to update the `space` and `accessToken` properties using your respective contentful space values. You can use these values which correspond to a demo contentful space with the correct content model and some sample data (although as this is publically avaliable it will obviously be subject to change):
 
 ```javascript
 // credentials.js - demo values
