@@ -1,5 +1,7 @@
 import path     from 'path';
+import http     from 'http';
 import express  from 'express';
+import enforce  from 'express-sslify';
 
 import apiRouter  from './api';
 import routes     from './routes';
@@ -8,15 +10,13 @@ const port = (process.env.PORT || 5000);
 
 const app = express();
 
-app.use (function (req, res, next) {
-  if (!req.secure) { res.url = 'https://' + req.url; }
-  next();
-});
+if (process.env.NODE_ENV === 'production') {
+  app.use(enforce.HTTPS({ trustProtoHeader: true }));
+}
 
 app.use('/api', apiRouter)
 
 app.use('/', routes);
 
-app.listen(port, () => {
-  console.log(`server listening on port ${port}`)
-})
+http.createServer(app).listen(port);
+console.log(`server listening on port ${port}`);
