@@ -24,8 +24,8 @@ The content for ECMASyntax is fetched from [contentful](https://www.contentful.c
 ```javascript
 // credentials.js - demo values
 module.exports = {
-  space: 55mxa9rwgn9l,
-  accessToken: 3a658f972dd2f2cc8cc5dc4977970dc0009584ab4859306e5c9649a8d109b965,
+  space: '55mxa9rwgn9l',
+  accessToken: '3a658f972dd2f2cc8cc5dc4977970dc0009584ab4859306e5c9649a8d109b965',
 };
 ```
 
