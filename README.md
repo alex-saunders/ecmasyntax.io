@@ -2,7 +2,7 @@
 
 This is an offline-first PWA for ECMAScript syntax reference. It is built with React (+ Redux) and features server-side rendering complete with critical path CSS.
 
-![ecmasyntax-preview](https://user-images.githubusercontent.com/22820481/30821476-75be1694-a21d-11e7-8943-06cda44ef521.jpg)
+![ecmasyntax-preview](https://user-images.githubusercontent.com/22820481/30821586-c2751316-a21d-11e7-91ec-ca9caae1f615.jpg)
 
 ## API
 
