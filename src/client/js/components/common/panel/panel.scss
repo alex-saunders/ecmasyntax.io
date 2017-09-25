@@ -9,16 +9,17 @@
 }
 
 .panel-title {
-  user-select: none;
-  cursor: pointer;
   display: flex;
+  align-items: center;  
   width: 100%;
   border: none;
-  align-items: center;
+  user-select: none;
+  cursor: pointer;
 
   background: #fff;
   color: $primary-dark;
   @include subheading();
+  line-height: 24px;
 
   padding: 16px;
   margin: 0;
