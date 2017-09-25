@@ -6,7 +6,7 @@ This is an offline-first PWA for ECMAScript syntax reference. It is built with R
 
 ## API
 
-ECMASyntax.io features an api accessible at `/api` which currently features 2 endpoints:
+ECMASyntax.io features an api accessible at `/api` which currently has 2 endpoints:
 
 - `/pages` - retrieve a list of all pages
 - `/pages/{specification}/{category}/{name}` - retrieve the content for a particular page
