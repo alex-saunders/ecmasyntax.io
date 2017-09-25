@@ -41,7 +41,7 @@ function renderServerSide(req, res) {
 
 function renderFullPage(res, html = false, css = false, preloadedState = false) {
   res.send(`
-    <html>
+    <html lang="en">
       <head>
         <meta charset="utf-8">
         <meta http-equiv="x-ua-compatible" content="ie=edge">
