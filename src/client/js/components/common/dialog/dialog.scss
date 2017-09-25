@@ -34,6 +34,7 @@
         margin: 0;
         padding: 0;
         @include light-14();
+        line-height: 28px;
         color: $body-text;
       }
     }

@@ -1,6 +1,7 @@
 const precacheVersion = require('static-precache-version')();
 const toCache = require('static-precache')();
 const runtime  = require('static-runtime')();
+
 const precache = `ecmasyntax-precache-${precacheVersion}`;
 
 addEventListener('install', event => {
@@ -9,7 +10,7 @@ addEventListener('install', event => {
   event.waitUntil(async function () {
 
     const cache = await caches.open(precache);
-    await cache.addAll(toCache);
+    await cache.addAll(['/', ...toCache]);
   }());
 });
 
@@ -53,7 +54,7 @@ addEventListener('fetch', event => {
     try {
       return await fetch(event.request);
     } catch (err) {
-      return new Response('offline');
+      return await caches.match('/');
     }
   }());
 });

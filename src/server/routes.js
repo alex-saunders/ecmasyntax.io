@@ -100,7 +100,8 @@ router.get('/sw.js', async (req, res) => {
 
   const input = fs.createReadStream(path.join('src', 'client', 'js', 'sw.js'));
 
-  let precacheassetsToCache = Object.values(manifest);
+  let precacheassetsToCache = Object.values(manifest).filter((asset) => {
+    return !asset.startsWith('/static/icons')});
 
   const precacheHash  = crypto.createHash('md5');
 
