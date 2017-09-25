@@ -21,9 +21,6 @@ class OfflineSwitch extends React.Component {
     };
   }
 
-  componentDidMount() {
-  }
-
   componentWillReceiveProps(nextProps) {
     if (nextProps.activeRoute !== this.props.activeRoute) {
       this._updateState(nextProps.activeRoute);

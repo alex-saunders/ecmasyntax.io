@@ -14,8 +14,13 @@
     height: 28px;    
     opacity: 0.6;
     padding-right: 8px;
-    @include light-14();
+    @include link();
     @include ellipsis();
+    transition: all 75ms linear;
+
+    &:hover {
+      opacity: 1;
+    }
   }
 
   li + li:before {
