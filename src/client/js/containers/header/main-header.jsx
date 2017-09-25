@@ -41,7 +41,6 @@ class MainHeader extends React.Component {
           />
         </div>
         <div className={s['header-section']}>
-        {/* <div className={s['search-container']}> */}
         <SearchInput
           currQuery={this.props.currQuery}
           searchOpen={this.props.searchOpen}

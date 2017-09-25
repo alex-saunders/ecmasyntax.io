@@ -46,6 +46,10 @@ function renderFullPage(res, html = false, css = false, preloadedState = false) 
         <meta charset="utf-8">
         <meta http-equiv="x-ua-compatible" content="ie=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+        <meta name="google-site-verification" content="QDqEAiT0vPyrFGvbJnA-t8fin6KT6WVXWI9WLIc-S6E" />
+        <meta name="theme-color" content="00b4a2">
+
+        <title>ECMASyntax</title>
 
         <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500" rel="preload" as="style" crossorigin onload="this.rel='stylesheet'">
         <link rel="shortcut icon" href="${manifest['icons/favicon.ico']}">
@@ -153,6 +157,10 @@ router.get('/manifest.json', (req, res) => {
       }, {
         "src": "${manifest['icons/android-icon-192x192.png']}",
         "sizes": "192x192",
+        "type": "image/png"
+      }, {
+        "src": "${manifest['icons/android-icon-512x512.png']}",
+        "sizes": "512x512",
         "type": "image/png"
       }]
     }

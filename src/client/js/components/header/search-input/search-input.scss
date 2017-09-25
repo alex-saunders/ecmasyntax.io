@@ -10,6 +10,12 @@
   transition: all 0.1s $anim-easing;
 }
 
+.icon--search {
+  span {
+    display: none;
+  }
+}
+
 .input-wrapper {
   position: relative;
   width: 100%;

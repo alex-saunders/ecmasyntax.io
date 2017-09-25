@@ -74,7 +74,7 @@ class ToastManager extends React.Component {
             <p className={s.message}>
               {this.state.toast.messageText}
             </p>
-            <button className={s.action} onClick={this._handleClick}>
+            <button className={s.action} onClick={this._handleClick} aria-label="close">
               {this.state.toast.actionText}
             </button>
           </div>

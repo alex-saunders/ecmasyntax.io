@@ -32,6 +32,10 @@ class Ripple extends React.Component {
     this.createRipple(x, y);
   }
 
+  onTapDown = () => {
+    console.log('tap down');
+  }
+
   onMouseDown = (e) => {
     const rect = this.container.getBoundingClientRect();
     this.parentHeight = rect.height;

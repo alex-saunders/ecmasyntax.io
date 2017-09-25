@@ -43,6 +43,10 @@
       .facebook, .twitter {
         margin-right: 8px;
 
+        span {
+          display: none;
+        }
+
         img {
           height: 16px;
           transition: all 0.2s linear;
