@@ -18,5 +18,6 @@ app.use('/api', apiRouter)
 
 app.use('/', routes);
 
-http.createServer(app).listen(port);
-console.log(`server listening on port ${port}`);
+http.createServer(app).listen(port, () => {
+  console.log(`server listening on port ${port}`);
+});
