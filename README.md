@@ -22,6 +22,7 @@ ECMASyntax.io features an api accessible at `/api` which currently features 2 en
 The content for ECMASyntax is fetched from [contentful](https://www.contentful.com/) and in order to run the site locally you'll need to edit credentials.js, into which you will need to update the `space` and `accessToken` properties using your respective contentful space values. You can use these values which correspond to a demo contentful space with the correct content model and some sample data (although as this is publically avaliable it will obviously be subject to change):
 
 ```
+// credentials.js - demo values
 module.exports = {
   space: 55mxa9rwgn9l,
   accessToken: 3a658f972dd2f2cc8cc5dc4977970dc0009584ab4859306e5c9649a8d109b965,
