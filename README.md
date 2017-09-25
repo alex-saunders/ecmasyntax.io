@@ -29,7 +29,7 @@ module.exports = {
 };
 ```
 
-Once you've done that you should be able to run `npm run dev` to set up a development environment or `npm start` to run a full, production ready build.
+Once you've done that you should be able to run `npm run dev` to set up a development environment or `npm start` to run a full, production ready build (you'll probably need to comment out `app.use(enforce.HTTPS({ trustProtoHeader: true }));` in `src/server/server.js` to get a production build working on localhost).
 
 Finally, navigate to [localhost:5000](https://localhost:5000).
 
