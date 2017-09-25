@@ -47,7 +47,7 @@ function renderFullPage(res, html = false, css = false, preloadedState = false) 
         <meta http-equiv="x-ua-compatible" content="ie=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
         <meta name="google-site-verification" content="QDqEAiT0vPyrFGvbJnA-t8fin6KT6WVXWI9WLIc-S6E" />
-        <meta name="theme-color" content="00b4a2">
+        <meta name="theme-color" content="#00b4a2">
 
         <title>ECMASyntax</title>
 
