@@ -57,6 +57,16 @@ function renderFullPage(res, html = false, css = false, preloadedState = false) 
         :
         ''
         }
+
+        <!-- Global Site Tag (gtag.js) - Google Analytics -->
+        <script async src="https://www.googletagmanager.com/gtag/js?id=UA-91502214-2"></script>
+        <script>
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments)};
+          gtag('js', new Date());
+
+          gtag('config', 'UA-91502214-2');
+        </script>
       </head>
       <body>
         ${html ?
