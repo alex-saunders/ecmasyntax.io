@@ -38,13 +38,15 @@
 .panel-body--wrapper {
   overflow: hidden;
   opacity: 1;
-  transition: max-height 0.3s $anim-easing, opacity 0.2s $anim-easing;
+  transform: translateY(0);
+  transition: max-height 0.3s $anim-easing, transform 0.3s $anim-easing, opacity 0.2s $anim-easing;
 
   * {
     user-select: none; 
   }
 }
 .panel-body--wrapper.closed {
+  transform: translateY(-30px);
   opacity: 0;
 }
 

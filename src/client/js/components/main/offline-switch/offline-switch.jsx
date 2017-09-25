@@ -50,7 +50,7 @@ class OfflineSwitch extends React.Component {
 
   handleClick = () => {
     if (!window.CacheStorage) {
-      this.props.pushToast('Sorry, this feature is not available in your browser!', 'OK', 3000, () => {
+      this.props.pushToast('Sorry, this feature is not available on your device!', 'OK', 3000, () => {
       });
       return;
     }

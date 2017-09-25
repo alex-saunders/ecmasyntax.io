@@ -89,7 +89,6 @@ export const fetchPageList = () => {
       return response.json();
     }).then((data) => {
       cacheDataRecieved = data;
-      console.log('got cached pagelist')
       // we have used the data from the cache as the response here
       if (!networkDataRecieved) {
         dispatch(pageListLoading(false));
