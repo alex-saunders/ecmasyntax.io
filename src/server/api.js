@@ -1,5 +1,6 @@
 import express                from 'express';
 import * as contentful        from 'contentful';
+import _                      from 'lodash';
 import moment                 from 'moment';
 import crypto                 from 'crypto';
 import marked                 from 'marked';
@@ -72,14 +73,25 @@ const loadArticles = async () => {
 }
 
 const fetchPage = async (req) => {
- const pageName = decodeURI(req.params.pageId);
 
- // the page name acts as a primary key so we can query using it as the only parameter
- const entries = await contentfulClient.getEntries({
-   content_type: 'syntaxEntry',
-   'fields.name': pageName,
-   include: 2,
- })
+ let entries;
+ if (req.params.pageName) {
+    // the page name acts as a primary key so we can query using it as the only parameter
+    entries = await contentfulClient.getEntries({
+      content_type: 'syntaxEntry',
+      'fields.name': decodeURI(req.params.pageName),
+      include: 2,
+    });
+ }
+ if (req.params.pageId) {
+   entries = await contentfulClient.getEntries({
+      content_type: 'syntaxEntry',
+      'sys.id': decodeURI(req.params.pageId),
+      include: 2,
+    })
+ }
+
+ if (entries.total < 1) { return `no article found for ${_.join(Object.values(req.params).map(param => encodeURI(param)), '/')}` }
 
  const entry = entries.items[0];
  const contents = marked(toc(entry.fields.blob).content);
@@ -111,18 +123,23 @@ const linkEntry = (includes, entry, param) => {
 
 const apiRouter = express.Router();
 
-apiRouter.get('/', (req, res) => {
-  res.send('ecmasyntax.io API');
-})
-
 apiRouter.get('/pages', async (req, res) => {
   const pages = await loadArticles();
   res.send(JSON.stringify(pages));
 });
 
-apiRouter.get('/pages/:specId/:catId/:pageId', async (req, res) => {
+apiRouter.get('/pages/:specId/:catId/:pageName', async (req, res) => {
   const article = await fetchPage(req, res)
   res.status(200).json(article);  
+});
+
+apiRouter.get('/pages/:pageId', async (req, res) => {
+  const article = await fetchPage(req, res)
+  res.status(200).json(article);  
+});
+
+apiRouter.get('*', (req, res) => {
+  res.send('No endpoint');
 });
 
 module.exports = apiRouter;
