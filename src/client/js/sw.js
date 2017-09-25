@@ -10,7 +10,7 @@ addEventListener('install', event => {
   event.waitUntil(async function () {
 
     const cache = await caches.open(precache);
-    await cache.addAll(['/', ...toCache]);
+    await cache.addAll(['/', '/api/pages', ...toCache]);
   }());
 });
 

@@ -10,7 +10,6 @@ class Panel extends React.Component {
 
     this.state = {
       closed: false,
-      maxHeight: '99999px',
     };
 
     this.maxHeight = 'none';
@@ -28,9 +27,7 @@ class Panel extends React.Component {
   }
 
   _calcHeight = () => {
-    this.setState({
-      maxHeight: this.bodyContent.getBoundingClientRect().height,
-    });
+    this.maxHeight = this.bodyContent.getBoundingClientRect().height;
   }
 
   _handleClick = () => {
@@ -43,7 +40,7 @@ class Panel extends React.Component {
 
   render() {
     const style = {
-      maxHeight: this.state.closed ? '0px' : this.state.maxHeight,
+      maxHeight: this.state.closed ? '0px' : this.maxHeight,
     };
     return (
       <div className={`${s.panel} ${this.props.className}`}>
