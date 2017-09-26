@@ -130,8 +130,10 @@ router.get('/manifest.json', (req, res) => {
     {
       "name": "ECMASyntax",
       "short_name": "ECMASyntax",
-      "start_url": ".",
+      "description": "JavaScript syntax reference",
+      "start_url": "/?start_url=homescreenicon",
       "display": "standalone",
+      "orientation": "portrait",
       "background_color": "#28353e",
       "theme_color": "#00b4a2",
       "icons": [{
